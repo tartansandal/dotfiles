@@ -1,0 +1,620 @@
+" load our plugin bundles using pathogen
+
+call pathogen#infect()
+call pathogen#helptags()
+
+" General Settings:-------------------------------------------------------{{{1
+
+"------------------------------------------
+" Search:
+"------------------------------------------
+set incsearch
+
+"------------------------------------------
+" Selection:
+"------------------------------------------
+set virtualedit=block
+
+" share default yank location between vim sessions
+set clipboard=unnamedplus
+
+if &term =~ 'xterm.*'
+    " paste is complicated in a terminal
+    set paste
+endif
+
+"------------------------------------------
+" Completion: ( does this replace supertab?)
+"------------------------------------------
+
+set complete -=i " dont search included files
+
+set omnifunc=syntaxcomplete#Complete
+
+set wildmenu
+
+" list all matches and complete till longest common strings
+set wildmode=list:longest
+
+" ignore files we will never want to edit
+set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
+set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
+
+set whichwrap+=<>[] " left arrow traverses the begining of the line
+
+"------------------------------------------
+"" Mouse:
+"------------------------------------------
+set mousehide
+set mousemodel=popup_setpos
+set mouse=a
+
+"------------------------------------------
+"" Spelling:
+"------------------------------------------
+set spelllang=en_au
+
+"------------------------------------------
+"" Printing:
+"------------------------------------------
+set printoptions=paper:A4,formfeed:y
+
+"------------------------------------------
+"" Windows:
+"------------------------------------------
+
+"> Set the satus line to display:
+"- aligned left
+"-  dir/file    : path to the file in the buffer, relative to current directory
+"-  [help]      : help buffer flag
+"-  [+/-]       : modified flag
+"-  [RO]        : readonly flag
+"-  [Preview]   : preview window flag
+"-  [filetype]  : type of file in the buffer
+"-  [git branch]
+"- aligned right
+"-  L,C-V       : line, column, and virtual column numbers
+"-  P%      : % through the file of displayed window
+" set statusline=[%n]\ %<%f\ %h%m%r%w%y%=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
+
+set statusline=%<%f\ %h%m%r%w%y\ %{fugitive#statusline()}\ %=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
+set noruler         " show the cursor position all the time
+set noshowcmd       " don't display incomplete commands
+set cmdheight=1     " 2 lines for command buffer
+set laststatus=2    " always display status bar
+
+set helpheight=30   " default height of the help window
+set scrolloff=3     " always show 3 lines of context when scrolling
+
+" the following only have effect when nowrap is set
+set sidescroll=1        " scroll at least 5 columns if we side scroll
+set sidescrolloff=5     " keep at least 5 columns of context to either side
+set listchars+=precedes:<,extends:>
+
+set previewheight=20    " default height for the quickfix windows
+
+augroup vimrcWindows
+    " remove all commands for the group current
+    autocmd!
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event
+    " handler (happens when dropping a file on gvim).
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal g`\"" |
+                \ endif
+augroup END
+
+"------------------------------------------
+" Formating:
+"------------------------------------------
+
+set textwidth=78                 "Wrap at this column
+set autoindent                   "Preserve current indent on new lines
+set smartindent                  "smart autoindenting when starting a new line
+set tabstop=4                    "Indentation levels every four columns
+set shiftwidth=4                 "Indent/outdent by four columns
+set expandtab                    "Convert all tabs typed to spaces
+set shiftround                   "Indent/outdent to nearest tabstop
+
+set backspace=indent,eol,start   "Make backspaces delete sensibly
+set matchpairs+=<:>              "Allow % to bounce between angles too
+
+" default is tcq. see 'help fo-table'
+set formatoptions+=l1nrcqj
+
+"------------------------------------------
+" Syntax Highlighting:
+"------------------------------------------
+
+" Only switch on syntax highlighting on, when the terminal has colors
+" This must come before filetype detection for some reason
+if &t_Co > 2
+    syntax on
+    colorscheme dirtysea
+    let c_comment_strings=1
+    let g:onedark_termcolors=16
+    if (has("termguicolors"))
+        set termguicolors
+    endif
+endif
+
+" -----------------
+" Files:
+" -----------------
+
+set encoding=utf8
+set autoread            " re-read open files when changed outside Vim
+set autowrite           " write file whenever buffer becomes hidden
+set hidden              " hide buffers when they are abandoned
+set browsedir=current   " which directory to use for the file browser
+
+" keep backups under ~/tmp
+set backup          " keep a backup file
+set backupcopy=yes  " copy the origional even if a link
+set backupdir=~/tmp/backup,~/,/tmp
+
+set undodir=~/tmp/undo,~/,/tmp
+set undofile          " keep a undo file
+set undolevels=100    "maximum number of changes that can be undone
+set undoreload=1000   "maximum number lines to save for undo on a buffer reload
+
+set cryptmethod=blowfish  " use stronger encryption by default
+
+set noswapfile  " swapfiles to be an anoyance since I save often
+
+" write readonly file as root
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
+" use rg for gr[ep]
+set grepprg=rg\ --vimgrep\ --max-columns\ 160\ --max-filesize\ 1M
+set grepformat^=%f:%l:%c:%m
+
+"------------------------------------------
+" File Types:
+"------------------------------------------
+
+let g:xml_use_xhtml=1
+let g:xml_syntax_folding = 1
+set foldlevelstart=99
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Enable file type detection.
+    " Also load indent files, to automatically do language-dependent indenting
+    " All filetype specific settings go in .vim/ftplugin/
+    filetype plugin indent on
+    autocmd BufRead,BufNewFile *.pg setfiletype sql
+    autocmd FileType py set textwidth=79 " PEP-8 Friendly
+endif
+
+let g:sql_type_default = "sqlpostgres"
+
+" Key Mapping:------------------------------------------------------------{{{1
+
+" use Emacs style indent command
+noremap  <C-\>      :call MyBufExplorer()<CR>
+inoremap <C-\> <Esc>:call MyBufExplorer()<CR>
+
+"> Leader Keys:-----------------------------------------------------------{{{2
+
+noremap <silent> <leader>a :Autoformat<CR>
+noremap <silent> <leader>o :only<CR>
+noremap <silent> <leader>h :nohlsearch<CR>
+noremap <silent> <leader>g :Gstatus<CR>
+noremap <silent> <leader>f :NERDTreeFind<CR>
+
+noremap <silent> <leader>m :call MyMRU()<CR>
+noremap <silent> <leader>t :call MyTagbarToggle()<CR>
+noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
+
+" same key bindings as EasyGrep
+noremap <silent> <leader>vv :grep! -w <cword>
+noremap <silent> <leader>vV :grep! -w <cWORD>
+noremap <silent> <leader>vf :grep! <cfile>
+
+"> Cursor Keys:-----------------------------------------------------------{{{2
+
+" use shift + arrrow key to move between windows
+nmap <S-Down>   <C-w>j
+nmap <S-Up>     <C-w>k
+nmap <S-Right>  <C-w>l
+nmap <S-Left>   <C-w>h
+
+imap <S-Down>   <C-o><C-w>j
+imap <S-Up>     <C-o><C-w>k
+imap <S-Right>  <C-o><C-w>l
+imap <S-Left>   <C-o><C-w>h
+
+" use control + arrow key to move between tabs
+nmap <C-Right>       :tabnext<CR>
+imap <C-Right>  <C-o>:tabnext<CR>
+nmap <C-Left>        :tabprevious<CR>
+imap <C-Left>   <C-o>:tabprevious<CR>
+
+" disable arrow keys in normal mode to improve my typing
+" noremap <Up>    <nop>
+" noremap <Down>  <nop>
+" noremap <Left>  <nop>
+" noremap <right> <nop>
+
+if &term =~ 'xterm.*'
+    " remap these from the terminal codes
+    map <Esc>O1;2A <S-Up>
+    map <Esc>O1;2B <S-Down>
+    map <Esc>O1;2C <S-Right>
+    map <Esc>O1;2D <S-Left>
+    map <Esc>O1;3A <A-Up>
+    map <Esc>O1;3B <A-Down>
+    map <Esc>O1;3C <A-Right>
+    map <Esc>O1;3D <A-Left>
+    map <Esc>O1;5A <C-Up>
+    map <Esc>O1;5B <C-Down>
+    map <Esc>O1;5C <C-Right>
+    map <Esc>O1;5D <C-Left>
+
+    imap <Esc>O1;2A <S-Up>
+    imap <Esc>O1;2B <S-Down>
+    imap <Esc>O1;2C <S-Right>
+    imap <Esc>O1;2D <S-Left>
+    imap <Esc>O1;3A <A-Up>
+    imap <Esc>O1;3B <A-Down>
+    imap <Esc>O1;3C <A-Right>
+    imap <Esc>O1;3D <A-Left>
+    imap <Esc>O1;5A <C-Up>
+    imap <Esc>O1;5B <C-Down>
+    imap <Esc>O1;3C <A-Right>
+    imap <Esc>O1;3D <A-Left>
+    imap <Esc>O1;5A <C-Up>
+    imap <Esc>O1;5B <C-Down>
+    imap <Esc>O1;5C <C-Right>
+    imap <Esc>O1;5D <C-Left>
+endif
+
+" Plugin Settings:--------------------------------------------------------{{{1
+
+"> Misc:------------------------------------------------------------------{{{2
+" Better Whitespace
+let g:strip_whitespace_on_save = 1
+let g:better_whitespace_filetypes_blacklist = ['python']
+
+" dont load these
+let g:loaded_AlignMapsPlugin = "v41"
+let g:gundo_right = 1
+
+" set runtimepath+=~/.vim/ultisnips_rep
+let g:UltiSnipsEditSplit="horizontal"
+let g:UltiSnipsSnippetsDir="~/.vim/mysnippets"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsNoPythonWarning = 1
+
+" Fugitive
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
+"> BufExplorer:-----------------------------------------------------------{{{2
+
+let g:bufExplorerDefaultHelp=0       " Show default help.
+let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
+let g:bufExplorerFindActive=1        " Go to active window.
+let g:bufExplorerReverseSort=0       " Do not sort in reverse order.
+let g:bufExplorerShowDirectories=0   " Don't show directories.
+let g:bufExplorerShowRelativePath=1  " Show relative paths.
+let g:bufExplorerShowUnlisted=0      " Do not show unlisted buffers.
+let g:bufExplorerSortBy='mru'        " Sort by most recently used.
+let g:bufExplorerSplitBelow=1        " Split new window below current.
+let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
+let g:bufExplorerSplitRight=1        " Split right.
+
+let g:bufExplorerResize=1
+let g:bufExplorerMaxHeight=25 " Handles dynamic resizing of the window.
+let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
+
+function! MyCycleNextLine()
+    if getline('.') == getline('$')
+        normal gg
+    else
+        normal j
+    endif
+endfunction
+
+function! MyBufExplorer()
+    silent! NERDTreeClose
+    silent! TagbarClose
+    if bufname('') == ''
+        :MRU
+        setlocal cursorline
+    else
+        :BufExplorerHorizontalSplit
+        :call BufExplorer_ReSize()
+        normal j
+    endif
+    nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
+    nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
+    nmap <buffer> <\>     :call MyCycleNextLine()<CR>
+    nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
+endfunction
+
+"> NERDTree:--------------------------------------------------------------{{{2
+
+let NERDTreeCaseSensitiveSort=1
+
+"let NERDTreeChDirMode=0 " cwd never changed by NERD
+"let NERDTreeChDirMode=1 " cwd changed on NERD load
+let NERDTreeChDirMode=2  " cwd follows root
+
+let NERDTreeHijackNetrw=1
+let NERDTreeShowBookmarks=0
+let NERDTreeIgnore=['\~$', '\.\(desktop\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$', '__pycache__']
+let NERDTreeQuitOnOpen=1
+let NERDTreeAutoCenter=1
+let NERDTreeWinSize = 31
+" directories first unless the have a .t suffix
+"let NERDTreeSortOrder = ['\(\.t\)\@<!\/$', '*', '\.swp$',  '\.bak$', '\~$']
+" directories first
+"let NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
+let NERDTreeSortOrder = ['*', '\.swp$',  '\.bak$', '\~$']
+let NERDTreeWinPos = 'right'
+
+function! MyNERDTreeToggle ()
+    if bufname("%") == '__MRU_Files__' || bufname("%") == '[BufExplorer]'
+        normal q
+    endif
+    silent! TagbarClose
+    silent NERDTreeToggle
+endfunction
+
+"> TagBar:----------------------------------------------------------------{{{2
+hi TagbarFoldIcon guifg=fg
+let g:tagbar_width     = 31
+let g:tagbar_left      = 0
+let g:tagbar_autoclose = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_compact   = 1
+let g:tagbar_autoshowtag = 0
+
+let g:tagbar_type_sql = {
+            \ 'replace' : 1,
+            \ 'ctagstype' : 'sql',
+            \ 'kinds' : [
+            \ 'P:packages:1',
+            \ 'd:prototypes',
+            \ 'c:cursors',
+            \ 'f:functions',
+            \ 'F:record fields:1:0',
+            \ 'L:block label',
+            \ 'p:procedures',
+            \ 's:subtypes',
+            \ 't:tables',
+            \ 'T:triggers',
+            \ 'v:variables',
+            \ 'i:indexes',
+            \ 'e:events',
+            \ 'U:publications',
+            \ 'R:services',
+            \ 'D:domains',
+            \ 'V:views',
+            \ 'n:synonyms',
+            \ 'x:MobiLink Table Scripts',
+            \ 'y:MobiLink Conn Scripts',
+            \ 'z:MobiLink Properties',
+            \ ],
+            \ }
+
+let g:tagbar_type_perl = {
+            \ 'replace' : 1,
+            \ 'ctagstype' : 'perl',
+            \ 'kinds' : [
+            \ 'p:packages:1:0',
+            \ 'c:constants:1:0',
+            \ 's:subroutines',
+            \ ],
+            \ }
+
+let g:tagbar_type_html = {
+            \ 'kinds' : [
+            \ 'f:JavaScript funtions',
+            \ 'a:named anchors',
+            \ ],
+            \ }
+
+let g:tagbar_type_tt2html = {
+            \ 'ctagstype' : 'tt2html',
+            \ 'kinds' : [
+            \ 'i:ids',
+            \ 'f:functions',
+            \ 'm:macros',
+            \ ],
+            \}
+
+function! MyTagbarToggle ()
+    if bufname("%") == '__MRU_Files__' || bufname("%") == '[BufExplorer]'
+        normal q
+    endif
+    silent! NERDTreeClose
+    silent TagbarToggle
+endfunction
+
+"> MRU:-------------------------------------------------------------------{{{2
+
+let MRU_Max_Entries = 20
+let MRU_Auto_Close = 1
+let MRU_Add_Menu = 1
+
+function! MyMRU ()
+    if bufname("%") == '__MRU_Files__'
+        normal q
+    else
+        " skip to prev window if current buffer has a type
+        if &buftype != ''
+            wincmd p
+        endif
+        MRU
+        setlocal cursorline
+   endif
+endfunction
+
+"> Syntastic:-------------------------------------------------------------{{{2
+
+" Only used in directories where we have created a script to invoke the
+" interpreter
+let g:syntastic_enable_perl_checker = 0
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_auto_jump=1
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+
+" use python-mode checkers and integration instead
+let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+
+"> Python Mode:-----------------------------------------------------------{{{2
+if has('python3')
+    let g:pymode_python = 'python3'
+elseif has('python')
+    let g:pymode_python = 'python2'
+endif
+let g:pymode_warnings = 1
+let g:pymode_paths = []
+let g:pymode_trim_whitespaces = 1
+let g:pymode_options_max_line_length = 79
+let g:pymode_options_colorcolumn = 1
+
+let g:pymode_options = 1
+let g:pymode_quickfix_minheight = 3
+let g:pymode_quickfix_maxheight = 6
+
+let g:pymode_indent = 1
+let g:pymode_folding = 1
+let g:pymode_folding = 0
+let g:pymode_motion = 1
+let g:pymode_doc = 1
+let g:pymode_doc_bind = 'K'
+
+let g:pymode_run = 1
+let g:pymode_run_bind = '<leader>r'
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<leader>b'
+
+let g:pymode_lint = 0
+let g:pymode_lint = 1
+let g:pymode_lint_on_write = 1
+let g:pymode_lint_unmodified = 1
+let g:pymode_lint_on_fly = 0
+let g:pymode_lint_message = 1
+" can't find pylint linter !!!!
+"let g:pymode_lint_checkers = ['pylint', 'pyflakes', 'pep8', 'mccabe']
+"let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pep257', 'mccabe']
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
+"let g:pymode_lint_ignore = ["E702"]
+"let g:pymode_lint_select = ["E501", "W0011", "W430"]
+
+" So this is more convention:
+" D212 Multi-line docstring summary should start at the first line [pep257]
+" D213 Multi-line docstring summary should start at the second line [pep257]
+let g:pymode_lint_ignore = [ 'D213' ]
+let g:pymode_lint_select = []
+let g:pymode_lint_cwindow = 1
+let g:pymode_lint_signs = 1
+
+let g:pymode_virtualenv = 1
+
+let g:pymode_rope = 1
+let g:pymode_rope_lookup_project = 0
+let g:pymode_rope_regenerate_on_write = 1
+let g:pymode_rope_completion = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_completion_bind = '<C-Space>'
+
+let g:pymode_rope_autoimport = 0
+let g:pymode_rope_show_doc_bind = '<leader>pd'
+let g:pymode_rope_goto_definition_bind = '<leader>pg'
+let g:pymode_rope_goto_definition_cmd = 'new'
+let g:pymode_rope_rename_bind = '<leader>pr'
+let g:pymode_rope_module_to_package_bind = '<leader>p1p'
+let g:pymode_rope_extract_method_bind = '<leader>pm'
+let g:pymode_rope_extract_variable_bind = '<leader>pl'
+let g:pymode_rope_use_function_bind = '<leader>pu'
+let g:pymode_rope_move_bind = '<leader>pv'
+let g:pymode_rope_change_signature_bind = '<leader>ps'
+
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_print_as_function = 0
+let g:pymode_syntax_print_as_function = 1
+
+" Turn this on if you are having issues
+"let g:pymode_debug=1
+let g:pymode_debug = 0
+
+hi ColorColumn ctermbg=lightgrey guibg=lightgrey
+
+"> Perl Support:----------------------------------------------------------{{{2
+
+let g:Perl_GlobalTemplateFile      =  $HOME.'/.vim/perl-support/templates/Templates'
+let g:Perl_LocalTemplateFile       =  $HOME.'/.vim/perl-support/templates/Templates'
+let g:Perl_TemplateOverwrittenMsg  = 'yes'
+let g:Perl_Ctrl_j                  = 'on'
+
+let g:Perl_CodeSnippets            = $HOME.'/.vim/perl-support/codesnippets/'
+let g:Perl_LoadMenus               = 'yes'
+let g:Perl_Dictionary_File         = ''
+let g:Perl_Root                    = '&Perl.'
+let g:Perl_MenuHeader              = 'yes'
+let g:Perl_GuiSnippetBrowser       = 'commandline' " commandline|explorer|gui
+let g:Perl_GuiTemplateBrowser      = 'commandline'
+
+let g:Perl_PerlModuleList          = $HOME.'/.vim/perl-support/modules/perl-modules.list'
+let g:Perl_PerlModuleListGenerator = $HOME.'/.vim/perl-support/scripts/pmdesc3.pl'
+let g:Perl_OutputGvim              = "vim"
+let g:Perl_XtermDefaults           = "-fa courier -fs 12 -geometry 80x24"
+let g:Perl_Debugger                = "perl"
+let g:Perl_TimestampFormat         = '%Y%m%d %H%M%S'
+let g:Perl_FormatDate              = '%F'
+let g:Perl_FormatTime              = '%H:%M'
+let g:Perl_FormatYear              = 'year %Y'
+
+let g:Perl_LineEndCommColDefault   = 49
+let g:Perl_PodcheckerWarnings      = "yes"
+let g:Perl_Printheader             = "%<%f%h%m%<  %=%{strftime('%x %X')}     Page %N"
+let g:Perl_PerlcriticSeverity      = 5
+let g:Perl_PerlcriticVerbosity     = 5
+let g:Perl_PerlcriticOptions       = ""
+let g:Perl_PerlRegexSubstitution   = '$+'
+let g:Perl_NYTProf_html            = 'no'
+let g:Perl_NYTProf_browser         = 'firefox'
+
+" perl-support uses mapleaders a lot and the default leader (\)
+" conflicts with inputing references, so we make these explicit to terminate
+" the lookup as soon as they are entered
+inoremap <silent> <leader>$ \$
+inoremap <silent> <leader>@ \@
+inoremap <silent> <leader>% \%
+inoremap <silent> <leader>& \&
+
+"> RPM-SPEC:--------------------------------------------------------------{{{2
+
+au FileType spec map <buffer> <LocalLeader>c <Plug>SpecChangelog
+let spec_chglog_format = "%a %b %d %Y Kahlil (Kal) Hodgson <kahlil.hodgson999@gmail.com>"
+let spec_chglog_prepend = 1
+let spec_chglog_release_info = 0
+let spec_chglog_never_increase_release = 0
+let g:changelog_date_end_entry_search = '^\s*$'
+
+"}}}
+"
+" vim: foldmethod=marker foldlevel=999

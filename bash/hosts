@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# functions for host access
+
+_tunnel_to_host () {
+    #
+    # Create an ssh tunnel to a host via a gateway
+    #
+    local local_port=$1;     shift
+    local remote_host=$1;    shift
+    local remote_port=$1;    shift
+    local gateway=$1;        shift
+    local options='-o ServerAliveInterval=15 -o TCPKeepAlive=no'
+
+    # funky re to get arround parsing bug in pkill
+    pkill -f "L $local_port:" || true # kill the existing tunnel
+    ssh -Nf $options -L $local_port:$remote_host:$remote_port $gateway
+}
+
+
+#dbdomain=coggtwdpmbtw.ap-southeast-2.rds.amazonaws.com
+#
+#-prod-db-tunnel () {
+#    _tunnel_to_host 54321 prod-db.$dbdomain 5432 control
+#}
+#
+#-prod-psql () {
+#    local target=$1;
+#    -prod-db-tunnel
+#    psql -h localhost -p 54321 -U dealmax $target
+#}
+#
+#-control-socks () {
+#    ssh -NfD localhost:5000 control
+#}
+
+-git-socks () {
+    ssh -NfD localhost:5000 git.internal.ip-echelon.com
+}
+
+-mysql-master () {
+    local target=${1:-ipechelon}
+    dbhost=db-ipechelon-master.internal.ip-echelon.com
+    mysql -A --host $dbhost --port 3306 --user ipe $target
+}
+
+-mysql-slave () {
+    local target=${1:-ipechelon}
+    dbhost=db-ipechelon-slave.internal.ip-echelon.com
+    mysql -A --host $dbhost --port 3306 --user ipe $target
+}
+
+## machine shortcuts
+for target in      \
+    jason          \
+	control        \
+    turing         \
+	turing-external
+do
+    eval -- "-$target () { ssh \$* $target; }"
+done

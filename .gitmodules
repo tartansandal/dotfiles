@@ -1,0 +1,70 @@
+[submodule "vim/bundle/fugitive"]
+	path = vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "vim/bundle/gundo"]
+	path = vim/bundle/gundo
+	url = https://github.com/sjl/gundo.vim.git
+[submodule "vim/bundle/markdown"]
+	path = vim/bundle/markdown
+	url = https://github.com/tpope/vim-markdown.git
+[submodule "vim/bundle/mru"]
+	path = vim/bundle/mru
+	url = https://github.com/vim-scripts/mru.vim
+[submodule "vim/bundle/perl"]
+	path = vim/bundle/perl
+	url = https://github.com/vim-perl/vim-perl
+[submodule "vim/bundle/nerdtree"]
+	path = vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/bundle/surround"]
+	path = vim/bundle/surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "vim/bundle/tagbar"]
+	path = vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "vim/bundle/unimpaired"]
+	path = vim/bundle/unimpaired
+	url = https://github.com/tpope/vim-unimpaired
+[submodule "vim/bundle/repeat"]
+	path = vim/bundle/repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "vim/bundle/showmarks.git"]
+	path = vim/bundle/showmarks.git
+	url = https://github.com/jacquesbh/vim-showmarks.git
+[submodule "vim/bundle/align"]
+	path = vim/bundle/align
+	url = https://github.com/vim-scripts/Align.git
+[submodule "vim/bundle/buffexplorer"]
+	path = vim/bundle/buffexplorer
+	url = https://github.com/vim-scripts/bufexplorer.zip.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/jinja2"]
+	path = vim/bundle/jinja2
+	url = https://github.com/Glench/Vim-Jinja2-Syntax.git
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = https://github.com/sirver/ultisnips
+[submodule "vim/bundle/better-whitespace"]
+	path = vim/bundle/better-whitespace
+	url = https://github.com/ntpeters/vim-better-whitespace
+[submodule "vim/bundle/vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/vim-matchit"]
+	path = vim/bundle/vim-matchit
+	url = https://github.com/adelarsq/vim-matchit
+[submodule "vim/bundle/python-mode"]
+	path = vim/bundle/python-mode
+	url = https://github.com/klen/python-mode.git
+    branch = develop
+[submodule "vim/bundle/tsuquyomi"]
+	path = vim/bundle/tsuquyomi
+	url = https://github.com/Quramy/tsuquyomi.git
+[submodule "vim/bundle/typescript"]
+	path = vim/bundle/typescript
+	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "vim/bundle/vim-autoformat"]
+	path = vim/bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat.git

@@ -1,0 +1,87 @@
+#!/bin/bash
+
+#
+# .bash_profile
+#
+# User specific environment and startup programs
+
+# Redefine pathmunge which gets unset at end of /etc/profile
+pathmunge ()
+#
+# Insert a new element into your path is not already there
+# Stolen from /etc/profile
+#
+{
+	# skip non-existant directories
+	[[ -d $1 ]] || return
+	if ! echo $PATH | /bin/egrep  "(^|:)$1($|:)" 1>/dev/null 2>&1; then
+	   if [ "$2" = "after" ] ; then
+	      PATH=$PATH:$1
+	   else
+	      PATH=$1:$PATH
+	   fi
+	fi
+}
+
+#> prepend in this order
+pathmunge /sbin after
+pathmunge /usr/sbin after
+pathmunge /usr/local/sbin after
+pathmunge $HOME/.local/bin
+pathmunge $HOME/bin
+export PATH
+unset pathmunge
+
+## interactive variables
+
+## omit superfluous commands from histlist
+export HISTIGNORE="&:ls:[bf]g:exit"
+export HISTTIMEFORMAT='%a %H:%M | '
+export EDITOR='vim';
+export VISUAL='vim';
+export PAGER='less';
+export RSYNC_RSH=ssh
+export LANG="en_AU.UTF-8"
+export LESS="-R"
+unset MAILCHECK
+export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+if [[ -d ~/.local/lib/perl5 ]]
+ then
+    export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local";
+    export PERL_MB_OPT="--install_base ~/.local";
+    export PERL_MM_OPT="INSTALL_BASE=~/.local";
+    export PERL5LIB="~/.local/lib/perl5:$PERL5LIB";
+fi
+
+if [[ -d ~/.local/lib/python ]]
+ then
+    export PYTHONPATH=~/.local/lib/python
+fi
+
+if [[ -d ~/.local/lib/node_modules ]]
+ then
+    # setup a localized global environment
+    export npm_config_prefix=~/.local
+    export NODE_PATH=~/.local/lib/node_modules
+fi
+
+if [[ -f /usr/bin/google-chrome ]]; then
+    export CHROME_BIN=/usr/bin/google-chrome
+fi
+
+if [[ -f ~/local/bin/gox ]]; then
+    export GOPATH=~/.local
+fi
+
+if [[ -x /usr/bin/keychain ]]
+then
+    /usr/bin/keychain id_rsa
+    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
+    [ -f $HOME/.keychain/$HOSTNAME-sh ] && . $HOME/.keychain/$HOSTNAME-sh
+fi
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi

@@ -1,0 +1,12 @@
+# Notes on setting up a fresh laptop
+
+sudo rsync -rv ./etc/ /etc/
+
+install packages in `packages` file
+
+sudo systemctl enable tuned
+
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak install flathub com.slack.Slack
+flatpak install flathub com.spotify.Client

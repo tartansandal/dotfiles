@@ -1,0 +1,12 @@
+--langdef=tt2html
+--langmap=tt2html:.tt2
+--regex-tt2html=/\[% MACRO (\w+)/\1/m,macros/
+--regex-tt2html=/id="(\w+)"/\1/i,ids/
+--regex-tt2html=/^[ \t]*function[ \t]*([A-Za-z0-9_]+)[ \t]*\(/\1/f,functions/
+
+--langdef=diary
+--regex-diary=/^== (\w.*)$/\1/d,date/
+
+--langdef=txt
+--langmap=txt:.txt
+--regex-txt=/^(\w.*)$/\1/h,headings/

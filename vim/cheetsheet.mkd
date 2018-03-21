@@ -1,0 +1,208 @@
+# Vim Cheetsheet
+
+## Globals
+
+g~{motion} or {Visual}~  - togglecase
+gU{motion} or {Visual}U  - uppercase
+gu{motion} or {Visual}U  - localcase
+
+## Personal Shortcuts
+
+For programming in Perl, the leader key '\' is a little problematic
+
+Set mapping explict mapping for \$ \% and \@
+For Python, this is less of an issue.
+
+    \h - clear search highlighting
+    \o - one window (<C-w> o does the same)
+    \a - autoformat
+
+    <C-\> - buf explorer
+
+Could we integrate these with unimpaired?
+
+    \t - toggle Tagbar
+    \n - toggle NERDTree
+    \m - toggle MRU List
+    \g - open Fugitive Status
+    \f - find buffer in NERDTree
+
+:Gundo ?
+
+\c - rpm spec changelog
+:W - write as root
+
+## Scrolling
+
+    <C-e>   <C-y>   scroll down/up by lines
+    <C-d>   <C-u>   scroll down/up by half-pages
+    <C-f>   <C-b>   scroll forward/back> by full pages
+
+## Grep
+
+:gr[ep] args
+
+\vv     - grep for word under cursor
+\vV     - grep for WORD under cursor
+\cf     - grep for file under cursor
+
+:cw     - show quickfix window
+
+
+## Motion
+
+<S-Down>   - to window down
+<S-Up>     - to window up
+<S-Right>  - to window right
+<S-Left>   - to window left
+
+<C-Right>  - to next tab
+<C-Left>   - to prev tab
+(could we integrate these with unimpaired?)
+
+## Fugitive
+
+:Gw[rite]
+:Gr[ead]
+:Gdiff [revision]
+
+:Gco[mmit]
+:Gst[atus]
+
+:Gmove {destination}
+:Gdelete
+:Gremove
+
+:Gpull
+:Gpush
+:Gfetch
+:Gmerge
+
+:Glog
+:Gblame
+
+\g - open fugitive status
+
+inside status do `g?` to show help
+
+## NERDComment
+
+\cc - comment
+\cu - uncomment
+
+## Folding
+
+za - fold toggle
+zM - fold all
+zm - fold more
+zr - fold reduce
+zR - fold none
+
+## Spelling
+
+[os	  ]os   =os   on/off/toggle spelling
+
+[s - prev mistake
+]s - next mistake
+
+zg - mark word as good
+zw - mark word as wrong
+z= - spell suggestions
+
+## Unimpaired
+
+prev  next  first  last  operates on
+--------------------------------------
+[a    ]a    [A     ]A    argument list
+[b    ]b    [B     ]B    buffer list
+[l    ]l    [L     ]L    location list
+[q    ]q    [Q     ]Q    quickfix list
+[t    ]t    [T     ]T    tag list
+
+
+-- location list
+[<C-L> - next marker in next file
+]<C-L> - prev marker in prev file
+
+-- quickfix list
+[<C-Q> - prev marker in next file
+]<C-Q> - next marker in next file
+
+-- files in the current files directory
+[f - prev alphabetically
+]f - next alphabetically
+
+-- SCM markers
+[n - prev
+]n - next
+
+-- add space
+[<space> - above
+]<space> - below
+
+-- exchange line with
+[e - line above
+]e - line below
+
+On	  Off   Toggle	Option
+----------------------------
+[oh	  ]oh   =oh     hlsearch
+oi	  ]oi   =oi     ignorecase
+[ol	  ]ol   =ol     list
+[on	  ]on   =on     number
+[or	  ]or   =or     relativenumber
+[os	  ]os   =os     spell
+[ov	  ]ov   =ov     virtualedit
+[ow	  ]ow   =ow     wrap
+[oc	  ]oc   =oc     cursorline
+[ou	  ]ou   =ou     cursorcolumn
+[ox	  ]ox   =ox     cursorline cursorcolumn (x as in crosshairs)
+[od	  ]od   =od     diff (actually |:diffthis| / |:diffoff|)
+
+Encode  Decode   target
+-----------------------
+[x      ]x       XML
+[u      ]u       URL
+[y      ]y       C String (backslash special chars)
+(these accept motion and visual args)
+
+## Suround
+
+X or Y are one of the chars in the following pairs: '' "" `` [] {} () <>
+dsX  - delete surrounding X
+csXY - change surrounding X to Y
+
+ys{motion}X - you surround {motion} with X
+yS{motion}X - you surround {motion} with X indented on its own line
+
+SX - surround visual selction with X
+
+## Python
+
+\r
+\b
+
+<C-Space> - completion
+\pd    - show doc
+\pg    - goto definition
+
+:PymodeRopeNewProject
+
+### Refactoring
+\pr   - rename elt under cursor
+\po   - resolve imports for elt under cursor
+\pa   - insert import for elt under cursor
+
+\p1r  - rename current module/package
+\p1p  - convert current module to package
+
+\pm   - extract method from selected lines
+\pl   - extract variable from selected lines
+\pu   - use function
+\pv   - move method
+\ps   - change signature
+
+## Ultisnips
+
+<tab>
+<s-tab>

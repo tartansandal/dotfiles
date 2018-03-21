@@ -1,0 +1,8 @@
+.*.swp
+doc/tags
+doc/tags-ja
+.envrc
+.vagrant
+.ropeproject
+env
+venv

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Match Dirty Sea colours
+PROMPT_USER_COLOR=$(tput setaf 55)         # purple
+PROMPT_PREPOSITION_COLOR=$(tput setaf 0)   # black
+PROMPT_DEVICE_COLOR=$(tput setaf 19)       # blue
+PROMPT_DIR_COLOR=$(tput setaf 24)          # cyan
+PROMPT_GIT_STATUS_COLOR=$(tput setaf 22)   # green
+PROMPT_GIT_PROGRESS_COLOR=$(tput setaf 88) # red
+PROMPT_SYMBOL_COLOR=$(tput setaf 11)       # grey
+
+# Match onedark colours
+# PROMPT_USER_COLOR=$(tput setaf 13)         # purple
+# PROMPT_PREPOSITION_COLOR=$(tput setaf 7)   # lightgrey
+# PROMPT_DEVICE_COLOR=$(tput setaf 12)       # blue
+# PROMPT_DIR_COLOR=$(tput setaf 14)          # cyan
+# PROMPT_GIT_STATUS_COLOR=$(tput setaf 10)   # green
+# PROMPT_GIT_PROGRESS_COLOR=$(tput setaf 9)  # red
+# PROMPT_SYMBOL_COLOR=$(tput setaf 8)        # grey
+
+if [[ $HOSTNAME == ip-172* ]]
+then
+    PROMPT_DEVICE_COLOR=$(tput setaf 9)      # red
+fi
+source ~/dotfiles/bash/sexy-prompt.sh

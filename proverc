@@ -1,0 +1,4 @@
+-j 4
+-I lib
+-I ../common/lib
+-I ../devel/lib

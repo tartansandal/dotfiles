@@ -1,0 +1,62 @@
+" turn off blinking cursor in gui
+set guicursor=a:blinkon0
+set guioptions-=T
+set guioptions-=L
+set guioptions-=r
+set guioptions-=m
+
+"colorscheme dirtylooks
+colorscheme dirtysea
+"colorscheme onedark
+"colorscheme peaksea
+
+let c_comment_strings=1
+
+function! MyGuiFontSizeDec()
+    let g:MyGuiFontSize=g:MyGuiFontSize-1
+    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+endfunction
+
+function! MyGuiFontSizeInc()
+    let g:MyGuiFontSize=g:MyGuiFontSize+1
+    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+endfunction
+
+function! MyGuiFontSizeReset()
+    let g:MyGuiFontSize=g:MyGuiFontSizeDefault
+    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+endfunction
+
+nnoremap <A-+> :call MyGuiFontSizeInc()<CR>
+nnoremap <A-_> :call MyGuiFontSizeDec()<CR>
+nnoremap <A-)> :call MyGuiFontSizeReset()<CR>
+
+set cmdheight=2                       " Make command line two lines high
+
+" define taglist highlighting groups
+highlight default link MyTagListTagName Search
+
+highlight clear MyTagListComment
+highlight default link MyTagListComment Comment
+
+highlight clear MyTagListTitle
+highlight default link MyTagListTitle Title
+
+highlight clear MyTagListFileName
+highlight default MyTagListFileName guibg=Grey ctermbg=darkgray
+            \ guifg=black ctermfg=white
+
+highlight clear MyTagListTagScope
+highlight default link MyTagListTagScope Identifier
+
+"set columns=135
+set columns=105
+set lines=72
+set lines=56
+let g:MyGuiFontFamily='Inconsolata\ Medium\ '
+let g:MyGuiFontSizeDefault=10
+let g:MyGuiFontSize=g:MyGuiFontSizeDefault
+exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize

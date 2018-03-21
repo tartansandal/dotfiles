@@ -1,0 +1,3 @@
+# Have to allow access via admin console for this to work
+hostname = smtp-relay.gmail.com:587
+starttls = enabled

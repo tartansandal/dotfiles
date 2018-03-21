@@ -1,0 +1,47 @@
+[user]
+	name = Kahlil Hodgson
+	email = kal@ip-echelon.com
+
+[core]
+    excludesfile = ~/.gitignore
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+	ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[gui]
+	editor = gvim
+
+[push]
+	default = simple
+
+[log]
+	abbrevCommit = true
+
+[showbranch]
+    default = --topo-order
+
+[diff]
+	tool = gvimdiff
