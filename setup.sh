@@ -4,10 +4,10 @@ base_dir=$(dirname $(readlink -f $0))
 
 cd  $base_dir
 
-# Initialize submodules
-git submodule init
-git submodule update --recursive --remote
-#git submodule foreach git checkout master
+# The following only needed if you did not use --recurse-submodules used in
+# clone. Initialize submodules
+#   git submodule init
+# 	git submodule update --recursive --remote
 
 # Create destinations for backups and undo files
 mkdir -p ~/tmp/undo ~/tmp/backup
