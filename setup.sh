@@ -9,6 +9,12 @@ cd  $base_dir
 #   git submodule init
 # 	git submodule update --recursive --remote
 
+# You may need to do the following for python-mode
+#
+# 	cd vim/bundle/python-mode
+# 	git checkout develop
+# 	git submodule update --init --recursive
+
 # Create destinations for backups and undo files
 mkdir -p ~/tmp/undo ~/tmp/backup
 
