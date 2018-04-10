@@ -145,7 +145,7 @@ then
     # Don't check mail
     shopt -u mailwarn
 
-    if type direnv 2>/dev/null
+    if type direnv >/dev/null 2>&1
     then
         eval "$(direnv hook bash)"
     fi
