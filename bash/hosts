@@ -40,14 +40,12 @@ _tunnel_to_host () {
 
 -mysql-master () {
     local target=${1:-ipechelon}
-    dbhost=db-ipechelon-master.internal.ip-echelon.com
-    mysql -A --host $dbhost --port 3306 --user ipe $target
+    mysql --login-path=master $target
 }
 
 -mysql-slave () {
     local target=${1:-ipechelon}
-    dbhost=db-ipechelon-slave.internal.ip-echelon.com
-    mysql -A --host $dbhost --port 3306 --user ipe $target
+    mysql --login-path=readonly $target
 }
 
 ## machine shortcuts
