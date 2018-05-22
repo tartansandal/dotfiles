@@ -84,6 +84,12 @@ then
         complete -F _root_command -o filenames s
     fi
 
+	shrug(){
+		echo -n "¯\_(ツ)_/¯" | xsel -i
+		echo -n "¯\_(ツ)_/¯" | xsel -b
+		echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
+	} # Function to help with an emoji.
+
     ## Shell options
 
     # Ensured hashed commands exist, else fallback to path search

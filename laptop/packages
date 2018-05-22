@@ -26,3 +26,4 @@ vim-X11
 ripgrep
 jq
 libselinux-python
+xsel
