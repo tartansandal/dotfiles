@@ -179,16 +179,18 @@ SX - surround visual selction with X
 
 ## Python
 
-\r
-\b
+K  - show doc
+\r - run
+\b - breakpoint
+
+### Refactoring
+:PymodeRopeNewProject
 
 <C-Space> - completion
 \pd    - show doc
 \pg    - goto definition
 
-:PymodeRopeNewProject
 
-### Refactoring
 \pr   - rename elt under cursor
 \po   - resolve imports for elt under cursor
 \pa   - insert import for elt under cursor
