@@ -8,6 +8,7 @@ python3-pytest
 python3-ipython
 python3-ipython-doc
 python3-ipdb
+python3-rope
 
 # ignore these
 
