@@ -1,3 +1,25 @@
 #!/bin/bash
 
-git submodule update --recursive --remote
+git submodule update --recursive --remote | tee update.log
+
+while read line
+do
+	if [[ $line == *..* ]]
+	then
+		#echo $line
+		commits=$(echo $line | cut -d' ' -f 1)
+		#echo $commits
+	fi
+	if [[ $line == Submodule\ path* ]]
+	then
+		#echo $line
+		path=$(echo $line | cut -d"'" -f 2)
+		echo
+		echo -----------------------------------------------------------------
+		echo $path
+		echo -----------------------------------------------------------------
+		echo
+	    git --no-pager -C $path log $commits
+	fi
+
+done < update.log
