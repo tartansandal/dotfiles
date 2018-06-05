@@ -81,6 +81,12 @@ then
     [ -f $HOME/.keychain/$HOSTNAME-sh ] && . $HOME/.keychain/$HOSTNAME-sh
 fi
 
+if [[ -d "$HOME/.local/lib/google-cloud-sdk" ]]
+then
+	source $HOME/.local/lib/google-cloud-sdk/completion.bash.inc
+	source $HOME/.local/lib/google-cloud-sdk/path.bash.inc
+fi
+
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
