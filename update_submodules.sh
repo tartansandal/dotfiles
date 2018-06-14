@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git submodule update --recursive --remote | tee update.log
+git submodule update --recursive --remote 2>&1 | tee update.log
 
 while read line
 do
@@ -10,7 +10,7 @@ do
 		commits=$(echo $line | cut -d' ' -f 1)
 		#echo $commits
 	fi
-	if [[ $line == Submodule\ path* ]]
+	if [[ -n $commits && $line == Submodule\ path* ]]
 	then
 		#echo $line
 		path=$(echo $line | cut -d"'" -f 2)
@@ -19,7 +19,8 @@ do
 		echo $path
 		echo -----------------------------------------------------------------
 		echo
-	    git --no-pager -C $path log $commits
+	    git --no-pager -C $path log -n 100 $commits
+		unset commits
 	fi
 
 done < update.log
