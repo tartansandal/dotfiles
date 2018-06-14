@@ -189,7 +189,8 @@ if has("autocmd")
     autocmd FileType py set textwidth=79 " PEP-8 Friendly
 endif
 
-let g:sql_type_default = "sqlpostgres"
+" See ft_sql.vim
+let g:sql_type_default = "mysql"
 
 " Key Mapping:------------------------------------------------------------{{{1
 
