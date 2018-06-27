@@ -18,10 +18,9 @@ set virtualedit=block
 " share default yank location between vim sessions
 set clipboard=unnamedplus
 
-if &term =~ 'xterm.*'
-    " paste is complicated in a terminal
-    set paste
-endif
+" may need this for paste in a terminal
+" NB dont set paste in vimrc since that will override you expandtab setting
+set pastetoggle=<F2>
 
 "------------------------------------------
 " Completion: ( does this replace supertab?)
