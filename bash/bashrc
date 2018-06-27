@@ -47,6 +47,9 @@ then
 
     alias docker='sudo docker'
 
+	# this pydoc works in venvs too
+	alias pydoc='python -m pydoc'
+
     # If this is not installed try
     #
     # pip install --user howdoi
