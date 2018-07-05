@@ -1,5 +1,6 @@
 [user]
 	name = Kahlil (Kal) Hodgson
+	email = 
 
 [core]
     excludesfile = ~/.gitignore
