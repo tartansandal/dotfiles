@@ -1,6 +1,6 @@
 [user]
-	name = Kahlil Hodgson
-	email = kal@example.com
+    name = Kahlil Hodgson
+    email = unknown@email.com
 
 [core]
     excludesfile = ~/.gitignore
@@ -13,7 +13,7 @@
     branch = auto
     diff = auto
     status = auto
-	ui = true
+    ui = true
 
 [color "branch"]
     current = yellow reverse
@@ -32,16 +32,16 @@
     untracked = cyan
 
 [gui]
-	editor = gvim
+    editor = gvim
 
 [push]
-	default = simple
+    default = simple
 
 [log]
-	abbrevCommit = true
+    abbrevCommit = true
 
 [showbranch]
     default = --topo-order
 
 [diff]
-	tool = gvimdiff
+    tool = gvimdiff
