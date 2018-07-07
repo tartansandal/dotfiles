@@ -1,6 +1,6 @@
 [user]
-    name = Kahlil Hodgson
-    email = unknown@email.com
+	name = Kahlil (Kal) Hodgson
+	email =
 
 [core]
     excludesfile = ~/.gitignore
