@@ -14,7 +14,7 @@ else
 fi
 
 # special case for the one in the middle
-if xrandr -q | grep -q 'Screen 0: minimum 0 x 0, current 2560 x 1440'
+if xrandr -q | grep -q 'Screen 0: minimum 320 x 200, current 5760 x 2160'
 then
 	# study desktop
     /usr/bin/gvim -U ~/.vim/gvimrc-big $*
