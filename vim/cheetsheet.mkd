@@ -83,7 +83,7 @@ Could we integrate these with unimpaired?
 
 \g - open fugitive status
 
-inside status do `g?` to show help
+Inside status do `g?` to show help
 
 ## NERDComment
 
