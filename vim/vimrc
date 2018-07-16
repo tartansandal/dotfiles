@@ -210,9 +210,9 @@ noremap <silent> <leader>t :call MyTagbarToggle()<CR>
 noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
 
 " same key bindings as EasyGrep
-noremap <silent> <leader>vv :grep! -w <cword>
-noremap <silent> <leader>vV :grep! -w <cWORD>
-noremap <silent> <leader>vf :grep! <cfile>
+noremap <silent> <leader>vv :grep! -w <cword><CR>
+noremap <silent> <leader>vV :grep! -w <cWORD><CR>
+noremap <silent> <leader>vf :grep! <cfile><CR>
 
 "> Cursor Keys:-----------------------------------------------------------{{{2
 
