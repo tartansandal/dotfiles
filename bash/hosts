@@ -38,6 +38,10 @@ _tunnel_to_host () {
     ssh -NfD localhost:5000 git.internal.ip-echelon.com
 }
 
+-mysql-master-tunnel () {
+    ssh -fNL 3306:db-ipechelon-master.internal.ip-echelon.com:3306 git
+}
+
 -mysql-master () {
     local target=${1:-ipechelon}
     echo mysql --login-path=master -A $target
