@@ -1,1 +1,7 @@
 set editing-mode vi
+
+# up arrow
+"\e[A": history-search-backward
+
+# down arrow
+"\e[B": history-search-forward

@@ -148,7 +148,7 @@ then
     # Don't allow dotfiles in the results of path-name expansion
     shopt -u dotglob
 
-    # Don't same multi-line commands to history literally
+    # Don't save multi-line commands to history literally
     shopt -u lithist
 
     # Don't check mail
