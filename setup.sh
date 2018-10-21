@@ -29,6 +29,7 @@ ln -sf  $base_dir/dircolors.ansi-light ~/.dircolors
 ln -sf  $base_dir/gitconfig            ~/.gitconfig
 ln -sf  $base_dir/gitignore            ~/.gitignore
 ln -sf  $base_dir/inputrc              ~/.inputrc
+ln -sf  $base_dir/jsbeautifyrc         ~/.jsbeautifyrc
 ln -sf  $base_dir/perltidyrc           ~/.perltidyrc
 ln -sf  $base_dir/proverc              ~/.proverc
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
