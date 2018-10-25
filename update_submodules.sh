@@ -1,6 +1,11 @@
 #!/bin/bash
 
-git submodule update --recursive --remote 2>&1 | tee update.log
+pushd vim/bundle/python-mode
+git checkout develop
+git submodule update --recursive --remote 2>&1 | tee ../../../update.log
+popd
+
+git submodule update --recursive --remote 2>&1 | tee -a update.log
 
 while read line
 do
