@@ -2,10 +2,10 @@
 
 pushd vim/bundle/python-mode
 git checkout develop
-git submodule update --recursive --remote 2>&1 | tee ../../../update.log
+git submodule update --recursive --init 2>&1 | tee ../../../update.log
 popd
 
-git submodule update --recursive --remote 2>&1 | tee -a update.log
+git submodule update --remote 2>&1 | tee -a update.log
 
 while read line
 do
