@@ -209,6 +209,11 @@ noremap <silent> <leader>m :call MyMRU()<CR>
 noremap <silent> <leader>t :call MyTagbarToggle()<CR>
 noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
 
+" YouCompleteMe
+noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
+noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
+noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
+
 " same key bindings as EasyGrep
 noremap <silent> <leader>vv :grep! -w <cword><CR>
 noremap <silent> <leader>vV :grep! -w <cWORD><CR>
