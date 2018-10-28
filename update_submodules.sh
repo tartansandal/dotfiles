@@ -1,7 +1,11 @@
 #!/bin/bash
 
 pushd vim/bundle/python-mode
-git checkout develop
+git checkout -f develop
+git submodule update --recursive --init 2>&1 | tee ../../../update.log
+popd
+
+pushd vim/bundle/YouCompleteMe
 git submodule update --recursive --init 2>&1 | tee ../../../update.log
 popd
 
