@@ -349,15 +349,15 @@ let NERDTreeChDirMode=2  " cwd follows root
 
 let NERDTreeHijackNetrw=1
 let NERDTreeShowBookmarks=0
-let NERDTreeIgnore=['\~$', '\.\(desktop\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$', '__pycache__']
+let NERDTreeIgnore=['\~$', '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$', '__pycache__']
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize = 31
 " directories first unless the have a .t suffix
 "let NERDTreeSortOrder = ['\(\.t\)\@<!\/$', '*', '\.swp$',  '\.bak$', '\~$']
 " directories first
-"let NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
-let NERDTreeSortOrder = ['*', '\.swp$',  '\.bak$', '\~$']
+let NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
+" let NERDTreeSortOrder = ['*', '\.swp$',  '\.bak$', '\~$']
 let NERDTreeWinPos = 'right'
 
 function! MyNERDTreeToggle ()
