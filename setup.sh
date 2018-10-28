@@ -9,7 +9,7 @@ cd  $base_dir
 #   git submodule init
 # 	git submodule update --recursive --remote
 
-# You may need to do the following for python-mode
+# You may need to do the following for python-mode and YouCompleteMe
 #
 # 	cd vim/bundle/python-mode
 # 	git checkout develop
