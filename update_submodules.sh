@@ -5,6 +5,10 @@ git checkout -f develop
 git submodule update --recursive --init 2>&1 | tee ../../../update.log
 popd
 
+pushd vim/bundle/YouCompleteMe
+git submodule update --recursive --init 2>&1 | tee ../../../update.log
+popd
+
 git submodule update --remote 2>&1 | tee -a update.log
 
 while read line
