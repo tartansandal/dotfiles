@@ -301,6 +301,9 @@ let g:UltiSnipsNoPythonWarning = 1
 " Fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
+
 "> BufExplorer:-----------------------------------------------------------{{{2
 
 let g:bufExplorerDefaultHelp=0       " Show default help.
