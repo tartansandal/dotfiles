@@ -56,7 +56,7 @@ highlight default link MyTagListTagScope Identifier
 set columns=105
 set lines=72
 set lines=56
-let g:MyGuiFontFamily='Inconsolata\ Medium\ '
-let g:MyGuiFontSizeDefault=12
+let g:MyGuiFontFamily='DejaVu\ Sans\ Mono\ Book\ '
+let g:MyGuiFontSizeDefault=13
 let g:MyGuiFontSize=g:MyGuiFontSizeDefault
 exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
