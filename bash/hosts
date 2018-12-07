@@ -44,14 +44,12 @@ _tunnel_to_host () {
 
 -mysql-master () {
     local target=${1:-ipechelon}
-    echo mysql --login-path=master -A $target
-    mysql --login-path=master -A $target
+    mysql --defaults-group-suffix=-master -A $target
 }
 
 -mysql-slave () {
     local target=${1:-ipechelon}
-    echo mysql --login-path=readonly -A $target
-    mysql --login-path=readonly -A $target
+    mysql --defaults-group-suffix=-readonly -A $target
 }
 
 ## machine shortcuts
