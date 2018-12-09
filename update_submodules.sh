@@ -2,10 +2,13 @@
 
 pushd vim/bundle/python-mode
 git checkout -f develop
+git pull
 git submodule update --recursive --init 2>&1 | tee ../../../update.log
 popd
 
 pushd vim/bundle/YouCompleteMe
+git checkout -f master
+git pull
 git submodule update --recursive --init 2>&1 | tee ../../../update.log
 popd
 
