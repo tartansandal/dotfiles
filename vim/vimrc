@@ -530,6 +530,8 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 " use python-mode checkers and integration instead
 " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 
+let g:syntastic_python_checkers = ["python", "pyflakes", "flake8"]
+
 "> Python Mode:-----------------------------------------------------------{{{2
 
 " XXX turing off since this module has been problematic
