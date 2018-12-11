@@ -156,6 +156,8 @@ set autoread            " re-read open files when changed outside Vim
 set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
+set fileformat=unix
+set encoding=utf-8
 
 " keep backups under ~/tmp
 set backup          " keep a backup file
@@ -193,7 +195,9 @@ if has("autocmd")
     " All filetype specific settings go in .vim/ftplugin/
     filetype plugin indent on
     autocmd BufRead,BufNewFile *.pg setfiletype sql
-    autocmd FileType py set textwidth=79 " PEP-8 Friendly
+    autocmd FileType py
+        \ set textwidth=79 " PEP-8 Friendly
+        \ set foldmethod=indent " PEP-8 Friendly
 endif
 
 " See ft_sql.vim
@@ -230,6 +234,8 @@ noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
 noremap <silent> <leader>vv :grep! -w <cword><CR>
 noremap <silent> <leader>vV :grep! -w <cWORD><CR>
 noremap <silent> <leader>vf :grep! <cfile><CR>
+
+noremap <space> za
 
 "> Cursor Keys:-----------------------------------------------------------{{{2
 
@@ -315,6 +321,11 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
+" let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_complete_in_comments = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 
 "> BufExplorer:-----------------------------------------------------------{{{2
 
