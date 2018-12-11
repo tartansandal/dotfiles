@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+# function to setup direnv in the current directory
+
+function setup-direnv () {
+    cat - <<'HERE' > .envrc
+set -e
+layout virtualenv $(expand_path venv-host)
+export VENV_DIR=venv-host
+HERE
+    direnv allow
+}

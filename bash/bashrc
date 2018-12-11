@@ -24,7 +24,7 @@ then
     fi
 
     #> source private libraries
-    for lib in hosts prompt
+    for lib in hosts prompt direnv
     do
         [[ -f ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done
