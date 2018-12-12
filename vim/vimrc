@@ -207,6 +207,13 @@ let g:sql_type_default = "mysql"
 " ab ip import ipdb; ipdb.set_trace()
 " of perhaps just a <leader> keymap
 
+function! InsertBreakPoint()
+    if &filetype == 'python'
+        normal! Oimport ipdb; ipdb.settrace()  # noqa XXX
+    endif
+endfunction
+noremap <silent> <leader>b :call InsertBreakPoint()<CR>
+
 " Key Mapping:------------------------------------------------------------{{{1
 
 " use Emacs style indent command
