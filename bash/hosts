@@ -52,12 +52,14 @@ _tunnel_to_host () {
     mysql --defaults-group-suffix=-readonly -A $target
 }
 
-## machine shortcuts
-for target in      \
-    jason          \
-	control        \
-    turing         \
-	turing-external
+## remote shortcuts
+for target in   \
+	control2    \
+	reddit      \
+	gorgon      \
+    apposp      \
+    graphite2   \
+    jenkins2
 do
-    eval -- "-$target () { ssh \$* $target; }"
+    eval -- "-remote-$target () { ssh -J git -A \$* $target; }"
 done
