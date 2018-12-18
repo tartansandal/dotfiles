@@ -6,4 +6,7 @@ doc/tags-ja
 .ropeproject
 env
 venv
+venv-*
 __pycache__
+tmp
+package-lock.json
