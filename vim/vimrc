@@ -209,7 +209,7 @@ let g:sql_type_default = "mysql"
 
 function! InsertBreakPoint()
     if &filetype == 'python'
-        normal! Oimport ipdb; ipdb.settrace()  # noqa XXX
+        normal! Oimport ipdb; ipdb.set_trace()  # noqa XXX
     endif
 endfunction
 noremap <silent> <leader>b :call InsertBreakPoint()<CR>
