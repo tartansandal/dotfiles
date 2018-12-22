@@ -214,6 +214,13 @@ function! InsertBreakPoint()
 endfunction
 noremap <silent> <leader>b :call InsertBreakPoint()<CR>
 
+function! InsertIPythonEmbed()
+    if &filetype == 'python'
+        normal! Oimport IPython; IPython.embed()  # noqa XXX
+    endif
+endfunction
+noremap <silent> <leader>e :call InsertIPythonEmbed()<CR>
+
 " Key Mapping:------------------------------------------------------------{{{1
 
 " use Emacs style indent command
