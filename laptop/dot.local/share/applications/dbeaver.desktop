@@ -2,11 +2,11 @@
 Version=1.0
 Type=Application
 Terminal=false
-Name=Big DBeaver CE
+Name=DBeaver Community
 GenericName=UniversaL Database Manager
 Comment=Universal Database Manager and SQL Client.
-Path=/usr/share/dbeaver/
-Exec=/usr/share/dbeaver/dbeaver -vmargs -Dswt.autoScale=200
+Path=/usr/share/dbeaver
+Exec=env GDK_BACKEND=x11 /usr/share/dbeaver/dbeaver -vmargs -Dswt.autoScale=200
 Icon=/usr/share/dbeaver/dbeaver.png
 Categories=IDE;Development
 WM_CLASS=DBeaver
