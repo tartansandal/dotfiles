@@ -34,6 +34,8 @@ set pastetoggle=<F2>
 " Completion: ( does this replace supertab?)
 "------------------------------------------
 
+" FIXME how does this interact with YoucompleteMe?
+
 set complete -=i " dont search included files
 
 set omnifunc=syntaxcomplete#Complete
@@ -98,7 +100,7 @@ set sidescroll=1        " scroll at least 5 columns if we side scroll
 set sidescrolloff=5     " keep at least 5 columns of context to either side
 set listchars+=precedes:<,extends:>
 
-set previewheight=20    " default height for the quickfix windows
+set previewheight=10    " default height for the quickfix windows
 
 augroup vimrcWindows
     " remove all commands for the group current
@@ -195,8 +197,8 @@ if has("autocmd")
     " All filetype specific settings go in .vim/ftplugin/
     filetype plugin indent on
     autocmd BufRead,BufNewFile *.pg setfiletype sql
-    autocmd FileType py
-        \ set textwidth=79 " PEP-8 Friendly
+    autocmd FileType python
+        \ set textwidth=79      " PEP-8 Friendly
         \ set foldmethod=indent " PEP-8 Friendly
 endif
 
@@ -314,7 +316,7 @@ endif
 "> Misc:------------------------------------------------------------------{{{2
 " Better Whitespace
 let g:strip_whitespace_on_save = 1
-let g:better_whitespace_filetypes_blacklist = ['python']
+"let g:better_whitespace_filetypes_blacklist = ['python']
 
 " dont load these
 let g:loaded_AlignMapsPlugin = "v41"
@@ -337,8 +339,8 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
 " let g:ycm_autoclose_preview_window_after_completion = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_complete_in_comments = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 
 "> BufExplorer:-----------------------------------------------------------{{{2
@@ -555,7 +557,7 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 " use python-mode checkers and integration instead
 " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 
-let g:syntastic_python_checkers = ["python", "pyflakes", "flake8"]
+let g:syntastic_python_checkers = ["python", "flake8"]
 
 "> Python Mode:-----------------------------------------------------------{{{2
 
