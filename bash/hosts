@@ -35,7 +35,7 @@ _tunnel_to_host () {
 #}
 
 -git-socks () {
-    ssh -NfD localhost:5000 git.internal.ip-echelon.com
+    ssh -NfD localhost:5050 git.internal.ip-echelon.com
 }
 
 -mysql-master-tunnel () {
