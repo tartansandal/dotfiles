@@ -26,6 +26,7 @@ ln -sf  $base_dir/bash/bashrc          ~/.bashrc
 ln -sf  $base_dir/bash/profile         ~/.bash_profile
 ln -sf  $base_dir/ctags                ~/.ctags
 ln -sf  $base_dir/dircolors.ansi-light ~/.dircolors
+ln -sf  $base_dir/eslintrc             ~/.eslintrc
 ln -sf  $base_dir/gitconfig            ~/.gitconfig
 ln -sf  $base_dir/gitignore            ~/.gitignore
 ln -sf  $base_dir/inputrc              ~/.inputrc
