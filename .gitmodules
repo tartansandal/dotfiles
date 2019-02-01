@@ -1,9 +1,6 @@
 [submodule "vim/bundle/fugitive"]
 	path = vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive
-[submodule "vim/bundle/gundo"]
-	path = vim/bundle/gundo
-	url = https://github.com/sjl/gundo.vim.git
 [submodule "vim/bundle/markdown"]
 	path = vim/bundle/markdown
 	url = https://github.com/tpope/vim-markdown.git
@@ -43,9 +40,6 @@
 [submodule "vim/bundle/jinja2"]
 	path = vim/bundle/jinja2
 	url = https://github.com/Glench/Vim-Jinja2-Syntax.git
-[submodule "vim/bundle/ultisnips"]
-	path = vim/bundle/ultisnips
-	url = https://github.com/sirver/ultisnips
 [submodule "vim/bundle/better-whitespace"]
 	path = vim/bundle/better-whitespace
 	url = https://github.com/ntpeters/vim-better-whitespace
