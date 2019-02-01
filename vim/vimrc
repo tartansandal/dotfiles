@@ -2,7 +2,7 @@
 
 "
 " To disable a plugin, add it's bundle name to the following list
-let g:pathogen_disabled = ['syntastic']
+let g:pathogen_disabled = []
 
 if v:version < 704 || (v:version == 704 && !has( 'patch1578' ))
     call add(g:pathogen_disabled, 'YouCompleteMe')
@@ -527,92 +527,31 @@ endfunction
 
 " Only used in directories where we have created a script to invoke the
 " interpreter
-" let g:syntastic_enable_perl_checker = 0
-" let g:syntastic_error_symbol='✗'
-" let g:syntastic_warning_symbol='⚠'
-" let g:syntastic_auto_jump=1
-"
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-"
-" let g:tsuquyomi_disable_quickfix = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-"
-" " use python-mode checkers and integration instead
-" " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-"
-" let g:syntastic_python_checkers = ['flake8', 'python']
+let g:syntastic_enable_perl_checker = 0
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_auto_jump=1
 
-"> Python Mode:-----------------------------------------------------------{{{2
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-" XXX turing off since this module has been problematic
-" if has('python3')
-"     let g:pymode_python = 'python3'
-" elseif has('python')
-"     let g:pymode_python = 'python2'
-" endif
-" let g:pymode_warnings = 1
-" let g:pymode_paths = []
-" let g:pymode_trim_whitespaces = 1
-" let g:pymode_options_max_line_length = 79
-" let g:pymode_options_colorcolumn = 1
-"
-" let g:pymode_options = 1
-" let g:pymode_quickfix_minheight = 3
-" let g:pymode_quickfix_maxheight = 6
-"
-" let g:pymode_indent = 1
-" let g:pymode_folding = 1
-" let g:pymode_folding = 0
-" let g:pymode_motion = 1
-" let g:pymode_doc = 1
-" let g:pymode_doc_bind = 'K'
-"
-" let g:pymode_run = 1
-" let g:pymode_run_bind = '<leader>r'
-" let g:pymode_breakpoint = 1
-" let g:pymode_breakpoint_bind = '<leader>b'
-"
-" let g:pymode_lint = 0
-" let g:pymode_lint = 1
-" let g:pymode_lint_on_write = 1
-" let g:pymode_lint_unmodified = 1
-" let g:pymode_lint_on_fly = 0
-" let g:pymode_lint_message = 1
-" " can't find pylint linter !!!!
-" "let g:pymode_lint_checkers = ['pylint', 'pyflakes', 'pep8', 'mccabe']
-" "let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pep257', 'mccabe']
-" let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
-" "let g:pymode_lint_ignore = ["E702"]
-" "let g:pymode_lint_select = ["E501", "W0011", "W430"]
-"
-" " So this is more convention:
-" " D212 Multi-line docstring summary should start at the first line [pep257]
-" " D213 Multi-line docstring summary should start at the second line [pep257]
-" let g:pymode_lint_ignore = [ 'D213' ]
-" let g:pymode_lint_select = []
-" let g:pymode_lint_cwindow = 1
-" let g:pymode_lint_signs = 1
-"
-" let g:pymode_virtualenv = 1
-"
-" let g:pymode_syntax = 1
-" let g:pymode_syntax_all = 1
-" let g:pymode_syntax_print_as_function = 0
-" let g:pymode_syntax_print_as_function = 1
-"
-" " Turn this on if you are having issues
-" "let g:pymode_debug=1
-" let g:pymode_debug = 0
-"
-" hi ColorColumn ctermbg=lightgrey guibg=lightgrey
-"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_javascript_checkers = ['eslint']
+
+" use python-mode checkers and integration instead
+" let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+
+let g:syntastic_python_checkers = ['flake8', 'python']
+
+"> Ale:-------------------------------------------------------------------{{{2
+let g:ale_linters = {'python': ['flake8']}
+
 "> Perl Support:----------------------------------------------------------{{{2
 
 let g:Perl_GlobalTemplateFile      =  $HOME.'/.vim/perl-support/templates/Templates'
