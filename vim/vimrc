@@ -190,6 +190,9 @@ let g:xml_use_xhtml=1
 let g:xml_syntax_folding = 1
 set foldlevelstart=99
 
+let g:markdown_folding = 1
+let g:markdown_enable_folding = 1
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
     " Enable file type detection.
