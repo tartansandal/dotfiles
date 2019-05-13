@@ -190,6 +190,9 @@ let g:xml_use_xhtml=1
 let g:xml_syntax_folding = 1
 set foldlevelstart=99
 
+let g:markdown_folding = 1
+let g:markdown_enable_folding = 1
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
     " Enable file type detection.
@@ -394,6 +397,7 @@ let NERDTreeIgnore=['\~$', '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize = 31
+let NERDTreeWinSizeMax = 93
 " directories first unless the have a .t suffix
 "let NERDTreeSortOrder = ['\(\.t\)\@<!\/$', '*', '\.swp$',  '\.bak$', '\~$']
 " directories first
