@@ -37,6 +37,11 @@ ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 ln -snf $base_dir/vim                  ~/.vim
 
+if [[ -d ~/.config/tilix/schemes/ ]]
+then
+    ln -sf  $base_dir/DirtySea.json        ~/.config/tilix/schemes/DirtySea.json
+fi
+
 if [[ `tmux -V | cut -f2 -d' '` > 2 ]]
 then
 	ln -sf  $base_dir/tmux2.conf            ~/.tmux.conf
