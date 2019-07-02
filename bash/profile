@@ -45,6 +45,8 @@ export LANG="en_AU.UTF-8"
 export LESS="-R"
 unset MAILCHECK
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
+## The following helps with anaconda interferring with gsettings
+export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
 if [[ -d ~/.local/lib/perl5 ]]
  then
