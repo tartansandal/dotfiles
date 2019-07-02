@@ -555,6 +555,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 " use python-mode checkers and integration instead
 " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 
+let g:syntastic_python_python_exec='/usr/bin/python3'
 let g:syntastic_python_checkers = ['flake8', 'python']
 
 "> Ale:-------------------------------------------------------------------{{{2
