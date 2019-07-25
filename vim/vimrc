@@ -142,6 +142,7 @@ set formatoptions+=l1nrcqj
 if &t_Co > 2
     syntax on
     colorscheme dirtysea
+    " colorscheme moonlight
     let c_comment_strings=1
     let g:onedark_termcolors=16
     if (has("termguicolors"))

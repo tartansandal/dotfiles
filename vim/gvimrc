@@ -9,6 +9,7 @@ set guioptions-=m
 colorscheme dirtysea
 "colorscheme onedark
 "colorscheme peaksea
+" colorscheme moonlight
 
 let c_comment_strings=1
 
