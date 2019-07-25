@@ -8,9 +8,9 @@ gu{motion} or {Visual}U  - localcase
 
 ## Personal Shortcuts
 
-For programming in Perl, the leader key '\' is a little problematic
+For programming in Perl, the leader key '\' is a little problematic,
+so we set mapping explict mapping for \$ \% and \@
 
-Set mapping explict mapping for \$ \% and \@
 For Python, this is less of an issue.
 
     \h - clear search highlighting
@@ -27,10 +27,14 @@ Could we integrate these with unimpaired?
     \g - open Fugitive Status
     \f - find buffer in NERDTree
 
-:Gundo ?
-
 \c - rpm spec changelog
 :W - write as root
+
+## YCM
+
+\jd  "jump" to definition
+\jk  "jump" to help
+\jr  "jumplist" of references
 
 ## Scrolling
 
@@ -176,33 +180,6 @@ ys{motion}X - you surround {motion} with X
 yS{motion}X - you surround {motion} with X indented on its own line
 
 SX - surround visual selction with X
-
-## Python
-
-K  - show doc
-\r - run
-\b - breakpoint
-
-### Refactoring
-:PymodeRopeNewProject
-
-<C-Space> - completion
-\pd    - show doc
-\pg    - goto definition
-
-
-\pr   - rename elt under cursor
-\po   - resolve imports for elt under cursor
-\pa   - insert import for elt under cursor
-
-\p1r  - rename current module/package
-\p1p  - convert current module to package
-
-\pm   - extract method from selected lines
-\pl   - extract variable from selected lines
-\pu   - use function
-\pv   - move method
-\ps   - change signature
 
 ## Ultisnips
 
