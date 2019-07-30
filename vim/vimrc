@@ -332,6 +332,9 @@ let g:loaded_AlignMapsPlugin = "v41"
 " Fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
+" Speed up diff by ignoring localisations
+let g:diff_translations = 0
+
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
 " let g:ycm_autoclose_preview_window_after_completion = 0
