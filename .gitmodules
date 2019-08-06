@@ -67,3 +67,6 @@
 [submodule "vim/bundle/sensible"]
 	path = vim/bundle/sensible
 	url = https://tpope.io/vim/sensible.git
+[submodule "vim/bundle/commentary"]
+	path = vim/bundle/commentary
+	url = https://tpope.io/vim/commentary.git
