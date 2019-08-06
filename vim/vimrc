@@ -1,6 +1,5 @@
-" load our plugin bundles using pathogen
+" Load our plugin bundles using pathogen
 
-"
 " To disable a plugin, add it's bundle name to the following list
 let g:pathogen_disabled = []
 
@@ -13,63 +12,68 @@ call pathogen#helptags()
 
 " General Settings:-------------------------------------------------------{{{1
 
-"------------------------------------------
-" Search:
-"------------------------------------------
-set incsearch
+" S: this indicates a setting covered by 'sensible'
 
 "------------------------------------------
-" Selection:
+" Formating and Motion:
 "------------------------------------------
+
+" S: set autoindent                   "Preserve current indent on new lines
+" S: set backspace=indent,eol,start   "Make backspaces delete sensibly
+" S: set smarttab
+
+set matchpairs+=<:>              "Allow % to bounce between angles too
+set textwidth=78                 "Wrap at this column
+set smartindent                  "smart autoindenting when starting a new line
+set tabstop=4                    "Indentation levels every four columns
+set shiftwidth=4                 "Indent/outdent by four columns
+set expandtab                    "Convert all tabs typed to spaces
+set shiftround                   "Indent/outdent to nearest tabstop
+
+" default is tcq. see 'help fo-table'
+set formatoptions+=l1nrcqj
+
+" Do not recognize octal numbers for Ctrl-A and Ctrl-X
+set nrformats-=octal
+
 set virtualedit=block
+"set virtualedit=insert
+"set virtualedit=all
 
-" share default yank location between vim sessions
+set whichwrap+=<>[] " left arrow traverses the begining of the line
+
+" Share default yank location between vim sessions
 set clipboard=unnamedplus
 
 " may need this for paste in a terminal
 " NB dont set paste in vimrc since that will override you expandtab setting
 set pastetoggle=<F2>
 
+set spelllang=en_au
+set printoptions=paper:A4,formfeed:y
+" S: set ttimeout		    " time out for key codes
+" S: set ttimeoutlen=100	" wait up to 100ms after Esc for special key
+
 "------------------------------------------
-" Completion: ( does this replace supertab?)
+" Completion:
 "------------------------------------------
 
-" FIXME how does this interact with YoucompleteMe?
+" None of this works with YoucompleteMe?
 
-set complete -=i " dont search included files
+" S: set complete -=i " dont search included files
 
-set omnifunc=syntaxcomplete#Complete
-
-set wildmenu
+"set wildmenu
+"set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
-set wildmode=list:longest
+"set wildmode=list:longest
 
 " ignore files we will never want to edit
-set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
-set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
-
-set whichwrap+=<>[] " left arrow traverses the begining of the line
+"set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
+"set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
 
 "------------------------------------------
-"" Mouse:
-"------------------------------------------
-set mousehide
-set mousemodel=popup_setpos
-set mouse=a
-
-"------------------------------------------
-"" Spelling:
-"------------------------------------------
-set spelllang=en_au
-
-"------------------------------------------
-"" Printing:
-"------------------------------------------
-set printoptions=paper:A4,formfeed:y
-
-"------------------------------------------
-"" Windows:
+"" Display:
 "------------------------------------------
 
 "> Set the satus line to display:
@@ -79,71 +83,60 @@ set printoptions=paper:A4,formfeed:y
 "-  [+/-]       : modified flag
 "-  [RO]        : readonly flag
 "-  [Preview]   : preview window flag
-"-  [filetype]  : type of file in the buffer
+"-  [Quickfix/LocationList]
+"-  [filetype]
 "-  [git branch]
 "- aligned right
 "-  L,C-V       : line, column, and virtual column numbers
+"-  "spell"
 "-  P%      : % through the file of displayed window
 " set statusline=[%n]\ %<%f\ %h%m%r%w%y%=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
 
-set statusline=%<%f\ %h%m%r%w%y\ %{fugitive#statusline()}\ %=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
-set noruler         " show the cursor position all the time
-set noshowcmd       " don't display incomplete commands
+set statusline=%<%f\ %m%r%w%y%q\ %{fugitive#statusline()}\ %=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
+
+" set noruler " not needed with custom statusline
+
 set cmdheight=1     " 2 lines for command buffer
 set laststatus=2    " always display status bar
+set showcmd         " display incomplete commands
 
-set helpheight=30   " default height of the help window
-set scrolloff=3     " always show 3 lines of context when scrolling
+" S: set scrolloff=5     " always show 5 lines of context when scrolling
+" S: set sidescrolloff=5     " keep at least 5 columns of context to either side
 
-" the following only have effect when nowrap is set
-set sidescroll=1        " scroll at least 5 columns if we side scroll
-set sidescrolloff=5     " keep at least 5 columns of context to either side
-set listchars+=precedes:<,extends:>
+" Use '" to go to last cursor postion
+"
+" augroup vimrcWindows
+"     " remove all commands for the group current
+"     autocmd!
+"
+"     " When editing a file, always jump to the last known cursor position.
+"     " Don't do it when the position is invalid or when inside an event
+"     " handler (happens when dropping a file on gvim).
+"     autocmd BufReadPost *
+"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"                 \   exe "normal g`\"" |
+"                 \ endif
+" augroup END
 
-set previewheight=10    " default height for the quickfix windows
+set foldlevelstart=99
+set incsearch
 
-augroup vimrcWindows
-    " remove all commands for the group current
-    autocmd!
-
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event
-    " handler (happens when dropping a file on gvim).
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal g`\"" |
-                \ endif
-augroup END
-
-"------------------------------------------
-" Formating:
-"------------------------------------------
-
-set textwidth=78                 "Wrap at this column
-set autoindent                   "Preserve current indent on new lines
-set smartindent                  "smart autoindenting when starting a new line
-set tabstop=4                    "Indentation levels every four columns
-set shiftwidth=4                 "Indent/outdent by four columns
-set expandtab                    "Convert all tabs typed to spaces
-set shiftround                   "Indent/outdent to nearest tabstop
-
-set backspace=indent,eol,start   "Make backspaces delete sensibly
-set matchpairs+=<:>              "Allow % to bounce between angles too
-
-" default is tcq. see 'help fo-table'
-set formatoptions+=l1nrcqj
-
-"------------------------------------------
-" Syntax Highlighting:
-"------------------------------------------
+if has('mouse')
+    set mousehide
+    set mousemodel=popup_setpos
+    set mouse=a
+endif
 
 " Only switch on syntax highlighting on, when the terminal has colors
 " This must come before filetype detection for some reason
-if &t_Co > 2
+if &t_Co > 2 || has("gui_running")
     syntax on
     colorscheme dirtysea
     " colorscheme moonlight
+
+    " hightlight strings in C comments
     let c_comment_strings=1
+
     let g:onedark_termcolors=16
     if (has("termguicolors"))
         set termguicolors
@@ -154,8 +147,7 @@ endif
 " Files:
 " -----------------
 
-set encoding=utf8
-set autoread            " re-read open files when changed outside Vim
+" S: set autoread       " re-read open files when changed outside Vim
 set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
@@ -174,7 +166,7 @@ set undoreload=1000   "maximum number lines to save for undo on a buffer reload
 
 set cryptmethod=blowfish  " use stronger encryption by default
 
-set noswapfile  " swapfiles to be an anoyance since I save often
+set noswapfile  " swapfiles an anoyance since I save often
 
 " write readonly file as root
 command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
@@ -187,13 +179,6 @@ set grepformat^=%f:%l:%c:%m
 " File Types:
 "------------------------------------------
 
-let g:xml_use_xhtml=1
-let g:xml_syntax_folding = 1
-set foldlevelstart=99
-
-let g:markdown_folding = 1
-let g:markdown_enable_folding = 1
-
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
     " Enable file type detection.
@@ -205,6 +190,12 @@ if has("autocmd")
         \ set textwidth=79      " PEP-8 Friendly
         \ set foldmethod=indent " PEP-8 Friendly
 endif
+
+let g:xml_use_xhtml=1
+let g:xml_syntax_folding = 1
+
+let g:markdown_folding = 1
+let g:markdown_enable_folding = 1
 
 " See ft_sql.vim
 let g:sql_type_default = "mysql"
@@ -227,11 +218,28 @@ function! InsertIPythonEmbed()
 endfunction
 noremap <silent> <leader>e :call InsertIPythonEmbed()<CR>
 
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" Revert with: ":delcommand DiffOrig".
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
 " Key Mapping:------------------------------------------------------------{{{1
 
 " use Emacs style indent command
 noremap  <C-\>      :call MyBufExplorer()<CR>
 inoremap <C-\> <Esc>:call MyBufExplorer()<CR>
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
 
 "> Leader Keys:-----------------------------------------------------------{{{2
 
@@ -336,6 +344,41 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 let g:diff_translations = 0
 
 " YouCompleteMe
+let g:ycm_min_num_of_chars_for_completion = 2       " Default
+let g:ycm_min_num_identifier_candidate_chars = 0    " Default
+let g:ycm_max_num_candidates = 50                   " Default for semantic completion
+let g:ycm_max_num_identifier_candidates = 10        " Default for identifier completion
+let g:ycm_auto_trigger = 1                          " Default
+let g:ycm_filetype_whitelist = {'*': 1}             " Default
+
+" Default
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar': 1,
+      \ 'notes': 1,
+      \ 'markdown': 1,
+      \ 'netrw': 1,
+      \ 'unite': 1,
+      \ 'text': 1,
+      \ 'vimwiki': 1,
+      \ 'pandoc': 1,
+      \ 'infolog': 1,
+      \ 'mail': 1
+      \}
+
+" Default
+let g:ycm_filetype_specific_completion_to_disable = {
+      \ 'gitcommit': 1
+      \}
+
+" Default
+let g:ycm_filepath_blacklist = {
+      \ 'html': 1,
+      \ 'jsx': 1,
+      \ 'xml': 1,
+      \}
+
+let g:ycm_show_diagnostics_ui = 0    " Default 1
+
 let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
 " let g:ycm_autoclose_preview_window_after_completion = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1

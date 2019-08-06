@@ -5,6 +5,11 @@ set guioptions-=L
 set guioptions-=r
 set guioptions-=m
 
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries.
+if has('win32')
+  set guioptions-=t
+endif
+
 "colorscheme dirtylooks
 colorscheme dirtysea
 "colorscheme onedark
