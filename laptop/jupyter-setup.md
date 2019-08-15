@@ -1,4 +1,4 @@
-pacakges required for pdf printing
+# pacakges required for pdf printing
 
 texlive-latex
 texlive-adjustbox
@@ -13,3 +13,9 @@ texlive-mathpazo
 texlive-gsftopk
 texlive-updmap-map
 texlive-bibtex
+
+# for code formating
+conda install -c conda-forge black
+jupyter labextension install @ryantam626/jupyterlab_code_formatter
+conda install -c conda-forge jupyterlab_code_formatter
+jupyter serverextension enable --py jupyterlab_code_formatter
