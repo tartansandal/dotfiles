@@ -43,9 +43,9 @@ then
     alias rm='rm -I'
     alias ff='firefox'
     alias lo='libreoffice'
-    alias powertop='sudo powertop'
+    alias jl='jupyter lab'
+    alias jn='jl'
 
-    alias docker='sudo docker'
 
 	# this pydoc works in venvs too
 	alias pydoc='python -m pydoc'
@@ -174,4 +174,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
