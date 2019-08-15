@@ -1,14 +1,36 @@
 " Load our plugin bundles using pathogen
 
-" To disable a plugin, add it's bundle name to the following list
-let g:pathogen_disabled = []
+call plug#begin('~/.vim/plugged')
 
-if v:version < 704 || (v:version == 704 && !has( 'patch1578' ))
-    call add(g:pathogen_disabled, 'YouCompleteMe')
-endif
+Plug 'vim-scripts/mru.vim'
+Plug 'vim-scripts/Align'
+Plug 'vim-scripts/bufexplorer.zip'
 
-call pathogen#infect()
-call pathogen#helptags()
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/syntastic'
+
+Plug 'majutsushi/tagbar'
+Plug 'jacquesbh/vim-showmarks'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'adelarsq/vim-matchit'
+
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
+
+Plug 'Chiel92/vim-autoformat'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+
+call plug#end()
 
 " General Settings:-------------------------------------------------------{{{1
 
