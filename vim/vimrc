@@ -3,8 +3,11 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-scripts/mru.vim'
-Plug 'vim-scripts/Align'
 Plug 'vim-scripts/bufexplorer.zip'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+Plug 'junegunn/vim-easy-align'
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -14,10 +17,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 
-Plug 'majutsushi/tagbar'
 Plug 'jacquesbh/vim-showmarks'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'ntpeters/vim-better-whitespace'
