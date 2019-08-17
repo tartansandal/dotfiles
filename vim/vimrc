@@ -2,13 +2,18 @@
 
 call plug#begin('~/.vim/plugged')
 
+" For easy access to docs
+Plug 'junegunn/vim-plug'
+
 Plug 'vim-scripts/mru.vim'
 Plug 'vim-scripts/bufexplorer.zip'
+
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 
+" Tim is the God of Vim
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -24,12 +29,32 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'adelarsq/vim-matchit'
 
+" Javascript
 Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript'
 
+" Code formating
 Plug 'Chiel92/vim-autoformat'
+
+" Asyncronous completion
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+
+" Zeal for online help
+Plug 'KabbAmine/zeavim.vim'
+
+" Web lookup for online help
+Plug 'keith/investigate.vim'
+
+" Snippets for faster editing
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" Editable quickfix list
+Plug 'Olical/vim-enmasse'
+
+" Asyncronous (on-the-fly) linting
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -85,7 +110,7 @@ set printoptions=paper:A4,formfeed:y
 
 " S: set complete -=i " dont search included files
 
-"set wildmenu
+" S: set wildmenu
 "set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
@@ -170,6 +195,7 @@ endif
 " Files:
 " -----------------
 
+set path+=**            " search for files recursively
 " S: set autoread       " re-read open files when changed outside Vim
 set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
@@ -197,6 +223,9 @@ command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " use rg for gr[ep]
 set grepprg=rg\ --vimgrep\ --max-columns\ 160\ --max-filesize\ 1M
 set grepformat^=%f:%l:%c:%m
+
+" Speed up diff by ignoring localisations
+let g:diff_translations = 0
 
 "------------------------------------------
 " File Types:
@@ -281,7 +310,7 @@ noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
 noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
 noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
 
-" same key bindings as EasyGrep
+" Same key bindings as EasyGrep
 noremap <silent> <leader>vv :grep! -w <cword><CR>
 noremap <silent> <leader>vV :grep! -w <cWORD><CR>
 noremap <silent> <leader>vf :grep! <cfile><CR>
@@ -349,6 +378,11 @@ endif
 " Plugin Settings:--------------------------------------------------------{{{1
 
 "> Misc:------------------------------------------------------------------{{{2
+let g:UltiSnipsEditSplit='context'
+
+let g:zv_zeal_executable = '/usr/bin/zeal'
+let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
+
 " Better Whitespace
 let g:better_whitespace_enabled = 1
 let g:strip_whitespace_on_save = 1
@@ -357,14 +391,8 @@ let g:strip_whitelines_at_eof = 1
 let g:strip_only_modified_lines = 0
 "let g:better_whitespace_filetypes_blacklist = ['python']
 
-" dont load these
-let g:loaded_AlignMapsPlugin = "v41"
-
 " Fugitive
 autocmd BufReadPost fugitive://* set bufhidden=delete
-
-" Speed up diff by ignoring localisations
-let g:diff_translations = 0
 
 " YouCompleteMe
 let g:ycm_min_num_of_chars_for_completion = 2       " Default
