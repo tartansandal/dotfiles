@@ -1,6 +1,5 @@
-" Load our plugin bundles using pathogen
-
-call plug#begin('~/.vim/plugged')
+" Load our plugin bundles
+call plug#begin('~/.vim/bundles')
 
 " For easy access to docs
 Plug 'junegunn/vim-plug'
@@ -288,102 +287,6 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-" Key Mapping:------------------------------------------------------------{{{1
-
-" use Emacs style indent command
-noremap  <C-\>      :call MyBufExplorer()<CR>
-inoremap <C-\> <Esc>:call MyBufExplorer()<CR>
-
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-" Revert with ":iunmap <C-U>".
-inoremap <C-U> <C-G>u<C-U>
-
-"> Leader Keys:-----------------------------------------------------------{{{2
-
-noremap <silent> <leader>a :Autoformat<CR>
-noremap <silent> <leader>o :only<CR>
-noremap <silent> <leader>h :nohlsearch<CR>
-noremap <silent> <leader>g :Gstatus<CR>
-noremap <silent> <leader>f :NERDTreeFind<CR>
-
-noremap <silent> <leader>m :call MyMRU()<CR>
-noremap <silent> <leader>t :call MyTagbarToggle()<CR>
-noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
-
-" YouCompleteMe
-noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
-noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
-noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
-
-" Same key bindings as EasyGrep
-noremap <silent> <leader>vv :grep! -w <cword><CR>
-noremap <silent> <leader>vV :grep! -w <cWORD><CR>
-noremap <silent> <leader>vf :grep! <cfile><CR>
-
-noremap <space> za
-
-"> Cursor Keys:-----------------------------------------------------------{{{2
-
-" use shift + arrrow key to move between windows
-nmap <S-Down>   <C-w>j
-nmap <S-Up>     <C-w>k
-nmap <S-Right>  <C-w>l
-nmap <S-Left>   <C-w>h
-
-imap <S-Down>   <C-o><C-w>j
-imap <S-Up>     <C-o><C-w>k
-imap <S-Right>  <C-o><C-w>l
-imap <S-Left>   <C-o><C-w>h
-
-" use control + arrow key to move between tabs
-nmap <C-Right>       :tabnext<CR>
-imap <C-Right>  <C-o>:tabnext<CR>
-nmap <C-Left>        :tabprevious<CR>
-imap <C-Left>   <C-o>:tabprevious<CR>
-
-" disable arrow keys in normal mode to improve my typing
-" noremap <Up>    <nop>
-" noremap <Down>  <nop>
-" noremap <Left>  <nop>
-" noremap <right> <nop>
-
-if &term =~ 'xterm.*'
-    " remap these from the terminal codes
-    map <Esc>O1;2A <S-Up>
-    map <Esc>O1;2B <S-Down>
-    map <Esc>O1;2C <S-Right>
-    map <Esc>O1;2D <S-Left>
-    map <Esc>O1;3A <A-Up>
-    map <Esc>O1;3B <A-Down>
-    map <Esc>O1;3C <A-Right>
-    map <Esc>O1;3D <A-Left>
-    map <Esc>O1;5A <C-Up>
-    map <Esc>O1;5B <C-Down>
-    map <Esc>O1;5C <C-Right>
-    map <Esc>O1;5D <C-Left>
-
-    imap <Esc>O1;2A <S-Up>
-    imap <Esc>O1;2B <S-Down>
-    imap <Esc>O1;2C <S-Right>
-    imap <Esc>O1;2D <S-Left>
-    imap <Esc>O1;3A <A-Up>
-    imap <Esc>O1;3B <A-Down>
-    imap <Esc>O1;3C <A-Right>
-    imap <Esc>O1;3D <A-Left>
-    imap <Esc>O1;5A <C-Up>
-    imap <Esc>O1;5B <C-Down>
-    imap <Esc>O1;3C <A-Right>
-    imap <Esc>O1;3D <A-Left>
-    imap <Esc>O1;5A <C-Up>
-    imap <Esc>O1;5B <C-Down>
-    imap <Esc>O1;5C <C-Right>
-    imap <Esc>O1;5D <C-Left>
-endif
-
 " Plugin Settings:--------------------------------------------------------{{{1
 
 "> Misc:------------------------------------------------------------------{{{2
@@ -408,6 +311,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsEditSplit='context'
 let g:UltiSnipsEnableSnipMate = 0
 let g:ultisnips_python_style = 'google'
+let g:UltiSnipsSnippetDirectories = ['~/.vim/MyUltiSnips']
 
 let g:zv_zeal_executable = '/usr/bin/zeal'
 let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
@@ -744,3 +648,98 @@ let g:changelog_date_end_entry_search = '^\s*$'
 "}}}
 "
 " vim: foldmethod=marker foldlevel=999
+" Key Mapping:------------------------------------------------------------{{{1
+
+" use Emacs style indent command
+noremap  <C-\>      :call MyBufExplorer()<CR>
+inoremap <C-\> <Esc>:call MyBufExplorer()<CR>
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
+
+"> Leader Keys:-----------------------------------------------------------{{{2
+
+noremap <silent> <leader>a :Autoformat<CR>
+noremap <silent> <leader>o :only<CR>
+noremap <silent> <leader>h :nohlsearch<CR>
+noremap <silent> <leader>g :Gstatus<CR>
+noremap <silent> <leader>f :NERDTreeFind<CR>
+
+noremap <silent> <leader>m :call MyMRU()<CR>
+noremap <silent> <leader>t :call MyTagbarToggle()<CR>
+noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
+
+" YouCompleteMe
+noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
+noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
+noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
+
+" Same key bindings as EasyGrep
+noremap <silent> <leader>vv :grep! -w <cword><CR>
+noremap <silent> <leader>vV :grep! -w <cWORD><CR>
+noremap <silent> <leader>vf :grep! <cfile><CR>
+
+noremap <space> za
+
+"> Cursor Keys:-----------------------------------------------------------{{{2
+
+" use shift + arrrow key to move between windows
+nmap <S-Down>   <C-w>j
+nmap <S-Up>     <C-w>k
+nmap <S-Right>  <C-w>l
+nmap <S-Left>   <C-w>h
+
+imap <S-Down>   <C-o><C-w>j
+imap <S-Up>     <C-o><C-w>k
+imap <S-Right>  <C-o><C-w>l
+imap <S-Left>   <C-o><C-w>h
+
+" use control + arrow key to move between tabs
+nmap <C-Right>       :tabnext<CR>
+imap <C-Right>  <C-o>:tabnext<CR>
+nmap <C-Left>        :tabprevious<CR>
+imap <C-Left>   <C-o>:tabprevious<CR>
+
+" disable arrow keys in normal mode to improve my typing
+" noremap <Up>    <nop>
+" noremap <Down>  <nop>
+" noremap <Left>  <nop>
+" noremap <right> <nop>
+
+if &term =~ 'xterm.*'
+    " remap these from the terminal codes
+    map <Esc>O1;2A <S-Up>
+    map <Esc>O1;2B <S-Down>
+    map <Esc>O1;2C <S-Right>
+    map <Esc>O1;2D <S-Left>
+    map <Esc>O1;3A <A-Up>
+    map <Esc>O1;3B <A-Down>
+    map <Esc>O1;3C <A-Right>
+    map <Esc>O1;3D <A-Left>
+    map <Esc>O1;5A <C-Up>
+    map <Esc>O1;5B <C-Down>
+    map <Esc>O1;5C <C-Right>
+    map <Esc>O1;5D <C-Left>
+
+    imap <Esc>O1;2A <S-Up>
+    imap <Esc>O1;2B <S-Down>
+    imap <Esc>O1;2C <S-Right>
+    imap <Esc>O1;2D <S-Left>
+    imap <Esc>O1;3A <A-Up>
+    imap <Esc>O1;3B <A-Down>
+    imap <Esc>O1;3C <A-Right>
+    imap <Esc>O1;3D <A-Left>
+    imap <Esc>O1;5A <C-Up>
+    imap <Esc>O1;5B <C-Down>
+    imap <Esc>O1;3C <A-Right>
+    imap <Esc>O1;3D <A-Left>
+    imap <Esc>O1;5A <C-Up>
+    imap <Esc>O1;5B <C-Down>
+    imap <Esc>O1;5C <C-Right>
+    imap <Esc>O1;5D <C-Left>
+endif
