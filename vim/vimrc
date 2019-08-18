@@ -104,23 +104,27 @@ set printoptions=paper:A4,formfeed:y
 " S: set ttimeout		    " time out for key codes
 " S: set ttimeoutlen=100	" wait up to 100ms after Esc for special key
 
+set textwidth=88
+set colorcolumn=+1
+
 "------------------------------------------
 " Completion:
 "------------------------------------------
 
-" None of this works with YoucompleteMe?
-
 " S: set complete -=i " dont search included files
 
 " S: set wildmenu
-"set omnifunc=syntaxcomplete#Complete
+set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
-"set wildmode=list:longest
+set wildmode=list:longest
 
 " ignore files we will never want to edit
-"set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
-"set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
+set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
+set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
 
 "------------------------------------------
 "" Display:
@@ -228,6 +232,9 @@ set grepformat^=%f:%l:%c:%m
 
 " Speed up diff by ignoring localisations
 let g:diff_translations = 0
+
+" Always use vertical diffs
+set diffopt+=vertical
 
 "------------------------------------------
 " File Types:
