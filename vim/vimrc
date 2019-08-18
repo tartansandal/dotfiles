@@ -113,10 +113,11 @@ set colorcolumn=+1
 " S: set complete -=i " dont search included files
 
 " S: set wildmenu
-set omnifunc=syntaxcomplete#Complete
+" set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
-set wildmode=list:longest
+" This conflicts with statusline display
+" set wildmode=list:longest
 
 " ignore files we will never want to edit
 set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
@@ -311,7 +312,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsEditSplit='context'
 let g:UltiSnipsEnableSnipMate = 0
 let g:ultisnips_python_style = 'google'
-let g:UltiSnipsSnippetDirectories = ['~/.vim/MyUltiSnips']
+let g:UltiSnipsSnippetDir = '~/.vim/MyUltiSnips'
 
 let g:zv_zeal_executable = '/usr/bin/zeal'
 let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
