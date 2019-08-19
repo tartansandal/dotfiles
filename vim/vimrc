@@ -1,3 +1,4 @@
+" Pluggins {{{1
 " Load our plugin bundles
 call plug#begin('~/.vim/bundles')
 
@@ -20,6 +21,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-dispatch'
 
 " Plug 'scrooloose/syntastic'
 
@@ -56,6 +58,9 @@ Plug 'Olical/vim-enmasse'
 Plug 'dense-analysis/ale'
 
 Plug 'itchyny/lightline.vim'
+
+" Running tests frm current buffer
+Plug 'janko-m/vim-test'
 
 call plug#end()
 
@@ -291,6 +296,10 @@ endif
 " Plugin Settings:--------------------------------------------------------{{{1
 
 "> Misc:------------------------------------------------------------------{{{2
+
+" vim-test
+let test#strategy = 'make'
+
 " lightline
 set noshowmode
 let g:lightline = {
@@ -314,7 +323,7 @@ let g:UltiSnipsEnableSnipMate = 0
 let g:ultisnips_python_style = 'google'
 let g:UltiSnipsSnippetDir = '~/.vim/MyUltiSnips'
 
-let g:zv_zeal_executable = '/usr/bin/zeal'
+let g:zv_zeal_executable = $HOME . '/bin/zeal'
 let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
 
 " Better Whitespace
@@ -546,7 +555,7 @@ endfunction
 
 "> MRU:-------------------------------------------------------------------{{{2
 
-let MRU_File = '~/.vim_mru_files'
+let MRU_File = $HOME . '/.vim_mru_files'
 let MRU_Exclude_Files = 'COMMIT_EDITMSG'
 let MRU_Max_Entries = 20
 let MRU_Auto_Close = 1
@@ -650,7 +659,6 @@ let g:changelog_date_end_entry_search = '^\s*$'
 
 "}}}
 "
-" vim: foldmethod=marker foldlevel=999
 " Key Mapping:------------------------------------------------------------{{{1
 
 " use Emacs style indent command
@@ -746,3 +754,5 @@ if &term =~ 'xterm.*'
     imap <Esc>O1;5C <C-Right>
     imap <Esc>O1;5D <C-Left>
 endif
+
+" vim: foldmethod=marker foldlevel=999
