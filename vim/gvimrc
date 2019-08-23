@@ -40,7 +40,7 @@ nnoremap <A-+> :call MyGuiFontSizeInc()<CR>
 nnoremap <A-_> :call MyGuiFontSizeDec()<CR>
 nnoremap <A-)> :call MyGuiFontSizeReset()<CR>
 
-set cmdheight=2                       " Make command line two lines high
+set cmdheight=2  " Can help with spurious "hit-enter" prompts
 
 " define taglist highlighting groups
 highlight default link MyTagListTagName Search
