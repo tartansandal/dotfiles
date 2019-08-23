@@ -49,7 +49,7 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
 if [[ -d ~/.local/lib/perl5 ]]
- then
+then
     export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local";
     export PERL_MB_OPT="--install_base ~/.local";
     export PERL_MM_OPT="INSTALL_BASE=~/.local";
@@ -57,12 +57,12 @@ if [[ -d ~/.local/lib/perl5 ]]
 fi
 
 if [[ -d ~/.local/lib/python ]]
- then
+then
     export PYTHONPATH=~/.local/lib/python
 fi
 
 if [[ -d ~/.local/lib/node_modules ]]
- then
+then
     # setup a localized global environment
     export npm_config_prefix=~/.local
     export NODE_PATH=~/.local/lib/node_modules
@@ -88,8 +88,15 @@ then
 	source $HOME/.local/lib/google-cloud-sdk/completion.bash.inc
 	source $HOME/.local/lib/google-cloud-sdk/path.bash.inc
 fi
+if [ -d ~/.texlive2019 ]
+then
+    export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH.
+    export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH.
+    export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
+fi
 
 # Get the aliases and functions
-if [ -f ~/.bashrc ]; then
+if [ -f ~/.bashrc ]
+then
 	. ~/.bashrc
 fi
