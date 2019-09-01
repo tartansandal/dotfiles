@@ -90,8 +90,8 @@ then
 fi
 if [ -d ~/.texlive2019 ]
 then
-    export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH.
-    export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH.
+    export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH
+    export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH
     export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
 fi
 
