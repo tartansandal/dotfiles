@@ -7,6 +7,8 @@ doc/tags-ja
 env
 venv
 venv-*
+venv2
+venv3
 __pycache__
 tmp
 package-lock.json
