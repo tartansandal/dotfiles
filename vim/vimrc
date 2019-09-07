@@ -1,3 +1,8 @@
+"" Personal VIM set up
+
+set encoding=utf-8
+scriptencoding utf-8
+
 " Pluggins {{{1
 " Load our plugin bundles
 call plug#begin('~/.vim/bundles')
@@ -55,6 +60,9 @@ Plug 'honza/vim-snippets'
 Plug 'Olical/vim-enmasse'
 
 " Asyncronous (on-the-fly) linting
+
+let g:ale_lint_on_text_changed=0
+let g:ale_lint_on_insert_leave=1
 Plug 'dense-analysis/ale'
 
 Plug 'itchyny/lightline.vim'
@@ -188,7 +196,7 @@ endif
 
 " Only switch on syntax highlighting on, when the terminal has colors
 " This must come before filetype detection for some reason
-if &t_Co > 2 || has("gui_running")
+if &t_Co > 2 || has('gui_running')
     syntax on
     colorscheme dirtysea
     " colorscheme moonlight
@@ -197,7 +205,7 @@ if &t_Co > 2 || has("gui_running")
     let c_comment_strings=1
 
     let g:onedark_termcolors=16
-    if (has("termguicolors"))
+    if (has('termguicolors'))
         set termguicolors
     endif
 endif
@@ -212,7 +220,6 @@ set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
 set fileformat=unix
-set encoding=utf-8
 
 " keep backups under ~/tmp
 set backup          " keep a backup file
@@ -246,15 +253,21 @@ set diffopt+=vertical
 "------------------------------------------
 
 " Only do this part when compiled with support for autocommands.
-if has("autocmd")
+if has('autocmd')
     " Enable file type detection.
     " Also load indent files, to automatically do language-dependent indenting
     " All filetype specific settings go in .vim/ftplugin/
     filetype plugin indent on
-    autocmd BufRead,BufNewFile *.pg setfiletype sql
-    autocmd FileType python
-        \ set textwidth=79      " PEP-8 Friendly
-        \ set foldmethod=indent " PEP-8 Friendly
+    augroup postgresql
+        autocmd!
+        autocmd BufRead,BufNewFile *.pg setfiletype sql
+    augroup END
+    augroup python
+        autocmd!
+        autocmd FileType python
+            \ set textwidth=79      " PEP-8 Friendly
+            \ set foldmethod=indent " PEP-8 Friendly
+    augroup END
 endif
 
 let g:xml_use_xhtml=1
@@ -264,21 +277,21 @@ let g:markdown_folding = 1
 let g:markdown_enable_folding = 1
 
 " See ft_sql.vim
-let g:sql_type_default = "mysql"
+let g:sql_type_default = 'mysql'
 
 " want this abbreviation, but just for python mode
 " ab ip import ipdb; ipdb.set_trace()
 " of perhaps just a <leader> keymap
 
 function! InsertBreakPoint()
-    if &filetype == 'python'
+    if &filetype ==? 'python'
         normal! Oimport ipdb; ipdb.set_trace()  # noqa XXX
     endif
 endfunction
 noremap <silent> <leader>b :call InsertBreakPoint()<CR>
 
 function! InsertIPythonEmbed()
-    if &filetype == 'python'
+    if &filetype ==? 'python'
         normal! Oimport IPython; IPython.embed()  # noqa XXX
     endif
 endfunction
@@ -288,7 +301,7 @@ noremap <silent> <leader>e :call InsertIPythonEmbed()<CR>
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
-if !exists(":DiffOrig")
+if !exists(':DiffOrig')
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 		  \ | wincmd p | diffthis
 endif
@@ -335,7 +348,10 @@ let g:strip_only_modified_lines = 0
 "let g:better_whitespace_filetypes_blacklist = ['python']
 
 " Fugitive
-autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup fugitive
+    autocmd!
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
 
 " YouCompleteMe
 let g:ycm_min_num_of_chars_for_completion = 2       " Default
@@ -401,22 +417,22 @@ let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
 
 function! MyCycleNextLine()
     if getline('.') == getline('$')
-        normal gg
+        :1
     else
-        normal j
+        :+
     endif
 endfunction
 
 function! MyBufExplorer()
     silent! NERDTreeClose
     silent! TagbarClose
-    if bufname('') == ''
+    if bufname('') ==? ''
         :MRU
         setlocal cursorline
     else
         :BufExplorerHorizontalSplit
         :call BufExplorer_ReSize()
-        normal j
+        :+
     endif
     nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
     nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
@@ -447,8 +463,8 @@ let NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 let NERDTreeWinPos = 'right'
 
 function! MyNERDTreeToggle ()
-    if bufname("%") == '__MRU_Files__' || bufname("%") == '[BufExplorer]'
-        normal q
+    if bufname('%') ==# '__MRU_Files__' || bufname('%') ==? '[BufExplorer]'
+        quit
     endif
     silent! TagbarClose
     silent NERDTreeToggle
@@ -546,8 +562,8 @@ let g:tagbar_type_tt2html = {
             \}
 
 function! MyTagbarToggle ()
-    if bufname("%") == '__MRU_Files__' || bufname("%") == '[BufExplorer]'
-        normal q
+    if bufname('%') ==# '__MRU_Files__' || bufname('%') ==# '[BufExplorer]'
+        quit
     endif
     silent! NERDTreeClose
     silent TagbarToggle
@@ -562,11 +578,11 @@ let MRU_Auto_Close = 1
 let MRU_Add_Menu = 0
 
 function! MyMRU ()
-    if bufname("%") == '__MRU_Files__'
-        normal q
+    if bufname('%') ==# '__MRU_Files__'
+        quit
     else
         " skip to prev window if current buffer has a type
-        if &buftype != ''
+        if &buftype !=? ''
             wincmd p
         endif
         MRU
@@ -602,8 +618,8 @@ let g:syntastic_python_python_exec='/usr/bin/python3'
 let g:syntastic_python_checkers = ['flake8', 'python']
 
 "> Ale:-------------------------------------------------------------------{{{2
+"" These get merged with the global list
 let g:ale_linters = {'python': ['flake8']}
-let g:ale_sign_column_always = 1
 
 "> Perl Support:----------------------------------------------------------{{{2
 
@@ -622,20 +638,20 @@ let g:Perl_GuiTemplateBrowser      = 'commandline'
 
 let g:Perl_PerlModuleList          = $HOME.'/.vim/perl-support/modules/perl-modules.list'
 let g:Perl_PerlModuleListGenerator = $HOME.'/.vim/perl-support/scripts/pmdesc3.pl'
-let g:Perl_OutputGvim              = "vim"
-let g:Perl_XtermDefaults           = "-fa courier -fs 12 -geometry 80x24"
-let g:Perl_Debugger                = "perl"
+let g:Perl_OutputGvim              = 'vim'
+let g:Perl_XtermDefaults           = '-fa courier -fs 12 -geometry 80x24'
+let g:Perl_Debugger                = 'perl'
 let g:Perl_TimestampFormat         = '%Y%m%d %H%M%S'
 let g:Perl_FormatDate              = '%F'
 let g:Perl_FormatTime              = '%H:%M'
 let g:Perl_FormatYear              = 'year %Y'
 
 let g:Perl_LineEndCommColDefault   = 49
-let g:Perl_PodcheckerWarnings      = "yes"
+let g:Perl_PodcheckerWarnings      = 'yes'
 let g:Perl_Printheader             = "%<%f%h%m%<  %=%{strftime('%x %X')}     Page %N"
 let g:Perl_PerlcriticSeverity      = 5
 let g:Perl_PerlcriticVerbosity     = 5
-let g:Perl_PerlcriticOptions       = ""
+let g:Perl_PerlcriticOptions       = ''
 let g:Perl_PerlRegexSubstitution   = '$+'
 let g:Perl_NYTProf_html            = 'no'
 let g:Perl_NYTProf_browser         = 'firefox'
@@ -649,9 +665,11 @@ inoremap <silent> <leader>% \%
 inoremap <silent> <leader>& \&
 
 "> RPM-SPEC:--------------------------------------------------------------{{{2
-
-au FileType spec map <buffer> <LocalLeader>c <Plug>SpecChangelog
-let spec_chglog_format = "%a %b %d %Y Kahlil (Kal) Hodgson <kahlil.hodgson999@gmail.com>"
+augroup specfile
+    autocmd!
+    autocmd FileType spec map <buffer> <LocalLeader>c <Plug>SpecChangelog
+augroup END
+let spec_chglog_format = '%a %b %d %Y Kahlil (Kal) Hodgson <kahlil.hodgson999@gmail.com>'
 let spec_chglog_prepend = 1
 let spec_chglog_release_info = 0
 let spec_chglog_never_increase_release = 0
@@ -722,7 +740,7 @@ imap <C-Left>   <C-o>:tabprevious<CR>
 " noremap <Left>  <nop>
 " noremap <right> <nop>
 
-if &term =~ 'xterm.*'
+if &term =~? 'xterm.*'
     " remap these from the terminal codes
     map <Esc>O1;2A <S-Up>
     map <Esc>O1;2B <S-Down>
