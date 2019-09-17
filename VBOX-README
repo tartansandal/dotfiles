@@ -1,0 +1,11 @@
+For VirtualBox-6.0 you have to set the following in /etc/defaults/virtualbox:
+
+	# Hack for non-Debian signed modules
+	export DEB_KEY_ENROLLED=true
+	unset HAVE_SEC_BOOT
+
+then run the following (unusual) sequence
+
+	sudo /usr/lib/virtualbox/vboxdrv.sh setup  # ignore failure
+	sudo ./resign-modules.sh
+	sudo /usr/lib/virtualbox/vboxdrv.sh start
