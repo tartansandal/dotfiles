@@ -105,7 +105,8 @@ set virtualedit=block
 set whichwrap+=<>[] " left arrow traverses the begining of the line
 
 " Share default yank location between vim sessions
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
+"set clipboard=autoselect,exclude:cons\|linux
 
 " may need this for paste in a terminal
 " NB dont set paste in vimrc since that will override you expandtab setting
@@ -113,8 +114,8 @@ set pastetoggle=<F2>
 
 set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
-" S: set ttimeout		    " time out for key codes
-" S: set ttimeoutlen=100	" wait up to 100ms after Esc for special key
+" S: set ttimeout           " time out for key codes
+" S: set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 
 set textwidth=88
 set colorcolumn=+1
@@ -265,8 +266,8 @@ if has('autocmd')
     augroup python
         autocmd!
         autocmd FileType python
-            \ set textwidth=79      " PEP-8 Friendly
-            \ set foldmethod=indent " PEP-8 Friendly
+                    \ set textwidth=79      " PEP-8 Friendly
+                    \ set foldmethod=indent " PEP-8 Friendly
     augroup END
 endif
 
@@ -302,8 +303,8 @@ noremap <silent> <leader>e :call InsertIPythonEmbed()<CR>
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
 if !exists(':DiffOrig')
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+                \ | wincmd p | diffthis
 endif
 
 " Plugin Settings:--------------------------------------------------------{{{1
@@ -316,15 +317,15 @@ let test#strategy = 'make'
 " lightline
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
+            \ 'colorscheme': 'jellybeans',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'fugitive#head'
+            \ },
+            \ }
 
 " UltiSnips triggering
 let g:UltiSnipsExpandTrigger = '<C-j>'
@@ -363,29 +364,29 @@ let g:ycm_filetype_whitelist = {'*': 1}             " Default
 
 " Default
 let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'notes': 1,
-      \ 'markdown': 1,
-      \ 'netrw': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'mail': 1
-      \}
+            \ 'tagbar': 1,
+            \ 'notes': 1,
+            \ 'markdown': 1,
+            \ 'netrw': 1,
+            \ 'unite': 1,
+            \ 'text': 1,
+            \ 'vimwiki': 1,
+            \ 'pandoc': 1,
+            \ 'infolog': 1,
+            \ 'mail': 1
+            \}
 
 " Default
 let g:ycm_filetype_specific_completion_to_disable = {
-      \ 'gitcommit': 1
-      \}
+            \ 'gitcommit': 1
+            \}
 
 " Default
 let g:ycm_filepath_blacklist = {
-      \ 'html': 1,
-      \ 'jsx': 1,
-      \ 'xml': 1,
-      \}
+            \ 'html': 1,
+            \ 'jsx': 1,
+            \ 'xml': 1,
+            \}
 
 let g:ycm_show_diagnostics_ui = 0    " Default 1
 
@@ -508,57 +509,78 @@ let g:tagbar_compact   = 1
 let g:tagbar_autoshowtag = 0
 
 let g:tagbar_type_sql = {
-            \ 'replace' : 1,
-            \ 'ctagstype' : 'sql',
-            \ 'kinds' : [
-            \ 'P:packages:1',
-            \ 'd:prototypes',
-            \ 'c:cursors',
-            \ 'f:functions',
-            \ 'F:record fields:1:0',
-            \ 'L:block label',
-            \ 'p:procedures',
-            \ 's:subtypes',
-            \ 't:tables',
-            \ 'T:triggers',
-            \ 'v:variables',
-            \ 'i:indexes',
-            \ 'e:events',
-            \ 'U:publications',
-            \ 'R:services',
-            \ 'D:domains',
-            \ 'V:views',
-            \ 'n:synonyms',
-            \ 'x:MobiLink Table Scripts',
-            \ 'y:MobiLink Conn Scripts',
-            \ 'z:MobiLink Properties',
-            \ ],
-            \ }
+            \    'replace' : 1,
+            \    'ctagstype' : 'sql',
+            \    'kinds' : [
+            \        'P:packages:1',
+            \        'd:prototypes',
+            \        'c:cursors',
+            \        'f:functions',
+            \        'F:record fields:1:0',
+            \        'L:block label',
+            \        'p:procedures',
+            \        's:subtypes',
+            \        't:tables',
+            \        'T:triggers',
+            \        'v:variables',
+            \        'i:indexes',
+            \        'e:events',
+            \        'U:publications',
+            \        'R:services',
+            \        'D:domains',
+            \        'V:views',
+            \        'n:synonyms',
+            \        'x:MobiLink Table Scripts',
+            \        'y:MobiLink Conn Scripts',
+            \        'z:MobiLink Properties',
+            \    ],
+            \}
 
 let g:tagbar_type_perl = {
-            \ 'replace' : 1,
-            \ 'ctagstype' : 'perl',
-            \ 'kinds' : [
-            \ 'p:packages:1:0',
-            \ 'c:constants:1:0',
-            \ 's:subroutines',
-            \ ],
-            \ }
+            \    'replace' : 1,
+            \    'ctagstype' : 'perl',
+            \        'kinds' : [
+            \        'p:packages:1:0',
+            \        'c:constants:1:0',
+            \        's:subroutines',
+            \    ],
+            \}
 
 let g:tagbar_type_html = {
-            \ 'kinds' : [
-            \ 'f:JavaScript funtions',
-            \ 'a:named anchors',
-            \ ],
-            \ }
+            \    'kinds' : [
+            \        'f:JavaScript funtions',
+            \        'a:named anchors',
+            \    ],
+            \}
 
 let g:tagbar_type_tt2html = {
-            \ 'ctagstype' : 'tt2html',
-            \ 'kinds' : [
-            \ 'i:ids',
-            \ 'f:functions',
-            \ 'm:macros',
-            \ ],
+            \    'ctagstype' : 'tt2html',
+            \        'kinds' : [
+            \        'i:ids',
+            \        'f:functions',
+            \        'm:macros',
+            \    ],
+            \}
+
+let g:tagbar_type_markdown = {
+            \    'ctagstype' : 'markdown',
+            \    'kinds' : [
+            \        'h:Heading_L1',
+            \        'i:Heading_L2',
+            \        'k:Heading_L3'
+            \    ]
+            \}
+
+let g:_type_asciidoc = {
+            \    'ctagstype' : 'asciidoc',
+            \    'kinds' : [
+            \        'a:anchors:1',
+            \        't:titles:1',
+            \        'n:includes:1',
+            \        'i:images:1',
+            \        'I:inline images:1'
+            \    ],
+            \    'sort' : 0
             \}
 
 function! MyTagbarToggle ()
@@ -587,7 +609,7 @@ function! MyMRU ()
         endif
         MRU
         setlocal cursorline
-   endif
+    endif
 endfunction
 
 "> Syntastic:-------------------------------------------------------------{{{2

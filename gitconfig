@@ -1,6 +1,6 @@
 [user]
     name = Kahlil Hodgson
-    email = unknown@email.com
+	email = tartansandal@users.noreply.github.com
 
 [core]
     excludesfile = ~/.gitignore
