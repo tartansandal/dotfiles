@@ -61,13 +61,13 @@ Plug 'Olical/vim-enmasse'
 
 " Asyncronous (on-the-fly) linting
 
-let g:ale_lint_on_text_changed=0
-let g:ale_lint_on_insert_leave=1
+"let g:ale_lint_on_text_changed=0
+"let g:ale_lint_on_insert_leave=1
 Plug 'dense-analysis/ale'
 
 Plug 'itchyny/lightline.vim'
 
-" Running tests frm current buffer
+" Running tests from current buffer
 Plug 'janko-m/vim-test'
 
 call plug#end()
