@@ -105,8 +105,7 @@ set virtualedit=block
 set whichwrap+=<>[] " left arrow traverses the begining of the line
 
 " Share default yank location between vim sessions
-"set clipboard=unnamedplus
-"set clipboard=autoselect,exclude:cons\|linux
+set clipboard+=unnamedplus
 
 " may need this for paste in a terminal
 " NB dont set paste in vimrc since that will override you expandtab setting
