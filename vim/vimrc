@@ -53,6 +53,7 @@ Plug 'KabbAmine/zeavim.vim'
 Plug 'keith/investigate.vim'
 
 " Snippets for faster editing
+"" Note: YCM helps with snippet discovery
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
