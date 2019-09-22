@@ -717,7 +717,7 @@ inoremap <C-U> <C-G>u<C-U>
 noremap <silent> <leader>a :Autoformat<CR>
 noremap <silent> <leader>o :only<CR>
 noremap <silent> <leader>h :nohlsearch<CR>
-noremap <silent> <leader>g :Gstatus<CR>
+noremap <silent> <leader>g :G<CR>
 noremap <silent> <leader>f :NERDTreeFind<CR>
 
 noremap <silent> <leader>m :call MyMRU()<CR>
