@@ -317,13 +317,15 @@ let test#strategy = 'make'
 " lightline
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'jellybeans',
+            \ 'colorscheme': 'Tomorrow_Night',
+            \ 'component_function': {'gitbranch': 'fugitive#head'},
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
             \ },
-            \ 'component_function': {
-            \   'gitbranch': 'fugitive#head'
+            \ 'inactive': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
             \ },
             \ }
 
