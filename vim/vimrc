@@ -364,11 +364,10 @@ let g:ycm_max_num_identifier_candidates = 10        " Default for identifier com
 let g:ycm_auto_trigger = 1                          " Default
 let g:ycm_filetype_whitelist = {'*': 1}             " Default
 
-" Default
+" Defaults with "markdown" removed
 let g:ycm_filetype_blacklist = {
             \ 'tagbar': 1,
             \ 'notes': 1,
-            \ 'markdown': 1,
             \ 'netrw': 1,
             \ 'unite': 1,
             \ 'text': 1,
