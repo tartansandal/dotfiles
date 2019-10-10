@@ -41,10 +41,15 @@ export EDITOR='vim';
 export VISUAL='vim';
 export PAGER='less';
 export RSYNC_RSH=ssh
-export LANG="en_AU.UTF-8"
 export LESS="-R"
 unset MAILCHECK
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+# ensure clean UTF-8 environment
+# export LC_ALL="en_AU.UTF-8"
+# export LANG="en_AU.UTF-8"
+# export LANGUAGE="en_AU.UTF-8"
+
 ## The following helps with anaconda interferring with gsettings
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
@@ -72,7 +77,7 @@ if [[ -f /usr/bin/google-chrome ]]; then
     export CHROME_BIN=/usr/bin/google-chrome
 fi
 
-if [[ -f ~/local/bin/gox ]]; then
+if [[ -f ~/.local/bin/gox ]]; then
     export GOPATH=~/.local
 fi
 
@@ -88,6 +93,7 @@ then
 	source $HOME/.local/lib/google-cloud-sdk/completion.bash.inc
 	source $HOME/.local/lib/google-cloud-sdk/path.bash.inc
 fi
+
 if [ -d ~/.texlive2019 ]
 then
     export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH
@@ -96,9 +102,11 @@ then
 fi
 
 # Install Ruby Gems to ~/.local
+#> this might not be the best idea
 # export GEM_HOME="$HOME/.local/share/gems"
 # export RUBYLIB="$HOME/.local/lib/ruby"
 # export PATH="$HOME/.local/share/gems/bin:$PATH"
+#? GEM_PATH
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]

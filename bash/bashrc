@@ -47,8 +47,8 @@ then
     alias jn='jl'
 
 
-	# this pydoc works in venvs too
-	alias pydoc='python -m pydoc'
+    # this pydoc works in venvs too
+    alias pydoc='python -m pydoc'
 
     # If this is not installed try
     #
@@ -87,11 +87,11 @@ then
         complete -F _root_command -o filenames s
     fi
 
-	shrug(){
-		echo -n "¯\_(ツ)_/¯" | xsel -i
-		echo -n "¯\_(ツ)_/¯" | xsel -b
-		echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
-	} # Function to help with an emoji.
+    shrug(){
+        echo -n "¯\_(ツ)_/¯" | xsel -i
+        echo -n "¯\_(ツ)_/¯" | xsel -b
+        echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
+    } # Function to help with an emoji.
 
     ## Shell options
 
