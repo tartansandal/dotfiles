@@ -73,6 +73,9 @@ Plug 'itchyny/lightline.vim'
 " Running tests from current buffer
 Plug 'janko-m/vim-test'
 
+Plug 'Yggdroot/indentLine'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " General Settings:-------------------------------------------------------{{{1
