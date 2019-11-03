@@ -28,6 +28,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-dispatch'
 
+" ALE works better
 " Plug 'scrooloose/syntastic'
 
 Plug 'jacquesbh/vim-showmarks'
@@ -43,6 +44,8 @@ Plug 'pangloss/vim-javascript'
 " Code formating
 Plug 'Chiel92/vim-autoformat'
 
+" Do you like COC?
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Asyncronous completion
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
@@ -61,9 +64,8 @@ Plug 'honza/vim-snippets'
 Plug 'Olical/vim-enmasse'
 
 " Asyncronous (on-the-fly) linting
-
-"let g:ale_lint_on_text_changed=0
-"let g:ale_lint_on_insert_leave=1
+"" let g:ale_lint_on_text_changed=0
+"" let g:ale_lint_on_insert_leave=1
 Plug 'dense-analysis/ale'
 
 Plug 'itchyny/lightline.vim'
