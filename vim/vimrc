@@ -394,7 +394,8 @@ let g:ycm_filepath_blacklist = {
             \ 'xml': 1,
             \}
 
-let g:ycm_show_diagnostics_ui = 0    " Default 1
+" Need this for jedi signature help
+let g:ycm_show_diagnostics_ui = 1    " Default 1
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
 " let g:ycm_autoclose_preview_window_after_completion = 0
