@@ -316,23 +316,34 @@ endif
 
 "> Misc:------------------------------------------------------------------{{{2
 
+" undotree
+let g:undotree_ShortIndicators = 1
+
 " vim-test
 let test#strategy = 'make'
 
 " lightline
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'Tomorrow_Night',
-            \ 'component_function': {'gitbranch': 'fugitive#head'},
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-            \ },
-            \ 'inactive': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-            \ },
-            \ }
+    \ 'colorscheme': 'Tomorrow_Night',
+    \ 'component_function': {'gitbranch': 'fugitive#head'},
+    \ 'active': {
+    \   'left': [
+    \       [ 'mode', 'paste' ],
+    \       [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+    \   ],
+    \   'right': [
+    \       ['lineinfo'], ['percent'],
+    \       ['spell', 'fileformat', 'fileencoding', 'filetype']
+    \   ]
+    \ },
+    \ 'inactive': {
+    \   'left': [
+    \       [ 'mode', 'paste' ],
+    \       [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+    \   ]
+    \ },
+\ }
 
 " UltiSnips triggering
 let g:UltiSnipsExpandTrigger = '<C-j>'
