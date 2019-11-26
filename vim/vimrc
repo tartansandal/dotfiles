@@ -4,22 +4,20 @@ set encoding=utf-8
 scriptencoding utf-8
 
 " Pluggins {{{1
+
 " Load our plugin bundles
 call plug#begin('~/.vim/bundles')
 
-" For easy access to docs
-Plug 'junegunn/vim-plug'
-
+" File/buffer navigation plugins
 Plug 'yegappan/mru'
 Plug 'jlanzarotta/bufexplorer'
-
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" NERDTree plugins
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-
-" Plug 'junegunn/vim-easy-align'
 
 " Tim is the God of Vim
 Plug 'tpope/vim-sensible'
@@ -29,9 +27,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
-
-" ALE works better
-" Plug 'scrooloose/syntastic'
 
 Plug 'jacquesbh/vim-showmarks'
 Plug 'Glench/Vim-Jinja2-Syntax'
@@ -43,19 +38,21 @@ Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript'
 
+" ALE works better
+" Plug 'scrooloose/syntastic'
+
+" Asyncronous (on-the-fly) linting
+"" let g:ale_lint_on_text_changed=0
+"" let g:ale_lint_on_insert_leave=1
+Plug 'dense-analysis/ale'
+
 " Code formating
 Plug 'Chiel92/vim-autoformat'
 
-" Do you like COC?
+" Do you like COC? Not really.
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Asyncronous completion
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-
-" Zeal for online help
-Plug 'KabbAmine/zeavim.vim'
-
-" Web lookup for online help
-Plug 'keith/investigate.vim'
 
 " Snippets for faster editing
 "" Note: YCM helps with snippet discovery
@@ -65,17 +62,26 @@ Plug 'honza/vim-snippets'
 " Editable quickfix list
 Plug 'Olical/vim-enmasse'
 
-" Asyncronous (on-the-fly) linting
-"" let g:ale_lint_on_text_changed=0
-"" let g:ale_lint_on_insert_leave=1
-Plug 'dense-analysis/ale'
+" Zeal for online help
+Plug 'KabbAmine/zeavim.vim'
 
+" Web lookup for online help
+" Plug 'keith/investigate.vim'
+
+" A better status line
 Plug 'itchyny/lightline.vim'
 
 " Running tests from current buffer
 Plug 'janko-m/vim-test'
 
+" Indentation highlighting
 Plug 'Yggdroot/indentLine'
+
+" Undo history visualization
+Plug 'mbbill/undotree'
+
+" Plug 'junegunn/vim-easy-align'
+
 call plug#end()
 
 " General Settings:-------------------------------------------------------{{{1
