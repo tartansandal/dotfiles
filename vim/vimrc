@@ -114,6 +114,9 @@ set whichwrap+=<>[] " left arrow traverses the begining of the line
 " NB dont set paste in vimrc since that will override you expandtab setting
 set pastetoggle=<F2>
 
+" Use both system clipboard (+) and selection (*) for yank and put
+set clipboard^=unnamed,unnamedplus
+
 set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
 " S: set ttimeout           " time out for key codes
