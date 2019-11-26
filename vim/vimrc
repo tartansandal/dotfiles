@@ -15,6 +15,9 @@ Plug 'jlanzarotta/bufexplorer'
 
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 
 " Plug 'junegunn/vim-easy-align'
 
@@ -73,8 +76,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'janko-m/vim-test'
 
 Plug 'Yggdroot/indentLine'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " General Settings:-------------------------------------------------------{{{1
