@@ -97,8 +97,9 @@ call plug#end()
 " S: set smarttab
 
 set matchpairs+=<:>              "Allow % to bounce between angles too
-set textwidth=78                 "Wrap at this column
-set smartindent                  "smart autoindenting when starting a new line
+set textwidth=88                 "Wrap at this column
+set colorcolumn=+1               "Columns to highlght after textwidth
+set smartindent                  "Smart autoindenting when starting a new line
 set tabstop=4                    "Indentation levels every four columns
 set shiftwidth=4                 "Indent/outdent by four columns
 set expandtab                    "Convert all tabs typed to spaces
@@ -128,8 +129,6 @@ set printoptions=paper:A4,formfeed:y
 " S: set ttimeout           " time out for key codes
 " S: set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 
-set textwidth=88
-set colorcolumn=+1
 
 "------------------------------------------
 " Completion:
