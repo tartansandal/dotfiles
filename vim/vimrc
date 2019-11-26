@@ -743,6 +743,7 @@ noremap <silent> <leader>o :only<CR>
 noremap <silent> <leader>h :nohlsearch<CR>
 noremap <silent> <leader>g :G<CR>
 noremap <silent> <leader>f :NERDTreeFind<CR>
+noremap <silent> <leader>u :UndotreeToggle<CR>
 
 noremap <silent> <leader>m :call MyMRU()<CR>
 noremap <silent> <leader>t :call MyTagbarToggle()<CR>
