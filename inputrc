@@ -1,11 +1,20 @@
+# use VI editing keys
 set editing-mode vi
 
+# indicate editing mode in prompt (ins|cmd)
+set show-mode-in-prompt on
+
 # up arrow
-"\e[A": history-search-backward
+#"\e[A": history-search-backward
 
 # down arrow
-"\e[B": history-search-forward
+#"\e[B": history-search-forward
 
+# show all posible completions if more than one matches
 set show-all-if-ambiguous on
+
+# append indicator chars to filname completions
 set visible-stats on
+
+# don't page completions
 set page-completions off
