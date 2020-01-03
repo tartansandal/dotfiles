@@ -46,6 +46,8 @@ then
     alias jl='jupyter lab'
     alias jn='jl'
 
+    # use podman as a local docker replacement
+    alias docker=podman
 
     # this pydoc works in venvs too
     alias pydoc='python -m pydoc'
