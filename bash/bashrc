@@ -17,8 +17,18 @@ then
     #> and don't interfere with vim
     stty -ixon -ixoff
 
+    # use vi editing mode -- must set before FZF shell integration
+    set -o vi
+
+    if [[ -r /usr/share/fzf/shell/key-bindings.bash ]]
+    then
+        # load now rather than wait for autoloader so the ** works
+        . /usr/share/bash-completion/completions/fzf
+        . /usr/share/fzf/shell/key-bindings.bash
+    fi
+
     # This is MacOS foo
-    if [[ -f /usr/local/etc/bash_completion ]]
+    if [[ -r /usr/local/etc/bash_completion ]]
     then
         . /usr/local/etc/bash_completion
     fi
@@ -26,11 +36,11 @@ then
     #> source private libraries
     for lib in hosts prompt direnv
     do
-        [[ -f ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
+        [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done
     unset lib
 
-    if [[ -f /usr/bin/aws_completer ]]
+    if [[ -r /usr/bin/aws_completer ]]
     then
         complete -C '/usr/bin/aws_completer' aws
     fi
@@ -47,18 +57,11 @@ then
     alias jn='jl'
 
     # use podman as a local docker replacement
+    # still have to be explict in scripts/makefiles though
     alias docker=podman
 
     # this pydoc works in venvs too
     alias pydoc='python -m pydoc'
-
-    # If this is not installed try
-    #
-    # pip install --user howdoi
-    if $(command -v howdoi >/dev/null)
-    then
-        alias h='function hdi(){ howdoi $* -c -n 5; }; hdi'
-    fi
 
     # use color ls
     alias ll='ls -h -p -l --color=auto'
@@ -164,15 +167,15 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/kal/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/kal/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+#__conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/kal/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/kal/anaconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
 # <<< conda initialize <<<
