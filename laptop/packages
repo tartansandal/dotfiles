@@ -31,3 +31,5 @@ jq
 libselinux-python
 xsel
 texlive-collection-fontsrecommended
+fd-find
+fzf
