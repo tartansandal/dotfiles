@@ -104,11 +104,11 @@ then
 fi
 
 # Install Ruby Gems to ~/.local
-#> this might not be the best idea
+#> this might not be the best idea. The default is to use ~/.gem and bin
 # export GEM_HOME="$HOME/.local/share/gems"
 # export RUBYLIB="$HOME/.local/lib/ruby"
 # export PATH="$HOME/.local/share/gems/bin:$PATH"
-#? GEM_PATH
+
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]
