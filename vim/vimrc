@@ -98,7 +98,7 @@ call plug#end()
 " S: set smarttab
 
 set matchpairs+=<:>              "Allow % to bounce between angles too
-set textwidth=88                 "Wrap at this column
+set textwidth=80                 "Wrap at this column
 set colorcolumn=+1               "Columns to highlght after textwidth
 set smartindent                  "Smart autoindenting when starting a new line
 set tabstop=4                    "Indentation levels every four columns
@@ -274,10 +274,11 @@ if has('autocmd')
         autocmd!
         autocmd BufRead,BufNewFile *.pg setfiletype sql
     augroup END
+
     augroup python
         autocmd!
         autocmd FileType python
-                    \ set textwidth=79      " PEP-8 Friendly
+                    \ set textwidth=88      " Black Friendly
                     \ set foldmethod=indent " PEP-8 Friendly
     augroup END
 endif
