@@ -264,23 +264,12 @@ set diffopt+=vertical
 " File Types:
 "------------------------------------------
 
-" Only do this part when compiled with support for autocommands.
 if has('autocmd')
     " Enable file type detection.
     " Also load indent files, to automatically do language-dependent indenting
+    " All filetype detections commands go in .vim/ftdetect/
     " All filetype specific settings go in .vim/ftplugin/
     filetype plugin indent on
-    augroup postgresql
-        autocmd!
-        autocmd BufRead,BufNewFile *.pg setfiletype sql
-    augroup END
-
-    augroup python
-        autocmd!
-        autocmd FileType python
-                    \ set textwidth=88      " Black Friendly
-                    \ set foldmethod=indent " PEP-8 Friendly
-    augroup END
 endif
 
 let g:xml_use_xhtml=1
