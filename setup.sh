@@ -26,6 +26,7 @@ ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 ln -snf $base_dir/vim                  ~/.vim
 ln -sf  $base_dir/bin/reset-fonts.sh   ~/bin/reset-fonts.sh
+ln -sf  $base_dir/mdl-style.rb         ~/.mdl-style.rb
 
 if [[ -d ~/.config/tilix/schemes/ ]]
 then
