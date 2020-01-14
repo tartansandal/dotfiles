@@ -83,6 +83,12 @@ Plug 'mbbill/undotree'
 
 " Plug 'junegunn/vim-easy-align'
 
+" Simple checkbox support
+Plug 'jkramer/vim-checkbox'
+
+" Mods to netrw
+Plug 'tpope/vim-vinegar'
+
 call plug#end()
 
 " General Settings:-------------------------------------------------------{{{1
