@@ -658,6 +658,7 @@ let g:syntastic_python_checkers = ['flake8', 'python']
 "> Ale:-------------------------------------------------------------------{{{2
 "" These get merged with the global list
 let g:ale_linters = {'python': ['flake8']}
+let g:ale_markdown_mdl_options = '--style ~/.mdl-style.rb'
 
 "> Perl Support:----------------------------------------------------------{{{2
 
