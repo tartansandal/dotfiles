@@ -338,8 +338,8 @@ let g:lightline = {
             \        [ 'gitbranch', 'readonly', 'filename', 'modified' ]
             \     ],
             \     'right': [
-            \        ['lineinfo'], ['percent'],
-            \        ['spell', 'fileformat', 'fileencoding', 'filetype']
+            \        [ 'lineinfo' ], [ 'percent' ],
+            \        [ 'fileformat', 'fileencoding', 'filetype' ]
             \     ]
             \   },
             \   'inactive': {
