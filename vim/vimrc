@@ -312,6 +312,15 @@ endif
 
 "> Misc:------------------------------------------------------------------{{{2
 
+" netrw
+nnoremap <leader>e :Lexplore<CR>
+let g:netrw_liststyle = 1
+let g:netrw_banner = 0
+" let g:netrw_browse_split = 1  " new horizontal split
+let g:netrw_browse_split = 4    " previous window
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
 " undotree
 let g:undotree_ShortIndicators = 1
 
@@ -465,7 +474,7 @@ let NERDTreeCaseSensitiveSort=1
 "let NERDTreeChDirMode=1 " cwd changed on NERD load
 let NERDTreeChDirMode=2  " cwd follows root
 
-let NERDTreeHijackNetrw=1
+let NERDTreeHijackNetrw=0
 let NERDTreeShowBookmarks=0
 let NERDTreeIgnore=['\~$', '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$', '__pycache__']
 let NERDTreeQuitOnOpen=1
