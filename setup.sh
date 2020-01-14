@@ -4,17 +4,6 @@ base_dir=$(dirname $(readlink -f $0))
 
 cd  $base_dir
 
-# The following only needed if you did not use --recurse-submodules used in
-# clone. Initialize submodules
-#   git submodule init
-# 	git submodule update --recursive --remote
-
-# You may need to do the following for python-mode and YouCompleteMe
-#
-# 	cd vim/bundle/python-mode
-# 	git checkout develop
-# 	git submodule update --init --recursive
-
 # Create destinations for backups and undo files
 mkdir -p ~/tmp/undo ~/tmp/backup
 
@@ -36,6 +25,7 @@ ln -sf  $base_dir/proverc              ~/.proverc
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 ln -snf $base_dir/vim                  ~/.vim
+ln -sf  $base_dir/bin/reset-fonts.sh   ~/bin/reset-fonts.sh
 
 if [[ -d ~/.config/tilix/schemes/ ]]
 then
