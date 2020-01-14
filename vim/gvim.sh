@@ -13,16 +13,11 @@ else
 	exit 1
 fi
 
-# special case for the one in the middle
-if xrandr -q | grep -q 'Screen 0: minimum 320 x 200, current 5760 x 2160'
+if xrandr -q | grep -q 'connected 3840x2160'
 then
-	# study desktop
-    /usr/bin/gvim -U ~/.vim/gvimrc-big "$@"
-elif xrandr -q | grep -q 'Screen 0: minimum 320 x 200, current 7680 x 2160'
-then
-	# office virtualised desktop
+	# connected monitor
     /usr/bin/gvim -U ~/.vim/gvimrc-big "$@"
 else
-	# laptop
+	# laptop only
     /usr/bin/gvim "$@"
 fi
