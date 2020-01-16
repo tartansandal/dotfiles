@@ -92,8 +92,11 @@ then
     fi
     alias vimdiff='vimdiff --noplugins'
 
-    # use vim with clipboard defined
-    alias vim=vimx
+    # use vim with clipboard defined if available
+    if hash vimx 2>/dev/null
+    then
+        alias vim=vimx
+    fi
 
     # overrides for weird Mac env
     if [[ -n $Apple_PubSub_Socket_Render ]]

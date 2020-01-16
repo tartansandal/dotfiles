@@ -37,8 +37,14 @@ unset pathmunge
 ## omit superfluous commands from histlist
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTTIMEFORMAT='%a %H:%M | '
-export EDITOR='vim';
-export VISUAL='vim';
+if hash vimx 2>/dev/null
+then
+    export EDITOR='vimx';
+    export VISUAL='vimx';
+else
+    export EDITOR='vim';
+    export VISUAL='vim';
+fi
 export PAGER='less';
 export RSYNC_RSH=ssh
 export LESS="-R"
