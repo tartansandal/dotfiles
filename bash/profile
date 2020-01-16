@@ -103,12 +103,15 @@ then
     export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
 fi
 
-# Install Ruby Gems to ~/.local
-#> this might not be the best idea. The default is to use ~/.gem and bin
-# export GEM_HOME="$HOME/.local/share/gems"
-# export RUBYLIB="$HOME/.local/lib/ruby"
-# export PATH="$HOME/.local/share/gems/bin:$PATH"
-
+# Fedora tweaks the RubyGem setup so that gems are installed under ~/.gem/ruby
+# and associated executables under ~/bin. This make 'gem install' just work, but
+# screws up 'gem uninstall' and bundler. Make this work with by setting GEM_HOME
+# and adding a symbolic link.
+export GEM_HOME=$HOME/.gem/ruby
+if [[ ! -e $HOME/.gem/ruby/bin ]]
+then
+    ln -sf $HOME/bin $HOME/.gem/ruby/
+fi
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]
