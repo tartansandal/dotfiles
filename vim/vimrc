@@ -452,18 +452,20 @@ endfunction
 function! MyBufExplorer()
     silent! NERDTreeClose
     silent! TagbarClose
+
     if bufname('') ==? ''
-        :MRU
-        setlocal cursorline
+        :call MyMRU()
     else
-        :BufExplorerHorizontalSplit
-        :call BufExplorer_ReSize()
-        :+
+        if len(getbufinfo({'buflisted':1})) > 1
+            :BufExplorerHorizontalSplit
+            :call BufExplorer_ReSize()
+            :+
+            nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
+            nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
+            nmap <buffer> <\>     :call MyCycleNextLine()<CR>
+            nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
+        endif
     endif
-    nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
-    nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
-    nmap <buffer> <\>     :call MyCycleNextLine()<CR>
-    nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
 endfunction
 
 "> NERDTree:--------------------------------------------------------------{{{2
@@ -626,6 +628,7 @@ let MRU_Add_Menu = 0
 
 function! MyMRU ()
     if bufname('%') ==# '__MRU_Files__'
+        " This causes the MRU list to toggle
         quit
     else
         " skip to prev window if current buffer has a type
@@ -634,6 +637,10 @@ function! MyMRU ()
         endif
         MRU
         setlocal cursorline
+        nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
+        nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
+        nmap <buffer> <\>     :call MyCycleNextLine()<CR>
+        nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
     endif
 endfunction
 
@@ -728,8 +735,8 @@ let g:changelog_date_end_entry_search = '^\s*$'
 " Key Mapping:------------------------------------------------------------{{{1
 
 " use Emacs style indent command
-noremap  <C-\>      :call MyBufExplorer()<CR>
-inoremap <C-\> <Esc>:call MyBufExplorer()<CR>
+noremap  <silent> <C-\>      :call MyBufExplorer()<CR>
+inoremap <silent> <C-\> <Esc>:call MyBufExplorer()<CR>
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
