@@ -247,15 +247,16 @@ set backupdir=~/tmp/backup,~/,/tmp
 
 set undodir=~/tmp/undo,~/,/tmp
 set undofile          " keep a undo file
-set undolevels=100    "maximum number of changes that can be undone
-set undoreload=1000   "maximum number lines to save for undo on a buffer reload
+set undolevels=100    " maximum number of changes that can be undone
+set undoreload=1000   " maximum number lines to save for undo on a buffer reload
 
 set cryptmethod=blowfish  " use stronger encryption by default
 
 set noswapfile  " swapfiles an anoyance since I save often
 
 " write readonly file as root
-command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" this is hanging, dont know why
+" command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " use rg for gr[ep]
 set grepprg=rg\ --vimgrep\ --max-columns\ 160\ --max-filesize\ 1M
