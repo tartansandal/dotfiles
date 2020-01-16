@@ -92,6 +92,9 @@ then
     fi
     alias vimdiff='vimdiff --noplugins'
 
+    # use vim with clipboard defined
+    alias vim=vimx
+
     # overrides for weird Mac env
     if [[ -n $Apple_PubSub_Socket_Render ]]
     then
