@@ -22,11 +22,14 @@ ln -sf  $base_dir/inputrc              ~/.inputrc
 ln -sf  $base_dir/jsbeautifyrc         ~/.jsbeautifyrc
 ln -sf  $base_dir/perltidyrc           ~/.perltidyrc
 ln -sf  $base_dir/proverc              ~/.proverc
+
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 ln -snf $base_dir/vim                  ~/.vim
+
 ln -sf  $base_dir/bin/reset-fonts.sh   ~/bin/reset-fonts.sh
 ln -sf  $base_dir/mdl-style.rb         ~/.mdl-style.rb
+ln -sf  $base_dir/flake8               ~/.flake8
 
 if [[ -d ~/.config/tilix/schemes/ ]]
 then
@@ -36,6 +39,6 @@ fi
 if [[ `tmux -V | cut -f2 -d' '` > 2 ]]
 then
 	ln -sf  $base_dir/tmux2.conf            ~/.tmux.conf
-else
+elseflake8
 	ln -sf  $base_dir/tmux.conf            ~/.tmux.conf
 fi
