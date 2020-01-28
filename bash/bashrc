@@ -22,8 +22,9 @@ then
 
     if [[ -r /usr/share/fzf/shell/key-bindings.bash ]]
     then
-        # load now rather than wait for autoloader so the ** works
-        . /usr/share/bash-completion/completions/fzf
+        # CTRL-T: select file
+        # CTRL-R: select history
+        # ALT-C:  cd to select directory
         . /usr/share/fzf/shell/key-bindings.bash
 
         export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
