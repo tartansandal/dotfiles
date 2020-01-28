@@ -113,8 +113,19 @@ set expandtab                    "Convert all tabs typed to spaces
 set shiftround                   "Indent/outdent to nearest tabstop
 set relativenumber               " Display relative line numbers
 
-" default is tcq. see 'help fo-table'
-set formatoptions+=l1nrcqj
+" Automatice formating. The default is tcq. See 'help fo-table'
+set formatoptions+=t    " Auto-wrap text using textwidth
+set formatoptions+=c    " Auto-wrap comment text using comment leader
+set formatoptions+=q    " Allow formatting of comments with "gq"
+set formatoptions+=o    " Insert the current comment leader after hitting 'o'
+" set formatoptions+=a    " Autoformat while editing
+set formatoptions+=n    " Recognize numbered lists
+set formatoptions+=l	" Long lines are not broken in insert mode
+set formatoptions+=1    " Don't break a line after a one-letter word.
+set formatoptions+=j    " Remove stray comment leaders when reformating
+set formatoptions+=p    " Don't break lines at single spaces that follow periods.
+set joinspaces          " Insert 2 spaces after '.' with the join command
+set cpoptions+=J        " Two spaces after a '.' defines a sentence
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 set nrformats-=octal
