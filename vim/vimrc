@@ -31,7 +31,7 @@ Plug 'tpope/vim-markdown'
 
 Plug 'jacquesbh/vim-showmarks'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'ntpeters/vim-better-whitespace'
+" Plug 'ntpeters/vim-better-whitespace'
 Plug 'adelarsq/vim-matchit'
 
 " Javascript
@@ -365,14 +365,14 @@ let g:zv_zeal_executable = $HOME . '/bin/zeal'
 let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
 
 " Better Whitespace
-let g:better_whitespace_enabled = 1
-let g:strip_whitespace_on_save = 1
-let g:strip_whitespace_confirm = 0
-let g:strip_whitelines_at_eof = 1
-let g:strip_only_modified_lines = 0
-let g:better_whitespace_filetypes_blacklist = [
-            \ 'diff', 'gitcommit', 'unite', 'qf', 'help'
-            \ ]
+" let g:better_whitespace_enabled = 1
+" let g:strip_whitespace_on_save = 1
+" let g:strip_whitespace_confirm = 0
+" let g:strip_whitelines_at_eof = 1
+" let g:strip_only_modified_lines = 0
+" let g:better_whitespace_filetypes_blacklist = [
+"             \ 'diff', 'gitcommit', 'unite', 'qf', 'help'
+"             \ ]
 
 " Fugitive
 augroup fugitive
