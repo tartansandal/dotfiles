@@ -43,8 +43,6 @@ Plug 'pangloss/vim-javascript'
 " Plug 'scrooloose/syntastic'
 
 " Asyncronous (on-the-fly) linting
-"" let g:ale_lint_on_text_changed=0
-"" let g:ale_lint_on_insert_leave=1
 Plug 'dense-analysis/ale'
 
 " Code formating
@@ -685,8 +683,28 @@ let g:syntastic_python_checkers = ['flake8', 'python']
 
 "> Ale:-------------------------------------------------------------------{{{2
 "" These get merged with the global list
-let g:ale_linters = {'python': ['flake8']}
+"" let g:ale_lint_on_text_changed=0
+"" let g:ale_lint_on_insert_leave=1
+
+" A note on text linters: 
+"
+"   * languagetool is too slow and does not handle markdown well
+"   * write-good gave too many false positives
+"   * textlint rouseau gave too many false positives
+"   * proselint seemed to be the best middle-ground
+"
+let g:ale_linters = {
+            \ 'python': ['flake8'],
+            \ 'markdown': ['proselint', 'mdl'],
+            \ }
 let g:ale_markdown_mdl_options = '--style ~/.mdl-style.rb'
+let g:ale_fixers = {
+            \ 'python': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
+            \ }
+let g:ale_fix_on_save = 1
+" let g:ale_languagetool_executable =
+" let g:ale_languagetool_options = '-l en-AU -d EN_QUOTES'
 
 "> Perl Support:----------------------------------------------------------{{{2
 
