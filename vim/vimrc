@@ -9,15 +9,18 @@ scriptencoding utf-8
 call plug#begin('~/.vim/bundles')
 
 " File/buffer navigation plugins
+" Do not really use these a lot any more
+" Maybe Ctrl-P instead
 Plug 'yegappan/mru'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " NERDTree plugins
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
+" These look pretty but slow things down
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'ryanoasis/vim-devicons'
 
 " Tim is the God of Vim
 Plug 'tpope/vim-sensible'
@@ -69,7 +72,8 @@ Plug 'KabbAmine/zeavim.vim'
 
 " A better status line
 Plug 'itchyny/lightline.vim'
-
+Plug 'niklaas/lightline-gitdiff'
+Plug 'niklaas/lightline-gitdiff'
 " Running tests from current buffer
 Plug 'janko-m/vim-test'
 
@@ -97,21 +101,33 @@ call plug#end()
 " Formating and Motion:
 "------------------------------------------
 
+"
+" Limit line length to 80-88 chars. 
+" Black has some rationale for extending beyound 80
+"
+set textwidth=80                 "Wrap at this column
+set colorcolumn=+1               "Columns to highlight after textwidth
+
+"
+" Indent 4 spaces - a consistent and common convention 
+" 
+set tabstop=4                    "Indentation levels every four columns
+set shiftwidth=4                 "Indent/outdent by four columns
+set expandtab                    "Convert all tabs typed to spaces
+set smartindent                  "Smart autoindenting when starting a new line
+set shiftround                   "Indent/outdent to nearest tabstop
 " S: set autoindent                   "Preserve current indent on new lines
 " S: set backspace=indent,eol,start   "Make backspaces delete sensibly
 " S: set smarttab
 
-set matchpairs+=<:>              "Allow % to bounce between angles too
-set textwidth=80                 "Wrap at this column
-set colorcolumn=+1               "Columns to highlght after textwidth
-set smartindent                  "Smart autoindenting when starting a new line
-set tabstop=4                    "Indentation levels every four columns
-set shiftwidth=4                 "Indent/outdent by four columns
-set expandtab                    "Convert all tabs typed to spaces
-set shiftround                   "Indent/outdent to nearest tabstop
+"
+" Relative line numbers to encourage me to use line oriented motions more.
+"
 set relativenumber               " Display relative line numbers
 
+"
 " Automatice formating. The default is tcq. See 'help fo-table'
+"
 set formatoptions+=t    " Auto-wrap text using textwidth
 set formatoptions+=c    " Auto-wrap comment text using comment leader
 set formatoptions+=q    " Allow formatting of comments with "gq"
@@ -125,21 +141,21 @@ set formatoptions+=p    " Don't break lines at single spaces that follow periods
 set joinspaces          " Insert 2 spaces after '.' with the join command
 set cpoptions+=J        " Two spaces after a '.' defines a sentence
 
+" Use both system clipboard (+) and selection (*) for yank and put
+set clipboard^=unnamed,unnamedplus
+
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 set nrformats-=octal
 
+" Allow virtual editing in visual block mode so we can form rectangles
 set virtualedit=block
-"set virtualedit=insert
-"set virtualedit=all
 
-set whichwrap+=<>[] " left arrow traverses the begining of the line
+set whichwrap+=<>[]   " left arrow traverses the begining of the line
+set matchpairs+=<:>   " Allow % to bounce between angles too
 
-" may need this for paste in a terminal
+" May need this for paste in a terminal
 " NB dont set paste in vimrc since that will override you expandtab setting
 set pastetoggle=<F2>
-
-" Use both system clipboard (+) and selection (*) for yank and put
-set clipboard^=unnamed,unnamedplus
 
 set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
@@ -171,7 +187,9 @@ set complete+=kspell
 "" Display:
 "------------------------------------------
 
-"> Set the satus line to display:
+"" Superseded by lightline
+"
+"> Set the status line to display:
 "- aligned left
 "-  dir/file    : path to the file in the buffer, relative to current directory
 "-  [help]      : help buffer flag
@@ -191,11 +209,12 @@ set complete+=kspell
 
 " set noruler " not needed with custom statusline
 
-set cmdheight=1     " 2 lines for command buffer
+" The following helps with spurious "Press Enter" requests
+set cmdheight=2     " 2 lines for command buffer
 set laststatus=2    " always display status bar
 set showcmd         " display incomplete commands
 
-" S: set scrolloff=5     " always show 5 lines of context when scrolling
+" S: set scrolloff=5         " always show 5 lines of context when scrolling
 " S: set sidescrolloff=5     " keep at least 5 columns of context to either side
 
 " Use '" to go to last cursor postion
@@ -251,7 +270,7 @@ set fileformat=unix
 
 " keep backups under ~/tmp
 set backup          " keep a backup file
-set backupcopy=yes  " copy the origional even if a link
+set backupcopy=yes  " copy the original even if a link
 set backupdir=~/tmp/backup,~/,/tmp
 
 set undodir=~/tmp/undo,~/,/tmp
@@ -261,10 +280,10 @@ set undoreload=1000   " maximum number lines to save for undo on a buffer reload
 
 set cryptmethod=blowfish  " use stronger encryption by default
 
-set noswapfile  " swapfiles an anoyance since I save often
+set noswapfile  " swapfiles an annoyance since I save often
 
 " write readonly file as root
-" this is hanging, dont know why
+" this is hanging, don't know why
 " command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " use rg for gr[ep]
@@ -340,25 +359,33 @@ let test#strategy = 'make'
 " lightline
 set noshowmode
 let g:lightline = {
-            \   'colorscheme': 'Tomorrow_Night',
-            \   'component_function': {'gitbranch': 'fugitive#head'},
-            \   'active': {
-            \     'left': [
-            \        [ 'mode', 'paste' ],
-            \        [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-            \     ],
-            \     'right': [
-            \        [ 'lineinfo' ], [ 'percent' ],
-            \        [ 'fileformat', 'fileencoding', 'filetype' ]
-            \     ]
-            \   },
-            \   'inactive': {
-            \     'left': [
-            \        [ 'mode', 'paste' ],
-            \        [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-            \     ]
-            \   },
-            \ }
+    \   'colorscheme': 'Tomorrow_Night',
+    \   'active': {
+    \     'left': [
+    \        [ 'mode', 'paste' ],
+    \        [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+    \        [ 'gitdiff' ]
+    \     ],
+    \     'right': [
+    \        [ 'lineinfo' ], [ 'percent' ],
+    \        [ 'filetype' ]
+    \     ]
+    \   },
+    \   'inactive': {
+    \     'left': [
+    \        [ 'filename', 'gitversion' ]
+    \     ]
+    \   },
+    \   'component_function': {
+    \     'gitbranch': 'fugitive#head',
+    \   },
+    \   'component_expand': {
+    \     'gitdiff': 'lightline#gitdiff#get',
+    \   },
+    \   'component_type': {
+    \     'gitdiff': 'middle',
+    \   }, 
+    \}
 
 " UltiSnips triggering
 let g:UltiSnipsExpandTrigger = '<C-j>'
@@ -507,33 +534,6 @@ function! MyNERDTreeToggle ()
     silent! TagbarClose
     silent NERDTreeToggle
 endfunction
-
-
-"> NERDCommenter:--------------------------------------------------------------{{{2
-"
-" " Add spaces after comment delimiters by default
-" let g:NERDSpaceDelims = 1
-
-" " Use compact syntax for prettified multi-line comments
-" let g:NERDCompactSexyComs = 1
-
-" " Align line-wise comment delimiters flush left instead of following code indentation
-" let g:NERDDefaultAlign = 'left'
-
-" " Set a language to use its alternate delimiters by default
-" let g:NERDAltDelims_java = 1
-
-" " Add your own custom formats or override the defaults
-" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
-" " Allow commenting and inverting empty lines (useful when commenting a region)
-" let g:NERDCommentEmptyLines = 1
-
-" " Enable trimming of trailing whitespace when uncommenting
-" let g:NERDTrimTrailingWhitespace = 1
-
-" " Enable NERDCommenterToggle to check all selected lines is commented or not
-" let g:NERDToggleCheckAllLines = 1
 
 
 "> TagBar:----------------------------------------------------------------{{{2
@@ -686,6 +686,8 @@ let g:syntastic_python_checkers = ['flake8', 'python']
 "" let g:ale_lint_on_text_changed=0
 "" let g:ale_lint_on_insert_leave=1
 
+let g:ale_maximum_file_size=50000
+
 " A note on text linters: 
 "
 "   * languagetool is too slow and does not handle markdown well
@@ -778,6 +780,8 @@ inoremap <C-U> <C-G>u<C-U>
 
 "> Leader Keys:-----------------------------------------------------------{{{2
 
+noremap <silent> <leader>c :e ~/dotfiles/vim/cheetsheet.mkd<CR>
+
 noremap <silent> <leader>a :Autoformat<CR>
 noremap <silent> <leader>o :only<CR>
 noremap <silent> <leader>h :nohlsearch<CR>
@@ -799,7 +803,9 @@ noremap <silent> <leader>vv :grep! -w <cword><CR>
 noremap <silent> <leader>vV :grep! -w <cWORD><CR>
 noremap <silent> <leader>vf :grep! <cfile><CR>
 
-noremap <space> za
+"" Set this aside since space space might be a nice command
+" or even a leader key
+" noremap <space> za
 
 "> Cursor Keys:-----------------------------------------------------------{{{2
 
@@ -809,16 +815,16 @@ nmap <S-Up>     <C-w>k
 nmap <S-Right>  <C-w>l
 nmap <S-Left>   <C-w>h
 
-imap <S-Down>   <C-o><C-w>j
-imap <S-Up>     <C-o><C-w>k
-imap <S-Right>  <C-o><C-w>l
-imap <S-Left>   <C-o><C-w>h
+" imap <S-Down>   <C-o><C-w>j
+" imap <S-Up>     <C-o><C-w>k
+" imap <S-Right>  <C-o><C-w>l
+" imap <S-Left>   <C-o><C-w>h
 
 " use control + arrow key to move between tabs
 nmap <C-Right>       :tabnext<CR>
-imap <C-Right>  <C-o>:tabnext<CR>
 nmap <C-Left>        :tabprevious<CR>
-imap <C-Left>   <C-o>:tabprevious<CR>
+" imap <C-Right>  <C-o>:tabnext<CR>
+" imap <C-Left>   <C-o>:tabprevious<CR>
 
 " disable arrow keys in normal mode to improve my typing
 " noremap <Up>    <nop>
