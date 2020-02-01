@@ -1,128 +1,122 @@
 # Vim Cheetsheet
 
-## Globals
-
-g~{motion} or {Visual}~  - togglecase
-gU{motion} or {Visual}U  - uppercase
-gu{motion} or {Visual}U  - localcase
-
 ## Personal Shortcuts
 
-For programming in Perl, the leader key '\' is a little problematic,
-so we set mapping explict mapping for \$ \% and \@
+  \<space> - clear search highlighting
+  \o - one window (`Ctrl-w o` or `:on` does the same)
+  \a - autoformat
 
-For Python, this is less of an issue.
+  Ctrl-\ - buf explorer
+  \g - open Fugitive Status
+  \n - toggle NERDTree
 
-    \h - clear search highlighting
-    \o - one window (<C-w> o does the same)
-    \a - autoformat
+## Navigation
 
-    <C-\> - buf explorer
 
-Could we integrate these with unimpaired?
 
-    \t - toggle Tagbar
-    \n - toggle NERDTree
-    \m - toggle MRU List
-    \g - open Fugitive Status
-    \f - find buffer in NERDTree
+## Globals
 
-\c - rpm spec changelog
-:W - write as root
+  g~{Motion} or {Visual}~  - togglecase
+  gU{Motion} or {Visual}U  - uppercase
+  gu{Motion} or {Visual}U  - localcase
+
+  gc{Motion} or {Visual}gc - toggle comment
+
+  gf open file under cursor
+
+## Window Scrolling
+
+  Ctrl-e   Ctrl-y   scroll down/up by lines
+  Ctrl-d   Ctrl-u   scroll down/up by half-pages
+  Ctrl-f   Ctrl-b   scroll forward/back> by full pages
+
+## Ultisnips
+
+  tab
+  s-tab
 
 ## YCM
 
-\jd  "jump" to definition
-\jk  "jump" to help
-\jr  "jumplist" of references
-
-## Scrolling
-
-    <C-e>   <C-y>   scroll down/up by lines
-    <C-d>   <C-u>   scroll down/up by half-pages
-    <C-f>   <C-b>   scroll forward/back> by full pages
+  \jd  "jump" to definition
+  \jk  "jump" to help
+  \jr  "jumplist" of references
 
 ## Grep
 
-:gr[ep] args
+  :gr[ep] args
 
-\vv     - grep for word under cursor
-\vV     - grep for WORD under cursor
-\cf     - grep for file under cursor
+  \vv     - grep for word under cursor
+  \vV     - grep for WORD under cursor
+  \cf     - grep for file under cursor
 
-:cw     - show quickfix window
-
+  :cw     - show quickfix window
 
 ## Motion
 
-<S-Down>   - to window down
-<S-Up>     - to window up
-<S-Right>  - to window right
-<S-Left>   - to window left
+  <S-Down>   - to window down
+  <S-Up>     - to window up
+  <S-Right>  - to window right
+  <S-Left>   - to window left
 
-<C-Right>  - to next tab
-<C-Left>   - to prev tab
-(could we integrate these with unimpaired?)
+  <Ctrl-Right>  - to next tab
+  <Ctrl-Left>   - to prev tab
+  (could we integrate these with unimpaired?)
+
+  Or maybe Shift-Tab to cycle windows
 
 ## Fugitive
 
-:Gw[rite]
-:Gr[ead]
-:Gdiff [revision]
+  :Gw[rite]
+  :Gr[ead]
+  :Gdiff [revision]
 
-:Gco[mmit]
-:Gst[atus]
+  :Gco[mmit]
+  :Gst[atus]
 
-:Gmove {destination}
-:Gdelete
-:Gremove
+  :Gmove {destination}
+  :Gdelete
+  :Gremove
 
-:Gpull
-:Gpush
-:Gfetch
-:Gmerge
+  :Gpull
+  :Gpush
+  :Gfetch
+  :Gmerge
 
-:Glog
-:Gblame
+  :Glog
+  :Gblame
 
-\g - open fugitive status
+  \g - open fugitive status
 
-Inside status do `g?` to show help
-
-## NERDComment
-
-\cc - comment
-\cu - uncomment
+  Inside status do `g?` to show help
 
 ## Folding
 
-za - fold toggle
-zM - fold all
-zm - fold more
-zr - fold reduce
-zR - fold none
+  za - fold toggle
+  zM - fold all
+  zm - fold more
+  zr - fold reduce
+  zR - fold none
 
 ## Spelling
 
-[os	  ]os   =os   on/off/toggle spelling
+  [os	  ]os   =os   on/off/toggle spelling
 
-[s - prev mistake
-]s - next mistake
+  [s - prev mistake
+  ]s - next mistake
 
-zg - mark word as good
-zw - mark word as wrong
-z= - spell suggestions
+  zg - mark word as good
+  zw - mark word as wrong
+  z= - spell suggestions
 
 ## Unimpaired
 
-prev  next  first  last  operates on
---------------------------------------
-[a    ]a    [A     ]A    argument list
-[b    ]b    [B     ]B    buffer list
-[l    ]l    [L     ]L    location list
-[q    ]q    [Q     ]Q    quickfix list
-[t    ]t    [T     ]T    tag list
-
+  | prev | next | first | last | operates on
+  |------|------|-------|------|--------------
+  | [a   | ]a   | [A    | ]A   | argument list
+  | [b   | ]b   | [B    | ]B   | buffer list
+  | [l   | ]l   | [L    | ]L   | location list
+  | [q   | ]q   | [Q    | ]Q   | quickfix list
+  | [t   | ]t   | [T    | ]T   | tag list
 
 -- location list
 [<C-L> - next marker in next file
@@ -148,20 +142,20 @@ prev  next  first  last  operates on
 [e - line above
 ]e - line below
 
-On	  Off   Toggle	Option
-----------------------------
-[oh	  ]oh   =oh     hlsearch
-oi	  ]oi   =oi     ignorecase
-[ol	  ]ol   =ol     list
-[on	  ]on   =on     number
-[or	  ]or   =or     relativenumber
-[os	  ]os   =os     spell
-[ov	  ]ov   =ov     virtualedit
-[ow	  ]ow   =ow     wrap
-[oc	  ]oc   =oc     cursorline
-[ou	  ]ou   =ou     cursorcolumn
-[ox	  ]ox   =ox     cursorline cursorcolumn (x as in crosshairs)
-[od	  ]od   =od     diff (actually |:diffthis| / |:diffoff|)
+  | On	 | Off  | Toggle | Option
+  |------|------|--------|----------
+  | [oh	 | ]oh  | =oh    | hlsearch
+  | [oi	 | ]oi  | =oi    | ignorecase
+  | [ol	 | ]ol  | =ol    | list
+  | [on	 | ]on  | =on    | number
+  | [or	 | ]or  | =or    | relativenumber
+  | [os	 | ]os  | =os    | spell
+  | [ov	 | ]ov  | =ov    | virtualedit
+  | [ow	 | ]ow  | =ow    | wrap
+  | [oc	 | ]oc  | =oc    | cursorline
+  | [ou	 | ]ou  | =ou    | cursorcolumn
+  | [ox	 | ]ox  | =ox    | cursorline cursorcolumn (x as in crosshairs)
+  | [od	 | ]od  | =od    | diff (actually |:diffthis| / |:diffoff|)
 
 Encode  Decode   target
 -----------------------
@@ -180,8 +174,3 @@ ys{motion}X - you surround {motion} with X
 yS{motion}X - you surround {motion} with X indented on its own line
 
 SX - surround visual selction with X
-
-## Ultisnips
-
-<tab>
-<s-tab>
