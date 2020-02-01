@@ -1,18 +1,18 @@
 "" Personal VIM set up
 " vim: foldmethod=marker foldlevel=999
 
-" > Encoding --------------------------------------------------------------------{{{1
+" > Encoding ----------------------------------------------------------------{{{1
 
 set encoding=utf-8
 scriptencoding utf-8
 
-" > Plugins ---------------------------------------------------------------------{{{1
+" > Plugins -----------------------------------------------------------------{{{1
 
 " Load our plugin bundles
 call plug#begin('~/.vim/bundles')
 
 " File/buffer navigation plugins
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeFind'] }
 
 " Tim is the God of Vim
 Plug 'tpope/vim-sensible'
@@ -23,6 +23,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-rhubarb'
 
 Plug 'jacquesbh/vim-showmarks'
 Plug 'Glench/Vim-Jinja2-Syntax'
@@ -30,9 +32,10 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'adelarsq/vim-matchit'
 
 " Javascript
-Plug 'Quramy/tsuquyomi'
-Plug 'leafgarland/typescript-vim'
-Plug 'pangloss/vim-javascript'
+" COC covers all of these
+" Plug 'Quramy/tsuquyomi'           , { 'for' : 'javascript' }
+" Plug 'leafgarland/typescript-vim' , { 'for' : 'javascript' }
+" Plug 'pangloss/vim-javascript'    , { 'for' : 'javascript' }
 
 " Asyncronous (on-the-fly) linting
 Plug 'dense-analysis/ale'
@@ -40,15 +43,18 @@ Plug 'dense-analysis/ale'
 " Code formating
 Plug 'Chiel92/vim-autoformat'
 
-" Do you like COC? Not really.
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Do you like COC? Hell Yeah!
+" Lots of self-managed extensions
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Asyncronous completion
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+" Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
 " Snippets for faster editing
 "" Note: YCM helps with snippet discovery
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+"" So does FZF and COC
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " Editable quickfix list
 Plug 'Olical/vim-enmasse'
@@ -62,7 +68,7 @@ Plug 'KabbAmine/zeavim.vim'
 " A better status line
 Plug 'itchyny/lightline.vim'
 Plug 'niklaas/lightline-gitdiff'
-Plug 'niklaas/lightline-gitdiff'
+
 " Running tests from current buffer
 Plug 'janko-m/vim-test'
 
@@ -76,20 +82,24 @@ Plug 'mbbill/undotree'
 " Plug 'junegunn/vim-easy-align'
 
 " Simple checkbox support
-Plug 'jkramer/vim-checkbox'
+Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
 
 " Fuzzy Finding
 Plug 'junegunn/fzf.vim'
 
 " Ranger only works in terminal
 " Plug 'francoiscabrol/ranger.vim'
-" let g:ranger_map_keys = 0
+" let g:ranger_map_keys=0
+
+" Git signs in the gutter
+Plug 'airblade/vim-gitgutter'
+
+" temp for debugging netrw
+" Plug 'vim-scripts/Decho'
 
 call plug#end()
 
-" > General Settings -----------------------------------------------------------{{{1
-
-" S: this indicates a setting covered by 'sensible'
+" > General Settings -------------------------------------------------------{{{1
 
 "------------------------------------------
 " Formating and Motion:
@@ -110,9 +120,9 @@ set shiftwidth=4                 "Indent/outdent by four columns
 set expandtab                    "Convert all tabs typed to spaces
 set smartindent                  "Smart autoindenting when starting a new line
 set shiftround                   "Indent/outdent to nearest tabstop
-" S: set autoindent                   "Preserve current indent on new lines
-" S: set backspace=indent,eol,start   "Make backspaces delete sensibly
-" S: set smarttab
+set autoindent                   "Preserve current indent on new lines
+set backspace=indent,eol,start   "Make backspaces delete sensibly
+set smarttab
 
 "
 " Relative line numbers to encourage me to use line oriented motions more.
@@ -153,17 +163,17 @@ set pastetoggle=<F2>
 
 set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
-" S: set ttimeout           " time out for key codes
-" S: set ttimeoutlen=100    " wait up to 100ms after Esc for special key
+set ttimeout           " time out for key codes
+set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 
 
 "------------------------------------------
 " Completion:
 "------------------------------------------
 
-" S: set complete -=i " dont search included files
+set complete -=i " dont search included files
+set wildmenu
 
-" S: set wildmenu
 " set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
@@ -208,8 +218,8 @@ set cmdheight=2     " 2 lines for command buffer
 set laststatus=2    " always display status bar
 set showcmd         " display incomplete commands
 
-" S: set scrolloff=5         " always show 5 lines of context when scrolling
-" S: set sidescrolloff=5     " keep at least 5 columns of context to either side
+set scrolloff=5         " always show 5 lines of context when scrolling
+set sidescrolloff=5     " keep at least 5 columns of context to either side
 
 " Use '" to go to last cursor postion
 "
@@ -256,7 +266,7 @@ endif
 " -----------------
 
 set path+=**            " search for files recursively
-" S: set autoread       " re-read open files when changed outside Vim
+set autoread            " re-read open files when changed outside Vim
 set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
@@ -285,7 +295,7 @@ set grepprg=rg\ --vimgrep\ --max-columns\ 160\ --max-filesize\ 1M
 set grepformat^=%f:%l:%c:%m
 
 " Speed up diff by ignoring localisations
-let g:diff_translations = 0
+let g:diff_translations=0
 
 " Always use vertical diffs
 set diffopt+=vertical
@@ -303,13 +313,13 @@ if has('autocmd')
 endif
 
 let g:xml_use_xhtml=1
-let g:xml_syntax_folding = 1
+let g:xml_syntax_folding=1
 
-let g:markdown_folding = 1
-let g:markdown_syntax_conceal = 0
+let g:markdown_folding=1
+let g:markdown_syntax_conceal=0
 
 " See ft_sql.vim
-let g:sql_type_default = 'mysql'
+let g:sql_type_default='mysql'
 
 " want this abbreviation, but just for python mode
 " ab ip import ipdb; ipdb.set_trace()
@@ -331,23 +341,23 @@ if !exists(':DiffOrig')
                 \ | wincmd p | diffthis
 endif
 
-" > Plugin Settings -------------------------------------------------------------{{{1
-" >> Misc -----------------------------------------------------------------------{{{2
+" > Plugin Settings ---------------------------------------------------------{{{1
+" >> Misc -------------------------------------------------------------------{{{2
 
 " undotree
-let g:undotree_ShortIndicators = 1
+let g:undotree_ShortIndicators=1
 
 " vim-test
-let test#strategy = 'make'
+let test#strategy='make'
 
 " lightline
 set noshowmode
-let g:lightline = {
+let g:lightline={
     \   'colorscheme': 'Tomorrow_Night',
     \   'active': {
     \     'left': [
     \        [ 'mode', 'paste' ],
-    \        [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+    \        [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ],
     \        [ 'gitdiff' ]
     \     ],
     \     'right': [
@@ -361,6 +371,7 @@ let g:lightline = {
     \     ]
     \   },
     \   'component_function': {
+	\     'cocstatus': 'coc#status',
     \     'gitbranch': 'fugitive#head',
     \   },
     \   'component_expand': {
@@ -371,26 +382,31 @@ let g:lightline = {
     \   }, 
     \}
 
-" UltiSnips triggering
-let g:UltiSnipsExpandTrigger = '<C-j>'
-let g:UltiSnipsListSnippets = '<C-tab>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-let g:UltiSnipsEditSplit='context'
-let g:UltiSnipsEnableSnipMate = 0
-let g:ultisnips_python_style = 'google'
-let g:UltiSnipsSnippetDir = '~/.vim/MyUltiSnips'
+fi
 
-let g:zv_zeal_executable = $HOME . '/bin/zeal'
-let g:zv_docsets_dir = '~/.local/share/Zeal/Zeal/docsets/'
+" use autocmd to update status
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+" UltiSnips triggering
+let g:UltiSnipsExpandTrigger='<C-j>'
+let g:UltiSnipsListSnippets='<C-tab>'
+let g:UltiSnipsJumpForwardTrigger='<C-j>'
+let g:UltiSnipsJumpBackwardTrigger='<C-k>'
+let g:UltiSnipsEditSplit='context'
+let g:UltiSnipsEnableSnipMate=0
+let g:ultisnips_python_style='google'
+let g:UltiSnipsSnippetDir='~/.vim/MyUltiSnips'
+
+let g:zv_zeal_executable=$HOME . '/bin/zeal'
+let g:zv_docsets_dir='~/.local/share/Zeal/Zeal/docsets/'
 
 " Better Whitespace
-" let g:better_whitespace_enabled = 1
-" let g:strip_whitespace_on_save = 1
-" let g:strip_whitespace_confirm = 0
-" let g:strip_whitelines_at_eof = 1
-" let g:strip_only_modified_lines = 0
-" let g:better_whitespace_filetypes_blacklist = [
+" let g:better_whitespace_enabled=1
+" let g:strip_whitespace_on_save=1
+" let g:strip_whitespace_confirm=0
+" let g:strip_whitelines_at_eof=1
+" let g:strip_only_modified_lines=0
+" let g:better_whitespace_filetypes_blacklist=[
 "             \ 'diff', 'gitcommit', 'unite', 'qf', 'help'
 "             \ ]
 
@@ -400,9 +416,9 @@ augroup fugitive
     autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
-" >> FZF ------------------------------------------------------------------------{{{2
+" >> FZF --------------------------------------------------------------------{{{2
 
-" let g:fzf_colors = {
+" let g:fzf_colors={
 "   \ 'fg':      ['fg', 'Normal'],
 "   \ 'bg':      ['bg', 'Normal'],
 "   \ 'hl':      ['fg', 'Label'],
@@ -417,17 +433,17 @@ augroup END
 "   \ 'spinner': ['fg', 'Label'],
 "   \ 'header':  ['fg', 'Comment'] }
 
-" >> YouCompleteMe --------------------------------------------------------------{{{2
+" >> YouCompleteMe ----------------------------------------------------------{{{2
 
-let g:ycm_min_num_of_chars_for_completion = 2       " Default
-let g:ycm_min_num_identifier_candidate_chars = 0    " Default
-let g:ycm_max_num_candidates = 50                   " Default for semantic completion
-let g:ycm_max_num_identifier_candidates = 10        " Default for identifier completion
-let g:ycm_auto_trigger = 1                          " Default
-let g:ycm_filetype_whitelist = {'*': 1}             " Default
+let g:ycm_min_num_of_chars_for_completion=2       " Default
+let g:ycm_min_num_identifier_candidate_chars=0    " Default
+let g:ycm_max_num_candidates=50                   " Default for semantic completion
+let g:ycm_max_num_identifier_candidates=10        " Default for identifier completion
+let g:ycm_auto_trigger=1                          " Default
+let g:ycm_filetype_whitelist={'*': 1}             " Default
 
-" Defaults with "markdown" removed
-let g:ycm_filetype_blacklist = {
+let g:ycm_filetype_blacklist={
+            \ 'markdown': 1,
             \ 'notes': 1,
             \ 'netrw': 1,
             \ 'unite': 1,
@@ -439,29 +455,29 @@ let g:ycm_filetype_blacklist = {
             \}
 
 " Default
-let g:ycm_filetype_specific_completion_to_disable = {
+let g:ycm_filetype_specific_completion_to_disable={
             \ 'gitcommit': 1
             \}
 
 " Default
-let g:ycm_filepath_blacklist = {
+let g:ycm_filepath_blacklist={
             \ 'html': 1,
             \ 'jsx': 1,
             \ 'xml': 1,
             \}
 
 " Need this for jedi signature help
-let g:ycm_show_diagnostics_ui = 1    " Default 1
+let g:ycm_show_diagnostics_ui=1    " Default 1
 
-let g:ycm_global_ycm_extra_conf = '~/.vim/global-ycm-extra-conf.py'
-" let g:ycm_autoclose_preview_window_after_completion = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_global_ycm_extra_conf='~/.vim/global-ycm-extra-conf.py'
+" let g:ycm_autoclose_preview_window_after_completion=0
+let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_complete_in_comments=1
+let g:ycm_complete_in_strings=1
+let g:ycm_collect_identifiers_from_comments_and_strings=1
+let g:ycm_seed_identifiers_with_syntax=1
 
-" >> NERDTree -------------------------------------------------------------------{{{2
+" >> NERDTree ---------------------------------------------------------------{{{2
 
 let NERDTreeCaseSensitiveSort=1
 
@@ -469,28 +485,27 @@ let NERDTreeCaseSensitiveSort=1
 "let NERDTreeChDirMode=1 " cwd changed on NERD load
 let NERDTreeChDirMode=2  " cwd follows root
 
-let NERDTreeHijackNetrw=0
+let NERDTreeHijackNetrw=1
 let NERDTreeShowBookmarks=0
-let NERDTreeIgnore=['\~$', '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$', '__pycache__']
+let NERDTreeIgnore=[
+    \   '\~$', 
+    \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
+    \   '__pycache__'
+    \]
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
-let NERDTreeWinSize = 31
-let NERDTreeWinSizeMax = 93
-" directories first unless the have a .t suffix
-"let NERDTreeSortOrder = ['\(\.t\)\@<!\/$', '*', '\.swp$',  '\.bak$', '\~$']
-" directories first
-let NERDTreeSortOrder = ['\/$', '*', '\.swp$',  '\.bak$', '\~$']
-" let NERDTreeSortOrder = ['*', '\.swp$',  '\.bak$', '\~$']
-let NERDTreeWinPos = 'right'
+let NERDTreeWinSize=31
+let NERDTreeWinSizeMax=93
+" Sort directories first
+let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 
-function! MyNERDTreeToggle ()
-    if bufname('%') ==# '__MRU_Files__' || bufname('%') ==? '[BufExplorer]'
-        quit
-    endif
-    silent NERDTreeToggle
-endfunction
+" Putting this on the right means the content in source window (which is left
+" aligned) move less when toggle the browser
+let NERDTreeWinPos='right'
+let NERDTreeHighlightCursorline=1
+ 
+" >> Ale --------------------------------------------------------------------{{{2
 
-" >> Ale ------------------------------------------------------------------------{{{2
 "" These get merged with the global list
 "" let g:ale_lint_on_text_changed=0
 "" let g:ale_lint_on_insert_leave=1
@@ -505,65 +520,63 @@ let g:ale_maximum_file_size=50000
 "   * proselint seemed to be the best middle-ground
 
 " > Linting
-let g:ale_linters = {
+let g:ale_linters={
             \ 'python': ['flake8'],
             \ 'markdown': ['proselint', 'mdl'],
             \ }
-let g:ale_markdown_mdl_options = '--style ~/.mdl-style.rb'
+let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
 
 " > Fixing
-let g:ale_fixers = {
+let g:ale_fixers={
             \ 'python': ['remove_trailing_lines', 'trim_whitespace'],
             \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
             \ }
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save=1
 
 " > Display
-let g:ale_sign_error = ' ✗'
-let g:ale_sign_style_error = ' ✗'
-let g:ale_sign_warning = ' ⚠'
-let g:ale_sign_style_warning = ' ⚠'
-let g:ale_sign_colum_always = 1
-let g:ale_change_sign_column_color=1
+let g:ale_sign_error='✗'
+let g:ale_sign_style_error='✗'
+let g:ale_sign_warning='⚠'
+let g:ale_sign_style_warning='⚠'
 
-" >> Netrw ----------------------------------------------------------------------{{{2
+" >> Netrw ------------------------------------------------------------------{{{2
 
 " XXX Seeing way to many bugs and errors with this. Dont think its maintained
 " much anymore.
 
 " tpope's suggestions
 " nnoremap <leader>e :Explore<CR>
-let g:netrw_banner = 0
+let g:netrw_banner=0
 
 let g:netrw_sizestyle='b' " human readable sizes
 
 "" Default listing style
-" let g:netrw_liststyle = 0     " thin
-let g:netrw_liststyle = 1     " long
-" let g:netrw_liststyle = 2     " wide
-" let g:netrw_liststyle = 3       " tree
+" let g:netrw_liststyle=0     " thin
+let g:netrw_liststyle=1     " long
+" let g:netrw_liststyle=2     " wide
+" let g:netrw_liststyle=3       " tree
 
-let g:netrw_browse_split = 0  " current window
-" let g:netrw_browse_split = 1  " new horizontal split
-" let g:netrw_browse_split = 2  " new vertical split
-" let g:netrw_browse_split = 3  " new tab
-" let g:netrw_browse_split = 4    " open previous window
+let g:netrw_browse_split=0  " current window
+" let g:netrw_browse_split=1  " new horizontal split
+" let g:netrw_browse_split=2  " new vertical split
+" let g:netrw_browse_split=3  " new tab
+" let g:netrw_browse_split=4    " open previous window
 
 " let g:netrw_preview=0         " preview in horizontal split window
 " let g:netrw_preview=1         " preview in vertical split window
 
-" let g:netrw_altv = 0            " default to left splitting
-" let g:netrw_altv = 1          " default to right splitting
-" let g:netrw_alto = 0            " default to splitting above
- let g:netrw_alto = 1          " default to splitting below
-let g:netrw_winsize = 25        " % of window width/height to use
-" let g:netrw_keepdir = 0         " current dir tracks browsing dir
-let g:netrw_keepdir = 1         " current dir does not track browsing dir
+" let g:netrw_altv=0            " default to left splitting
+" let g:netrw_altv=1          " default to right splitting
+" let g:netrw_alto=0            " default to splitting above
+ let g:netrw_alto=1          " default to splitting below
+let g:netrw_winsize=25        " % of window width/height to use
+" let g:netrw_keepdir=0         " current dir tracks browsing dir
+let g:netrw_keepdir=1         " current dir does not track browsing dir
 
 "" Default hiding
-" let g:netrw_hide = 0          " show all
+" let g:netrw_hide=0          " show all
 let g:netrw_hide=1            " show not-hidden files
-" let g:netrw_hide = 2          " show hidden files only
+" let g:netrw_hide=2          " show hidden files only
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 
 " Listing Speed
@@ -576,11 +589,137 @@ let g:netrw_use_tab=1           " ctrl-tab to shrink/expand Lexplorer window
 
 let g:netrw_special_syntax=1    " highlight special (binary) files
 
-" set external tool for opening file (gx) to xdg-open
-let g:netrw_browsex_viewer="xdg-open"
-let g:netrw_suppress_gx_mesg=0
+" " XXX Dont set this! xdg-open needs to be run in the background. Had to patch
+" that separately
+" let g:netrw_browsex_viewer="xdg-open"
+" let g:netrw_suppress_gx_mesg=1
 
-" > Key Mapping -----------------------------------------------------------------{{{1
+" >> COC -------------------------------------------------------------------{{{2
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>rf  <Plug>(coc-format-selected)
+nmap <leader>rf  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" > Key Mapping ------------------------------------------------------------{{{1
 
 " Windows
 noremap <Tab> <c-w>w
@@ -592,7 +731,7 @@ noremap <Shift-Tab> <c-w>W
 nmap <C-Right>       :tabnext<CR>
 nmap <C-Left>        :tabprevious<CR>
 
-" >> Leader Keys ----------------------------------------------------------------{{{2
+" >> Leader Keys -----------------------------------------------------------{{{2
 
 noremap <silent> <leader><space> :nohlsearch<CR>
 noremap <silent> <leader>o :only<CR>
@@ -602,13 +741,13 @@ noremap  <silent> <C-\>    :Buffers<CR>
 
 " > File short cuts
 noremap <silent> <leader>C :e ~/dotfiles/vim/cheetsheet.mkd<CR>
-noremap <silent> <leader>N :e ~/notes<CR>
+noremap <silent> <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
 noremap <silent> <leader>g :G<CR>
 noremap <silent> <leader><leader>G :Gbrowse<CR>
 noremap <silent> <leader>u :UndotreeToggle<CR>
-noremap <silent> <leader>n :call MyNERDTreeToggle()<CR>
+noremap <silent> <leader>n :NERDTreeFind<CR>
 noremap <silent> <leader>a :Autoformat<CR>
 
 " > FZF
@@ -652,7 +791,7 @@ noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
 noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
 
 
-" >> Fixes ----------------------------------------------------------------------{{{2
+" >> Fixes ------------------------------------------------------------------{{{2
 
 " Tweaks to fix problematic mappings 
 
@@ -716,9 +855,9 @@ if &term =~? 'xterm.*'"
     imap <Esc>O1;5D <C-Left>
 endif
 
-" > Old Plugins -----------------------------------------------------------------{{{1
+" > Old Plugins -------------------------------------------------------------{{{1
 
-" >> TagBar ---------------------------------------------------------------------{{{2
+" >> TagBar -----------------------------------------------------------------{{{2
 " hi TagbarFoldIcon guifg=fg
 " let g:tagbar_width     = 31
 " let g:tagbar_left      = 0
@@ -810,7 +949,7 @@ endif
 "     silent TagbarToggle
 " endfunction
 "
-" >> Perl Support ---------------------------------------------------------------{{{2
+" >> Perl Support -----------------------------------------------------------{{{2
 
 " let g:Perl_GlobalTemplateFile      =  $HOME.'/.vim/perl-support/templates/Templates'
 " let g:Perl_LocalTemplateFile       =  $HOME.'/.vim/perl-support/templates/Templates'
@@ -845,7 +984,7 @@ endif
 " let g:Perl_NYTProf_html            = 'no'
 " let g:Perl_NYTProf_browser         = 'firefox'
 
-" >> Syntastic ------------------------------------------------------------------{{{2
+" >> Syntastic --------------------------------------------------------------{{{2
 
 " " Only used in directories where we have created a script to invoke the
 " " interpreter
@@ -872,7 +1011,7 @@ endif
 " let g:syntastic_python_python_exec='/usr/bin/python3'
 " let g:syntastic_python_checkers = ['flake8', 'python']
 
-" >> RPM-SPEC -------------------------------------------------------------------{{{2
+" >> RPM-SPEC ---------------------------------------------------------------{{{2
 " augroup specfile
 "     autocmd!
 "     autocmd FileType spec map <buffer> <LocalLeader>c <Plug>SpecChangelog
@@ -883,7 +1022,7 @@ endif
 " let spec_chglog_never_increase_release = 0
 " let g:changelog_date_end_entry_search = '^\s*$'
 
-" >> BufExplorer ------------------------------------------------------------------{{{2
+" >> BufExplorer --------------------------------------------------------------{{{2
 
 " let g:bufExplorerDefaultHelp=0       " Show default help.
 " let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
@@ -928,7 +1067,7 @@ endif
 "     endif
 " endfunction
 
-" >> MRU ------------------------------------------------------------------------{{{2
+" >> MRU --------------------------------------------------------------------{{{2
 
 " let MRU_File = $HOME . '/.vim_mru_files'
 " let MRU_Exclude_Files = 'COMMIT_EDITMSG'
