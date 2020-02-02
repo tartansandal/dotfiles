@@ -31,21 +31,15 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 " Plug 'ntpeters/vim-better-whitespace'
 Plug 'adelarsq/vim-matchit'
 
+" Do you like Coc? Hell Yeah!
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Asyncronous (on-the-fly) linting
 Plug 'dense-analysis/ale'
 
 " Code formating
+" This may be superseded by Coc
 Plug 'Chiel92/vim-autoformat'
-
-" Do you like COC? Hell Yeah!
-" Lots of self-managed extensions
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Snippets for faster editing
-"" Note: YCM helps with snippet discovery
-"" So does FZF and COC
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
 
 " Editable quickfix list
 Plug 'Olical/vim-enmasse'
@@ -70,7 +64,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'mbbill/undotree'
 
 " This could be good for tables in Markdown
-" Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 
 " Simple checkbox support
 Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
@@ -89,7 +83,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'vim-scripts/Decho'
 
 " Better colorscheme
-Plug 'chriskempson/base16-vim'
+" Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -695,7 +689,7 @@ noremap <leader>o :only<CR>
 noremap <C-\>    :Buffers<CR>
 
 " > File short cuts
-noremap <leader>C :e ~/dotfiles/vim/cheetsheet.mkd<CR>
+noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
 noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers

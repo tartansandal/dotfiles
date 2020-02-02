@@ -13,23 +13,26 @@
   \u - toggle undo tree
   \n - find current file in NERDTree
 
+  \N - goto ~/Notes directory
+  \? - goto cheatsheet
+
 ## FZF
 
   \b :Buffers
-  \
+
   \f :GFiles
   \F :Files
-  \
+
   \h :History
   \: :History:
   \/ :History/
-  \
+
   \t :BTags
   \T :Tags
-  \
+
   \l :BLines
   \L :Lines
-  \
+
   \m :Methods
   \h :History
   \H :Helptags!
