@@ -10,13 +10,7 @@ if has('win32')
   set guioptions-=t
 endif
 
-"colorscheme dirtylooks
-"colorscheme dirtysea
-"colorscheme onedark
-"colorscheme peaksea
-" colorscheme moonlight
-
-let c_comment_strings=1
+colorscheme base16-dirtysea
 
 function! MyGuiFontSizeDec()
     let g:MyGuiFontSize=g:MyGuiFontSize-1
@@ -39,24 +33,6 @@ endfunction
 nnoremap <A-+> :call MyGuiFontSizeInc()<CR>
 nnoremap <A-_> :call MyGuiFontSizeDec()<CR>
 nnoremap <A-)> :call MyGuiFontSizeReset()<CR>
-
-set cmdheight=2  " Can help with spurious "hit-enter" prompts
-
-" define taglist highlighting groups
-highlight default link MyTagListTagName Search
-
-highlight clear MyTagListComment
-highlight default link MyTagListComment Comment
-
-highlight clear MyTagListTitle
-highlight default link MyTagListTitle Title
-
-highlight clear MyTagListFileName
-highlight default MyTagListFileName guibg=Grey ctermbg=darkgray
-            \ guifg=black ctermfg=white
-
-highlight clear MyTagListTagScope
-highlight default link MyTagListTagScope Identifier
 
 set columns=105
 set lines=56

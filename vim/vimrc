@@ -83,7 +83,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'vim-scripts/Decho'
 
 " Better colorscheme
-" Plug 'chriskempson/base16-vim'
+Plug 'tartansandal/base16-vim'
 
 call plug#end()
 
@@ -233,19 +233,13 @@ if has('mouse')
     set mouse=a
 endif
 
-" Only switch on syntax highlighting on, when the terminal has colors
-" This must come before filetype detection for some reason
-if &t_Co > 2 || has('gui_running')
-    syntax on
-    colorscheme base16-dirtysea
-    " colorscheme moonlight
+" if (has('termguicolors'))
+"     set termguicolors
+" endif
 
-    " hightlight strings in C comments
-    let c_comment_strings=1
-
-    if (has('termguicolors'))
-        set termguicolors
-    endif
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
 endif
 
 " -----------------
