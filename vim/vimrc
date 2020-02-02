@@ -31,12 +31,6 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 " Plug 'ntpeters/vim-better-whitespace'
 Plug 'adelarsq/vim-matchit'
 
-" Javascript
-" COC covers all of these
-" Plug 'Quramy/tsuquyomi'           , { 'for' : 'javascript' }
-" Plug 'leafgarland/typescript-vim' , { 'for' : 'javascript' }
-" Plug 'pangloss/vim-javascript'    , { 'for' : 'javascript' }
-
 " Asyncronous (on-the-fly) linting
 Plug 'dense-analysis/ale'
 
@@ -46,9 +40,6 @@ Plug 'Chiel92/vim-autoformat'
 " Do you like COC? Hell Yeah!
 " Lots of self-managed extensions
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Asyncronous completion
-" Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
 " Snippets for faster editing
 "" Note: YCM helps with snippet discovery
@@ -96,6 +87,9 @@ Plug 'airblade/vim-gitgutter'
 
 " temp for debugging netrw
 " Plug 'vim-scripts/Decho'
+
+" Better colorscheme
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -249,13 +243,12 @@ endif
 " This must come before filetype detection for some reason
 if &t_Co > 2 || has('gui_running')
     syntax on
-    colorscheme dirtysea
+    colorscheme base16-dirtysea
     " colorscheme moonlight
 
     " hightlight strings in C comments
     let c_comment_strings=1
 
-    let g:onedark_termcolors=16
     if (has('termguicolors'))
         set termguicolors
     endif
@@ -273,9 +266,9 @@ set browsedir=current   " which directory to use for the file browser
 set fileformat=unix
 
 " keep backups under ~/tmp
-set backup          " keep a backup file
-set backupcopy=yes  " copy the original even if a link
-set backupdir=~/tmp/backup,~/,/tmp
+" set backup          " keep a backup file
+" set backupcopy=yes  " copy the original even if a link
+" set backupdir=~/tmp/backup,~/,/tmp
 
 set undodir=~/tmp/undo,~/,/tmp
 set undofile          " keep a undo file
@@ -317,6 +310,8 @@ let g:xml_syntax_folding=1
 
 let g:markdown_folding=1
 let g:markdown_syntax_conceal=0
+
+let g:markdown_fenced_languages = ['css', 'js=javascript']
 
 " See ft_sql.vim
 let g:sql_type_default='mysql'
@@ -382,8 +377,6 @@ let g:lightline={
     \   }, 
     \}
 
-fi
-
 " use autocmd to update status
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
@@ -432,50 +425,6 @@ augroup END
 "   \ 'marker':  ['fg', 'Conditional'],
 "   \ 'spinner': ['fg', 'Label'],
 "   \ 'header':  ['fg', 'Comment'] }
-
-" >> YouCompleteMe ----------------------------------------------------------{{{2
-
-let g:ycm_min_num_of_chars_for_completion=2       " Default
-let g:ycm_min_num_identifier_candidate_chars=0    " Default
-let g:ycm_max_num_candidates=50                   " Default for semantic completion
-let g:ycm_max_num_identifier_candidates=10        " Default for identifier completion
-let g:ycm_auto_trigger=1                          " Default
-let g:ycm_filetype_whitelist={'*': 1}             " Default
-
-let g:ycm_filetype_blacklist={
-            \ 'markdown': 1,
-            \ 'notes': 1,
-            \ 'netrw': 1,
-            \ 'unite': 1,
-            \ 'text': 1,
-            \ 'vimwiki': 1,
-            \ 'pandoc': 1,
-            \ 'infolog': 1,
-            \ 'mail': 1
-            \}
-
-" Default
-let g:ycm_filetype_specific_completion_to_disable={
-            \ 'gitcommit': 1
-            \}
-
-" Default
-let g:ycm_filepath_blacklist={
-            \ 'html': 1,
-            \ 'jsx': 1,
-            \ 'xml': 1,
-            \}
-
-" Need this for jedi signature help
-let g:ycm_show_diagnostics_ui=1    " Default 1
-
-let g:ycm_global_ycm_extra_conf='~/.vim/global-ycm-extra-conf.py'
-" let g:ycm_autoclose_preview_window_after_completion=0
-let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_complete_in_comments=1
-let g:ycm_complete_in_strings=1
-let g:ycm_collect_identifiers_from_comments_and_strings=1
-let g:ycm_seed_identifiers_with_syntax=1
 
 " >> NERDTree ---------------------------------------------------------------{{{2
 
@@ -653,6 +602,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
+" XXX Does not seem to work for me
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
@@ -722,33 +672,38 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " > Key Mapping ------------------------------------------------------------{{{1
 
 " Windows
-noremap <Tab> <c-w>w
-noremap <Shift-Tab> <c-w>W
+" noremap <Tab> <c-w>w
+" noremap <Shift-Tab> <c-w>W
+
+nnoremap <S-Up>    <c-w>k
+nnoremap <S-Down>  <c-w>j
+nnoremap <S-Left>  <c-w>h
+nnoremap <S-Right> <c-w>l
 
 " Tabs
 " Use control + arrow key to move between tabs
 " (same as for gnome terminal tabs)
-nmap <C-Right>       :tabnext<CR>
-nmap <C-Left>        :tabprevious<CR>
+noremap <C-Right>       :tabnext<CR>
+noremap <C-Left>        :tabprevious<CR>
 
 " >> Leader Keys -----------------------------------------------------------{{{2
 
-noremap <silent> <leader><space> :nohlsearch<CR>
-noremap <silent> <leader>o :only<CR>
+noremap <leader><space> :nohlsearch<CR>
+noremap <leader>o :only<CR>
 
 " double up on the \b command since I am so used to this binding
-noremap  <silent> <C-\>    :Buffers<CR>
+noremap <C-\>    :Buffers<CR>
 
 " > File short cuts
-noremap <silent> <leader>C :e ~/dotfiles/vim/cheetsheet.mkd<CR>
-noremap <silent> <leader>N :NERDTree ~/Notes<CR>
+noremap <leader>C :e ~/dotfiles/vim/cheetsheet.mkd<CR>
+noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
-noremap <silent> <leader>g :G<CR>
-noremap <silent> <leader><leader>G :Gbrowse<CR>
-noremap <silent> <leader>u :UndotreeToggle<CR>
-noremap <silent> <leader>n :NERDTreeFind<CR>
-noremap <silent> <leader>a :Autoformat<CR>
+noremap <leader>g :G<CR>
+noremap <leader><leader>G :Gbrowse<CR>
+noremap <leader>u :UndotreeToggle<CR>
+noremap <leader>n :NERDTreeFind<CR>
+noremap <leader>a :Autoformat<CR>
 
 " > FZF
 nmap <Leader>b :Buffers<CR>
@@ -780,16 +735,9 @@ nmap <Leader>S :Snippets<CR>
 " nmap <Leader>/ :Rg<Space>
 
 " > Grep (same bindings as easygrep)
-noremap <silent> <leader>vv :grep! -w <cword><CR>
-noremap <silent> <leader>vV :grep! -w <cWORD><CR>
-noremap <silent> <leader>vf :grep! <cfile><CR>
-
-
-" > YouCompleteMe
-noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
-noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
-noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
-
+noremap <leader>vv :grep! -w <cword><CR>
+noremap <leader>vV :grep! -w <cWORD><CR>
+noremap <leader>vf :grep! <cfile><CR>
 
 " >> Fixes ------------------------------------------------------------------{{{2
 
@@ -1092,4 +1040,53 @@ endif
 "         nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
 "     endif
 " endfunction
+
+" >> YouCompleteMe ----------------------------------------------------------{{{2
+
+" " > YouCompleteMe
+" noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
+" noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
+" noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
+
+" let g:ycm_min_num_of_chars_for_completion=2       " Default
+" let g:ycm_min_num_identifier_candidate_chars=0    " Default
+" let g:ycm_max_num_candidates=50                   " Default for semantic completion
+" let g:ycm_max_num_identifier_candidates=10        " Default for identifier completion
+" let g:ycm_auto_trigger=1                          " Default
+" let g:ycm_filetype_whitelist={'*': 1}             " Default
+
+" let g:ycm_filetype_blacklist={
+"             \ 'markdown': 1,
+"             \ 'notes': 1,
+"             \ 'netrw': 1,
+"             \ 'unite': 1,
+"             \ 'text': 1,
+"             \ 'vimwiki': 1,
+"             \ 'pandoc': 1,
+"             \ 'infolog': 1,
+"             \ 'mail': 1
+"             \}
+
+" " Default
+" let g:ycm_filetype_specific_completion_to_disable={
+"             \ 'gitcommit': 1
+"             \}
+
+" " Default
+" let g:ycm_filepath_blacklist={
+"             \ 'html': 1,
+"             \ 'jsx': 1,
+"             \ 'xml': 1,
+"             \}
+
+" " Need this for jedi signature help
+" let g:ycm_show_diagnostics_ui=1    " Default 1
+
+" let g:ycm_global_ycm_extra_conf='~/.vim/global-ycm-extra-conf.py'
+" " let g:ycm_autoclose_preview_window_after_completion=0
+" let g:ycm_autoclose_preview_window_after_insertion=1
+" let g:ycm_complete_in_comments=1
+" let g:ycm_complete_in_strings=1
+" let g:ycm_collect_identifiers_from_comments_and_strings=1
+" let g:ycm_seed_identifiers_with_syntax=1
 

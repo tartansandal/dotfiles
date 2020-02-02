@@ -39,45 +39,85 @@ let g:colors_name = expand("<sfile>:t:r")
 " LIGHT COLOR DEFINE START
 
 hi Normal		guifg=#000000	guibg=#e0e0e0	gui=NONE
-hi Search		guifg=NONE	guibg=#f8f8f8	gui=NONE
 hi Visual		guifg=NONE	guibg=#a6caf0	gui=NONE
+
 hi Cursor		guifg=#f0f0f0	guibg=#008000	gui=NONE
 hi CursorIM		guifg=#f0f0f0	guibg=#800080   gui=NONE
-hi Special		guifg=DarkSlateBlue	guibg=NONE	gui=NONE
+
+" 03
 hi Comment		guifg=#000084	guibg=NONE	gui=NONE
-hi Number		guifg=#730073	guibg=NONE	gui=NONE
-hi Constant		guifg=#730073	guibg=NONE	gui=NONE
-hi StatusLine		guifg=fg	guibg=#a8c1dd	gui=NONE
-hi LineNr		guifg=#686868	guibg=NONE	gui=NONE
-hi Question		guifg=fg	guibg=#d0d090	gui=NONE
-hi PreProc		guifg=#006565	guibg=NONE	gui=NONE
-hi Statement		guifg=#840000	guibg=NONE	gui=NONE
-hi Type		        guifg=#755B00	guibg=NONE	gui=NONE
-hi Todo		        guifg=#800000	guibg=#e0e090	gui=NONE
-" NOTE THIS IS IN THE WARM SECTION
-hi Error		guifg=#c03000	guibg=NONE	gui=NONE
-hi Identifier		guifg=#007300	guibg=NONE	gui=NONE
-hi ModeMsg		guifg=fg	guibg=#b0b0e0	gui=NONE
-hi VisualNOS		guifg=fg	guibg=#b0b0e0	gui=NONE
+hi Folded		guifg=NONE	guibg=#c4d9c4	gui=NONE
+hi MatchParen	        guifg=NONE	guibg=#c0e080
 hi SpecialKey		guifg=#1050a0	guibg=NONE	gui=NONE
 hi NonText		guifg=#002090	guibg=#d0d0d0	gui=NONE
-hi Directory		guifg=#000084	guibg=NONE	gui=NONE
+hi StatusLineNC	        guifg=fg	guibg=#c0c0c0	gui=NONE
+
+" 04
+hi StatusLine		guifg=fg	guibg=#a8c1dd	gui=NONE
+
+
+" 08
+hi Identifier		guifg=#007300	guibg=NONE	gui=NONE
+hi VisualNOS		guifg=fg	guibg=#b0b0e0	gui=NONE
 hi ErrorMsg		guifg=fg	guibg=#f0b090	gui=NONE
-hi MoreMsg		guifg=#489000	guibg=NONE	gui=NONE
-hi Title		guifg=#730073	guibg=NONE	gui=NONE
-hi WarningMsg		guifg=#b02000	guibg=NONE	gui=NONE
-hi WildMenu		guifg=fg	guibg=#d0d090	gui=NONE
-hi Folded		guifg=NONE	guibg=#c4d9c4	gui=NONE
-hi FoldColumn		guifg=fg	guibg=#90e090	gui=NONE
-hi DiffAdd		guifg=NONE	guibg=#b0b0e0	gui=NONE
-hi DiffChange		guifg=NONE	guibg=#e0b0e0	gui=NONE
+hi Statement		guifg=#840000	guibg=NONE	gui=NONE
 hi DiffDelete		guifg=#002090	guibg=#d0d0d0	gui=NONE
+
+" 09
+hi Number		guifg=#730073	guibg=NONE	gui=NONE
+hi Constant		guifg=#730073	guibg=NONE	gui=NONE
+
+" 0A
+hi Search		guifg=NONE	guibg=#f8f8f8	gui=NONE
+hi WildMenu		guifg=fg	guibg=#d0d090	gui=NONE
+hi Type		        guifg=#755B00	guibg=NONE	gui=NONE
+hi Todo		        guifg=#800000	guibg=#e0e090	gui=NONE
+hi PreProc		guifg=#006565	guibg=NONE	gui=NONE
+
+" 0B ?
+hi DiffAdd		guifg=NONE	guibg=#b0b0e0	gui=NONE
+
+" 0C ?
+hi FoldColumn		guifg=fg	guibg=#90e090	gui=NONE
+hi Special		guifg=DarkSlateBlue	guibg=NONE	gui=NONE
+
+" 0D
+"" clashes with 03
+hi Directory		guifg=#000084	guibg=NONE	gui=NONE
+
+"" clashes with 09
+hi Title		guifg=#730073	guibg=NONE	gui=NONE
+
+" 0E
+" Nothing
+
+" 0F
+
+
+hi LineNr		guifg=#686868	guibg=NONE	gui=NONE
+
+hi Question		guifg=fg	guibg=#d0d090	gui=NONE
+
+" NOTE THIS IS IN THE WARM SECTION
+hi Error		guifg=#c03000	guibg=NONE	gui=NONE
+
+hi ModeMsg		guifg=fg	guibg=#b0b0e0	gui=NONE
+
+
+
+hi MoreMsg		guifg=#489000	guibg=NONE	gui=NONE
+hi WarningMsg		guifg=#b02000	guibg=NONE	gui=NONE
+
+hi DiffChange		guifg=NONE	guibg=#e0b0e0	gui=NONE
+
+
 hi DiffText		guifg=NONE	guibg=#c0e080	gui=NONE
 hi SignColumn		guifg=fg	guibg=#C4D9C4	gui=NONE
 
 hi IncSearch		guifg=#f0f0f0	guibg=#806060	gui=NONE
-hi StatusLineNC	guifg=fg	guibg=#c0c0c0	gui=NONE
 hi VertSplit		guifg=fg	guibg=#c0c0c0	gui=NONE
+
+"08
 hi Underlined		guifg=#6a5acd	guibg=NONE	gui=underline
 hi Ignore		guifg=bg	guibg=NONE
 " NOTE THIS IS IN THE WARM SECTION

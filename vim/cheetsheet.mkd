@@ -8,11 +8,92 @@
 
   Ctrl-\ - buf explorer
   \g - open Fugitive Status
-  \n - toggle NERDTree
+  \\G - open file in github
+
+  \u - toggle undo tree
+  \n - find current file in NERDTree
+
+## FZF
+
+  \b :Buffers
+  \
+  \f :GFiles
+  \F :Files
+  \
+  \h :History
+  \: :History:
+  \/ :History/
+  \
+  \t :BTags
+  \T :Tags
+  \
+  \l :BLines
+  \L :Lines
+  \
+  \m :Methods
+  \h :History
+  \H :Helptags!
+  \M :Maps
+  \C :Commands
+  \' :Marks
+  \s :Filetypes
+  \S :Snippets
 
 ## Navigation
 
+  \n - findfile in NERDTree
+  \h
 
+  CTRL-^ alternate window
+
+  [g  - goto prev diagnostic
+  ]g  - goto next diagnostic
+
+  gd  - goto definition
+  gy  - goto type-definition
+  gi  - goto implementation
+  gr  - goto references
+
+  K   - to show documentation in preview window
+
+  SPACE a - Show all diagnostics
+  SPACE e - Manage extensions
+  SPACE c - Show commands
+  SPACE o - Find symbol of current document
+  SPACE s - Search workspace symbols
+  SPACE j - Do default action for next item.
+  SPACE k - Do default action for previous item.
+  SPACE p - Resume latest coc list
+
+## Refactoring
+
+  \rn - rename symbol
+  \rf - format selection/object/motion
+
+  \a  - codeAction of selection/object/motion
+
+  \qf - autofix problem of current line
+
+  if  - inner function object
+  af  - around function object
+
+  :Format - format current buffer
+  :Fold   - fold current buffer
+  :OR     - organize import of current buffer
+
+## Completion
+
+  i_TAB - trigger completion
+          repeat for next selection
+          S-TAB for previous selection
+          CR to configure completion
+
+
+  n_TAB - select selections ranges ???
+
+  CTRL-SPACE - trigger completion without adding characters.
+
+  Note a trailing ~ in popup indicates a snippet
 
 ## Globals
 
@@ -23,23 +104,14 @@
   gc{Motion} or {Visual}gc - toggle comment
 
   gf open file under cursor
+  gx open path under cursor externally
 
 ## Window Scrolling
 
   Ctrl-e   Ctrl-y   scroll down/up by lines
   Ctrl-d   Ctrl-u   scroll down/up by half-pages
   Ctrl-f   Ctrl-b   scroll forward/back> by full pages
-
-## Ultisnips
-
-  tab
-  s-tab
-
-## YCM
-
-  \jd  "jump" to definition
-  \jk  "jump" to help
-  \jr  "jumplist" of references
+  S-Up S-Down       scroll forward/back> by full pages
 
 ## Grep
 
@@ -53,14 +125,16 @@
 
 ## Motion
 
-  <S-Down>   - to window down
-  <S-Up>     - to window up
-  <S-Right>  - to window right
-  <S-Left>   - to window left
+  Shift-Down   - to window down
+  Shift-Up     - to window up
+  Shift-Right  - to window right
+  Shift-Left   - to window left
 
-  <Ctrl-Right>  - to next tab
-  <Ctrl-Left>   - to prev tab
+  Ctrl-Right  - to next tab
+  Ctrl-Left   - to prev tab
+
   (could we integrate these with unimpaired?)
+  maybe [w cycle forwar ]w cycle back
 
   Or maybe Shift-Tab to cycle windows
 
