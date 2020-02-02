@@ -405,20 +405,27 @@ augroup END
 
 " >> FZF --------------------------------------------------------------------{{{2
 
-" let g:fzf_colors={
-"   \ 'fg':      ['fg', 'Normal'],
-"   \ 'bg':      ['bg', 'Normal'],
-"   \ 'hl':      ['fg', 'Label'],
-"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"   \ 'hl+':     ['fg', 'Label'],
-"   \ 'info':    ['fg', 'Comment'],
-"   \ 'border':  ['fg', 'Ignore'],
-"   \ 'prompt':  ['fg', 'Function'],
-"   \ 'pointer': ['fg', 'Statement'],
-"   \ 'marker':  ['fg', 'Conditional'],
-"   \ 'spinner': ['fg', 'Label'],
-"   \ 'header':  ['fg', 'Comment'] }
+let g:fzf_colors={
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Label'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Label'],
+  \ 'info':    ['fg', 'Comment'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Function'],
+  \ 'pointer': ['fg', 'Statement'],
+  \ 'marker':  ['fg', 'Conditional'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+augroup fzf
+  " Hide ruler when FZF window is active
+  autocmd!
+  autocmd FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup end
 
 " >> NERDTree ---------------------------------------------------------------{{{2
 
@@ -606,7 +613,7 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>rf  <Plug>(coc-format-selected)
 nmap <leader>rf  <Plug>(coc-format-selected)
 
-augroup mygroup
+augroup coc
   autocmd!
   " Setup formatexpr specified filetype(s).
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
@@ -682,56 +689,56 @@ noremap <C-Left>        :tabprevious<CR>
 
 " >> Leader Keys -----------------------------------------------------------{{{2
 
-noremap <leader><space> :nohlsearch<CR>
-noremap <leader>o :only<CR>
+noremap <silent><leader><space> :nohlsearch<CR>
+noremap <silent><leader>o :only<CR>
 
 " double up on the \b command since I am so used to this binding
-noremap <C-\>    :Buffers<CR>
+noremap <silent><C-Tab>    :Buffers<CR>
 
 " > File short cuts
 noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
 noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
-noremap <leader>g :G<CR>
-noremap <leader><leader>G :Gbrowse<CR>
-noremap <leader>u :UndotreeToggle<CR>
-noremap <leader>n :NERDTreeFind<CR>
-noremap <leader>a :Autoformat<CR>
+noremap <silent><leader>g :G<CR>
+noremap <silent><leader><leader>G :Gbrowse<CR>
+noremap <silent><leader>u :UndotreeToggle<CR>
+noremap <silent><leader>n :NERDTreeFind<CR>
+noremap <silent><leader>a :Autoformat<CR>
 
 " > FZF
-nmap <Leader>b :Buffers<CR>
+noremap <silent><Leader>b :Buffers<CR>
 
-nmap <Leader>f :GFiles<CR>
-nmap <Leader>F :Files<CR>
+noremap <silent><Leader>f :GFiles<CR>
+noremap <silent><Leader>F :Files<CR>
 
 " probably use this the most
-nmap <Leader>h :History<CR>
-nmap <Leader>: :History:<CR>
-nmap <Leader>/ :History/<CR>
+noremap <silent><Leader>h :History<CR>
+noremap <silent><Leader>: :History:<CR>
+noremap <silent><Leader>/ :History/<CR>
 
-nmap <Leader>t :BTags<CR>
-nmap <Leader>T :Tags<CR>
+noremap <silent><Leader>t :BTags<CR>
+noremap <silent><Leader>T :Tags<CR>
 
-nmap <Leader>l :BLines<CR>
-nmap <Leader>L :Lines<CR>
+noremap <silent><Leader>l :BLines<CR>
+noremap <silent><Leader>L :Lines<CR>
 
-" nmap <Leader>m :Methods<CR>
-nmap <Leader>h :History<CR>
-nmap <Leader>H :Helptags!<CR>
-nmap <Leader>M :Maps<CR>
-nmap <Leader>C :Commands<CR>
-nmap <Leader>' :Marks<CR>
-nmap <Leader>s :Filetypes<CR>
-nmap <Leader>S :Snippets<CR>
-
+" noremap <Leader>m :Methods<CR>
+noremap <silent><Leader>h :History<CR>
+noremap <silent><Leader>H :Helptags!<CR>
+noremap <silent><Leader>M :Maps<CR>
+noremap <silent><Leader>C :Commands<CR>
+noremap <silent><Leader>' :Marks<CR>
+noremap <silent><Leader>s :Filetypes<CR>
+noremap <silent><Leader>S :Snippets<CR>
+    
 " grep bindings worl better
-" nmap <Leader>/ :Rg<Space>
+" noremap <Leader>/ :Rg<Space>
 
 " > Grep (same bindings as easygrep)
-noremap <leader>vv :grep! -w <cword><CR>
-noremap <leader>vV :grep! -w <cWORD><CR>
-noremap <leader>vf :grep! <cfile><CR>
+noremap <silent><leader>vv :grep! -w <cword><CR>
+noremap <silent><leader>vV :grep! -w <cWORD><CR>
+noremap <silent><leader>vf :grep! <cfile><CR>
 
 " >> Fixes ------------------------------------------------------------------{{{2
 

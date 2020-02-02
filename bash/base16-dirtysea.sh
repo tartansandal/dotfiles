@@ -4,14 +4,14 @@
 # dirtysea scheme by Kahlil (Kal) Hodgson
 
 color00="e0/e0/e0" # Base 00 - Black
-color01="84/00/00" # Base 08 - Red
+color01="00/00/90" # Base 08 - Red
 color02="73/00/73" # Base 0B - Green
-color03="75/5B/00" # Base 0A - Yellow
+color03="00/65/65" # Base 0A - Yellow
 color04="00/73/00" # Base 0D - Blue
-color05="80/80/80" # Base 0E - Magenta
-color06="80/60/60" # Base 0C - Cyan
+color05="84/00/00" # Base 0E - Magenta
+color06="80/80/80" # Base 0C - Cyan
 color07="00/00/00" # Base 05 - White
-color08="00/00/84" # Base 03 - Bright Black
+color08="70/70/70" # Base 03 - Bright Black
 color09=$color01 # Base 08 - Bright Red
 color10=$color02 # Base 0B - Bright Green
 color11=$color03 # Base 0A - Bright Yellow
@@ -20,11 +20,11 @@ color13=$color05 # Base 0E - Bright Magenta
 color14=$color06 # Base 0C - Bright Cyan
 color15="c4/d9/c4" # Base 07 - Bright White
 color16="00/65/65" # Base 09
-color17="00/65/65" # Base 0F
+color17="00/80/80" # Base 0F
 color18="d0/d0/d0" # Base 01
-color19="a6/ca/f0" # Base 02
-color20="40/40/40" # Base 04
-color21="c0/c0/c0" # Base 06
+color19="c0/c0/c0" # Base 02
+color20="20/20/20" # Base 04
+color21="f8/f8/f8" # Base 06
 color_foreground="00/00/00" # Base 05
 color_background="e0/e0/e0" # Base 00
 
@@ -81,7 +81,7 @@ if [ -n "$ITERM_SESSION_ID" ]; then
   put_template_custom Pg 000000 # foreground
   put_template_custom Ph e0e0e0 # background
   put_template_custom Pi 000000 # bold color
-  put_template_custom Pj a6caf0 # selection color
+  put_template_custom Pj c0c0c0 # selection color
   put_template_custom Pk 000000 # selected text color
   put_template_custom Pl 000000 # cursor
   put_template_custom Pm e0e0e0 # cursor text

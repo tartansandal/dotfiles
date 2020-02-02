@@ -4,7 +4,7 @@
 
   \<space> - clear search highlighting
   \o - one window (`Ctrl-w o` or `:on` does the same)
-  \a - autoformat
+  \a - autoformat   [may not need this anymore]
 
   Ctrl-\ - buf explorer
   \g - open Fugitive Status
@@ -15,6 +15,8 @@
 
   \N - goto ~/Notes directory
   \? - goto cheatsheet
+
+  Ctrl-Tab  :Buffers
 
 ## FZF
 
@@ -43,9 +45,6 @@
   \S :Snippets
 
 ## Navigation
-
-  \n - findfile in NERDTree
-  \h
 
   CTRL-^ alternate window
 
@@ -187,13 +186,13 @@
 
 ## Unimpaired
 
-  | prev | next | first | last | operates on
-  |------|------|-------|------|--------------
-  | [a   | ]a   | [A    | ]A   | argument list
-  | [b   | ]b   | [B    | ]B   | buffer list
-  | [l   | ]l   | [L    | ]L   | location list
-  | [q   | ]q   | [Q    | ]Q   | quickfix list
-  | [t   | ]t   | [T    | ]T   | tag list
+  | prev  | next | first | last | operates on
+  | ----- | ---- | ----- | ---- | -------------
+  | [a    | ]a   | [A    | ]A   | argument list
+  | [b    | ]b   | [B    | ]B   | buffer list
+  | [l    | ]l   | [L    | ]L   | location list
+  | [q    | ]q   | [Q    | ]Q   | quickfix list
+  | [t    | ]t   | [T    | ]T   | tag list
 
 -- location list
 [<C-L> - next marker in next file
@@ -219,7 +218,7 @@
 [e - line above
 ]e - line below
 
-  | On	 | Off  | Toggle | Option
+  | On   | Off  | Toggle | Option
   |------|------|--------|----------
   | [oh	 | ]oh  | =oh    | hlsearch
   | [oi	 | ]oi  | =oi    | ignorecase
@@ -234,12 +233,12 @@
   | [ox	 | ]ox  | =ox    | cursorline cursorcolumn (x as in crosshairs)
   | [od	 | ]od  | =od    | diff (actually |:diffthis| / |:diffoff|)
 
-Encode  Decode   target
------------------------
-[x      ]x       XML
-[u      ]u       URL
-[y      ]y       C String (backslash special chars)
-(these accept motion and visual args)
+  | Encode | Decode |  target
+  | -------|--------|--------
+  | [x     | ]x     |  XML
+  | [u     | ]u     |  URL
+  | [y     | ]y     |  C String (backslash special chars)
+  (these accept motion and visual args)
 
 ## Suround
 
