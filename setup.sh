@@ -14,7 +14,7 @@ ln -sf  $base_dir/style.yapf           ~/.style.yapf
 ln -sf  $base_dir/bash/bashrc          ~/.bashrc
 ln -sf  $base_dir/bash/profile         ~/.bash_profile
 ln -sf  $base_dir/ctags                ~/.ctags
-ln -sf  $base_dir/dircolors.ansi-light ~/.dircolors
+ln -sf  $base_dir/dircolors            ~/.dircolors
 ln -sf  $base_dir/eslintrc             ~/.eslintrc
 ln -sf  $base_dir/gitconfig            ~/.gitconfig
 ln -sf  $base_dir/gitignore            ~/.gitignore
@@ -31,14 +31,9 @@ ln -sf  $base_dir/bin/reset-fonts.sh   ~/bin/reset-fonts.sh
 ln -sf  $base_dir/mdl-style.rb         ~/.mdl-style.rb
 ln -sf  $base_dir/flake8               ~/.flake8
 
-if [[ -d ~/.config/tilix/schemes/ ]]
-then
-    ln -sf  $base_dir/DirtySea.json        ~/.config/tilix/schemes/DirtySea.json
-fi
-
 if [[ `tmux -V | cut -f2 -d' '` > 2 ]]
 then
 	ln -sf  $base_dir/tmux2.conf            ~/.tmux.conf
-elseflake8
+else
 	ln -sf  $base_dir/tmux.conf            ~/.tmux.conf
 fi

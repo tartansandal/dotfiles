@@ -166,13 +166,13 @@ ORPHAN  05;37;41
 MISSING 05;37;41
 
 # files with execute permission
-EXEC 01;31  # Unix
-.cmd 01;31  # Win
-.exe 01;31  # Win
-.com 01;31  # Win
-.bat 01;31  # Win
-.reg 01;31  # Win
-.app 01;31  # OSX
+EXEC 31  # Unix
+.cmd 31  # Win
+.exe 31  # Win
+.com 31  # Win
+.bat 31  # Win
+.reg 31  # Win
+.app 31  # OSX
 
 #############################################################################
 ### By extension
@@ -327,33 +327,33 @@ EXEC 01;31  # Unix
 .psd 31
 
 # Archives, compressed
-.7z   1;35
-.apk  1;35
-.arj  1;35
-.bin  1;35
-.bz   1;35
-.bz2  1;35
-.cab  1;35  # Win
-.deb  1;35
-.dmg  1;35  # OSX
-.gem  1;35
-.gz   1;35
-.iso  1;35
-.jar  1;35
-.msi  1;35  # Win
-.rar  1;35
-.rpm  1;35
-.tar  1;35
-.tbz  1;35
-.tbz2 1;35
-.tgz  1;35
-.tx   1;35
-.war  1;35
-.xpi  1;35
-.xz   1;35
-.z    1;35
-.Z    1;35
-.zip  1;35
+.7z   35
+.apk  35
+.arj  35
+.bin  35
+.bz   35
+.bz2  35
+.cab  35  # Win
+.deb  35
+.dmg  35  # OSX
+.gem  35
+.gz   35
+.iso  35
+.jar  35
+.msi  35  # Win
+.rar  35
+.rpm  35
+.tar  35
+.tbz  35
+.tbz2 35
+.tgz  35
+.tx   35
+.war  35
+.xpi  35
+.xz   35
+.z    35
+.Z    35
+.zip  35
 
 # For testing
 .ANSI-30-black 30
@@ -379,44 +379,44 @@ EXEC 01;31  # Unix
 # Unimportant text files
 # For universal scheme, use brightgreen 01;32
 # For optimal on light bg (but too prominent on dark bg), use white 01;34
-#.log 01;32
-#*~ 01;32
-#*# 01;32
-.log 01;34
-*~ 01;34
-*# 01;34
+#.log 32
+#*~ 32
+#*# 32
+.log 34
+*~ 34
+*# 34
 
 # Unimportant non-text files
 # For universal scheme, use brightcyan 01;36
 # For optimal on dark bg (but too prominent on light bg), change to 01;33
-.bak 01;36
-.BAK 01;36
-.old 01;36
-.OLD 01;36
-.org_archive 01;36
-.off 01;36
-.OFF 01;36
-.dist 01;36
-.DIST 01;36
-.orig 01;36
-.ORIG 01;36
-.swp 01;36
-.swo 01;36
-*,v 01;36
-#.bak 01;33
-#.BAK 01;33
-#.old 01;33
-#.OLD 01;33
-#.org_archive 01;33
-#.off 01;33
-#.OFF 01;33
-#.dist 01;33
-#.DIST 01;33
-#.orig 01;33
-#.ORIG 01;33
-#.swp 01;33
-#.swo 01;33
-#*,v 01;33
+.bak 36
+.BAK 36
+.old 36
+.OLD 36
+.org_archive 36
+.off 36
+.OFF 36
+.dist 36
+.DIST 36
+.orig 36
+.ORIG 36
+.swp 36
+.swo 36
+*,v 36
+#.bak 33
+#.BAK 33
+#.old 33
+#.OLD 33
+#.org_archive 33
+#.off 33
+#.OFF 33
+#.dist 33
+#.DIST 33
+#.orig 33
+#.ORIG 33
+#.swp 33
+#.swo 33
+#*,v 33
 
 # The brightmagenta (Solarized: purple) color is free for you to use for your
 # custom file type
