@@ -27,7 +27,7 @@ then
     fi
 
     #> source private libraries
-    for lib in hosts direnv fzf prompt base16
+    for lib in prompt base16 hosts direnv fzf
     do
         [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done
