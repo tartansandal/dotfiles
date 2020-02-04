@@ -383,21 +383,25 @@ augroup END
 
 " >> FZF --------------------------------------------------------------------{{{2
 
-let g:fzf_colors={
+let g:fzf_colors = { 
   \ 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Label'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Label'],
-  \ 'info':    ['fg', 'Comment'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Function'],
-  \ 'pointer': ['fg', 'Statement'],
-  \ 'marker':  ['fg', 'Conditional'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment']
-  \ }
+  \ 'hl':      ['fg', 'Function'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Special'],
+  \ 'border':  ['fg', 'Cursor'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'bg+':     ['bg', 'MatchParen'],
+  \ 'header':  ['fg', 'Comment'],
+  \ 'spinner': ['fg', 'Structure'],
+\}
+  
+" These are deaply mysterious
+  " \ 'hl+':     ['fg', 'Keyword'],
+  " \ 'fg+':     ['fg', 'Cursor'],
+  " \ 'bg+':     ['bg', 'Tabline', 'Normal', 'Normal'],
+  "
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
