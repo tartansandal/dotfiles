@@ -34,6 +34,10 @@ Plug 'adelarsq/vim-matchit'
 " Do you like Coc? Hell Yeah!
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+"" Used buy FZF and Coc
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 " Asyncronous (on-the-fly) linting
 Plug 'dense-analysis/ale'
 
@@ -179,28 +183,6 @@ set complete+=kspell
 "" Display:
 "------------------------------------------
 
-"" Superseded by lightline
-"
-"> Set the status line to display:
-"- aligned left
-"-  dir/file    : path to the file in the buffer, relative to current directory
-"-  [help]      : help buffer flag
-"-  [+/-]       : modified flag
-"-  [RO]        : readonly flag
-"-  [Preview]   : preview window flag
-"-  [Quickfix/LocationList]
-"-  [filetype]
-"-  [git branch]
-"- aligned right
-"-  L,C-V       : line, column, and virtual column numbers
-"-  "spell"
-"-  P%      : % through the file of displayed window
-" set statusline=[%n]\ %<%f\ %h%m%r%w%y%=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
-
-" set statusline=%<%f\ %m%r%w%y%q\ %{fugitive#statusline()}\ %=%-10.(%l,%c%V%)\ %{(&spell?'spell':'')}\ %P
-
-" set noruler " not needed with custom statusline
-
 " The following helps with spurious "Press Enter" requests
 set cmdheight=2     " 2 lines for command buffer
 set laststatus=2    " always display status bar
@@ -233,10 +215,11 @@ if has('mouse')
     set mouse=a
 endif
 
-" if (has('termguicolors'))
-"     set termguicolors
-" endif
+let g:base16_shell_path="~/.config/base16-shell/scripts"
 
+" For some weird reason this does not load in terminal vim
+
+" Load the current shell colorscheme
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
@@ -298,7 +281,7 @@ let g:xml_syntax_folding=1
 
 let g:markdown_folding=1
 let g:markdown_syntax_conceal=0
-
+let g:vim_markdown_folding_disabled = 1
 let g:markdown_fenced_languages = ['css', 'js=javascript']
 
 " See ft_sql.vim
@@ -376,10 +359,10 @@ let g:UltiSnipsJumpBackwardTrigger='<C-k>'
 let g:UltiSnipsEditSplit='context'
 let g:UltiSnipsEnableSnipMate=0
 let g:ultisnips_python_style='google'
-let g:UltiSnipsSnippetDir='~/.vim/MyUltiSnips'
+let g:UltiSnipsSnippetDir=expand('~/.vim/MyUltiSnips')
 
-let g:zv_zeal_executable=$HOME . '/bin/zeal'
-let g:zv_docsets_dir='~/.local/share/Zeal/Zeal/docsets/'
+let g:zv_zeal_executable=expand('~/bin/zeal')
+let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 
 " Better Whitespace
 " let g:better_whitespace_enabled=1
@@ -397,6 +380,7 @@ augroup fugitive
     autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
+
 " >> FZF --------------------------------------------------------------------{{{2
 
 let g:fzf_colors={
@@ -412,7 +396,10 @@ let g:fzf_colors={
   \ 'pointer': ['fg', 'Statement'],
   \ 'marker':  ['fg', 'Conditional'],
   \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+  \ 'header':  ['fg', 'Comment']
+  \ }
+
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 augroup fzf
   " Hide ruler when FZF window is active
@@ -664,6 +651,12 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+hi CocErrorSign   ctermfg=Red     guifg=#840000  " base0E  
+hi CocWarningSign ctermfg=Brown   guifg=#755B00  " base0C
+hi CocInfoSign    ctermfg=Yellow  guifg=#730073  " base0B
+hi CocHintSign    ctermfg=Blue    guifg=#000090  " base08
+hi CocCodeLens    ctermfg=Gray    guifg=#006565  " base09
+
 " > Key Mapping ------------------------------------------------------------{{{1
 
 " Windows
@@ -681,13 +674,41 @@ nnoremap <S-Right> <c-w>l
 noremap <C-Right>       :tabnext<CR>
 noremap <C-Left>        :tabprevious<CR>
 
+function! MyCycleNextLine()
+    if getline('.') == getline('$')
+        :1
+    else
+        :+
+    endif
+endfunction
+
+function! Switcher()
+    silent! NERDTreeClose
+
+    if len(getbufinfo({'buflisted':1})) > 1
+        " If more than 1 active buffer
+        :Buffers
+    else
+        " Otherwise lookup history
+        :History
+    endif
+
+endfunction
+
+command! -nargs=0 Switcher :call Switcher()
+
 " >> Leader Keys -----------------------------------------------------------{{{2
 
 noremap <silent><leader><space> :nohlsearch<CR>
 noremap <silent><leader>o :only<CR>
 
 " double up on the \b command since I am so used to this binding
-noremap <silent><C-Tab>    :Buffers<CR>
+nnoremap <silent><C-Tab>        :Switcher<CR>
+inoremap <silent><C-Tab>   <Esc>:Switcher<CR>
+xnoremap <silent><C-Tab>   <Esc>:Switcher<CR>
+nnoremap <silent><C-\>          :Switcher<CR>
+inoremap <silent><C-\>     <Esc>:Switcher<CR>
+xnoremap <silent><C-\>     <Esc>:Switcher<CR>
 
 " > File short cuts
 noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
@@ -966,122 +987,4 @@ endif
 " let g:changelog_date_end_entry_search = '^\s*$'
 
 " >> BufExplorer --------------------------------------------------------------{{{2
-
-" let g:bufExplorerDefaultHelp=0       " Show default help.
-" let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
-" let g:bufExplorerFindActive=1        " Go to active window.
-" let g:bufExplorerReverseSort=0       " Do not sort in reverse order.
-" let g:bufExplorerShowDirectories=0   " Don't show directories.
-" let g:bufExplorerShowRelativePath=1  " Show relative paths.
-" let g:bufExplorerShowUnlisted=0      " Do not show unlisted buffers.
-" let g:bufExplorerSortBy='mru'        " Sort by most recently used.
-" let g:bufExplorerSplitBelow=1        " Split new window below current.
-" let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
-" let g:bufExplorerSplitRight=1        " Split right.
-
-" let g:bufExplorerResize=1
-" let g:bufExplorerMaxHeight=25 " Handles dynamic resizing of the window.
-" let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
-
-" function! MyCycleNextLine()
-"     if getline('.') == getline('$')
-"         :1
-"     else
-"         :+
-"     endif
-" endfunction
-
-" function! MyBufExplorer()
-"     silent! NERDTreeClose
-"     " silent! TagbarClose
-
-"     if bufname('') ==? ''
-"         :call MyMRU()
-"     else
-"         if len(getbufinfo({'buflisted':1})) > 1
-"             :BufExplorerHorizontalSplit
-"             :call BufExplorer_ReSize()
-"             :+
-"             nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
-"             nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
-"             nmap <buffer> <\>     :call MyCycleNextLine()<CR>
-"             nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
-"         endif
-"     endif
-" endfunction
-
-" >> MRU --------------------------------------------------------------------{{{2
-
-" let MRU_File = $HOME . '/.vim_mru_files'
-" let MRU_Exclude_Files = 'COMMIT_EDITMSG'
-" let MRU_Max_Entries = 20
-" let MRU_Auto_Close = 1
-" let MRU_Add_Menu = 0
-
-" function! MyMRU ()
-"     if bufname('%') ==# '__MRU_Files__'
-"         " This causes the MRU list to toggle
-"         quit
-"     else
-"         " skip to prev window if current buffer has a type
-"         if &buftype !=? ''
-"             wincmd p
-"         endif
-"         MRU
-"         setlocal cursorline
-"         nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
-"         nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
-"         nmap <buffer> <\>     :call MyCycleNextLine()<CR>
-"         nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
-"     endif
-" endfunction
-
-" >> YouCompleteMe ----------------------------------------------------------{{{2
-
-" " > YouCompleteMe
-" noremap <silent> <leader>jd :YcmCompleter GoTo<CR>
-" noremap <silent> <leader>jr :YcmCompleter GoToReferences<CR>
-" noremap <silent> <leader>jk :YcmCompleter GetDoc<CR>
-
-" let g:ycm_min_num_of_chars_for_completion=2       " Default
-" let g:ycm_min_num_identifier_candidate_chars=0    " Default
-" let g:ycm_max_num_candidates=50                   " Default for semantic completion
-" let g:ycm_max_num_identifier_candidates=10        " Default for identifier completion
-" let g:ycm_auto_trigger=1                          " Default
-" let g:ycm_filetype_whitelist={'*': 1}             " Default
-
-" let g:ycm_filetype_blacklist={
-"             \ 'markdown': 1,
-"             \ 'notes': 1,
-"             \ 'netrw': 1,
-"             \ 'unite': 1,
-"             \ 'text': 1,
-"             \ 'vimwiki': 1,
-"             \ 'pandoc': 1,
-"             \ 'infolog': 1,
-"             \ 'mail': 1
-"             \}
-
-" " Default
-" let g:ycm_filetype_specific_completion_to_disable={
-"             \ 'gitcommit': 1
-"             \}
-
-" " Default
-" let g:ycm_filepath_blacklist={
-"             \ 'html': 1,
-"             \ 'jsx': 1,
-"             \ 'xml': 1,
-"             \}
-
-" " Need this for jedi signature help
-" let g:ycm_show_diagnostics_ui=1    " Default 1
-
-" let g:ycm_global_ycm_extra_conf='~/.vim/global-ycm-extra-conf.py'
-" " let g:ycm_autoclose_preview_window_after_completion=0
-" let g:ycm_autoclose_preview_window_after_insertion=1
-" let g:ycm_complete_in_comments=1
-" let g:ycm_complete_in_strings=1
-" let g:ycm_collect_identifiers_from_comments_and_strings=1
-" let g:ycm_seed_identifiers_with_syntax=1
 

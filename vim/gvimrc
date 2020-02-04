@@ -10,8 +10,6 @@ if has('win32')
   set guioptions-=t
 endif
 
-colorscheme base16-dirtysea
-
 function! MyGuiFontSizeDec()
     let g:MyGuiFontSize=g:MyGuiFontSize-1
     echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
