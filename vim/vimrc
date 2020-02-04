@@ -387,24 +387,46 @@ augroup END
 " >> FZF --------------------------------------------------------------------{{{2
 
 let g:fzf_colors = { 
-  \ 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Function'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Special'],
-  \ 'border':  ['fg', 'Cursor'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'bg+':     ['bg', 'MatchParen'],
-  \ 'header':  ['fg', 'Comment'],
-  \ 'spinner': ['fg', 'Structure'],
+    \ 'fg':      ['fg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'Function'],
+    \ 'fg+':     ['fg', 'Normal'],
+    \ 'bg+':     ['bg', 'Normal'],
+    \ 'hl+':     ['fg', 'DiffText'],
+    \ 'info':    ['fg', 'PreProc'],
+    \ 'prompt':  ['fg', 'DiffChange'],
+    \ 'border':  ['fg', 'Cursor'],
+    \ 'pointer': ['fg', 'Normal'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'header':  ['fg', 'Structure'],
+    \ 'spinner': ['fg', 'Structure'],
 \}
-  
-" These are deaply mysterious
-  " \ 'hl+':     ['fg', 'Keyword'],
-  " \ 'fg+':     ['fg', 'Cursor'],
-  " \ 'bg+':     ['bg', 'Tabline', 'Normal', 'Normal'],
-  "
+
+" TODO: make a PR for fzf README offering this explanation
+" The above color setting is tricky.
+" 
+" The arguments to each color group are a search spec:
+"
+"    item: [ layer, group+ ... ]
+"
+"   - item: the element of the display to color
+"       - fg  / bg  / hl    : non-selected lines
+"       - fg+ / bg+ / hl+   : selected lines
+"       - hl  / hl+         : strings matching the search
+"       - pointer / marker  : '>' indicator in column 1 / 2 
+"       - border            : border around terminal window
+"       - header            : line containing the current file
+"       - info              : match counters 
+"       - spinner           : char at column 1 before the match counters
+"       - prompt            : prompt before input strings
+"
+"   - layer: extract the color from this layer (fg/bg)
+"
+"   - groups+: a list of highlight groups to search
+"
+" For the 'fg+', 'bg+', 'hl+', 'prompt', 'pointer', and 'marker' items, the
+" color only matches if the highlight group has term=bold set. If not it falls
+" back to the defaults.  This last bit can cause a lot of confusion. 
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
