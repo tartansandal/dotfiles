@@ -212,6 +212,9 @@ set incsearch
 " clear search highlighting on startup
 nohlsearch
 
+" Dont highlight strings in comments since they are often irrelevant
+unlet c_comment_strings
+
 if has('mouse')
     set mousehide
     set mousemodel=popup_setpos
