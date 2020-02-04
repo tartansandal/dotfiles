@@ -231,6 +231,10 @@ let g:base16_shell_path="~/.config/base16-shell/scripts"
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
+
+  " remove some boldings
+  hi Statement gui=None
+
 endif
 
 " -----------------
