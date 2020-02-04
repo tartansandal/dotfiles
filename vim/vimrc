@@ -209,6 +209,9 @@ set sidescrolloff=5     " keep at least 5 columns of context to either side
 set foldlevelstart=99
 set incsearch
 
+" clear search highlighting on startup
+nohlsearch
+
 if has('mouse')
     set mousehide
     set mousemodel=popup_setpos
