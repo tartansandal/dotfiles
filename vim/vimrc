@@ -213,7 +213,9 @@ set incsearch
 nohlsearch
 
 " Dont highlight strings in comments since they are often irrelevant
-unlet c_comment_strings
+if exists('c_comment_strings')
+    unlet c_comment_strings
+endif
 
 if has('mouse')
     set mousehide
@@ -358,11 +360,11 @@ let g:lightline={
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " UltiSnips triggering
-let g:UltiSnipsExpandTrigger='<C-j>'
-let g:UltiSnipsListSnippets='<C-tab>'
-let g:UltiSnipsJumpForwardTrigger='<C-j>'
-let g:UltiSnipsJumpBackwardTrigger='<C-k>'
-let g:UltiSnipsEditSplit='context'
+" let g:UltiSnipsExpandTrigger='<C-j>'
+" let g:UltiSnipsListSnippets='<C-tab>'
+" let g:UltiSnipsJumpForwardTrigger='<C-j>'
+" let g:UltiSnipsJumpBackwardTrigger='<C-k>'
+" let g:UltiSnipsEditSplit='context'
 let g:UltiSnipsEnableSnipMate=0
 let g:ultisnips_python_style='google'
 let g:UltiSnipsSnippetDir=expand('~/.vim/MyUltiSnips')
@@ -499,8 +501,8 @@ let g:ale_fix_on_save=1
 " > Display
 let g:ale_sign_error='✗'
 let g:ale_sign_style_error='✗'
-let g:ale_sign_warning='⚠'
-let g:ale_sign_style_warning='⚠'
+let g:ale_sign_warning='!'
+let g:ale_sign_style_warning='!'
 
 " >> Netrw ------------------------------------------------------------------{{{2
 
