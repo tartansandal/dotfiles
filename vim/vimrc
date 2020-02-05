@@ -74,9 +74,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
 
 " Fuzzy Finding
+Plug '/usr/bin/fzf'
 Plug 'junegunn/fzf.vim'
 
-" Ranger only works in terminal
+" Ranger only wors in terminal
 " Plug 'francoiscabrol/ranger.vim'
 " let g:ranger_map_keys=0
 
@@ -401,6 +402,7 @@ let g:fzf_colors = {
     \ 'hl':      ['fg', 'Function'],
     \ 'fg+':     ['fg', 'Normal'],
     \ 'bg+':     ['bg', 'Normal'],
+    \ 'gutter':  ['bg', 'Normal'],
     \ 'hl+':     ['fg', 'DiffText'],
     \ 'info':    ['fg', 'PreProc'],
     \ 'prompt':  ['fg', 'DiffChange'],
@@ -422,7 +424,8 @@ let g:fzf_colors = {
 "       - fg  / bg  / hl    : non-selected lines
 "       - fg+ / bg+ / hl+   : selected lines
 "       - hl  / hl+         : strings matching the search
-"       - pointer / marker  : '>' indicator in column 1 / 2 
+"       - gutter            : the backgound of the frst 2 columns
+"       - pointer / marker  : '>' indicator in the gutter
 "       - border            : border around terminal window
 "       - header            : line containing the current file
 "       - info              : match counters 
@@ -438,6 +441,8 @@ let g:fzf_colors = {
 " back to the defaults.  This last bit can cause a lot of confusion. 
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_buffers_jump = 1
+let g:fzf_files_options = ''
 
 augroup fzf
   " Hide ruler when FZF window is active
