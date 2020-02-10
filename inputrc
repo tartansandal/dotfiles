@@ -11,10 +11,10 @@ set show-mode-in-prompt on
 #"\e[B": history-search-forward
 
 # show all posible completions if more than one matches
-set show-all-if-ambiguous on
+#set show-all-if-ambiguous on
 
 # append indicator chars to filname completions
 set visible-stats on
 
 # don't page completions
-set page-completions off
+#set page-completions off

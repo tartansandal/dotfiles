@@ -30,3 +30,7 @@ exclude_rule 'code-block-style'
 
 # Need tabs for Makefile snippets
 exclude_rule 'no-hard-tabs'
+
+# Need angle brackets for keymaps
+exclude_rule 'no-inline-html'
+

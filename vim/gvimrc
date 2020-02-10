@@ -1,9 +1,19 @@
 " turn off blinking cursor in gui
-set guicursor=a:blinkon0
-set guioptions-=T
-set guioptions-=L
-set guioptions-=r
+set guicursor+=a:blinkon0
+
+" defaults "aegimrLtT"
+
+" Don't show toolbars or tearoffs
+set guioptions-=tT
+
+" Don't show right or left scroll bars
+set guioptions-=rL
+
+" Dont show menu
 set guioptions-=m
+
+" Dont load menu options
+set guioptions-=M
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries.
 if has('win32')

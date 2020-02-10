@@ -1,5 +1,23 @@
 {
-  "python.linting.pylintEnabled": false,
+  "python.linting.pylintEnabled": true,
   "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "python.jediEnabled": false,
+  "python.sortImports.path": "/usr/bin/isort",
+  "diagnostic.displayByAle": true,
+  "signature.enable": true,
+  "signature.target": "float",
+  "signature.preferShownAbove": true,
+  "signature.hideOnTextChange": false,
+  "signature.triggerSignatureWait": 80,
+  "markdownlint.config": {
+    "default": true,
+    "no-hard-tabs": false,
+    "no-inline-html": false,
+    "first-line-h1": false,
+    "first-line-heading": false,
+    "code-block-style": false,
+    "ul-indent": { "indent": 2 },
+    "ol-prefix": { "style": "ordered"}
+  }
 }

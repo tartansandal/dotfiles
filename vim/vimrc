@@ -9,7 +9,7 @@ scriptencoding utf-8
 " > Plugins -----------------------------------------------------------------{{{1
 
 " Load our plugin bundles
-call plug#begin('~/.vim/bundles')
+call plug#begin('~/.vim/plugged')
 
 " File/buffer navigation plugins
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeFind'] }
@@ -26,6 +26,8 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-rhubarb'
 
+Plug 'junegunn/gv.vim'
+
 Plug 'jacquesbh/vim-showmarks'
 Plug 'Glench/Vim-Jinja2-Syntax'
 " Plug 'ntpeters/vim-better-whitespace'
@@ -34,8 +36,7 @@ Plug 'adelarsq/vim-matchit'
 " Do you like Coc? Hell Yeah!
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"" Used buy FZF and Coc
-Plug 'SirVer/ultisnips'
+" Used by FZF and Coc
 Plug 'honza/vim-snippets'
 
 " Asyncronous (on-the-fly) linting
@@ -73,9 +74,12 @@ Plug 'junegunn/vim-easy-align'
 " Simple checkbox support
 Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
 
-" Fuzzy Finding
-Plug '/usr/bin/fzf'
+" Fuzzy Finding may be superceeded by CoC
 Plug 'junegunn/fzf.vim'
+
+" Plug 'Shougo/denite.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
 
 " Ranger only wors in terminal
 " Plug 'francoiscabrol/ranger.vim'
@@ -88,7 +92,17 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'vim-scripts/Decho'
 
 " Better colorscheme
-Plug 'tartansandal/base16-vim'
+" Plug 'tartansandal/base16-vim'
+
+" Darcula colorscheme
+Plug 'doums/darcula'
+
+" URI text objects
+Plug 'kana/vim-textobj-user'
+Plug 'jceb/vim-textobj-uri'
+
+" Open browser/search on url/word under cursor
+Plug 'tyru/open-browser.vim'
 
 call plug#end()
 
@@ -99,15 +113,15 @@ call plug#end()
 "------------------------------------------
 
 "
-" Limit line length to 80-88 chars. 
+" Limit line length to 80-88 chars.
 " Black has some rationale for extending beyound 80
 "
 set textwidth=80                 "Wrap at this column
 set colorcolumn=+1               "Columns to highlight after textwidth
 
 "
-" Indent 4 spaces - a consistent and common convention 
-" 
+" Indent 4 spaces - a consistent and common convention
+"
 set tabstop=4                    "Indentation levels every four columns
 set shiftwidth=4                 "Indent/outdent by four columns
 set expandtab                    "Convert all tabs typed to spaces
@@ -131,7 +145,7 @@ set formatoptions+=q    " Allow formatting of comments with "gq"
 set formatoptions+=o    " Insert the current comment leader after hitting 'o'
 " set formatoptions+=a    " Autoformat while editing
 set formatoptions+=n    " Recognize numbered lists
-set formatoptions+=l	" Long lines are not broken in insert mode
+set formatoptions+=l    " Long lines are not broken in insert mode
 set formatoptions+=1    " Don't break a line after a one-letter word.
 set formatoptions+=j    " Remove stray comment leaders when reformating
 set formatoptions+=p    " Don't break lines at single spaces that follow periods.
@@ -178,7 +192,7 @@ set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
 set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
 
 " Autocomplete with dictionary words when spell check is on
-set complete+=kspell
+" set complete+=kspell
 
 "------------------------------------------
 "" Display:
@@ -192,21 +206,11 @@ set showcmd         " display incomplete commands
 set scrolloff=5         " always show 5 lines of context when scrolling
 set sidescrolloff=5     " keep at least 5 columns of context to either side
 
-" Use '" to go to last cursor postion
-"
-" augroup vimrcWindows
-"     " remove all commands for the group current
-"     autocmd!
-"
-"     " When editing a file, always jump to the last known cursor position.
-"     " Don't do it when the position is invalid or when inside an event
-"     " handler (happens when dropping a file on gvim).
-"     autocmd BufReadPost *
-"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"                 \   exe "normal g`\"" |
-"                 \ endif
-" augroup END
-
+" specify which characters to use.
+set listchars=tab:→\ ,trail:·,nbsp:¤,precedes:«,extends:»,eol:↲
+"set list     " turn on display of listchars
+"set nolist   " turn off display of listchars
+	    
 set foldlevelstart=99
 set incsearch
 
@@ -224,19 +228,24 @@ if has('mouse')
     set mouse=a
 endif
 
-let g:base16_shell_path="~/.config/base16-shell/scripts"
-
 " For some weird reason this does not load in terminal vim
 
+" let g:base16_shell_path="~/.config/base16-shell/scripts"
+
 " Load the current shell colorscheme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
 
-  " remove some boldings
-  hi Statement gui=None
+"   " remove some boldings
+"   hi Statement gui=None
 
-endif
+" endif
+
+" Alternatively jsut use darcula
+colorscheme darcula
+hi Cursor guifg=#2B2B2B guibg=#BBBBBB
+hi ColorColumn guifg=#808080 guibg=#313335
 
 " -----------------
 " Files:
@@ -257,7 +266,7 @@ set fileformat=unix
 set undodir=~/tmp/undo,~/,/tmp
 set undofile          " keep a undo file
 set undolevels=100    " maximum number of changes that can be undone
-set undoreload=1000   " maximum number lines to save for undo on a buffer reload
+set undoreload=1000   " maximum number lines to save for undo on a buffer reloada
 
 set cryptmethod=blowfish  " use stronger encryption by default
 
@@ -277,6 +286,20 @@ let g:diff_translations=0
 " Always use vertical diffs
 set diffopt+=vertical
 
+" Use '" to go to last cursor postion
+"
+" augroup vimrcWindows
+"     " remove all commands for the group current
+"     autocmd!
+"
+"     " When editing a file, always jump to the last known cursor position.
+"     " Don't do it when the position is invalid or when inside an event
+"     " handler (happens when dropping a file on gvim).
+"     autocmd BufReadPost *
+"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"                 \   exe "normal g`\"" |
+"                 \ endif
+" augroup END
 "------------------------------------------
 " File Types:
 "------------------------------------------
@@ -295,7 +318,7 @@ let g:xml_syntax_folding=1
 let g:markdown_folding=1
 let g:markdown_syntax_conceal=0
 let g:vim_markdown_folding_disabled = 1
-let g:markdown_fenced_languages = ['css', 'js=javascript']
+let g:markdown_fenced_languages = ['bash', 'python', 'css', 'js=javascript']
 
 " See ft_sql.vim
 let g:sql_type_default='mysql'
@@ -332,47 +355,34 @@ let test#strategy='make'
 " lightline
 set noshowmode
 let g:lightline={
-    \   'colorscheme': 'Tomorrow_Night',
-    \   'active': {
-    \     'left': [
-    \        [ 'mode', 'paste' ],
-    \        [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ],
-    \        [ 'gitdiff' ]
-    \     ],
-    \     'right': [
-    \        [ 'lineinfo' ], [ 'percent' ],
-    \        [ 'filetype' ]
-    \     ]
-    \   },
-    \   'inactive': {
-    \     'left': [
-    \        [ 'filename', 'gitversion' ]
-    \     ]
-    \   },
-    \   'component_function': {
-	\     'cocstatus': 'coc#status',
-    \     'gitbranch': 'fugitive#head',
-    \   },
-    \   'component_expand': {
-    \     'gitdiff': 'lightline#gitdiff#get',
-    \   },
-    \   'component_type': {
-    \     'gitdiff': 'middle',
-    \   }, 
-    \}
-
-" use autocmd to update status
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-
-" UltiSnips triggering
-" let g:UltiSnipsExpandTrigger='<C-j>'
-" let g:UltiSnipsListSnippets='<C-tab>'
-" let g:UltiSnipsJumpForwardTrigger='<C-j>'
-" let g:UltiSnipsJumpBackwardTrigger='<C-k>'
-" let g:UltiSnipsEditSplit='context'
-let g:UltiSnipsEnableSnipMate=0
-let g:ultisnips_python_style='google'
-let g:UltiSnipsSnippetDir=expand('~/.vim/MyUltiSnips')
+            \   'colorscheme': 'darculaOriginal',
+            \   'active': {
+            \     'left': [
+            \        [ 'mode', 'paste' ],
+            \        [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+            \        [ 'gitdiff' ]
+            \     ],
+            \     'right': [
+            \        [ 'lineinfo' ], [ 'percent' ],
+            \        [ 'filetype' ]
+            \     ]
+            \   },
+            \   'inactive': {
+            \     'left': [
+            \        [ 'filename', 'gitversion' ]
+            \     ]
+            \   },
+            \   'component_function': {
+            \     'cocstatus': 'coc#status',
+            \     'gitbranch': 'fugitive#head',
+            \   },
+            \   'component_expand': {
+            \     'gitdiff': 'lightline#gitdiff#get',
+            \   },
+            \   'component_type': {
+            \     'gitdiff': 'middle',
+            \   },
+            \}
 
 let g:zv_zeal_executable=expand('~/bin/zeal')
 let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
@@ -394,28 +404,56 @@ augroup fugitive
 augroup END
 
 
+" >> Denite -----------------------------------------------------------------{{{2
+"
+"" Define mappings
+"autocmd FileType denite call s:denite_my_settings()
+"function! s:denite_my_settings() abort
+"    nnoremap <silent><buffer><expr> <CR>
+"    \ denite#do_map('do_action')
+"    nnoremap <silent><buffer><expr> d
+"    \ denite#do_map('do_action', 'delete')
+"    nnoremap <silent><buffer><expr> p
+"    \ denite#do_map('do_action', 'preview')
+"    nnoremap <silent><buffer><expr> q
+"    \ denite#do_map('quit')
+"    nnoremap <silent><buffer><expr> i
+"    \ denite#do_map('open_filter_buffer')
+"    nnoremap <silent><buffer><expr> <Space>
+"    \ denite#do_map('toggle_select').'j'
+"endfunction
+""
+"" Ripgrep command on grep source
+"call denite#custom#var('grep', 'command', ['rg'])
+"call denite#custom#var('grep', 'default_opts',
+"        \ ['-i', '--vimgrep', '--no-heading'])
+"call denite#custom#var('grep', 'recursive_opts', [])
+"call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+"call denite#custom#var('grep', 'separator', ['--'])
+"call denite#custom#var('grep', 'final_opts', [])
+
 " >> FZF --------------------------------------------------------------------{{{2
 
-let g:fzf_colors = { 
-    \ 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Normal'],
-    \ 'hl':      ['fg', 'Function'],
-    \ 'fg+':     ['fg', 'Normal'],
-    \ 'bg+':     ['bg', 'Normal'],
-    \ 'gutter':  ['bg', 'Normal'],
-    \ 'hl+':     ['fg', 'DiffText'],
-    \ 'info':    ['fg', 'PreProc'],
-    \ 'prompt':  ['fg', 'DiffChange'],
-    \ 'border':  ['fg', 'Cursor'],
-    \ 'pointer': ['fg', 'Normal'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'header':  ['fg', 'Structure'],
-    \ 'spinner': ['fg', 'Structure'],
-\}
+let g:fzf_colors = {
+            \ 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Function'],
+            \ 'fg+':     ['fg', 'Normal'],
+            \ 'bg+':     ['bg', 'Normal'],
+            \ 'gutter':  ['bg', 'Normal'],
+            \ 'hl+':     ['fg', 'DiffText'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'prompt':  ['fg', 'DiffChange'],
+            \ 'border':  ['fg', 'Cursor'],
+            \ 'pointer': ['fg', 'Normal'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'header':  ['fg', 'Structure'],
+            \ 'spinner': ['fg', 'Structure'],
+            \}
 
 " TODO: make a PR for fzf README offering this explanation
 " The above color setting is tricky.
-" 
+"
 " The arguments to each color group are a search spec:
 "
 "    item: [ layer, group+ ... ]
@@ -428,7 +466,7 @@ let g:fzf_colors = {
 "       - pointer / marker  : '>' indicator in the gutter
 "       - border            : border around terminal window
 "       - header            : line containing the current file
-"       - info              : match counters 
+"       - info              : match counters
 "       - spinner           : char at column 1 before the match counters
 "       - prompt            : prompt before input strings
 "
@@ -438,17 +476,17 @@ let g:fzf_colors = {
 "
 " For the 'fg+', 'bg+', 'hl+', 'prompt', 'pointer', and 'marker' items, the
 " color only matches if the highlight group has term=bold set. If not it falls
-" back to the defaults.  This last bit can cause a lot of confusion. 
+" back to the defaults.  This last bit can cause a lot of confusion.
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 let g:fzf_buffers_jump = 1
 let g:fzf_files_options = ''
 
 augroup fzf
-  " Hide ruler when FZF window is active
-  autocmd!
-  autocmd FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    " Hide ruler when FZF window is active
+    autocmd!
+    autocmd FileType fzf set laststatus=0 noshowmode noruler
+                \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup end
 
 " >> NERDTree ---------------------------------------------------------------{{{2
@@ -462,10 +500,10 @@ let NERDTreeChDirMode=2  " cwd follows root
 let NERDTreeHijackNetrw=1
 let NERDTreeShowBookmarks=0
 let NERDTreeIgnore=[
-    \   '\~$', 
-    \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
-    \   '__pycache__'
-    \]
+            \   '\~$',
+            \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
+            \   '__pycache__'
+            \]
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize=31
@@ -477,7 +515,7 @@ let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 " aligned) move less when toggle the browser
 let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
- 
+
 " >> Ale --------------------------------------------------------------------{{{2
 
 "" These get merged with the global list
@@ -486,7 +524,7 @@ let NERDTreeHighlightCursorline=1
 
 let g:ale_maximum_file_size=50000
 
-" A note on text linters: 
+" A note on text linters:
 "
 "   * languagetool is too slow and does not handle markdown well
 "   * write-good gave too many false positives
@@ -494,8 +532,9 @@ let g:ale_maximum_file_size=50000
 "   * proselint seemed to be the best middle-ground
 
 " > Linting
+" Turn off ale for Coc
 let g:ale_linters={
-            \ 'python': ['flake8'],
+            \ 'python': [],
             \ 'markdown': ['proselint', 'mdl'],
             \ }
 let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
@@ -542,7 +581,7 @@ let g:netrw_browse_split=0  " current window
 " let g:netrw_altv=0            " default to left splitting
 " let g:netrw_altv=1          " default to right splitting
 " let g:netrw_alto=0            " default to splitting above
- let g:netrw_alto=1          " default to splitting below
+let g:netrw_alto=1          " default to splitting below
 let g:netrw_winsize=25        " % of window width/height to use
 " let g:netrw_keepdir=0         " current dir tracks browsing dir
 let g:netrw_keepdir=1         " current dir does not track browsing dir
@@ -568,7 +607,7 @@ let g:netrw_special_syntax=1    " highlight special (binary) files
 " let g:netrw_browsex_viewer="xdg-open"
 " let g:netrw_suppress_gx_mesg=1
 
-" >> COC -------------------------------------------------------------------{{{2
+" >> Coc -------------------------------------------------------------------{{{2
 
 " Some servers have issues with backup files, see #649
 set nobackup
@@ -586,14 +625,14 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
@@ -619,11 +658,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 " Highlight symbol under cursor on CursorHold
@@ -638,11 +677,11 @@ xmap <leader>rf  <Plug>(coc-format-selected)
 nmap <leader>rf  <Plug>(coc-format-selected)
 
 augroup coc
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder
+    "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -674,9 +713,9 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Using CocList
+">>>> Using CocList
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
@@ -694,13 +733,43 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-hi CocErrorSign   ctermfg=Red     guifg=#840000  " base0E  
-hi CocWarningSign ctermfg=Brown   guifg=#755B00  " base0C
-hi CocInfoSign    ctermfg=Yellow  guifg=#730073  " base0B
-hi CocHintSign    ctermfg=Blue    guifg=#000090  " base08
-hi CocCodeLens    ctermfg=Gray    guifg=#006565  " base09
+">>>> Using coc-snippets
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+">>>> Using coc-lightline
+"autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+"" Default cursor settings
+set guicursor=n-v-c:block-Cursor/lCursor
+set guicursor+=ve:ver35-Cursor
+set guicursor+=o:hor50-Cursor
+set guicursor+=i-ci:ver25-Cursor/lCursor
+set guicursor+=r-cr:hor20-Cursor/lCursor
+set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
+
+" hi CocErrorSign   ctermfg=Red     guifg=#840000  " base0E
+" hi CocWarningSign ctermfg=Brown   guifg=#755B00  " base0C
+" hi CocInfoSign    ctermfg=Yellow  guifg=#730073  " base0B
+" hi CocHintSign    ctermfg=Blue    guifg=#000090  " base08
+" hi CocCodeLens    ctermfg=Gray    guifg=#006565  " base09
 
 " > Key Mapping ------------------------------------------------------------{{{1
+
+" replace netrw's gx with somethig that works
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
 
 " Windows
 " noremap <Tab> <c-w>w
@@ -740,6 +809,17 @@ endfunction
 
 command! -nargs=0 Switcher :call Switcher()
 
+function! SafeNERDTreeFind()
+    let l:pathStr = expand('%:p')
+    if empty(l:pathStr)
+        NERDTree
+    else
+        NERDTreeFind
+    endif
+endfunction
+
+command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
+
 " >> Leader Keys -----------------------------------------------------------{{{2
 
 noremap <silent><leader><space> :nohlsearch<CR>
@@ -755,41 +835,40 @@ xnoremap <silent><C-\>     <Esc>:Switcher<CR>
 
 " > File short cuts
 noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
-noremap <leader>N :NERDTree ~/Notes<CR>
+"noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
 noremap <silent><leader>g :G<CR>
 noremap <silent><leader><leader>G :Gbrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
-noremap <silent><leader>n :NERDTreeFind<CR>
+noremap <silent><leader>n :SafeNERDTreeFind<CR>
 noremap <silent><leader>a :Autoformat<CR>
 
 " > FZF
-noremap <silent><Leader>b :Buffers<CR>
+noremap <silent><leader>b :Buffers<CR>
 
-noremap <silent><Leader>f :GFiles<CR>
-noremap <silent><Leader>F :Files<CR>
+noremap <silent><leader>f :GFiles<CR>
+noremap <silent><leader>F :Files<CR>
 
 " probably use this the most
-noremap <silent><Leader>h :History<CR>
-noremap <silent><Leader>: :History:<CR>
-noremap <silent><Leader>/ :History/<CR>
+noremap <silent><leader>h :History<CR>
+noremap <silent><leader>: :History:<CR>
+noremap <silent><leader>/ :History/<CR>
 
-noremap <silent><Leader>t :BTags<CR>
-noremap <silent><Leader>T :Tags<CR>
+noremap <silent><leader>t :BTags<CR>
+noremap <silent><leader>T :Tags<CR>
 
-noremap <silent><Leader>l :BLines<CR>
-noremap <silent><Leader>L :Lines<CR>
+noremap <silent><leader>l :BLines<CR>
+noremap <silent><leader>L :Lines<CR>
 
 " noremap <Leader>m :Methods<CR>
-noremap <silent><Leader>h :History<CR>
-noremap <silent><Leader>H :Helptags!<CR>
-noremap <silent><Leader>M :Maps<CR>
-noremap <silent><Leader>C :Commands<CR>
-noremap <silent><Leader>' :Marks<CR>
-noremap <silent><Leader>s :Filetypes<CR>
-noremap <silent><Leader>S :Snippets<CR>
-    
+noremap <silent><leader>h :History<CR>
+noremap <silent><leader>H :Helptags!<CR>
+noremap <silent><leader>M :Maps<CR>
+noremap <silent><leader>C :Commands<CR>
+noremap <silent><leader>' :Marks<CR>
+noremap <silent><leader>s :Filetypes<CR>
+
 " grep bindings worl better
 " noremap <Leader>/ :Rg<Space>
 
@@ -800,7 +879,7 @@ noremap <silent><leader>vf :grep! <cfile><CR>
 
 " >> Fixes ------------------------------------------------------------------{{{2
 
-" Tweaks to fix problematic mappings 
+" Tweaks to fix problematic mappings
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
