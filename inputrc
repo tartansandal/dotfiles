@@ -4,17 +4,20 @@ set editing-mode vi
 # indicate editing mode in prompt (ins|cmd)
 set show-mode-in-prompt on
 
-# up arrow
-#"\e[A": history-search-backward
-
-# down arrow
-#"\e[B": history-search-forward
+# Change cursor shapr depending on mode
+$if term=linux
+	set vi-ins-mode-string \1\e[?0c\2
+	set vi-cmd-mode-string \1\e[?8c\2
+$else
+	set vi-ins-mode-string \1\e[6 q\2
+	set vi-cmd-mode-string \1\e[2 q\2
+$endif
 
 # show all posible completions if more than one matches
-#set show-all-if-ambiguous on
+set show-all-if-ambiguous on
 
 # append indicator chars to filname completions
 set visible-stats on
 
 # don't page completions
-#set page-completions off
+set page-completions off
