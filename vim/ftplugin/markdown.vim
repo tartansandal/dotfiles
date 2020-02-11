@@ -1,5 +1,5 @@
 " less indentation for markdown files
-" helps with errors form mdl
+" helps with errors from mdl
 
 set tabstop=2
 set shiftwidth=2
