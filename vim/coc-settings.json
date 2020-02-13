@@ -1,15 +1,31 @@
 {
-  "python.linting.pylintEnabled": true,
+  "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
-  "python.jediEnabled": false,
+  "python.formatting.provider": "yapf",
+  //"python.formatting.provider": "black",
+
+  // These are installed globally so I dont have to install in each virtual env
+  "python.linting.flake8Path": "/usr/bin/flake8",
+  "python.linting.pylintPath": "/usr/bin/pylint",
+  "python.formatting.blackPath": "/usr/bin/black",
+  "python.formatting.yapfPath": "/usr/bin/yapf",
+  "python.jediPath": "/usr/lib/python3.7/site-packages/",
   "python.sortImports.path": "/usr/bin/isort",
-  "diagnostic.displayByAle": true,
+
+  // WLS is still a little flakey, so stick with Jedi
+  "python.jediEnabled": true,
+
+  // ALE does better async diagnostics at least for python
+  // "diagnostic.displayByAle": true,
+  "diagnostic.enable": false,
+
   "signature.enable": true,
   "signature.target": "float",
   "signature.preferShownAbove": true,
   "signature.hideOnTextChange": false,
   "signature.triggerSignatureWait": 80,
+
   "markdownlint.config": {
     "default": true,
     "no-hard-tabs": false,
