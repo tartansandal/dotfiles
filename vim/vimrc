@@ -778,6 +778,7 @@ let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 " aligned) move less when toggle the browser
 let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
+let NERDTreeHijackNetrw=1
 
 " >> Ale --------------------------------------------------------------------{{{2
 
