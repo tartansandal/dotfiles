@@ -577,10 +577,10 @@ let g:xml_syntax_folding=1
 
 " I find concealing confusing
 let g:vim_json_conceal = 0
+let g:markdown_syntax_conceal=0
 
 let g:markdown_folding=1
-let g:markdown_syntax_conceal=0
-let g:vim_markdown_folding_disabled = 1
+let g:markdown_minlines = 100
 let g:markdown_fenced_languages = ['bash', 'python', 'css', 'js=javascript']
 
 " See ft_sql.vim
