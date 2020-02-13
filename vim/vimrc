@@ -144,6 +144,18 @@ Plug 'adelarsq/vim-matchit'
 "
 " I'm mostly using this for Bash, Python, Javascript, and CSS/SASS
 "
+" Has its own Node based plugin system
+"
+"   * coc-css
+"   * coc-html
+"   * coc-json
+"   * coc-markdownlint
+"   * coc-python
+"   * coc-snippets
+"   * coc-tsserver  (javascript)
+"   * coc-word      (google 10000 words)
+"   * coc-yaml
+"
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
@@ -322,6 +334,8 @@ Plug 'jceb/vim-textobj-uri'
 "
 Plug 'tyru/open-browser.vim'
 
+Plug 'yegappan/mru'
+Plug 'jlanzarotta/bufexplorer'
 
 " Base-16 colorschemes (all of them plus my own)
 "
@@ -331,28 +345,36 @@ Plug 'tyru/open-browser.vim'
 "
 " Plug 'tartansandal/base16-vim'
 
-
 " Still experimenting with these
 "
 " Plug 'Shougo/denite.nvim'
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
 
-""" Some plugins I no longer need/use
-
-" Plug 'Glench/Vim-Jinja2-Syntax'
-" Plug 'jacquesbh/vim-showmarks'
-" Plug 'ntpeters/vim-better-whitespace'
-
-" Web lookup for online help
-" Plug 'keith/investigate.vim'
-
-" temp for debugging netrw
-" Plug 'vim-scripts/Decho'
-
-" Ranger only wors in terminal
 " Plug 'francoiscabrol/ranger.vim'
 " let g:ranger_map_keys=0
+" >> Ranger only works in terminal
+"
+""" Some plugins I no longer need/use
+
+" Plug 'ycm-core/YouCompleteMe'
+" >> Superseded by Coc and Ale
+"
+" Plug 'Glench/Vim-Jinja2-Syntax'
+" >> have not used Jinja2 in a while
+"
+" Plug 'jacquesbh/vim-showmarks'
+" >> I just dont use marks enough for this to be useful
+"
+" Plug 'ntpeters/vim-better-whitespace'
+" >> Superseded by auto-formaters and auto-fixers
+
+" Plug 'keith/investigate.vim'
+" >> tend to use Zeal instead
+
+" Plug 'vim-scripts/Decho'
+" >> temp for debugging netrw
+
 
 
 
@@ -672,6 +694,33 @@ augroup fugitive
 augroup END
 
 
+"> BufExplorer:-----------------------------------------------------------{{{2
+
+let g:bufExplorerDefaultHelp=0       " Show default help.
+let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
+let g:bufExplorerFindActive=1        " Go to active window.
+let g:bufExplorerReverseSort=0       " Do not sort in reverse order.
+let g:bufExplorerShowDirectories=0   " Don't show directories.
+let g:bufExplorerShowRelativePath=1  " Show relative paths.
+let g:bufExplorerShowUnlisted=0      " Do not show unlisted buffers.
+let g:bufExplorerSortBy='mru'        " Sort by most recently used.
+let g:bufExplorerSplitBelow=1        " Split new window below current.
+let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
+let g:bufExplorerSplitRight=1        " Split right.
+
+let g:bufExplorerResize=1
+let g:bufExplorerMaxHeight=25 " Handles dynamic resizing of the window.
+let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
+
+"> MRU:-------------------------------------------------------------------{{{2
+
+let MRU_File = $HOME . '/.vim_mru_files'
+let MRU_Exclude_Files = 'COMMIT_EDITMSG'
+let MRU_Max_Entries = 20
+let MRU_Auto_Close = 1
+let MRU_Add_Menu = 0
+
+
 " >> Denite -----------------------------------------------------------------{{{2
 "
 "" Define mappings
@@ -785,41 +834,6 @@ let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
 
-" >> Ale --------------------------------------------------------------------{{{2
-
-"" These get merged with the global list
-"" let g:ale_lint_on_text_changed=0
-"" let g:ale_lint_on_insert_leave=1
-
-let g:ale_maximum_file_size=50000
-
-" A note on text linters:
-"
-"   * languagetool is too slow and does not handle markdown well
-"   * write-good gave too many false positives
-"   * textlint rouseau gave too many false positives
-"   * proselint seemed to be the best middle-ground
-
-" > Linting
-let g:ale_linters={
-            \ 'python': ['flake8'],
-            \ 'markdown': ['mdl'],
-            \ }
-let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
-
-" > Fixing
-let g:ale_fixers={
-            \ 'python':   ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
-            \ }
-let g:ale_fix_on_save=1
-
-" > Display
-let g:ale_sign_error='✗'
-let g:ale_sign_style_error='✗'
-let g:ale_sign_warning='!'
-let g:ale_sign_style_warning='!'
-
 " >> Netrw ------------------------------------------------------------------{{{2
 
 " XXX Seeing way to many bugs and errors with this. Dont think its maintained
@@ -874,6 +888,41 @@ let g:netrw_special_syntax=1    " highlight special (binary) files
 " that separately
 " let g:netrw_browsex_viewer="xdg-open"
 " let g:netrw_suppress_gx_mesg=1
+
+" >> Ale --------------------------------------------------------------------{{{2
+
+"" These get merged with the global list
+"" let g:ale_lint_on_text_changed=0
+"" let g:ale_lint_on_insert_leave=1
+
+let g:ale_maximum_file_size=50000
+
+" A note on text linters:
+"
+"   * languagetool is too slow and does not handle markdown well
+"   * write-good gave too many false positives
+"   * textlint rouseau gave too many false positives
+"   * proselint seemed to be the best middle-ground
+
+" > Linting
+let g:ale_linters={
+            \ 'python': ['flake8'],
+            \ 'markdown': ['mdl'],
+            \ }
+let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
+
+" > Fixing
+let g:ale_fixers={
+            \ 'python':   ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
+            \ }
+let g:ale_fix_on_save=1
+
+" > Display
+let g:ale_sign_error='✗'
+let g:ale_sign_style_error='✗'
+let g:ale_sign_warning='!'
+let g:ale_sign_style_warning='!'
 
 " >> Coc -------------------------------------------------------------------{{{2
 
@@ -1057,7 +1106,19 @@ nnoremap <S-Right> <c-w>l
 noremap <C-Right>       :tabnext<CR>
 noremap <C-Left>        :tabprevious<CR>
 
+
+"Insert a pudb breakpoint below or above current line
+" nnoremap <leader>b oimport pudb.b<Esc>
+" nnoremap <leader>B Oimport pudb.b<Esc>
+
+"Insert a ipdb breakpoint below or above current line
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+
+
+" Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
+    " Proceed to next line, or back to the top
     if getline('.') == getline('$')
         :1
     else
@@ -1067,18 +1128,38 @@ endfunction
 
 function! Switcher()
     silent! NERDTreeClose
-
     if len(getbufinfo({'buflisted':1})) > 1
-        " If more than 1 active buffer
-        :Buffers
+        " Buff explorer 
+        BufExplorerHorizontalSplit
+        call BufExplorer_ReSize()
+        +
     else
-        " Otherwise lookup history
-        :History
+        " skip to prev window if current buffer has a type
+        if &buftype !=? ''
+            wincmd p
+        endif
+        " MRU list is faster than FZF History 
+        MRU
     endif
 
+    " Make repeated calls progress through the list
+    setlocal cursorline
+    nmap <buffer> <Tab>   :call MyCycleNextLine()<CR>
+    nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
+    nmap <buffer> <\>     :call MyCycleNextLine()<CR>
+    nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
 endfunction
 
 command! -nargs=0 Switcher :call Switcher()
+
+
+" double up on the \b command since I am so used to this binding
+nnoremap <silent><C-Tab>        :Switcher<CR>
+inoremap <silent><C-Tab>   <Esc>:Switcher<CR>
+xnoremap <silent><C-Tab>   <Esc>:Switcher<CR>
+nnoremap <silent><C-\>          :Switcher<CR>
+inoremap <silent><C-\>     <Esc>:Switcher<CR>
+xnoremap <silent><C-\>     <Esc>:Switcher<CR>
 
 function! SafeNERDTreeFind()
     let l:pathStr = expand('%:p')
@@ -1091,26 +1172,10 @@ endfunction
 
 command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
 
-"Insert a pudb breakpoint below or above current line
-" nnoremap <leader>b oimport pudb.b<Esc>
-" nnoremap <leader>B Oimport pudb.b<Esc>
-
-"Insert a ipdb breakpoint below or above current line
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
-nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
-
 " >> Leader Keys -----------------------------------------------------------{{{2
 
 noremap <silent><leader><space> :nohlsearch\|silent only<CR>
 noremap <silent><leader>o :only<CR>
-
-" double up on the \b command since I am so used to this binding
-nnoremap <silent><C-Tab>        :Switcher<CR>
-inoremap <silent><C-Tab>   <Esc>:Switcher<CR>
-xnoremap <silent><C-Tab>   <Esc>:Switcher<CR>
-nnoremap <silent><C-\>          :Switcher<CR>
-inoremap <silent><C-\>     <Esc>:Switcher<CR>
-xnoremap <silent><C-\>     <Esc>:Switcher<CR>
 
 " > File short cuts
 noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
@@ -1124,7 +1189,7 @@ noremap <silent><leader>n :SafeNERDTreeFind<CR>
 noremap <silent><leader>a :Autoformat<CR>
 
 " > FZF
-"noremap <silent><leader>b :Buffers<CR>
+noremap <silent><leader>b :Buffers<CR>
 
 noremap <silent><leader>f :GFiles<CR>
 noremap <silent><leader>F :Files<CR>
@@ -1179,9 +1244,6 @@ inoremap . .<C-g>u
 inoremap ! !<C-g>u
 inoremap ? ?<C-g>u
 
-" Keep visual selection when indenting
-xnoremap > >gv
-xnoremap < <gv
 
 " FIXME do I need this anymore?
 if &term =~? 'xterm.*'"
@@ -1216,173 +1278,3 @@ if &term =~? 'xterm.*'"
     imap <Esc>O1;5C <C-Right>
     imap <Esc>O1;5D <C-Left>
 endif
-
-" > Old Plugins -------------------------------------------------------------{{{1
-
-" >> TagBar -----------------------------------------------------------------{{{2
-" hi TagbarFoldIcon guifg=fg
-" let g:tagbar_width     = 31
-" let g:tagbar_left      = 0
-" let g:tagbar_autoclose = 1
-" let g:tagbar_autofocus = 1
-" let g:tagbar_compact   = 1
-" let g:tagbar_autoshowtag = 0
-
-" let g:tagbar_type_sql = {
-"             \    'replace' : 1,
-"             \    'ctagstype' : 'sql',
-"             \    'kinds' : [
-"             \        'P:packages:1',
-"             \        'd:prototypes',
-"             \        'c:cursors',
-"             \        'f:functions',
-"             \        'F:record fields:1:0',
-"             \        'L:block label',
-"             \        'p:procedures',
-"             \        's:subtypes',
-"             \        't:tables',
-"             \        'T:triggers',
-"             \        'v:variables',
-"             \        'i:indexes',
-"             \        'e:events',
-"             \        'U:publications',
-"             \        'R:services',
-"             \        'D:domains',
-"             \        'V:views',
-"             \        'n:synonyms',
-"             \        'x:MobiLink Table Scripts',
-"             \        'y:MobiLink Conn Scripts',
-"             \        'z:MobiLink Properties',
-"             \    ],
-"             \}
-
-" let g:tagbar_type_perl = {
-"             \    'replace' : 1,
-"             \    'ctagstype' : 'perl',
-"             \        'kinds' : [
-"             \        'p:packages:1:0',
-"             \        'c:constants:1:0',
-"             \        's:subroutines',
-"             \    ],
-"             \}
-
-" let g:tagbar_type_html = {
-"             \    'kinds' : [
-"             \        'f:JavaScript funtions',
-"             \        'a:named anchors',
-"             \    ],
-"             \}
-
-" let g:tagbar_type_tt2html = {
-"             \    'ctagstype' : 'tt2html',
-"             \        'kinds' : [
-"             \        'i:ids',
-"             \        'f:functions',
-"             \        'm:macros',
-"             \    ],
-"             \}
-
-" let g:tagbar_type_markdown = {
-"             \    'ctagstype' : 'markdown',
-"             \    'kinds' : [
-"             \        'h:Heading_L1',
-"             \        'i:Heading_L2',
-"             \        'k:Heading_L3'
-"             \    ]
-"             \}
-
-" let g:_type_asciidoc = {
-"             \    'ctagstype' : 'asciidoc',
-"             \    'kinds' : [
-"             \        'a:anchors:1',
-"             \        't:titles:1',
-"             \        'n:includes:1',
-"             \        'i:images:1',
-"             \        'I:inline images:1'
-"             \    ],
-"             \    'sort' : 0
-"             \}
-
-" function! MyTagbarToggle ()
-"     if bufname('%') ==# '__MRU_Files__' || bufname('%') ==# '[BufExplorer]'
-"         quit
-"     endif
-"     silent! NERDTreeClose
-"     silent TagbarToggle
-" endfunction
-"
-" >> Perl Support -----------------------------------------------------------{{{2
-
-" let g:Perl_GlobalTemplateFile      =  $HOME.'/.vim/perl-support/templates/Templates'
-" let g:Perl_LocalTemplateFile       =  $HOME.'/.vim/perl-support/templates/Templates'
-" let g:Perl_TemplateOverwrittenMsg  = 'yes'
-" let g:Perl_Ctrl_j                  = 'on'
-
-" let g:Perl_CodeSnippets            = $HOME.'/.vim/perl-support/codesnippets/'
-" let g:Perl_LoadMenus               = 'yes'
-" let g:Perl_Dictionary_File         = ''
-" let g:Perl_Root                    = '&Perl.'
-" let g:Perl_MenuHeader              = 'yes'
-" let g:Perl_GuiSnippetBrowser       = 'commandline' " commandline|explorer|gui
-" let g:Perl_GuiTemplateBrowser      = 'commandline'
-
-" let g:Perl_PerlModuleList          = $HOME.'/.vim/perl-support/modules/perl-modules.list'
-" let g:Perl_PerlModuleListGenerator = $HOME.'/.vim/perl-support/scripts/pmdesc3.pl'
-" let g:Perl_OutputGvim              = 'vim'
-" let g:Perl_XtermDefaults           = '-fa courier -fs 12 -geometry 80x24'
-" let g:Perl_Debugger                = 'perl'
-" let g:Perl_TimestampFormat         = '%Y%m%d %H%M%S'
-" let g:Perl_FormatDate              = '%F'
-" let g:Perl_FormatTime              = '%H:%M'
-" let g:Perl_FormatYear              = 'year %Y'
-
-" let g:Perl_LineEndCommColDefault   = 49
-" let g:Perl_PodcheckerWarnings      = 'yes'
-" let g:Perl_Printheader             = "%<%f%h%m%<  %=%{strftime('%x %X')}     Page %N"
-" let g:Perl_PerlcriticSeverity      = 5
-" let g:Perl_PerlcriticVerbosity     = 5
-" let g:Perl_PerlcriticOptions       = ''
-" let g:Perl_PerlRegexSubstitution   = '$+'
-" let g:Perl_NYTProf_html            = 'no'
-" let g:Perl_NYTProf_browser         = 'firefox'
-
-" >> Syntastic --------------------------------------------------------------{{{2
-
-" " Only used in directories where we have created a script to invoke the
-" " interpreter
-" let g:syntastic_enable_perl_checker = 0
-" let g:syntastic_error_symbol='✗'
-" let g:syntastic_warning_symbol='⚠'
-" let g:syntastic_auto_jump=1
-
-" " set statusline+=%#warningmsg#
-" " set statusline+=%{SyntasticStatuslineFlag()}
-" " set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-
-" let g:tsuquyomi_disable_quickfix = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-
-" " use python-mode checkers and integration instead
-" " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-
-" let g:syntastic_python_python_exec='/usr/bin/python3'
-" let g:syntastic_python_checkers = ['flake8', 'python']
-
-" >> RPM-SPEC ---------------------------------------------------------------{{{2
-" augroup specfile
-"     autocmd!
-"     autocmd FileType spec map <buffer> <LocalLeader>c <Plug>SpecChangelog
-" augroup END
-" let spec_chglog_format = '%a %b %d %Y Kahlil (Kal) Hodgson <kahlil.hodgson999@gmail.com>'
-" let spec_chglog_prepend = 1
-" let spec_chglog_release_info = 0
-" let spec_chglog_never_increase_release = 0
-" let g:changelog_date_end_entry_search = '^\s*$'
-
-" >> BufExplorer --------------------------------------------------------------{{{2
-
