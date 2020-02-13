@@ -1131,9 +1131,10 @@ function! Switcher()
         " Buff explorer 
         BufExplorerHorizontalSplit
         call BufExplorer_ReSize()
-        +
+        +  " put cursor on the next buffer
     else
         " skip to prev window if current buffer has a type
+        " that is, its a special buffer 
         if &buftype !=? ''
             wincmd p
         endif
@@ -1147,6 +1148,7 @@ function! Switcher()
     nmap <buffer> <C-Tab> :call MyCycleNextLine()<CR>
     nmap <buffer> <\>     :call MyCycleNextLine()<CR>
     nmap <buffer> <C-\>   :call MyCycleNextLine()<CR>
+    nmap <buffer> <Esc>   q
 endfunction
 
 command! -nargs=0 Switcher :call Switcher()
@@ -1173,12 +1175,13 @@ command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
 
 " >> Leader Keys -----------------------------------------------------------{{{2
 
+" This is my o distractions mode
+" Note Ctrl-L also does `nohlsearch`
 noremap <silent><leader><space> :nohlsearch\|silent only<CR>
-noremap <silent><leader>o :only<CR>
 
 " > File short cuts
-noremap <leader>? :e ~/dotfiles/vim/cheatsheet.md<CR>
-"noremap <leader>N :NERDTree ~/Notes<CR>
+noremap <leader>? :edit ~/dotfiles/vim/cheatsheet.md<CR>
+noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
 noremap <silent><leader>g :G<CR>
