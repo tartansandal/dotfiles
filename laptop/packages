@@ -36,3 +36,10 @@ python-django-bash-completion-2.2.9-1.fc31.noarch
 docker
 podman-docker
 podman-compose
+python3-yapf
+black
+python3-flake8
+python3-pyscaffold
+python3-pudb
+python3-isort
+python3-jedi
