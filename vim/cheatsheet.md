@@ -6,43 +6,44 @@
   \o - one window (`Ctrl-w o` or `:on` does the same)
   \a - autoformat   [may not need this anymore]
 
-  Ctrl-\ - buf explorer
   \g - open Fugitive Status
   \\G - open file in github
 
   \u - toggle undo tree
   \n - find current file in NERDTree
 
-  \N - goto ~/Notes directory
-  \? - goto cheatsheet
+  \? - goto this cheatsheet
+  \N - goto Notes directory
 
-  Ctrl-Tab  :Buffers
+  Ctrl-Tab  Swicther
+  Ctrl-\    Switcher
 
 ## FZF
 
-  \b :Buffers
+All have \f prefix
 
-  \f :GFiles
-  \F :Files
+  \fb :Buffers
+  \ff :GFiles
+  \fF :Files
 
-  \h :History
-  \: :History:
-  \/ :History/
+  \fh :History
+  \f: :History:
+  \f/ :History/
 
-  \t :BTags
-  \T :Tags
+  \ft :BTags
+  \fT :Tags
 
-  \l :BLines
-  \L :Lines
+  \fl :BLines
+  \fL :Lines
 
-  \m :Methods
-  \h :History
-  \H :Helptags!
-  \M :Maps
-  \C :Commands
-  \' :Marks
-  \s :Filetypes
-  \S :Snippets
+  \fm :Methods
+  \fh :History
+  \fH :Helptags!
+  \fM :Maps
+  \fC :Commands
+  \f' :Marks
+  \fs :Filetypes
+  \fS :Snippets
 
 ## Navigation
 
@@ -72,10 +73,6 @@
   \rn - rename symbol
   \rf - format selection/object/motion
 
-  \a  - codeAction of selection/object/motion
-
-  \qf - autofix problem of current line
-
   if  - inner function object
   af  - around function object
 
@@ -90,12 +87,9 @@
           S-TAB for previous selection
           CR to configure completion
 
-
   n_TAB - select selections ranges ???
 
-  CTRL-SPACE - trigger completion without adding characters.
-
-  Note a trailing ~ in popup indicates a snippet
+  Ctrl-SPACE - trigger completion without adding characters.
 
 ## Globals
 
