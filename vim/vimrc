@@ -796,16 +796,15 @@ let g:ale_maximum_file_size=50000
 "   * proselint seemed to be the best middle-ground
 
 " > Linting
-" Turn off ale for Coc
 let g:ale_linters={
-            \ 'python': [],
-            \ 'markdown': ['proselint', 'mdl'],
+            \ 'python': ['flake8'],
+            \ 'markdown': ['mdl'],
             \ }
 let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
 
 " > Fixing
 let g:ale_fixers={
-            \ 'python': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'python':   ['remove_trailing_lines', 'trim_whitespace'],
             \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
             \ }
 let g:ale_fix_on_save=1
