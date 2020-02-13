@@ -11,98 +11,350 @@ scriptencoding utf-8
 " Load our plugin bundles
 call plug#begin('~/.vim/plugged')
 
-" File/buffer navigation plugins
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeFind'] }
-
-" Tim is the God of Vim
+"> Tim is the God of Vim: be sensible
+"
+"   ~/.vim/plugged/vim-sensible/README.markdown
+"
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-markdown'
-Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-rhubarb'
 
+
+" Surrounding text objects with paired text;
+"
+"   ~/.vim/plugged/vim-surround/README.markdown
+"   ~/.vim/plugged/vim-surround/doc/surround.txt
+"
+Plug 'tpope/vim-surround'
+
+
+" Use [] prefix to trigger complementary pairs of operations :
+"
+"   ~/.vim/plugged/vim-unimpaired/README.markdown
+"   ~/.vim/plugged/vim-unimpaired/doc/unimpaired.txt
+"
+Plug 'tpope/vim-unimpaired'
+
+
+" Make repeat operations (`.`) work with plugin maps:
+"
+"   ~/.vim/plugged/vim-repeat/README.markdown
+"
+Plug 'tpope/vim-repeat'
+ 
+
+" Comment stuff out with `gc`
+"
+"   ~/.vim/plugged/vim-commentary/README.markdown
+"   ~/.vim/plugged/vim-commentary/doc/commentary.txt
+"
+Plug 'tpope/vim-commentary'
+
+
+" Git done right 
+"
+"   ~/.vim/plugged/vim-fugitive/README.markdown
+"   ~/.vim/plugged/vim-fugitive/doc/fugitive.txt
+"
+Plug 'tpope/vim-fugitive'
+
+
+" Fugitive plugin to browse commit history 
+"
+"   ~/.vim/plugged/gv.vim/README.md
+"
+" Use :GV to open commit history browser
+"
 Plug 'junegunn/gv.vim'
 
-Plug 'jacquesbh/vim-showmarks'
-Plug 'Glench/Vim-Jinja2-Syntax'
-" Plug 'ntpeters/vim-better-whitespace'
+
+" Show git "diff" markers in the gutter
+"
+"   ~/.vim/plugged/vim-gitgutter/README.mkd
+"   ~/.vim/plugged/vim-gitgutter/doc/gitgutter.txt
+"
+" You can jump between hunks with `[c` and `]c`.
+"
+Plug 'airblade/vim-gitgutter'
+
+
+" A fugitive extension to browse GitHub
+"
+"   ~/.vim/plugged/vim-rhubarb/README.markdown
+"   ~/.vim/plugged/vim-rhubarb/doc/rhubarb.txt
+"
+" Use :Gbrowse to browse to the GitHub URL for the current buffer.
+"
+Plug 'tpope/vim-rhubarb'
+
+
+" Asynchronous compiler support
+"
+"   ~/.vim/plugged/vim-dispatch/README.markdown
+"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
+"
+Plug 'tpope/vim-dispatch'
+
+
+" Development version of the markdown runtime files
+"
+"   ~/.vim/plugged/vim-markdown/README.markdown
+"
+Plug 'tpope/vim-markdown'
+
+
+" Vim scripting helpers
+"
+"   ~/.vim/plugged/vim-scriptease/README.markdown
+"   ~/.vim/plugged/vim-scriptease/doc/scriptease.txt
+"
+" `g=` for evaluating expressions is useful for math
+" XXX: probably don't need the viSum plugin then
+Plug 'tpope/vim-scriptease'
+
+
+" Date and time arithmetic with C-a/C-x
+"
+"   ~/.vim/plugged/vim-speeddating/README.markdown
+"   ~/.vim/plugged/vim-speeddating/doc/speeddating.txt
+"
+Plug 'tpope/vim-speeddating'
+
+
+" File[system explorer
+"
+"   ~/.vim/plugged/nerdtree/README.markdown
+"   ~/.vim/plugged/nerdtree/doc/NERDTree.txt
+"
+" Note: we always load so that Netrw hijacking works
+"
+Plug 'scrooloose/nerdtree'
+
+
+" Extended "%" matching to "if", "else", "endif", etc, depending on language
+"
+"   ~/.vim/plugged/vim-matchit/README.md
+"   ~/.vim/plugged/vim-matchit/doc/matchit.txt
+"
 Plug 'adelarsq/vim-matchit'
 
-" Do you like Coc? Hell Yeah!
+
+" Intelligent code and snippet completion
+"
+"   ~/.vim/plugged/coc.nvim/Readme.md
+"   ~/.vim/plugged/coc.nvim/doc/coc.txt
+"
+" I'm mostly using this for Bash, Python, Javascript, and CSS/SASS
+"
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Used by FZF and Coc
-Plug 'honza/vim-snippets'
 
-" Asyncronous (on-the-fly) linting
+" Asynchronous (on-the-fly) linting
+"
+"   ~/.vim/plugged/ale/README.md
+"   ~/.vim/plugged/ale/doc/ale.txt
+"
+" Does this less intrusively than Coc.
+"
+" I'm mostly using this for Bash, Python, Javascript, and CSS/SASS
+"  
 Plug 'dense-analysis/ale'
 
-" Code formating
-" This may be superseded by Coc
+
+" A collection of snippets files for various programming languages.
+"
+"   ~/.vim/plugged/vim-snippets/README.md
+"
+" Used by FZF and Coc
+"
+" XXX Audit these and replace with my-own
+Plug 'honza/vim-snippets'
+
+
+" Format code (on key mapping or save) using external programs.
+"
+"   ~/.vim/plugged/vim-autoformat/README.md
+"
+" This may be superseded by Coc.
+" Currently seems more stable than Coc.
+" Note: automatically removes trailing whitespace
+" Can take a range to format only some part of the program
+" XXX checkout remark for formating Markdown
+"
 Plug 'Chiel92/vim-autoformat'
 
+
 " Editable quickfix list
+"
+" ~/.vim/plugged/vim-enmasse/README.md
+" ~/.vim/plugged/vim-enmasse/doc/enmasse.txt
+"
+" Populate quickfix list then call :EnMasse to make a editable buffer linked to
+" each of the quickfix items.
+"
+" Great combined with :grep to make global changes
+"
 Plug 'Olical/vim-enmasse'
 
-" Zeal for online help
+
+" Open Zeal for online help
+"
+"   ~/.vim/plugged/zeavim.vim/README.md
+"   ~/.vim/plugged/zeavim.vim/doc/zeavim.txt
+"
+" Calls external Zeal program
+" Uses buffer filetype to guess docsets
 Plug 'KabbAmine/zeavim.vim'
+
+
+" A light and configurable statusline/tabline for Vim
+"
+"   ~/.vim/plugged/lightline.vim/README.md
+"   ~/.vim/plugged/lightline.vim/doc/lightline.txt
+"
+Plug 'itchyny/lightline.vim'
+
+
+" Git modification indicators in the status line
+"
+"   ~/.vim/plugged/lightline-gitdiff/README.md
+"
+" Shows counts for Added/Delete/Modified lines
+"
+Plug 'niklaas/lightline-gitdiff'
+
+
+" Running tests from current buffer
+"
+"   ~/.vim/plugged/vim-test/README.md
+"   ~/.vim/plugged/vim-test/doc/test.txt
+"
+" XXX investigate more. needs tmux
+Plug 'janko-m/vim-test'
+"Plug '5long/pytest-vim-compiler'
+
+
+" Indentation highlighting
+"
+"   ~/.vim/plugged/indentLine/README.md
+"   ~/.vim/plugged/indentLine/doc/indentLine.txt
+"
+Plug 'Yggdroot/indentLine'
+
+
+" Undo history visualization
+"
+"   ~/.vim/plugged/undotree/README.md
+"   ~/.vim/plugged/undotree/doc/undotree.txt
+"
+" Useful for recovering a deleted/modified chunk from earlier in your session.
+"
+Plug 'mbbill/undotree'
+
+
+" A simple, easy-to-use Vim alignment plugin.
+" 
+"   ~/.vim/plugged/vim-easy-align/README.md
+"   ~/.vim/plugged/vim-easy-align/EXAMPLES.md
+"   ~/.vim/plugged/vim-easy-align/doc/easy_align.txt
+"
+" Good for managing tables in Markdown
+"
+" :EasyAlign
+"
+Plug 'junegunn/vim-easy-align'
+
+
+" Simple checkbox support for Markdown lists
+"
+"   ~/.vim/plugged/vim-checkbox/README.markdown
+"
+"  `<leader>tt` to add or toggle a checkbox for the current item
+"
+Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
+
+
+" Fuzzy Finding of all things
+"
+"   ~/.vim/plugged/fzf.vim/README.md
+"   ~/.vim/plugged/fzf.vim/doc/fzf-vim.txt
+"
+" Does not map well to my ususal development patterns
+" Some of the functions are really cool though.
+"
+" may be superceeded by CoC
+Plug 'junegunn/fzf.vim'
+
+
+" Darcula colorscheme that looks just like PyCharm
+"
+"   ~/.vim/plugged/darcula/README.md
+"
+" XXX Should compare with the others
+"
+"   blueshirts/darcula
+"   joshglendenning/vim-darcula-colors'
+"
+Plug 'doums/darcula'
+
+
+" Tools to create your own text objects
+"
+"   ~/.vim/plugged/vim-textobj-user/README.md
+"   ~/.vim/plugged/vim-textobj-user/doc/textobj-user.txt
+"
+Plug 'kana/vim-textobj-user'
+
+
+" URI text objects
+"
+"   ~/.vim/plugged/vim-textobj-uri/README.md
+"
+" Gives you a `u` text object for operating on URIs 
+"
+Plug 'jceb/vim-textobj-uri'
+
+
+" Open browser/search on url/word under cursor
+"
+"   ~/.vim/plugged/open-browser.vim/README.md
+"   ~/.vim/plugged/open-browser.vim/doc/openbrowser.txt
+"
+" More reliable than the built in `gx` command from Netrw
+"
+Plug 'tyru/open-browser.vim'
+
+
+" Base-16 colorschemes (all of them plus my own)
+"
+"   ~/.vim/plugged/base16-vim/README.md
+"
+" Big hit on load time
+"
+" Plug 'tartansandal/base16-vim'
+
+
+" Still experimenting with these
+"
+" Plug 'Shougo/denite.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+
+""" Some plugins I no longer need/use
+
+" Plug 'Glench/Vim-Jinja2-Syntax'
+" Plug 'jacquesbh/vim-showmarks'
+" Plug 'ntpeters/vim-better-whitespace'
 
 " Web lookup for online help
 " Plug 'keith/investigate.vim'
 
-" A better status line
-Plug 'itchyny/lightline.vim'
-Plug 'niklaas/lightline-gitdiff'
-
-" Running tests from current buffer
-Plug 'janko-m/vim-test'
-
-" Indentation highlighting
-Plug 'Yggdroot/indentLine'
-
-" Undo history visualization
-Plug 'mbbill/undotree'
-
-" This could be good for tables in Markdown
-Plug 'junegunn/vim-easy-align'
-
-" Simple checkbox support
-Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
-
-" Fuzzy Finding may be superceeded by CoC
-Plug 'junegunn/fzf.vim'
-
-" Plug 'Shougo/denite.nvim'
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
+" temp for debugging netrw
+" Plug 'vim-scripts/Decho'
 
 " Ranger only wors in terminal
 " Plug 'francoiscabrol/ranger.vim'
 " let g:ranger_map_keys=0
 
-" Git signs in the gutter
-Plug 'airblade/vim-gitgutter'
 
-" temp for debugging netrw
-" Plug 'vim-scripts/Decho'
-
-" Better colorscheme
-" Plug 'tartansandal/base16-vim'
-
-" Darcula colorscheme
-Plug 'doums/darcula'
-
-" URI text objects
-Plug 'kana/vim-textobj-user'
-Plug 'jceb/vim-textobj-uri'
-
-" Open browser/search on url/word under cursor
-Plug 'tyru/open-browser.vim'
 
 call plug#end()
 
@@ -127,9 +379,14 @@ set shiftwidth=4                 "Indent/outdent by four columns
 set expandtab                    "Convert all tabs typed to spaces
 set smartindent                  "Smart autoindenting when starting a new line
 set shiftround                   "Indent/outdent to nearest tabstop
+
+"> same as sensible
 set autoindent                   "Preserve current indent on new lines
 set backspace=indent,eol,start   "Make backspaces delete sensibly
 set smarttab
+
+"> same as sensible
+set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 
 "
 " Relative line numbers to encourage me to use line oriented motions more.
@@ -155,8 +412,6 @@ set cpoptions+=J        " Two spaces after a '.' defines a sentence
 " Use both system clipboard (+) and selection (*) for yank and put
 set clipboard^=unnamed,unnamedplus
 
-" Do not recognize octal numbers for Ctrl-A and Ctrl-X
-set nrformats-=octal
 
 " Allow virtual editing in visual block mode so we can form rectangles
 set virtualedit=block
@@ -170,6 +425,8 @@ set pastetoggle=<F2>
 
 set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
+
+" (sensible)
 set ttimeout           " time out for key codes
 set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 
@@ -179,7 +436,7 @@ set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 "------------------------------------------
 
 set complete -=i " dont search included files
-set wildmenu
+set wildmenu     " (sensible)
 
 " set omnifunc=syntaxcomplete#Complete
 
@@ -199,19 +456,22 @@ set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
 "------------------------------------------
 
 " The following helps with spurious "Press Enter" requests
+set laststatus=2    " always display status bar (sensible)
 set cmdheight=2     " 2 lines for command buffer
-set laststatus=2    " always display status bar
 set showcmd         " display incomplete commands
 
-set scrolloff=5         " always show 5 lines of context when scrolling
+" (sensible)
+set scrolloff=1         " always show 1 lines of context when scrolling
 set sidescrolloff=5     " keep at least 5 columns of context to either side
 
-" specify which characters to use.
+" Specify which characters to use for 'listing'. (not sensible)
 set listchars=tab:→\ ,trail:·,nbsp:¤,precedes:«,extends:»,eol:↲
 "set list     " turn on display of listchars
 "set nolist   " turn off display of listchars
 	    
 set foldlevelstart=99
+
+" (sensible): 
 set incsearch
 
 " clear search highlighting on startup
