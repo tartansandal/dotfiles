@@ -584,20 +584,6 @@ let g:diff_translations=0
 " Always use vertical diffs
 set diffopt+=vertical
 
-" Use '" to go to last cursor postion
-"
-" augroup vimrcWindows
-"     " remove all commands for the group current
-"     autocmd!
-"
-"     " When editing a file, always jump to the last known cursor position.
-"     " Don't do it when the position is invalid or when inside an event
-"     " handler (happens when dropping a file on gvim).
-"     autocmd BufReadPost *
-"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"                 \   exe "normal g`\"" |
-"                 \ endif
-" augroup END
 "------------------------------------------
 " File Types:
 "------------------------------------------
@@ -607,6 +593,7 @@ if has('autocmd')
     " Also load indent files, to automatically do language-dependent indenting
     " All filetype detections commands go in .vim/ftdetect/
     " All filetype specific settings go in .vim/ftplugin/
+    " All modifications to plugins go under .vim/after/{ftplugin,ftdetect}
     filetype plugin indent on
 endif
 
