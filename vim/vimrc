@@ -502,10 +502,14 @@ endif
 
 " endif
 
-" Alternatively jsut use darcula
+" Alternatively just use darcula
 colorscheme darcula
 hi Cursor guifg=#2B2B2B guibg=#BBBBBB
 hi ColorColumn guifg=#808080 guibg=#313335
+
+" need dar
+" colorscheme base16-dirtysea
+" hi Statement gui=None
 
 " -----------------
 " Files:
@@ -590,6 +594,7 @@ let g:sql_type_default='mysql'
 " ab ip import ipdb; ipdb.set_trace()
 " of perhaps just a <leader> keymap
 
+" XXX Should use ultisnips for this
 function! InsertBreakPoint()
     if &filetype ==? 'python'
         normal! Oimport ipdb; ipdb.set_trace()  # noqa XXX
@@ -613,7 +618,7 @@ endif
 let g:undotree_ShortIndicators=1
 
 " vim-test
-let test#strategy='make'
+let test#strategy='dispatch'
 
 " lightline
 set noshowmode
@@ -936,25 +941,25 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>rf  <Plug>(coc-format-selected)
-nmap <leader>rf  <Plug>(coc-format-selected)
+xmap <leader>rf  <Plug>(coc-format-selected)<CR>
+nmap <leader>rf  <Plug>(coc-format-selected)<CR>
 
 augroup coc
     autocmd!
     " Setup formatexpr specified filetype(s).
     autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
     " Update signature help on jump placeholder
-    "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+" " Remap for do codeAction of current line
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" " Fix autofix problem of current line
+" nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
 xmap if <Plug>(coc-funcobj-i)
@@ -962,9 +967,9 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -974,6 +979,9 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" use `:Run` run the current buffer
+command! -nargs=0 Run  :call     CocAction('runCommand', 'python.execInTerminal')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -1083,9 +1091,17 @@ endfunction
 
 command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
 
+"Insert a pudb breakpoint below or above current line
+" nnoremap <leader>b oimport pudb.b<Esc>
+" nnoremap <leader>B Oimport pudb.b<Esc>
+
+"Insert a ipdb breakpoint below or above current line
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+
 " >> Leader Keys -----------------------------------------------------------{{{2
 
-noremap <silent><leader><space> :nohlsearch<CR>
+noremap <silent><leader><space> :nohlsearch\|silent only<CR>
 noremap <silent><leader>o :only<CR>
 
 " double up on the \b command since I am so used to this binding
@@ -1108,7 +1124,7 @@ noremap <silent><leader>n :SafeNERDTreeFind<CR>
 noremap <silent><leader>a :Autoformat<CR>
 
 " > FZF
-noremap <silent><leader>b :Buffers<CR>
+"noremap <silent><leader>b :Buffers<CR>
 
 noremap <silent><leader>f :GFiles<CR>
 noremap <silent><leader>F :Files<CR>
@@ -1131,9 +1147,6 @@ noremap <silent><leader>M :Maps<CR>
 noremap <silent><leader>C :Commands<CR>
 noremap <silent><leader>' :Marks<CR>
 noremap <silent><leader>s :Filetypes<CR>
-
-" grep bindings worl better
-" noremap <Leader>/ :Rg<Space>
 
 " > Grep (same bindings as easygrep)
 noremap <silent><leader>vv :grep! -w <cword><CR>
