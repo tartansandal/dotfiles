@@ -1187,32 +1187,29 @@ noremap <silent><leader>u :UndotreeToggle<CR>
 noremap <silent><leader>n :SafeNERDTreeFind<CR>
 noremap <silent><leader>a :Autoformat<CR>
 
-" > FZF
-noremap <silent><leader>b :Buffers<CR>
+" > FZF all use a \f prefix
+noremap <silent><leader>fb :Buffers<CR>
+noremap <silent><leader>ff :GFiles<CR>
+noremap <silent><leader>fF :Files<CR>
 
-noremap <silent><leader>f :GFiles<CR>
-noremap <silent><leader>F :Files<CR>
+noremap <silent><leader>fh :History<CR>
+noremap <silent><leader>f: :History:<CR>
+noremap <silent><leader>f/ :History/<CR>
 
-" probably use this the most
-noremap <silent><leader>h :History<CR>
-noremap <silent><leader>: :History:<CR>
-noremap <silent><leader>/ :History/<CR>
+noremap <silent><leader>ft :BTags<CR>
+noremap <silent><leader>fT :Tags<CR>
 
-noremap <silent><leader>t :BTags<CR>
-noremap <silent><leader>T :Tags<CR>
+noremap <silent><leader>fl :BLines<CR>
+noremap <silent><leader>fL :Lines<CR>
 
-noremap <silent><leader>l :BLines<CR>
-noremap <silent><leader>L :Lines<CR>
+noremap <silent><Leader>fm :Methods<CR>
+noremap <silent><leader>fH :Helptags!<CR>
+noremap <silent><leader>fM :Maps<CR>
+noremap <silent><leader>fC :Commands<CR>
+noremap <silent><leader>f' :Marks<CR>
+noremap <silent><leader>fs :Filetypes<CR>
 
-" noremap <Leader>m :Methods<CR>
-noremap <silent><leader>h :History<CR>
-noremap <silent><leader>H :Helptags!<CR>
-noremap <silent><leader>M :Maps<CR>
-noremap <silent><leader>C :Commands<CR>
-noremap <silent><leader>' :Marks<CR>
-noremap <silent><leader>s :Filetypes<CR>
-
-" > Grep (same bindings as easygrep)
+" > Grep all with a \v prefix (same bindings as easygrep) 
 noremap <silent><leader>vv :grep! -w <cword><CR>
 noremap <silent><leader>vV :grep! -w <cWORD><CR>
 noremap <silent><leader>vf :grep! <cfile><CR>
