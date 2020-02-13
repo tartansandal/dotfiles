@@ -292,7 +292,6 @@ Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
 " Does not map well to my ususal development patterns
 " Some of the functions are really cool though.
 "
-" may be superceeded by CoC
 Plug 'junegunn/fzf.vim'
 
 
@@ -334,7 +333,23 @@ Plug 'jceb/vim-textobj-uri'
 "
 Plug 'tyru/open-browser.vim'
 
+" Explore Most Recently Used (MRU) files
+"
+" ~/.vim/plugged/mru/README
+" ~/.vim/plugged/mru/doc/mru.txt
+"
+" Part of my Switcher utility
+"
 Plug 'yegappan/mru'
+
+
+" Explore currently loaded buffers
+"
+" ~/.vim/plugged/bufexplorer/README.md
+" ~/.vim/plugged/bufexplorer/doc/bufexplorer.txt
+"
+" Part of my Switcher utility
+"
 Plug 'jlanzarotta/bufexplorer'
 
 " Base-16 colorschemes (all of them plus my own)
@@ -374,9 +389,6 @@ Plug 'jlanzarotta/bufexplorer'
 
 " Plug 'vim-scripts/Decho'
 " >> temp for debugging netrw
-
-
-
 
 call plug#end()
 
