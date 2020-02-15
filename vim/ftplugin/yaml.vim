@@ -1,4 +1,4 @@
 " less indentation for YAML files
 
-set tabstop=2
-set shiftwidth=2
+setlocal tabstop=2
+setlocal shiftwidth=2
