@@ -107,7 +107,7 @@ Plug 'tpope/vim-markdown'
 "   ~/.vim/plugged/vim-scriptease/doc/scriptease.txt
 "
 " `g=` for evaluating expressions is useful for math
-" XXX: probably don't need the viSum plugin then
+"
 Plug 'tpope/vim-scriptease'
 
 
@@ -241,8 +241,30 @@ Plug 'niklaas/lightline-gitdiff'
 "
 " XXX investigate more. needs tmux
 Plug 'janko-m/vim-test'
-"Plug '5long/pytest-vim-compiler'
 
+" compiler for python unit tests
+"
+"   ~/.vim/plugged/vim-python/README.md
+"
+Plug 'aliev/vim-python'
+
+
+" Compiler for 'pytest' tests
+"
+"   ~/.vim/plugged/pytest-vim-compiler/README.mkd
+"
+" This was the secret sauce to get vim-test/dispatch working for pytest files
+" 
+Plug '5long/pytest-vim-compiler'
+
+
+"   ~/.vim/plugged/pytest.vim/README.rst
+"   ~/.vim/plugged/pytest.vim/doc/pytest.txt
+"
+" This interferes with vim-test and :PyTest command
+" Plug 'alfredodeza/pytest.vim'
+
+" I am not certain which errorformat is being used
 
 " Indentation highlighting
 "
@@ -654,8 +676,26 @@ endif
 let g:undotree_ShortIndicators=1
 
 " vim-test
+"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
+"   ~/.vim/plugged/vim-test/README.md
+"   ~/.vim/plugged/vim-test/doc/test.txt
+"
+"let test#strategy='basic'
 let test#strategy='dispatch'
+let test#python#pytest#options = '-vv'
+let test#python#runner = 'pytest'
 
+" Think the 'py.test' bit in the compiler is confusing dispatch 
+let g:dispatch_compilers = { 'pytest': 'pytest' }
+
+" if I do
+"   :compiler pytest
+"   :Make
+" I get a reasonable quickfix list
+" uses the --tb=short option
+" if I do
+"   : 
+"
 " lightline
 set noshowmode
 let g:lightline={
@@ -917,6 +957,9 @@ let g:ale_maximum_file_size=50000
 "   * write-good gave too many false positives
 "   * textlint rouseau gave too many false positives
 "   * proselint seemed to be the best middle-ground
+
+" let g:ale_python_flake8_use_global = 1
+" let g:ale_python_flake8_executable = '/usr/bin/flake8'
 
 " > Linting
 let g:ale_linters={
