@@ -784,11 +784,11 @@ augroup terminal
     " these off.  We alos hide the `colorcolumn` which makes no sense in
     " terminal.
     autocmd TerminalOpen,TerminalWinOpen * 
-            \ if &buftype ==# 'terminal' 
+            \  if &buftype ==# 'terminal' 
             \   | setlocal norelativenumber 
             \   | setlocal signcolumn=no
             \   | setlocal colorcolumn=0
-            \ | endif
+            \| endif
 augroup END
 
 
