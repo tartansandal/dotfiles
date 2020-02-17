@@ -640,18 +640,22 @@ let g:diff_translations=0
 " Always use vertical diffs
 set diffopt+=vertical
 
+" If we are running vim-tiny, none of the sexy plugins or filetype detections
+" will work anyway, so skip the rest of the file.
+if !has('autocmd')
+    finish
+endif
+
 "------------------------------------------
 " File Types:
 "------------------------------------------
 
-if has('autocmd')
-    " Enable file type detection.
-    " Also load indent files, to automatically do language-dependent indenting
-    " All filetype detections commands go in .vim/ftdetect/
-    " All filetype specific settings go in .vim/ftplugin/
-    " All modifications to plugins go under .vim/after/{ftplugin,ftdetect}
-    filetype plugin indent on
-endif
+" Enable file type detection.
+" Also load indent files, to automatically do language-dependent indenting
+" All filetype detections commands go in .vim/ftdetect/
+" All filetype specific settings go in .vim/ftplugin/
+" All modifications to plugins go under .vim/after/{ftplugin,ftdetect}
+filetype plugin indent on
 
 let g:xml_use_xhtml=1
 let g:xml_syntax_folding=1
