@@ -239,24 +239,14 @@ Plug 'tpope/vim-dispatch'
 Plug 'janko-m/vim-test'
 
 
-" compiler for python unit tests
-"
-"   ~/.vim/plugged/vim-python/README.md
-"
-Plug 'aliev/vim-python'
-
-
 " Compiler for 'pytest' tests
 "
-"   ~/.vim/plugged/pytest-vim-compiler/README.mkd
+"   ~/.vim/plugged/vim-compiler-pytest/README.md
 "
-" This was the secret sauce to get vim-test/dispatch working for pytest files
-" 
-" XXX Replaced this with my own
+" The secret sauce to get vim-test/dispatch working for pytest files
 "
-" Plug '5long/pytest-vim-compiler'
-
-" I am not certain which errorformat is being used
+Plug 'tartansandal/vim-compiler-pytest'
+ 
 
 " Indentation highlighting
 "
