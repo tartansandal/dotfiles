@@ -441,17 +441,17 @@ call plug#end()
 " Limit line length to 80-88 chars.
 " Black has some rationale for extending beyound 80
 "
-set textwidth=80                 "Wrap at this column
-set colorcolumn=+1               "Columns to highlight after textwidth
+set textwidth=80         "Wrap at this column
+set colorcolumn=+1       "Columns to highlight after textwidth
 
 "
 " Indent 4 spaces - a consistent and common convention
 "
-set tabstop=4                    "Indentation levels every four columns
-set shiftwidth=4                 "Indent/outdent by four columns
-set expandtab                    "Convert all tabs typed to spaces
-set smartindent                  "Smart autoindenting when starting a new line
-set shiftround                   "Indent/outdent to nearest tabstop
+set tabstop=4            "Indentation levels every four columns
+set shiftwidth=4         "Indent/outdent by four columns
+set expandtab            "Convert all tabs typed to spaces
+set smartindent          "Smart autoindenting when starting a new line
+set shiftround           "Indent/outdent to nearest tabstop
 
 "> same as sensible
 set autoindent                   "Preserve current indent on new lines
@@ -464,7 +464,7 @@ set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 "
 " Relative line numbers to encourage me to use line oriented motions more.
 "
-set relativenumber               " Display relative line numbers
+set relativenumber       " Display relative line numbers
 
 "
 " Automatice formating. The default is tcq. See 'help fo-table'
@@ -489,8 +489,8 @@ set clipboard^=unnamed,unnamedplus
 " Allow virtual editing in visual block mode so we can form rectangles
 set virtualedit=block
 
-set whichwrap+=<>[]   " left arrow traverses the begining of the line
-set matchpairs+=<:>   " Allow % to bounce between angles too
+set whichwrap+=<>[]     " Left arrow traverses the begining of the line
+set matchpairs+=<:>     " Allow % to bounce between angles too
 
 " May need this for paste in a terminal
 " NB dont set paste in vimrc since that will override you expandtab setting
@@ -500,8 +500,8 @@ set spelllang=en_au
 set printoptions=paper:A4,formfeed:y
 
 " (sensible)
-set ttimeout           " time out for key codes
-set ttimeoutlen=100    " wait up to 100ms after Esc for special key
+set ttimeout            " Time out for key codes
+set ttimeoutlen=100     " Wait up to 100ms after Esc for special key
 
 
 "------------------------------------------
