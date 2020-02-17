@@ -804,20 +804,42 @@ let g:bufExplorerShowUnlisted=0      " Do not show unlisted buffers.
 let g:bufExplorerSortBy='mru'        " Sort by most recently used.
 let g:bufExplorerSplitBelow=1        " Split new window below current.
 let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
-let g:bufExplorerSplitRight=1        " Split right.
-
-let g:bufExplorerResize=1
-let g:bufExplorerMaxHeight=25 " Handles dynamic resizing of the window.
-let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
+let g:bufExplorerSplitRight=0        " Split left.
+let g:bufExplorerMaxHeight=25        " Set max height of the window.
+let g:bufExplorerDisableDefaultKeyMapping=1  " Disable dfault mappings.
 
 " >> MRU:-------------------------------------------------------------------{{{2
 
-let MRU_File = $HOME . '/.vim_mru_files'
-let MRU_Exclude_Files = 'COMMIT_EDITMSG'
-let MRU_Max_Entries = 20
-let MRU_Auto_Close = 1
-let MRU_Add_Menu = 0
+" Part of my Switcher utility. 
+"
+" Settings try to make this behave similarly to the `buffexplorer`.
+"
+let MRU_File = expand('~/.vim_mru_files')
+let MRU_Exclude_Files = '^COMMIT_EDITMSG\|^/tmp/.*\|^/var/tmp/.*'
+let MRU_Max_Entries = 100
+let MRU_Use_Current_Window = 0 " always use a new window
+let MRU_Window_Height = 15     " same height as the bufexplorer? XXX
+let MRU_Auto_Close = 1         " close window after selecting
+let MRU_Add_Menu = 0           " dont bother with the menu items
 
+" Dont split out path and filename
+let MRU_Filename_Format =
+\   {'formatter':'v:val', 'parser':'.*', 'syntax': '[^/\\]\+$'}
+
+" TODO: Add a mapping to delete entries from the MRU list.
+" The MRU buffer uses the 'mru file type. You can use this file type to add
+" custom auto commands, syntax highlighting, etc.
+
+" Default mappings:
+"   <Enter>         Open file
+"   <Shift-Enter>   Open in new window
+"   o               Open in new window
+"   v               Open in read-only mode
+"   t               Open in a new tab
+"   u               Update file list
+"   q               Close window
+
+highlight link MRUFileName String
 
 " >> Denite -----------------------------------------------------------------{{{2
 "
