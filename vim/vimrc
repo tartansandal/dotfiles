@@ -664,6 +664,7 @@ let g:xml_syntax_folding=1
 let g:vim_json_conceal = 0
 let g:markdown_syntax_conceal=0
 
+" markdown
 let g:markdown_folding=1
 let g:markdown_minlines = 100
 let g:markdown_fenced_languages = ['bash', 'python', 'css', 'js=javascript']
@@ -690,7 +691,6 @@ noremap <silent> <leader>b :call InsertBreakPoint()<CR>
 "Insert a ipdb breakpoint below or above current line
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
 nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
-
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -742,12 +742,6 @@ let g:lightline['colorscheme'] = 'darculaOriginal'
 
 let g:zv_zeal_executable=expand('~/bin/zeal')
 let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
-
-" " Fugitive
-" augroup fugitive
-"     autocmd!
-"     autocmd BufReadPost fugitive://* set bufhidden=delete
-" augroup END
 
 
 " >> Vim-Test --------------------------------------------------------------{{{2
@@ -941,10 +935,10 @@ let NERDTreeChDirMode=2  " cwd follows root
 let NERDTreeHijackNetrw=1
 let NERDTreeShowBookmarks=0
 let NERDTreeIgnore=[
-            \   '\~$',
-            \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
-            \   '__pycache__'
-            \]
+    \   '\~$',
+    \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
+    \   '__pycache__'
+    \]
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize=31
