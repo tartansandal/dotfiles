@@ -11,6 +11,9 @@ scriptencoding utf-8
 " Load our plugin bundles
 call plug#begin('~/.vim/plugged')
 
+" For each plugin I provide the path to the local documentation so I can quickly
+" acess it using use `gf`.
+
 "> Tim is the God of Vim: be sensible
 "
 "   ~/.vim/plugged/vim-sensible/README.markdown
@@ -84,21 +87,6 @@ Plug 'airblade/vim-gitgutter'
 " Use :Gbrowse to browse to the GitHub URL for the current buffer.
 "
 Plug 'tpope/vim-rhubarb'
-
-
-" Asynchronous compiler support
-"
-"   ~/.vim/plugged/vim-dispatch/README.markdown
-"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
-"
-Plug 'tpope/vim-dispatch'
-
-
-" Development version of the markdown runtime files
-"
-"   ~/.vim/plugged/vim-markdown/README.markdown
-"
-Plug 'tpope/vim-markdown'
 
 
 " Vim scripting helpers
@@ -234,13 +222,22 @@ Plug 'itchyny/lightline.vim'
 Plug 'niklaas/lightline-gitdiff'
 
 
+" Asynchronous compiler support
+"
+"   ~/.vim/plugged/vim-dispatch/README.markdown
+"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
+"
+Plug 'tpope/vim-dispatch'
+
+
 " Running tests from current buffer
 "
 "   ~/.vim/plugged/vim-test/README.md
 "   ~/.vim/plugged/vim-test/doc/test.txt
 "
-" XXX investigate more. needs tmux
+" Uses vim-dispatch
 Plug 'janko-m/vim-test'
+
 
 " compiler for python unit tests
 "
@@ -255,14 +252,9 @@ Plug 'aliev/vim-python'
 "
 " This was the secret sauce to get vim-test/dispatch working for pytest files
 " 
-Plug '5long/pytest-vim-compiler'
-
-
-"   ~/.vim/plugged/pytest.vim/README.rst
-"   ~/.vim/plugged/pytest.vim/doc/pytest.txt
+" XXX Replaced this with my own
 "
-" This interferes with vim-test and :PyTest command
-" Plug 'alfredodeza/pytest.vim'
+" Plug '5long/pytest-vim-compiler'
 
 " I am not certain which errorformat is being used
 
@@ -280,6 +272,7 @@ Plug 'Yggdroot/indentLine'
 "   ~/.vim/plugged/undotree/doc/undotree.txt
 "
 " Useful for recovering a deleted/modified chunk from earlier in your session.
+" Fills a gap for recovery outside of git commits.
 "
 Plug 'mbbill/undotree'
 
@@ -304,6 +297,15 @@ Plug 'junegunn/vim-easy-align'
 "  `<leader>tt` to add or toggle a checkbox for the current item
 "
 Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
+
+
+" Development version of the markdown runtime files
+"
+"   ~/.vim/plugged/vim-markdown/README.markdown
+"
+" Has some features that I like to track faster than the distribution
+"
+Plug 'tpope/vim-markdown'
 
 
 " Fuzzy Finding of all things
@@ -393,6 +395,9 @@ Plug 'jlanzarotta/bufexplorer'
 " >> Ranger only works in terminal
 "
 """ Some plugins I no longer need/use
+
+" Plug 'alfredodeza/pytest.vim'
+" >> Interferes with vim-test and the :PyTest command
 
 " Plug 'ycm-core/YouCompleteMe'
 " >> Superseded by Coc and Ale
