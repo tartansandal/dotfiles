@@ -792,20 +792,41 @@ augroup END
 
 " >> BufExplorer:-----------------------------------------------------------{{{2
 
-let g:bufExplorerDefaultHelp=0       " Show default help.
+" Part of my Switcher utility. 
+"
+" Settings try to make this behave similarly to the `MRU`.
+"
+let g:bufExplorerDefaultHelp=0       " Dont show help by default.
 let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
-let g:bufExplorerFindActive=1        " Go to active window.
+let g:bufExplorerFindActive=1        " Go to active window on select.
 let g:bufExplorerReverseSort=0       " Do not sort in reverse order.
 let g:bufExplorerShowDirectories=0   " Don't show directories.
-let g:bufExplorerShowRelativePath=1  " Show relative paths.
+let g:bufExplorerShowNoName=0        " Do not show "No Name" buffers.
 let g:bufExplorerShowUnlisted=0      " Do not show unlisted buffers.
+let g:bufExplorerShowTabBuffer=0     " Don't restrict to this tabs buffers.
+let g:bufExplorerShowRelativePath=1  " Show relative paths.
 let g:bufExplorerSortBy='mru'        " Sort by most recently used.
 let g:bufExplorerSplitBelow=1        " Split new window below current.
 let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
-let g:bufExplorerSplitRight=0        " Split left.
-let g:bufExplorerMaxHeight=25        " Set max height of the window.
-let g:bufExplorerDisableDefaultKeyMapping=1  " Disable dfault mappings.
+let g:bufExplorerSplitHorzSize=15    " New window is 15 rows high (same as MRU).
 
+" Disable default <leader> mappings.
+let g:bufExplorerDisableDefaultKeyMapping=1  
+
+" Default mappings for the bufexplore window
+"
+" <F1>          Toggle help information.
+" <enter>       Opens the buffer under the cursor into the current window.
+" d             |:delete| the buffer under the cursor from the list.
+" D             |:wipeout| the buffer under the cursor from the list.
+" q             Exit/Close bufexplorer.
+" r             Reverses the order the buffers are listed in.
+" R             Toggles relative path/absolute path.
+" s             Cycle thru how the buffers are listed
+" S             Cycle thru how the buffers are listed, in reverse order.
+" T             Toggles to show only buffers for this tab or not.
+" u             Toggles the showing of "unlisted" buffers.
+"
 " >> MRU:-------------------------------------------------------------------{{{2
 
 " Part of my Switcher utility. 
@@ -813,18 +834,21 @@ let g:bufExplorerDisableDefaultKeyMapping=1  " Disable dfault mappings.
 " Settings try to make this behave similarly to the `buffexplorer`.
 "
 let MRU_File = expand('~/.vim_mru_files')
-let MRU_Exclude_Files = '^COMMIT_EDITMSG\|^/tmp/.*\|^/var/tmp/.*'
+let MRU_Exclude_Files = 'COMMIT_EDITMSG\|^/tmp/.*\|^/var/tmp/.*'
 let MRU_Max_Entries = 100
-let MRU_Use_Current_Window = 0 " always use a new window
-let MRU_Window_Height = 15     " same height as the bufexplorer? XXX
-let MRU_Auto_Close = 1         " close window after selecting
-let MRU_Add_Menu = 0           " dont bother with the menu items
+let MRU_Use_Current_Window = 0 " Always use a new window
+let MRU_Window_Height = 15     " Same height as the bufexplorer
+let MRU_Auto_Close = 1         " Close window after selecting
+let MRU_Add_Menu = 0           " Dont bother with the menu items
 
 " Dont split out path and filename
 let MRU_Filename_Format =
 \   {'formatter':'v:val', 'parser':'.*', 'syntax': '[^/\\]\+$'}
 
-" TODO: Add a mapping to delete entries from the MRU list.
+" TODO: 
+" 1. Add a mapping to delete entries from the MRU list.
+" 2. Port relative filename feature from buffexplorer
+"
 " The MRU buffer uses the 'mru file type. You can use this file type to add
 " custom auto commands, syntax highlighting, etc.
 
