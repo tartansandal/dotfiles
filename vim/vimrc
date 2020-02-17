@@ -405,7 +405,9 @@ Plug 'jlanzarotta/bufexplorer'
 " Plug 'francoiscabrol/ranger.vim'
 " let g:ranger_map_keys=0
 " >> Ranger only works in terminal
-"
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Some plugins I no longer need/use
 
 " Plug 'alfredodeza/pytest.vim'
@@ -511,15 +513,15 @@ set ttimeoutlen=100    " wait up to 100ms after Esc for special key
 set complete -=i " dont search included files
 set wildmenu     " (sensible)
 
+" ignore files we will never want to edit
+set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
+set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
+
 " set omnifunc=syntaxcomplete#Complete
 
 " list all matches and complete till longest common strings
 " This conflicts with statusline display
 " set wildmode=list:longest
-
-" ignore files we will never want to edit
-set wildignore+=*.o,*.exe,*~,CVS,.svn,*.gz,*.zip,*.bz2,*.tgz
-set wildignore+=*.dsc,*.rpm,*.deb,*.xpm,*.png
 
 " Autocomplete with dictionary words when spell check is on
 " set complete+=kspell
@@ -561,6 +563,8 @@ if has('mouse')
     set mouse=a
 endif
 
+" FIXME need to sort out my colorscheme loading
+"
 " For some weird reason this does not load in terminal vim
 
 " let g:base16_shell_path="~/.config/base16-shell/scripts"
@@ -677,6 +681,15 @@ function! InsertBreakPoint()
 endfunction
 noremap <silent> <leader>b :call InsertBreakPoint()<CR>
 
+"Insert a pudb breakpoint below or above current line
+" nnoremap <leader>b oimport pudb.b<Esc>
+" nnoremap <leader>B Oimport pudb.b<Esc>
+
+"Insert a ipdb breakpoint below or above current line
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
+
+
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
@@ -692,31 +705,9 @@ endif
 " undotree
 let g:undotree_ShortIndicators=1
 
-" vim-test
-"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
-"   ~/.vim/plugged/vim-test/README.md
-"   ~/.vim/plugged/vim-test/doc/test.txt
-"
-"let test#strategy='basic'
-let test#strategy='dispatch'
-let test#python#pytest#options = '-vv'
-let test#python#runner = 'pytest'
-
-" Think the 'py.test' bit in the compiler is confusing dispatch 
-let g:dispatch_compilers = { 'pytest': 'pytest' }
-
-" if I do
-"   :compiler pytest
-"   :Make
-" I get a reasonable quickfix list
-" uses the --tb=short option
-" if I do
-"   : 
-"
 " lightline
 set noshowmode
 let g:lightline={
-            \   'colorscheme': 'darculaOriginal',
             \   'active': {
             \     'left': [
             \        [ 'mode', 'paste' ],
@@ -744,28 +735,64 @@ let g:lightline={
             \     'gitdiff': 'middle',
             \   },
             \}
+" let g:lightline['colorscheme'] = 'wombat'
+let g:lightline['colorscheme'] = 'darculaOriginal'
 
 let g:zv_zeal_executable=expand('~/bin/zeal')
 let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 
-" Better Whitespace
-" let g:better_whitespace_enabled=1
-" let g:strip_whitespace_on_save=1
-" let g:strip_whitespace_confirm=0
-" let g:strip_whitelines_at_eof=1
-" let g:strip_only_modified_lines=0
-" let g:better_whitespace_filetypes_blacklist=[
-"             \ 'diff', 'gitcommit', 'unite', 'qf', 'help'
-"             \ ]
+" " Fugitive
+" augroup fugitive
+"     autocmd!
+"     autocmd BufReadPost fugitive://* set bufhidden=delete
+" augroup END
 
-" Fugitive
-augroup fugitive
+
+" >> Vim-Test --------------------------------------------------------------{{{2
+" vim-test
+"   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
+"   ~/.vim/plugged/vim-test/README.md
+"   ~/.vim/plugged/vim-test/doc/test.txt
+
+" For 'suite' and 'file', we process the errors with a compiler and present the
+" result in a quickfix list so we can esily navigate to errors.
+" For 'nearest', we show the full details for the error.
+" This facillitates the following process:
+"   1. Run a :TestFile or :TestSuite
+"   2. Use the quickfix to jump to an "interesting" test that is breaking
+"   3. Run :TestNearest to rerun just that test, but show the full details.
+let test#strategy = {
+  \ 'suite':   'dispatch',
+  \ 'file':    'dispatch',
+  \ 'nearest': 'vimterminal', 
+\}
+
+let test#python#runner = 'pytest'
+
+" these should match the options for your compiler plus some options to quiet
+" thigs down
+let test#python#pytest#options = '--tb=short -q --no-cov -vv'
+
+" Use F1 to enter Terminal Normal Mode
+tnoremap <F1> <C-W>N
+
+augroup terminal
     autocmd!
-    autocmd BufReadPost fugitive://* set bufhidden=delete
+    " The `relativenumber` and `signcolumn` options shift the content of
+    " terminal windows 6 columns to the right. This causes terminal content to
+    " wrap in Normal Mode, which does not look good in PyTest output, so we turn
+    " these off.  We alos hide the `colorcolumn` which makes no sense in
+    " terminal.
+    autocmd TerminalOpen,TerminalWinOpen * 
+            \ if &buftype ==# 'terminal' 
+            \   | setlocal norelativenumber 
+            \   | setlocal signcolumn=no
+            \   | setlocal colorcolumn=0
+            \ | endif
 augroup END
 
 
-"> BufExplorer:-----------------------------------------------------------{{{2
+" >> BufExplorer:-----------------------------------------------------------{{{2
 
 let g:bufExplorerDefaultHelp=0       " Show default help.
 let g:bufExplorerDetailedHelp=0      " Do not show detailed help.
@@ -783,7 +810,7 @@ let g:bufExplorerResize=1
 let g:bufExplorerMaxHeight=25 " Handles dynamic resizing of the window.
 let g:bufExplorerDisableDefaultKeyMapping=1    " Disable mapping.
 
-"> MRU:-------------------------------------------------------------------{{{2
+" >> MRU:-------------------------------------------------------------------{{{2
 
 let MRU_File = $HOME . '/.vim_mru_files'
 let MRU_Exclude_Files = 'COMMIT_EDITMSG'
@@ -1169,6 +1196,7 @@ vmap gx <Plug>(openbrowser-smart-search)
 " noremap <Tab> <c-w>w
 " noremap <Shift-Tab> <c-w>W
 
+" Should really just use C-W C-W: I rarely have more than 3 windows open.
 nnoremap <S-Up>    <c-w>k
 nnoremap <S-Down>  <c-w>j
 nnoremap <S-Left>  <c-w>h
@@ -1179,15 +1207,6 @@ nnoremap <S-Right> <c-w>l
 " (same as for gnome terminal tabs)
 noremap <C-Right>       :tabnext<CR>
 noremap <C-Left>        :tabprevious<CR>
-
-
-"Insert a pudb breakpoint below or above current line
-" nnoremap <leader>b oimport pudb.b<Esc>
-" nnoremap <leader>B Oimport pudb.b<Esc>
-
-"Insert a ipdb breakpoint below or above current line
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
-nnoremap <leader>B Oimport ipdb; ipdb.set_trace()  # BREAKPOINT # noqa: E702<Esc>
 
 
 " Switcher -----------------------------------------------------------------{{{2
