@@ -357,8 +357,8 @@ Plug 'tyru/open-browser.vim'
 
 " Explore Most Recently Used (MRU) files
 "
-" ~/.vim/plugged/mru/README
-" ~/.vim/plugged/mru/doc/mru.txt
+"   ~/.vim/plugged/mru/README
+"   ~/.vim/plugged/mru/doc/mru.txt
 "
 " Part of my Switcher utility
 "
@@ -367,8 +367,8 @@ Plug 'yegappan/mru'
 
 " Explore currently loaded buffers
 "
-" ~/.vim/plugged/bufexplorer/README.md
-" ~/.vim/plugged/bufexplorer/doc/bufexplorer.txt
+"   ~/.vim/plugged/bufexplorer/README.md
+"   ~/.vim/plugged/bufexplorer/doc/bufexplorer.txt
 "
 " Part of my Switcher utility
 "
@@ -396,6 +396,14 @@ Plug 'jlanzarotta/bufexplorer'
 " let g:ranger_map_keys=0
 " >> Ranger only works in terminal
 
+" A Debugger built into Vim8 EXPERIMENTAL
+"
+"   ~/.vim/plugged/vimspector/README.md
+"   ~/.vim/plugged/vimspector/docs/README.local
+"   ~/.vim/plugged/vimspector/docs/configuration.md
+"
+" Plug 'puremourning/vimspector'
+" let g:vimspector_enable_mappings = 'HUMAN'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Some plugins I no longer need/use
