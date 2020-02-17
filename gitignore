@@ -4,6 +4,7 @@ doc/tags-ja
 .envrc
 .vagrant
 .ropeproject
+.vim/
 env
 venv
 venv-*
