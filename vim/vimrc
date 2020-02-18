@@ -1219,15 +1219,18 @@ let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 
 ">>>> Using coc-lightline
+" this spews too much info into the statusline
 "autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 "" Default cursor settings
-set guicursor=n-v-c:block-Cursor/lCursor
-set guicursor+=ve:ver35-Cursor
-set guicursor+=o:hor50-Cursor
-set guicursor+=i-ci:ver25-Cursor/lCursor
-set guicursor+=r-cr:hor20-Cursor/lCursor
-set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
+" Had to reset these a few times while tracking a bug with the cursor
+" Leave these here incase I need to do this again.
+" set guicursor=n-v-c:block-Cursor/lCursor
+" set guicursor+=ve:ver35-Cursor
+" set guicursor+=o:hor50-Cursor
+" set guicursor+=i-ci:ver25-Cursor/lCursor
+" set guicursor+=r-cr:hor20-Cursor/lCursor
+" set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
 
 " hi CocErrorSign   ctermfg=Red     guifg=#840000  " base0E
 " hi CocWarningSign ctermfg=Brown   guifg=#755B00  " base0C
