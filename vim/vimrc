@@ -1365,6 +1365,21 @@ noremap <silent><leader>vf :grep! <cfile><CR>
 
 " Tweaks to fix problematic mappings
 
+" vim-checkbox sets a global mapping which should be buffer local
+function FixTTMapping()
+    " remap the to what I want it to be
+    noremap <silent><leader>tt :TestNearest<CR>
+    augroup vimterminal
+        autocmd!
+        autocmd BufEnter * 
+            \   if &filetype ==# 'markdown'
+            \ |     map <buffer><silent><leader>tt :call checkbox#ToggleCB()<cr>
+            \ | endif
+    augroup END
+endfunction
+
+autocmd! User vim-checkbox call FixTTMapping()
+
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
@@ -1386,7 +1401,6 @@ inoremap , ,<C-g>u
 inoremap . .<C-g>u
 inoremap ! !<C-g>u
 inoremap ? ?<C-g>u
-
 
 " FIXME do I need this anymore?
 if &term =~? 'xterm.*'"
