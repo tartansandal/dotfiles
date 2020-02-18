@@ -26,6 +26,8 @@
   "signature.hideOnTextChange": false,
   "signature.triggerSignatureWait": 80,
 
+  "snippets.userSnippetsDirectory": "~/.vim/snippets",
+
   "markdownlint.config": {
     "default": true,
     "no-hard-tabs": false,
