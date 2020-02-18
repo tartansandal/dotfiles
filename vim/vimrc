@@ -1247,10 +1247,10 @@ vmap gx <Plug>(openbrowser-smart-search)
 " noremap <Shift-Tab> <c-w>W
 
 " Should really just use C-W C-W: I rarely have more than 3 windows open.
-nnoremap <S-Up>    <c-w>k
-nnoremap <S-Down>  <c-w>j
-nnoremap <S-Left>  <c-w>h
-nnoremap <S-Right> <c-w>l
+" nnoremap <S-Up>    <c-w>k
+" nnoremap <S-Down>  <c-w>j
+" nnoremap <S-Left>  <c-w>h
+" nnoremap <S-Right> <c-w>l
 
 " Tabs
 " Use control + arrow key to move between tabs
@@ -1297,8 +1297,6 @@ endfunction
 
 command! -nargs=0 Switcher :call Switcher()
 
-
-" double up on the \b command since I am so used to this binding
 nnoremap <silent><C-Tab>        :Switcher<CR>
 inoremap <silent><C-Tab>   <Esc>:Switcher<CR>
 xnoremap <silent><C-Tab>   <Esc>:Switcher<CR>
@@ -1319,8 +1317,8 @@ command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
 
 " >> Leader Keys -----------------------------------------------------------{{{2
 
-" This is my o distractions mode
-" Note Ctrl-L also does `nohlsearch`
+" This is my equivalent of a "no distractions" mode
+" Note: Ctrl-L also does `nohlsearch`
 noremap <silent><leader><space> :nohlsearch\|silent only<CR>
 
 " > File short cuts
@@ -1333,6 +1331,13 @@ noremap <silent><leader><leader>G :Gbrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
 noremap <silent><leader>n :SafeNERDTreeFind<CR>
 noremap <silent><leader>a :Autoformat<CR>
+
+" > vim-test
+" \tt should override the plugin setting
+" noremap <silent><leader>tt :TestNearest<CR>
+noremap <silent><leader>tn :TestNearest<CR>
+noremap <silent><leader>tn :TestFile<CR>
+noremap <silent><leader>ts :TestSuite<CR>
 
 " > FZF all use a \f prefix
 noremap <silent><leader>fb :Buffers<CR>
