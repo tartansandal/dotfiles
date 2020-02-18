@@ -763,6 +763,8 @@ let g:lightline['colorscheme'] = 'darculaOriginal'
 let g:zv_zeal_executable=expand('~/bin/zeal')
 let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 
+" dispatch has a groovy set of maps, but I don't use this enough to internalise
+let g:dispatch_no_maps = 1
 
 " >> Vim-Test --------------------------------------------------------------{{{2
 " vim-test
