@@ -11,11 +11,12 @@ scriptencoding utf-8
 " Load our plugin bundles
 call plug#begin('~/.vim/plugged')
 
-" For each plugin I provide the path to the local documentation so I can quickly
-" acess it using use `gf`.
+" For each plugin I provide the URL of the git repo plus path to the local
+" documentation so I can quickly access those using use `gx` or `gf`.
 
 " sensible: Tim is the God of Vim: be sensible
 "
+"   https://github.com/tpope/vim-sensible
 "   ~/.vim/plugged/vim-sensible/README.markdown
 "
 Plug 'tpope/vim-sensible'
@@ -23,6 +24,7 @@ Plug 'tpope/vim-sensible'
 
 " surround: surrounding text objects with paired text;
 "
+"   https://github.com/tpope/vim-surround
 "   ~/.vim/plugged/vim-surround/README.markdown
 "   ~/.vim/plugged/vim-surround/doc/surround.txt
 "
@@ -31,6 +33,7 @@ Plug 'tpope/vim-surround'
 
 " unimpaired: Use [] prefix to trigger complementary pairs of operations :
 "
+"   https://github.com/tpope/vim-unimpaired
 "   ~/.vim/plugged/vim-unimpaired/README.markdown
 "   ~/.vim/plugged/vim-unimpaired/doc/unimpaired.txt
 "
@@ -39,6 +42,7 @@ Plug 'tpope/vim-unimpaired'
 
 " repeat: make repeat operations (`.`) work with plugin maps:
 "
+"   https://github.com/tpope/vim-repeat
 "   ~/.vim/plugged/vim-repeat/README.markdown
 "
 Plug 'tpope/vim-repeat'
@@ -46,6 +50,7 @@ Plug 'tpope/vim-repeat'
 
 " commentary: comment stuff out with `gc`
 "
+"   https://github.com/tpope/vim-commentary
 "   ~/.vim/plugged/vim-commentary/README.markdown
 "   ~/.vim/plugged/vim-commentary/doc/commentary.txt
 "
@@ -54,6 +59,7 @@ Plug 'tpope/vim-commentary'
 
 " fugitive: git integration done right 
 "
+"   https://github.com/tpope/vim-fugitive
 "   ~/.vim/plugged/vim-fugitive/README.markdown
 "   ~/.vim/plugged/vim-fugitive/doc/fugitive.txt
 "
@@ -62,6 +68,7 @@ Plug 'tpope/vim-fugitive'
 
 " gv: fugitive plugin to browse commit history 
 "
+"   https://github.com/junegunn/gv.vim
 "   ~/.vim/plugged/gv.vim/README.md
 "
 " Use :GV to open commit history browser
@@ -71,6 +78,7 @@ Plug 'junegunn/gv.vim'
 
 " gitgutter: show git "diff" markers in the gutter
 "
+"   https://github.com/airblade/vim-gitgutter
 "   ~/.vim/plugged/vim-gitgutter/README.mkd
 "   ~/.vim/plugged/vim-gitgutter/doc/gitgutter.txt
 "
@@ -81,6 +89,7 @@ Plug 'airblade/vim-gitgutter'
 
 " rhubarb: a fugitive extension to browse GitHub
 "
+"   https://github.com/tpope/vim-rhubarb
 "   ~/.vim/plugged/vim-rhubarb/README.markdown
 "   ~/.vim/plugged/vim-rhubarb/doc/rhubarb.txt
 "
@@ -91,6 +100,7 @@ Plug 'tpope/vim-rhubarb'
 
 " scriptease: vim scripting helpers
 "
+"   https://github.com/tpope/vim-scriptease
 "   ~/.vim/plugged/vim-scriptease/README.markdown
 "   ~/.vim/plugged/vim-scriptease/doc/scriptease.txt
 "
@@ -101,6 +111,7 @@ Plug 'tpope/vim-scriptease'
 
 " speeddating: date and time arithmetic with C-a/C-x
 "
+"   https://github.com/tpope/vim-speeddating
 "   ~/.vim/plugged/vim-speeddating/README.markdown
 "   ~/.vim/plugged/vim-speeddating/doc/speeddating.txt
 "
@@ -109,6 +120,7 @@ Plug 'tpope/vim-speeddating'
 
 " nerdtree: Filesystem explorer
 "
+"   https://github.com/scrooloose/nerdtree
 "   ~/.vim/plugged/nerdtree/README.markdown
 "   ~/.vim/plugged/nerdtree/doc/NERDTree.txt
 "
@@ -119,6 +131,7 @@ Plug 'scrooloose/nerdtree'
 
 " matchit: extended "%" matching to "if", "else", "endif", etc
 "
+"   https://github.com/adelarsq/vim-matchit
 "   ~/.vim/plugged/vim-matchit/README.md
 "   ~/.vim/plugged/vim-matchit/doc/matchit.txt
 "
@@ -127,6 +140,7 @@ Plug 'adelarsq/vim-matchit'
 
 " coc: intelligent code and snippet completion
 "
+"   https://github.com/neoclide/coc.nvim
 "   ~/.vim/plugged/coc.nvim/Readme.md
 "   ~/.vim/plugged/coc.nvim/doc/coc.txt
 "
@@ -151,18 +165,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " ale: asynchronous (on-the-fly) linting
 "
+"   https://github.com/dense-analysis/ale
 "   ~/.vim/plugged/ale/README.md
 "   ~/.vim/plugged/ale/doc/ale.txt
 "
 " Does this less intrusively than Coc.
 "
 " I'm mostly using this for Bash, Python, Javascript, and CSS/SASS
-"  
+"
 Plug 'dense-analysis/ale'
 
 
 " snippets: a collection of snippets files for various programming languages.
 "
+"   https://github.com/honza/vim-snippets
 "   ~/.vim/plugged/vim-snippets/README.md
 "
 " Used by FZF and Coc
@@ -174,6 +190,7 @@ Plug 'honza/vim-snippets'
 
 " autoformat: format code (on key mapping or save) using external programs.
 "
+"   https://github.com/Chiel92/vim-autoformat
 "   ~/.vim/plugged/vim-autoformat/README.md
 "
 " This may be superseded by Coc.
@@ -187,6 +204,7 @@ Plug 'Chiel92/vim-autoformat'
 
 " enmasse: editable quickfix list
 "
+"   https://github.com/Olical/vim-enmasse
 " ~/.vim/plugged/vim-enmasse/README.md
 " ~/.vim/plugged/vim-enmasse/doc/enmasse.txt
 "
@@ -200,15 +218,18 @@ Plug 'Olical/vim-enmasse'
 
 " zeavim: open local Zeal app for online help
 "
+"   https://github.com/KabbAmine/zeavim.vim
 "   ~/.vim/plugged/zeavim.vim/README.md
 "   ~/.vim/plugged/zeavim.vim/doc/zeavim.txt
 "
 " Uses buffer filetype to guess docsets
+"
 Plug 'KabbAmine/zeavim.vim'
 
 
 " lightline: a light and configurable statusline/tabline for Vim
 "
+"   https://github.com/itchyny/lightline.vim
 "   ~/.vim/plugged/lightline.vim/README.md
 "   ~/.vim/plugged/lightline.vim/doc/lightline.txt
 "
@@ -217,6 +238,7 @@ Plug 'itchyny/lightline.vim'
 
 " lightline-gitdiff: git modification indicators in the status line
 "
+"   https://github.com/niklaas/lightline-gitdiff
 "   ~/.vim/plugged/lightline-gitdiff/README.md
 "
 " Shows counts for Added/Delete/Modified lines
@@ -226,6 +248,7 @@ Plug 'niklaas/lightline-gitdiff'
 
 " dispatch: asynchronous compiler support
 "
+"   https://github.com/tpope/vim-dispatch
 "   ~/.vim/plugged/vim-dispatch/README.markdown
 "   ~/.vim/plugged/vim-dispatch/doc/dispatch.txt
 "
@@ -234,15 +257,18 @@ Plug 'tpope/vim-dispatch'
 
 " test: running tests from current buffer
 "
+" https://github.com/janko-m/vim-test
 "   ~/.vim/plugged/vim-test/README.md
 "   ~/.vim/plugged/vim-test/doc/test.txt
 "
 " Uses vim-dispatch
+"
 Plug 'janko-m/vim-test'
 
 
 " compiler-pytest: a compiler for 'pytest' tests
 "
+"   https://github.com/tartansandal/vim-compiler-pytest
 "   ~/.vim/plugged/vim-compiler-pytest/README.md
 "
 " The secret sauce to get vim-test/dispatch working for pytest files
@@ -252,6 +278,7 @@ Plug 'tartansandal/vim-compiler-pytest'
 
 " indentLine: highlight indentation with a vertical line
 "
+"   https://github.com/Yggdroot/indentLine
 "   ~/.vim/plugged/indentLine/README.md
 "   ~/.vim/plugged/indentLine/doc/indentLine.txt
 "
@@ -260,6 +287,7 @@ Plug 'Yggdroot/indentLine'
 
 " undotree: visualize undo history
 "
+"   https://github.com/mbbill/undotree
 "   ~/.vim/plugged/undotree/README.md
 "   ~/.vim/plugged/undotree/doc/undotree.txt
 "
@@ -271,6 +299,7 @@ Plug 'mbbill/undotree'
 
 " easy-align: a simple, easy-to-use Vim alignment plugin.
 " 
+"   https://github.com/junegunn/vim-easy-align
 "   ~/.vim/plugged/vim-easy-align/README.md
 "   ~/.vim/plugged/vim-easy-align/EXAMPLES.md
 "   ~/.vim/plugged/vim-easy-align/doc/easy_align.txt
@@ -284,6 +313,7 @@ Plug 'junegunn/vim-easy-align'
 
 " checkbox: simple checkbox support for Markdown lists
 "
+"   https://github.com/jkramer/vim-checkbox
 "   ~/.vim/plugged/vim-checkbox/README.markdown
 "
 "  `<leader>tt` to add or toggle a checkbox for the current item
@@ -293,6 +323,7 @@ Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
 
 " markdown: the development version of the markdown runtime files
 "
+"   https://github.com/tpope/vim-markdown
 "   ~/.vim/plugged/vim-markdown/README.markdown
 "
 " Has some features that I like to track faster than the distribution
@@ -302,6 +333,7 @@ Plug 'tpope/vim-markdown'
 
 " fzf: fuzzy finding of all things
 "
+"   https://github.com/junegunn/fzf.vim
 "   ~/.vim/plugged/fzf.vim/README.md
 "   ~/.vim/plugged/fzf.vim/doc/fzf-vim.txt
 "
@@ -313,24 +345,26 @@ Plug 'junegunn/fzf.vim'
 
 " darcula: a colorscheme that looks just like PyCharm
 "
+"   https://github.com/doums/darcula
 "   ~/.vim/plugged/darcula/README.md
 "
-" Compared with the others
+" Compared with the others:
 "
-"   https://github.com/blueshirts/darcula
+" https://github.com/blueshirts/darcula
 "
-"       Most popular, but not a not a good approximation
+"   Most popular, but not a not a good approximation
 "
-"   https://github.com/joshglendenning/vim-darcula-colors' 
+" https://github.com/joshglendenning/vim-darcula-colors' 
 "
-"       This is a better approximation.
-"       Could be the basis for a base16 version
+"   This is a better approximation.
+"   Could be the basis for a base16 version
 "
 Plug 'doums/darcula'
 
 
 " textobj-user: tools to create your own text objects
 "
+"   https://github.com/kana/vim-textobj-user
 "   ~/.vim/plugged/vim-textobj-user/README.md
 "   ~/.vim/plugged/vim-textobj-user/doc/textobj-user.txt
 "
@@ -341,6 +375,7 @@ Plug 'kana/vim-textobj-user'
 
 " textobj-uri: URI text objects
 "
+"   https://github.com/jceb/vim-textobj-uri
 "   ~/.vim/plugged/vim-textobj-uri/README.md
 "
 " Gives you a `u` text object for operating on URIs 
@@ -350,6 +385,7 @@ Plug 'jceb/vim-textobj-uri'
 
 " open-browser: open browser for URL or search for word (selection) under cursor
 "
+"   https://github.com/tyru/open-browser.vim
 "   ~/.vim/plugged/open-browser.vim/README.md
 "   ~/.vim/plugged/open-browser.vim/doc/openbrowser.txt
 "
@@ -359,6 +395,7 @@ Plug 'tyru/open-browser.vim'
 
 " mru: explore Most Recently Used (MRU) files
 "
+"   https://github.com/yegappan/mru
 "   ~/.vim/plugged/mru/README
 "   ~/.vim/plugged/mru/doc/mru.txt
 "
@@ -369,6 +406,7 @@ Plug 'yegappan/mru'
 
 " bufexplorer: explore currently loaded buffers
 "
+"   https://github.com/jlanzarotta/bufexplorer
 "   ~/.vim/plugged/bufexplorer/README.md
 "   ~/.vim/plugged/bufexplorer/doc/bufexplorer.txt
 "
@@ -382,8 +420,8 @@ Plug 'jlanzarotta/bufexplorer'
 "   ~/.vim/plugged/base16-vim/README.md
 "
 " XXX Lots of schemes = big hit on load time. 
-" I Just want one of the themes.
-" Want to be able to toggle between 'base16-dirtysea' and 'darclua'
+" I just want one of the themes :(.
+" Also want to be able to toggle between 'base16-dirtysea' and 'darclua'
 "
 " Plug 'tartansandal/base16-vim'
 
