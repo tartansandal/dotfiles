@@ -1002,9 +1002,9 @@ let g:fzf_colors = {
 "
 "   - groups+: a list of highlight groups to search
 "
-" For the 'fg+', 'bg+', 'hl+', 'prompt', 'pointer', and 'marker' items, the
-" color only matches if the highlight group has term=bold set. If not it falls
-" back to the defaults.  This last bit can cause a lot of confusion.
+" Some of these mappings work and some doent. It complicated interaction with
+" terminal and gui and terguicolors and terminal_ansi_colors... not sure what is
+" going on yet.
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 let g:fzf_buffers_jump = 1
