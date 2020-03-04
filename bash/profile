@@ -120,8 +120,8 @@ then
 fi
 
 # For virtualenvwrapper
-#export WORKON_HOME=$HOME/.virtualenvs
-#export PROJECT_HOME=$HOME/Projects
+# export WORKON_HOME=$HOME/.virtualenvs
+# export PROJECT_HOME=$HOME/Projects
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]
