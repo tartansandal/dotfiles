@@ -2,8 +2,9 @@
 
 ## Personal Shortcuts
 
-  \<space> - clear search highlighting
-  \o - one window (`Ctrl-w o` or `:on` does the same)
+  \<space> - one window
+  Ctrl-L  - clear search highlighting
+
   \a - autoformat   [may not need this anymore]
 
   \g - open Fugitive Status
