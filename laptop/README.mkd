@@ -11,6 +11,14 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub com.slack.Slack
 flatpak install flathub com.jetbrains.PyCharm-Community
 
+Logout and log backin before running these or at least
+
+```
+source ~/.bash_profile
+```
+
+and perhaps createing the .local/ directories
+
 npm install -g eslint
 npm install -g babel-eslint
 npm install -g eslint-plugin-react
@@ -20,6 +28,7 @@ pip install --user `cat pips`
 gem install `cat gems`
 
 anaconda?
+texlive?
 
 ## docker
 

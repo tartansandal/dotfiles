@@ -34,6 +34,9 @@ dlist_append() {
 
 # Newest versions of gnome-terminal use dconf
 if which "$DCONF" > /dev/null 2>&1; then
+
+    # KAL: you may have to create a temp new profile just to get the legacy schema 
+
     [[ -z "$BASE_KEY_NEW" ]] && BASE_KEY_NEW=/org/gnome/terminal/legacy/profiles:
 
     if [[ -n "`$DCONF list $BASE_KEY_NEW/`" ]]; then
@@ -73,6 +76,8 @@ if which "$DCONF" > /dev/null 2>&1; then
         exit 0
     fi
 fi
+
+exit 0
 
 # Fallback for Gnome 2 and early Gnome 3
 [[ -z "$GCONFTOOL" ]] && GCONFTOOL=gconftool
