@@ -9,6 +9,7 @@ sudo systemctl enable tuned
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 
 flatpak install flathub com.slack.Slack
+flatpak install flathub com.jetbrains.PyCharm-Community
 
 npm install -g eslint
 npm install -g babel-eslint
@@ -17,3 +18,21 @@ npm install -g js-beautify
 
 pip install --user `cat pips`
 gem install `cat gems`
+
+anaconda?
+
+## docker
+
+Need To enable cgroups1
+
+```bash
+sudo dnf install grubby
+sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+```
+
+reboot then
+
+```bash
+sudo dnf install docker-ce
+sudo systemctl enable --now docker
+sudo usermod -aG docker $(whoami)
