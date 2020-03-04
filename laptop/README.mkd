@@ -9,9 +9,11 @@ sudo systemctl enable tuned
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 
 flatpak install flathub com.slack.Slack
-flatpak install flathub com.spotify.Client
 
 npm install -g eslint
 npm install -g babel-eslint
 npm install -g eslint-plugin-react
 npm install -g js-beautify
+
+pip install --user `cat pips`
+gem install `cat gems`
