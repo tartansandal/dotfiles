@@ -867,7 +867,7 @@ let g:bufExplorerShowTabBuffer=0     " Don't restrict to this tabs buffers.
 let g:bufExplorerShowRelativePath=1  " Show relative paths.
 let g:bufExplorerSortBy='mru'        " Sort by most recently used.
 let g:bufExplorerSplitBelow=1        " Split new window below current.
-let g:bufExplorerSplitOutPathName=0  " Split the path and file name.
+let g:bufExplorerSplitOutPathName=1  " Split the path and file name.
 let g:bufExplorerSplitHorzSize=15    " New window is 15 rows high (same as MRU).
 
 " Disable default <leader> mappings.
@@ -901,9 +901,9 @@ let MRU_Window_Height = 15     " Same height as the bufexplorer
 let MRU_Auto_Close = 1         " Close window after selecting
 let MRU_Add_Menu = 0           " Dont bother with the menu items
 
-" Dont split out path and filename
-let MRU_Filename_Format =
-\   {'formatter':'v:val', 'parser':'.*', 'syntax': '[^/\\]\+$'}
+" " Dont split out path and filename
+" let MRU_Filename_Format =
+" \   {'formatter':'v:val', 'parser':'.*', 'syntax': '[^/\\]\+$'}
 
 " TODO: 
 " 1. Add a mapping to delete entries from the MRU list.
