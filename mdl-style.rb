@@ -34,3 +34,6 @@ exclude_rule 'no-hard-tabs'
 # Need angle brackets for keymaps
 exclude_rule 'no-inline-html'
 
+# I like to mix at different levels for contrast
+exclude_rule 'ul-style'
+
