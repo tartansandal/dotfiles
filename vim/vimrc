@@ -831,6 +831,15 @@ let test#strategy = {
   \ 'nearest': 'vimterminal', 
 \}
 
+let test#python#runner = 'pytest'
+
+" These should include the options for your compiler.
+" We exclude the coverage report which is skipped by the quickfix listing
+" ('suite' or 'file') and makes no sense for a single test ('nearest').
+" Also add the `--vv` so we see a full breakdown of an assertion failure.
+let test#python#pytest#options = '--tb=short -q --no-cov -vv'
+
+
 " Use F1 to enter Terminal Normal Mode.  For some reason <C-W>N just gives me
 " a new window.  Only use this for testig the following augroup. 
 tnoremap <F1> <C-W>N
