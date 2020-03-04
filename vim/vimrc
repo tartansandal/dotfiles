@@ -1,12 +1,12 @@
 "" Personal VIM set up
-" vim: foldmethod=marker foldlevel=999
+" vim: foldmethod=marker foldlevel=1
 
-" > Encoding ----------------------------------------------------------------{{{1
+" > Encoding ---------------------------------------------------------------{{{2
 
 set encoding=utf-8
 scriptencoding utf-8
 
-" > Plugins -----------------------------------------------------------------{{{1
+" > Plugins ----------------------------------------------------------------{{{1
 
 " Load our plugin bundles
 call plug#begin('~/.vim/plugged')
@@ -632,7 +632,7 @@ hi ColorColumn guifg=#808080 guibg=#313335
 " colorscheme base16-dirtysea
 " hi Statement gui=None
 
-if &term == 'screen' || &term =~? 'xterm.*'"
+if &term ==# 'screen' || &term =~? 'xterm.*'"
   " Reset the cursor if running in terminal (a no-op in gui)
   let &t_SI = "\e[6 q"
   let &t_EI = "\e[2 q"
@@ -932,7 +932,7 @@ let MRU_Add_Menu = 0           " Dont bother with the menu items
 
 highlight link MRUFileName String
 
-" >> Denite -----------------------------------------------------------------{{{2
+" >> Denite ----------------------------------------------------------------{{{2
 "
 "" Define mappings
 "autocmd FileType denite call s:denite_my_settings()
@@ -960,7 +960,7 @@ highlight link MRUFileName String
 "call denite#custom#var('grep', 'separator', ['--'])
 "call denite#custom#var('grep', 'final_opts', [])
 
-" >> FZF --------------------------------------------------------------------{{{2
+" >> FZF -------------------------------------------------------------------{{{2
 
 let g:fzf_colors = {
             \ 'fg':      ['fg', 'Normal'],
@@ -1017,7 +1017,7 @@ augroup fzf
                 \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup end
 
-" >> NERDTree ---------------------------------------------------------------{{{2
+" >> NERDTree --------------------------------------------------------------{{{2
 
 let NERDTreeCaseSensitiveSort=1
 
@@ -1045,7 +1045,7 @@ let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
 
-" >> Netrw ------------------------------------------------------------------{{{2
+" >> Netrw -----------------------------------------------------------------{{{2
 
 " XXX Seeing way to many bugs and errors with this. Dont think its maintained
 " much anymore.
@@ -1100,7 +1100,7 @@ let g:netrw_special_syntax=1    " highlight special (binary) files
 " let g:netrw_browsex_viewer="xdg-open"
 " let g:netrw_suppress_gx_mesg=1
 
-" >> Ale --------------------------------------------------------------------{{{2
+" >> Ale -------------------------------------------------------------------{{{2
 
 "" These get merged with the global list
 "" let g:ale_lint_on_text_changed=0
