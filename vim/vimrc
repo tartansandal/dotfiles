@@ -1318,23 +1318,6 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
-" Windows
-" noremap <Tab> <c-w>w
-" noremap <Shift-Tab> <c-w>W
-
-" Should really just use C-W C-W: I rarely have more than 3 windows open.
-" nnoremap <S-Up>    <c-w>k
-" nnoremap <S-Down>  <c-w>j
-" nnoremap <S-Left>  <c-w>h
-" nnoremap <S-Right> <c-w>l
-
-" Tabs
-" Use control + arrow key to move between tabs
-" (same as for gnome terminal tabs)
-noremap <C-Right>       :tabnext<CR>
-noremap <C-Left>        :tabprevious<CR>
-
-
 " Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
     " Proceed to next line, or back to the top
