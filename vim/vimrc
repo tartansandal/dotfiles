@@ -1442,12 +1442,12 @@ noremap <silent><leader>vv :grep! -w <cword><CR>
 noremap <silent><leader>vV :grep! -w <cWORD><CR>
 noremap <silent><leader>vf :grep! <cfile><CR>
 
-" >> Fixes ------------------------------------------------------------------{{{2
+" >> Fixes -----------------------------------------------------------------{{{2
 
 " Tweaks to fix problematic mappings
 
 " vim-checkbox sets a global mapping which should be buffer local
-function FixTTMapping()
+function! FixTTMapping()
     " remap the to what I want it to be
     noremap <silent><leader>tt :TestNearest<CR>
     augroup vimterminal
@@ -1459,7 +1459,10 @@ function FixTTMapping()
     augroup END
 endfunction
 
-autocmd! User vim-checkbox call FixTTMapping()
+augroup checkbox
+    autocmd!
+    autocmd User vim-checkbox call FixTTMapping()
+augroup END
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
