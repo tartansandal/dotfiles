@@ -1,45 +1,61 @@
+# Apps
+google-chrome-stable
+gimp
+
+# Audio
 audacity
+pavucontrol
+tuxguitar
+lame
+
+# Backups
 duplicity
 deja-dup
 deja-dup-nautilus
+
 fedora-packager
-gimp
+
+# Gnome
 gnome-shell-extension-windowoverlay-icons
 gnome-shell-extension-pomodoro
 gnome-terminal-nautilus
 gnome-tweak-tool
-google-chrome-stable
+
+# System
+tuned
 htop
-lame
 libdrm-devel
 lm_sensors
-nodejs
-pavucontrol
-tmux
-tuned
-tuxguitar
+
+# Virtualization
 vagrant
+docker-ce
+
+# Development
+tmux
 vim
 vim-X11
 ripgrep
 jq
-xsel
 fd-find
 fzf
-python-django-bash-completion
-docker-ce
+nodejs
+xsel
+direnv
+zeal
+
+# Python
 black
+python-django-bash-completion
 python3-yapf
 python3-flake8
 python3-pyscaffold
 python3-pudb
 python3-isort
 python3-jedi
-direnv
 python3-pylint
 python3-pytest
 python3-ipython
 python3-ipython-doc
 python3-ipdb
 python3-rope
-zeal

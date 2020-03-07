@@ -1,31 +1,41 @@
 # Notes on setting up a fresh laptop
 
-sudo rsync -rv ./etc/ /etc/
+Install yum repos etc
 
-install packages in `packages` file
+    sudo rsync -rv ./etc/ /etc/
 
-sudo systemctl enable tuned
+Install packages in `packages-install` file
 
-flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo dnf install `grep -v '^#\|^$' packages-install`
+
+Remove packages in `packages-remove` file
+
+    sudo dnf remove `grep -v '^#\|^$' packages-remove`
+
+Turn on automatic performace tuning:
+
+    sudo systemctl enable tuned --now
+
+install Zoom from https://zoom.us/download#client_4meeting
+
+    flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 
 flatpak install flathub com.slack.Slack
 flatpak install flathub com.jetbrains.PyCharm-Community
 
 Logout and log backin before running these or at least
 
-```
-source ~/.bash_profile
-```
+    source ~/.bash_profile
 
 and perhaps createing the .local/ directories
 
-npm install -g eslint
-npm install -g babel-eslint
-npm install -g eslint-plugin-react
-npm install -g js-beautify
+  npm install -g eslint
+  npm install -g babel-eslint
+  npm install -g eslint-plugin-react
+  npm install -g js-beautify
 
-pip install --user `cat pips`
-gem install `cat gems`
+  pip install --user `cat pips`
+  gem install `cat gems`
 
 anaconda?
 texlive?
@@ -34,14 +44,11 @@ texlive?
 
 Need To enable cgroups1
 
-```bash
-sudo dnf install grubby
-sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
-```
+    sudo dnf install grubby
+    sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
 
 reboot then
 
-```bash
-sudo dnf install docker-ce
-sudo systemctl enable --now docker
-sudo usermod -aG docker $(whoami)
+    sudo dnf install docker-ce
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker $(whoami)
