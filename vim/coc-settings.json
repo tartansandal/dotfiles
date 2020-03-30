@@ -26,7 +26,9 @@
   "signature.hideOnTextChange": false,
   "signature.triggerSignatureWait": 80,
 
-  "snippets.userSnippetsDirectory": "~/.vim/snippets",
+  "snippets.userSnippetsDirectory": "~/.vim/ultisnips",
+  "snippets.ultisnips.enable": true,
+  "snippets.snipmate.enable": false,
 
   "markdownlint.config": {
     "default": true,
