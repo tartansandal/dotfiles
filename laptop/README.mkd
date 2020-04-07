@@ -52,3 +52,15 @@ reboot then
     sudo dnf install docker-ce
     sudo systemctl enable --now docker
     sudo usermod -aG docker $(whoami)
+
+## Pyenv
+
+Need extra packages:
+ bzip2-devel 
+ libffi-devel
+ openssl-devel    
+ readline-devel   
+ sqlite-devel     
+ xz-devel         
+ ncurses-c++-libs
+ ncurses-devel
