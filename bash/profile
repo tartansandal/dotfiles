@@ -138,3 +138,9 @@ fi
 export NV_PRIME_RENDER_OFFLOAD=1
 export GLX_VENDOR_LIBRARY_NAME=nvidia
 export PATH="$HOME/.poetry/bin:$PATH"
+
+# a vague attempt at a Pynv setup
+# export PATH="/home/kal/.pyenv/bin:$PATH"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
+
