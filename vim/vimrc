@@ -157,6 +157,7 @@ Plug 'adelarsq/vim-matchit'
 "   * coc-tsserver  (javascript)
 "   * coc-word      (google 10000 words)
 "   * coc-yaml
+"   * coc-vimlsp
 "
 " And extra configuration under ~/.config/coc/
 "
