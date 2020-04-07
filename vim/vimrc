@@ -509,21 +509,22 @@ call plug#end()
 " Limit line length to 80-88 chars.
 " Black has some rationale for extending beyound 80
 "
-set textwidth=80         "Wrap at this column
-set colorcolumn=+1       "Columns to highlight after textwidth
+set textwidth=80         " Wrap at this column
+set colorcolumn=+1       " Columns to highlight after textwidth
 
 "
 " Indent 4 spaces - a consistent and common convention
 "
-set tabstop=4            "Indentation levels every four columns
-set shiftwidth=4         "Indent/outdent by four columns
-set expandtab            "Convert all tabs typed to spaces
-set smartindent          "Smart autoindenting when starting a new line
-set shiftround           "Indent/outdent to nearest tabstop
+set tabstop=4            " Indentation levels every four columns
+set shiftwidth=4         " Indent/outdent by four columns
+set expandtab            " Convert all tabs typed to spaces
+set smartindent          " Smart autoindenting when starting a new line
+set shiftround           " Indent/outdent to nearest tabstop
+set linebreak            " Wrap long lines at word boundaries
 
 "> same as sensible
-set autoindent                   "Preserve current indent on new lines
-set backspace=indent,eol,start   "Make backspaces delete sensibly
+set autoindent                   " Preserve current indent on new lines
+set backspace=indent,eol,start   " Make backspaces delete sensibly
 set smarttab
 
 "> same as sensible
