@@ -126,7 +126,7 @@ Plug 'tpope/vim-speeddating'
 "
 " Note: we always load so that Netrw hijacking works
 "
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 
 " matchit: extended "%" matching to "if", "else", "endif", etc
