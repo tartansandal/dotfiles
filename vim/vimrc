@@ -188,6 +188,19 @@ Plug 'dense-analysis/ale'
 "
 Plug 'honza/vim-snippets'
 
+" ultisnips: a snippet generation library 
+"
+"   https://github.com/SirVer/ultisnips
+"   ~/.vim/plugged-save/ultisnips/README.md
+"   ~/.vim/plugged-save/ultisnips/doc/UltiSnips.txt
+"
+" I use the Coc extension, so we dont load this, but I 
+" Have a copy here for easy access to the documentation for writting snippets.
+"
+" Plug 'SirVer/ultisnips'
+" let b:did_autoload_ultisnips_map_keys = 1
+" let g:UltiSnipsSnippetDirectories = ['UltiSnips', 'ultisnips']
+
 
 " autoformat: format code (on key mapping or save) using external programs.
 "
