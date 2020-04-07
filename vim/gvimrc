@@ -22,29 +22,38 @@ endif
 
 function! MyGuiFontSizeDec()
     let g:MyGuiFontSize=g:MyGuiFontSize-1
-    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
-    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec  'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    echom 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 endfunction
 
 function! MyGuiFontSizeInc()
     let g:MyGuiFontSize=g:MyGuiFontSize+1
-    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
-    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec  'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    echom 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 endfunction
 
 function! MyGuiFontSizeReset()
     let g:MyGuiFontSize=g:MyGuiFontSizeDefault
-    echo 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
-    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    exec  'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+    echom 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 endfunction
 
 nnoremap <A-+> :call MyGuiFontSizeInc()<CR>
 nnoremap <A-_> :call MyGuiFontSizeDec()<CR>
 nnoremap <A-)> :call MyGuiFontSizeReset()<CR>
+nnoremap <A-N> :call MyNotesLayout()<CR>
 
-set columns=105
+set columns=88
 set lines=56
 let g:MyGuiFontFamily='DejaVu\ Sans\ Mono\ Book\ '
 let g:MyGuiFontSizeDefault=13
 let g:MyGuiFontSize=g:MyGuiFontSizeDefault
 exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+
+function MyNotesLayout()
+    set columns=88
+    set lines=44
+    let g:MyGuiFontSize=19
+    exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
+endfunction
+
