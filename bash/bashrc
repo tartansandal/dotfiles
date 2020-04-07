@@ -170,3 +170,5 @@ fi
 #fi
 #unset __conda_setup
 # <<< conda initialize <<<
+
+complete -C /home/kal/bin/vault vault
