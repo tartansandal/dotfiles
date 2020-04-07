@@ -435,6 +435,14 @@ Plug 'yegappan/mru'
 Plug 'jlanzarotta/bufexplorer'
 
 
+" localvimrc: load per-project vimrc files
+"
+"   https://github.com/embear/vim-localvimrc
+"   ~/.vim/plugged/vim-localvimrc/README.md
+"   ~/.vim/plugged/vim-localvimrc/doc/localvimrc.txt
+"
+Plug 'embear/vim-localvimrc'
+
 " base-16: all base-16 colorschemes (plus my own)
 "
 "   ~/.vim/plugged/base16-vim/README.md
