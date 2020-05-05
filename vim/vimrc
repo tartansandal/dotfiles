@@ -518,7 +518,6 @@ set colorcolumn=+1       " Columns to highlight after textwidth
 set tabstop=4            " Indentation levels every four columns
 set shiftwidth=4         " Indent/outdent by four columns
 set expandtab            " Convert all tabs typed to spaces
-set smartindent          " Smart autoindenting when starting a new line
 set shiftround           " Indent/outdent to nearest tabstop
 set linebreak            " Wrap long lines at word boundaries
 
@@ -526,6 +525,7 @@ set linebreak            " Wrap long lines at word boundaries
 set autoindent                   " Preserve current indent on new lines
 set backspace=indent,eol,start   " Make backspaces delete sensibly
 set smarttab
+
 
 "> same as sensible
 set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
