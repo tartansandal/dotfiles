@@ -29,8 +29,6 @@ pathmunge /usr/sbin after
 pathmunge /usr/local/sbin after
 pathmunge $HOME/.local/bin
 pathmunge $HOME/bin
-export PATH
-unset pathmunge
 
 ## interactive variables
 
@@ -115,6 +113,22 @@ then
     export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
 fi
 
+# For virtualenvwrapper
+# export WORKON_HOME=$HOME/.virtualenvs
+# export PROJECT_HOME=$HOME/Projects
+
+export __NV_PRIME_RENDER_OFFLOAD=1
+# Add the following to prefix to commands that you want to use the nvidia card:
+#
+#       env __GLX_VENDOR_LIBRARY_NAME=nvidia  <command>
+
+pathmunge "$HOME/.poetry/bin"
+
+# a vague attempt at a Pynv setup
+pathmunge "$HOME/.pyenv/bin"
+eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
+
 # Fedora tweaks the RubyGem setup so that gems are installed under ~/.gem/ruby
 # and associated executables under ~/bin. This make 'gem install' just work, but
 # screws up 'gem uninstall' and bundler. Make this work with by setting GEM_HOME
@@ -125,22 +139,14 @@ then
     ln -sf $HOME/bin $HOME/.gem/ruby/
 fi
 
-# For virtualenvwrapper
-# export WORKON_HOME=$HOME/.virtualenvs
-# export PROJECT_HOME=$HOME/Projects
+################################################################################
+
+export PATH
+unset pathmunge
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]
 then
 	. ~/.bashrc
 fi
-
-export NV_PRIME_RENDER_OFFLOAD=1
-export GLX_VENDOR_LIBRARY_NAME=nvidia
-export PATH="$HOME/.poetry/bin:$PATH"
-
-# a vague attempt at a Pynv setup
-# export PATH="/home/kal/.pyenv/bin:$PATH"
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
 
