@@ -1469,6 +1469,7 @@ function! FixTTMapping()
     augroup END
 endfunction
 
+" Need to call the above remapping after library has been loaded.
 augroup checkbox
     autocmd!
     autocmd User vim-checkbox call FixTTMapping()
