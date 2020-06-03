@@ -18,7 +18,7 @@ then
     stty -ixon -ixoff
 
     # use vi editing mode -- must set before FZF shell integration
-    set -o vi
+    # set -o vi
 
     # This is MacOS foo
     if [[ -r /usr/local/etc/bash_completion ]]
