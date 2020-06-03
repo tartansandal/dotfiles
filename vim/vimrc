@@ -1317,6 +1317,16 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
+" Simplify navigating long lines
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+inoremap <Down> gj
+inoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+
 " Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
     " Proceed to next line, or back to the top
