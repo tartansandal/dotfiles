@@ -1413,7 +1413,7 @@ noremap <silent><leader>f: :History:<CR>
 noremap <silent><leader>f/ :History/<CR>
 
 noremap <silent><leader>ft :BTags<CR>
-noremap <silent><leader>fT :Tags<CR>
+" noremap <silent><leader>fT :Tags<CR>  " dont run from top level
 
 noremap <silent><leader>fl :BLines<CR>
 noremap <silent><leader>fL :Lines<CR>
