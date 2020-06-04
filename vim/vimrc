@@ -1430,6 +1430,12 @@ noremap <silent><leader>vv :grep! -w <cword><CR>
 noremap <silent><leader>vV :grep! -w <cWORD><CR>
 noremap <silent><leader>vf :grep! <cfile><CR>
 
+augroup Diary 
+    autocmd!
+    autocmd BufRead DIARY.md 
+        \ |     vnoremap <buffer><silent><leader>d :TimeDiffUnit minutes<cr>
+augroup END
+
 " >> Fixes -----------------------------------------------------------------{{{2
 
 " Tweaks to fix problematic mappings
