@@ -1322,10 +1322,6 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
-inoremap <Down> gj
-inoremap <Up> gk
-vnoremap <Down> gj
-vnoremap <Up> gk
 
 " Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
