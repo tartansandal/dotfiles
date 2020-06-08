@@ -27,7 +27,7 @@ then
     fi
 
     #> source private libraries
-    for lib in hosts prompt direnv fzf
+    for lib in hosts prompt direnv fzf pyenv
     do
         [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done

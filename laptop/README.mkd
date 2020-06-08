@@ -55,12 +55,31 @@ reboot then
 
 ## Pyenv
 
+See https://github.com/pyenv/pyenv
+
 Need extra packages:
- bzip2-devel 
+ bzip2-devel
  libffi-devel
- openssl-devel    
- readline-devel   
- sqlite-devel     
- xz-devel         
+ openssl-devel
+ readline-devel
+ sqlite-devel
+ xz-devel
  ncurses-c++-libs
  ncurses-devel
+
+update pip for each version
+```
+for VERSION in $(pyenv versions --bare) ; do
+  pyenv shell ${VERSION} ;
+  pip install --upgrade pip ;
+done
+```
+
+add pyvenv for any python2 versions
+
+```
+for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
+  pyenv shell ${VERSION} ;
+  pip install py2venv ;
+done
+```
