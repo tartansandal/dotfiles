@@ -24,6 +24,8 @@ do
     then
         for module in ${modules[*]}
         do
+            [[ $foo =~ /lib/modules/([^/]*)/ ]]
+            kernel=${BASH_REMATCH[1]}
             echo signing $(basename $module)
             sudo /usr/src/kernels/$kernel/scripts/sign-file sha256 MOK.priv MOK.der $module
         done
