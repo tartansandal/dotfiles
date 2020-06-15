@@ -53,6 +53,13 @@ reboot then
     sudo systemctl enable --now docker
     sudo usermod -aG docker $(whoami)
 
+
+for F32 I had to tweak the firewall
+
+    sudo firewall-cmd --zone=FedoraWorkstation --add-masquerade --permanent
+    sudo firewall-cmd --reload
+    sudo systemctl restart docker
+
 ## Pyenv
 
 See https://github.com/pyenv/pyenv
