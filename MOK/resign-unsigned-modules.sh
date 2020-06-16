@@ -8,7 +8,7 @@ for kernel_path in /usr/src/kernels/*
 do
     kernel=$(basename $kernel_path)
     modules=$(find /lib/modules/$kernel -name '*.ko' \
-                -exec grep -FL '~Module signature appended~' {} \+ )
+                -exec grep -FL '~Module signature appended~' {} \; )
 
     if [[ -z $modules ]]
     then
