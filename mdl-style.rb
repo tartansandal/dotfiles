@@ -1,3 +1,5 @@
+# See https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md
+#
 # include all rules by default
 all
 
@@ -34,6 +36,8 @@ exclude_rule 'no-hard-tabs'
 # Need angle brackets for keymaps
 exclude_rule 'no-inline-html'
 
-# I like to mix at different levels for contrast
+# I like to alternate prefixes for contrast
 exclude_rule 'ul-style'
 
+# GitLab and others don't like hard breaks
+exclude_tag 'line-length'
