@@ -13,6 +13,7 @@ duplicity
 deja-dup
 deja-dup-nautilus
 
+rclone
 fedora-packager
 
 # Gnome
