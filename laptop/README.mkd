@@ -90,3 +90,21 @@ for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
   pip install py2venv ;
 done
 ```
+
+## ffmpeg
+
+for ACC and mpg4
+
+```
+sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install ffmpeg
+```
+
+test with website http://demo.nimius.net/video_test/
+
+## hardware accelleration
+
+```
+sudo dnf install libva-intel-hybrid-driver.x86_64
+```

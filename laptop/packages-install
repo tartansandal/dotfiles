@@ -27,6 +27,7 @@ tuned
 htop
 libdrm-devel
 lm_sensors
+terminus-fonts-console
 
 # Virtualization
 vagrant
