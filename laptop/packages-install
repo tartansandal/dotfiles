@@ -28,6 +28,7 @@ htop
 libdrm-devel
 lm_sensors
 terminus-fonts-console
+smem
 
 # Virtualization
 vagrant

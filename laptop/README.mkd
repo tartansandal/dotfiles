@@ -108,3 +108,36 @@ test with website http://demo.nimius.net/video_test/
 ```
 sudo dnf install libva-intel-hybrid-driver.x86_64
 ```
+
+## making music
+
+From <https://fedoramagazine.org/configure-fedora-to-practise-and-compose-music/>
+
+```
+sudo rpm -Uvh http://ccrma.stanford.edu/planetccrma/mirror/fedora/linux/planetccrma/$(rpm -E %fedora)/x86_64/planetccrma-repo-1.1-3.fc$(rpm -E %fedora).ccrma.noarch.rpm
+sudo dnf install jack-audio-connection-kit qjackctl
+sudo usermod -a -G jackuser kal
+newgrp -
+sudo dnf install lmms
+sudo dnf install kernel-rt
+sudo dnf install guitarix
+```
+
+## increase grub prompt fonts
+
+Add the following lines to `/etc/default/grub`
+
+```bash
+GRUB_FONT=/boot/efi/EFI/fedora/fonts/DejaVuSansMono36.pf2
+GRUB_TERMINAL_OUTPUT="gfxterm"
+```
+
+then run
+
+```
+sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/DejaVuSansMono36.pf2 --size=36 /usr/share/fonts/dejavu/DejaVuSansMono.ttf
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+```
+
+After grub the fontsize can be set via `/etc/vconsole.conf` or by altering the
+default command line to set `vconsole.font` to something bigger like `ter-132n`
