@@ -1325,6 +1325,12 @@ nnoremap <Up>   gk
 inoremap <Down> <C-O>gj
 inoremap <Up>   <C-O>gk
 
+" Use shifter arrow keys for window movement
+nnoremap <S-Up>    <C-w>k
+nnoremap <S-Down>  <C-w>j
+nnoremap <S-Left>  <C-w>h
+nnoremap <S-Right> <C-w>l
+
 " Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
     " Proceed to next line, or back to the top
@@ -1556,6 +1562,10 @@ colorscheme darcula
 hi Cursor guifg=#2B2B2B guibg=#BBBBBB
 hi ColorColumn guifg=#808080 guibg=#313335
 let g:lightline.colorscheme = 'darculaOriginal'
+
+" call darcula#Hi('diffAdded',   darcula#palette.null, darcula#palette.addStripe)
+" call darcula#Hi('diffChanged', darcula#palette.null, darcula#palette.changeStripe)
+" call darcula#Hi('diffRemoved', darcula#palette.null, darcula#palette.deleteStripe)
 
 " be good if we could toggle this
 " colorscheme base16-dirtysea
