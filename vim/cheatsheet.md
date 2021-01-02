@@ -5,7 +5,7 @@
   \<space> - one window
   Ctrl-L  - clear search highlighting
 
-  \a - autoformat   [may not need this anymore]
+  \a - autoformat   [may not need this anymore use \rf instead]
 
   \g - open Fugitive Status
   \\G - open file in github
@@ -18,33 +18,6 @@
 
   Ctrl-Tab  Swicther
   Ctrl-\    Switcher
-
-## FZF
-
-All have \f prefix
-
-  \fb :Buffers
-  \ff :GFiles
-  \fF :Files
-
-  \fh :History
-  \f: :History:
-  \f/ :History/
-
-  \ft :BTags
-  \fT :Tags
-
-  \fl :BLines
-  \fL :Lines
-
-  \fm :Methods
-  \fh :History
-  \fH :Helptags!
-  \fM :Maps
-  \fC :Commands
-  \f' :Marks
-  \fs :Filetypes
-  \fS :Snippets
 
 ## Navigation
 
@@ -237,7 +210,11 @@ All have \f prefix
 
 ## Suround
 
-X or Y are one of the chars in the following pairs: '' "" `` [] {} () <>
+X or Y are one of the chars in the following pairs:
+```
+'' "" `` [] {} () <>
+```
+
 dsX  - delete surrounding X
 csXY - change surrounding X to Y
 
@@ -245,3 +222,31 @@ ys{motion}X - you surround {motion} with X
 yS{motion}X - you surround {motion} with X indented on its own line
 
 SX - surround visual selction with X
+
+
+## FZF
+
+All have \f prefix
+
+  \fb :Buffers
+  \ff :GFiles
+  \fF :Files
+
+  \fh :History
+  \f: :History:
+  \f/ :History/
+
+  \ft :BTags
+  \fT :Tags
+
+  \fl :BLines
+  \fL :Lines
+
+  \fm :Methods
+  \fh :History
+  \fH :Helptags!
+  \fM :Maps
+  \fC :Commands
+  \f' :Marks
+  \fs :Filetypes
+  \fS :Snippets
