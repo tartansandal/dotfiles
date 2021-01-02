@@ -16,7 +16,7 @@ ln -sf  $base_dir/condarc              ~/.condarc
 ln -sf  $base_dir/dircolors            ~/.dircolors
 ln -sf  $base_dir/direnvrc             ~/.direnvrc
 ln -sf  $base_dir/eslintrc             ~/.eslintrc
-ln -sf  $base_dir/flake8               ~/.flake8
+ln -sf  $base_dir/flake8               ~/.config/flake8
 ln -sf  $base_dir/gitconfig            ~/.gitconfig
 ln -sf  $base_dir/gitignore            ~/.gitignore
 ln -sf  $base_dir/inputrc              ~/.inputrc
