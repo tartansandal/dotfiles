@@ -4,5 +4,7 @@
 setlocal tabstop=2
 setlocal shiftwidth=2
 
-" use the suround mapping
+" Map \` to suround the inner WORD with ` marks
 nmap <buffer> <leader>` ysiW`
+
+nmap <buffer> <silent> <leader>tt :call checkbox#ToggleCB()<cr>
