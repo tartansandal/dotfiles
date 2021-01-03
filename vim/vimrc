@@ -846,7 +846,7 @@ augroup terminal
     " The `relativenumber` and `signcolumn` options shift the content of
     " terminal windows 6 columns to the right. This causes terminal content to
     " wrap in Normal Mode, which does not look good in PyTest output, so we turn
-    " these off.  We alos hide the `colorcolumn` which makes no sense in
+    " these off.  We also hide the `colorcolumn` which makes no sense in
     " terminal.
     autocmd TerminalOpen,TerminalWinOpen * 
             \  if &buftype ==# 'terminal' 
