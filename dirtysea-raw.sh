@@ -13,7 +13,7 @@ schema-version=uint32 3
 default-show-menubar=false
 
 [profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
-visible-name='Default'
+visible-name='DirtySea'
 scrollbar-policy='never'
 audible-bell=false
 allow-bold=false
