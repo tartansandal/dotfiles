@@ -834,6 +834,8 @@ let test#python#runner = 'pytest'
 " Also add the `--vv` so we see a full breakdown of an assertion failure.
 let test#python#pytest#options = '--tb=short -q --no-cov -vv'
 
+" This requires a fix for the checkbox plugin that stomps on it.
+noremap <silent><leader>tt :TestNearest<CR>
 
 " Use F1 to enter Terminal Normal Mode.  For some reason <C-W>N just gives me
 " a new window.  Only use this for testig the following augroup. 
