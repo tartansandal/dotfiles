@@ -959,60 +959,62 @@ highlight link MRUFileName String
 
 " >> FZF -------------------------------------------------------------------{{{2
 
-let g:fzf_colors = {
-            \ 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Function'],
-            \ 'fg+':     ['fg', 'Normal'],
-            \ 'bg+':     ['bg', 'Normal'],
-            \ 'gutter':  ['bg', 'Normal'],
-            \ 'hl+':     ['fg', 'DiffText'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'prompt':  ['fg', 'DiffChange'],
-            \ 'border':  ['fg', 'Cursor'],
-            \ 'pointer': ['fg', 'Normal'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'header':  ['fg', 'Structure'],
-            \ 'spinner': ['fg', 'Structure'],
-            \}
+" XXX Don't acutally seem to use this. Not part of how I think about files,
+" buffers, etc.  Disabled until I find a real use for it
 
-" TODO: make a PR for fzf README offering this explanation
-" The above color setting is tricky.
-"
-" The arguments to each color group are a search spec:
-"
-"    item: [ layer, group+ ... ]
-"
-"   - item: the element of the display to color
-"       - fg  / bg  / hl    : non-selected lines
-"       - fg+ / bg+ / hl+   : selected lines
-"       - hl  / hl+         : strings matching the search
-"       - gutter            : the backgound of the frst 2 columns
-"       - pointer / marker  : '>' indicator in the gutter
-"       - border            : border around terminal window
-"       - header            : line containing the current file
-"       - info              : match counters
-"       - spinner           : char at column 1 before the match counters
-"       - prompt            : prompt before input strings
-"
-"   - layer: extract the color from this layer (fg/bg)
-"
-"   - groups+: a list of highlight groups to search
-"
-" Some of these mappings work and some doent. It complicated interaction with
-" terminal and gui and terguicolors and terminal_ansi_colors... not sure what is
-" going on yet.
+"let g:fzf_colors = {
+"            \ 'fg':      ['fg', 'Normal'],
+"            \ 'bg':      ['bg', 'Normal'],
+"            \ 'hl':      ['fg', 'Function'],
+"            \ 'fg+':     ['fg', 'Normal'],
+"            \ 'bg+':     ['bg', 'Normal'],
+"            \ 'gutter':  ['bg', 'Normal'],
+"            \ 'hl+':     ['fg', 'DiffText'],
+"            \ 'info':    ['fg', 'PreProc'],
+"            \ 'prompt':  ['fg', 'DiffChange'],
+"            \ 'border':  ['fg', 'Cursor'],
+"            \ 'pointer': ['fg', 'Normal'],
+"            \ 'marker':  ['fg', 'Keyword'],
+"            \ 'header':  ['fg', 'Structure'],
+"            \ 'spinner': ['fg', 'Structure'],
+"            \}
 
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-let g:fzf_buffers_jump = 1
-let g:fzf_files_options = ''
+"" The above color setting is tricky.
+""
+"" The arguments to each color group are a search spec:
+""
+""    item: [ layer, group+ ... ]
+""
+""   - item: the element of the display to color
+""       - fg  / bg  / hl    : non-selected lines
+""       - fg+ / bg+ / hl+   : selected lines
+""       - hl  / hl+         : strings matching the search
+""       - gutter            : the backgound of the frst 2 columns
+""       - pointer / marker  : '>' indicator in the gutter
+""       - border            : border around terminal window
+""       - header            : line containing the current file
+""       - info              : match counters
+""       - spinner           : char at column 1 before the match counters
+""       - prompt            : prompt before input strings
+""
+""   - layer: extract the color from this layer (fg/bg)
+""
+""   - groups+: a list of highlight groups to search
+""
+"" Some of these mappings work and some doent. It complicated interaction with
+"" terminal and gui and terguicolors and terminal_ansi_colors... not sure what is
+"" going on yet.
 
-augroup fzf
-    " Hide ruler when FZF window is active
-    autocmd!
-    autocmd FileType fzf set laststatus=0 noshowmode noruler
-                \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-augroup end
+"let g:fzf_history_dir = '~/.local/share/fzf-history'
+"let g:fzf_buffers_jump = 1
+"let g:fzf_files_options = ''
+
+"augroup fzf
+"    " Hide ruler when FZF window is active
+"    autocmd!
+"    autocmd FileType fzf set laststatus=0 noshowmode noruler
+"                \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+"augroup end
 
 " >> NERDTree --------------------------------------------------------------{{{2
 
