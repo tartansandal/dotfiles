@@ -1453,24 +1453,8 @@ augroup END
 
 " Tweaks to fix problematic mappings
 
-" vim-checkbox sets a global mapping which should be buffer local
-function! FixTTMapping()
-    " remap the to what I want it to be
-    noremap <silent><leader>tt :TestNearest<CR>
-    augroup vimterminal
-        autocmd!
-        autocmd BufEnter * 
-            \   if &filetype ==# 'markdown'
-            \ |     map <buffer><silent><leader>tt :call checkbox#ToggleCB()<cr>
-            \ | endif
-    augroup END
-endfunction
-
-" Need to call the above remapping after library has been loaded.
-augroup checkbox
-    autocmd!
-    autocmd User vim-checkbox call FixTTMapping()
-augroup END
+" Suppress the global mapping of \tt which we use for tests
+let g:checkbox_suppress_mapping = 1
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
