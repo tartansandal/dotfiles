@@ -5,7 +5,7 @@
   "python.formatting.provider": "yapf",
   //"python.formatting.provider": "black",
 
-  // These are installed globally so I dont have to install in each virtual env
+  // These are installed globally so I don't have to install in each virtual env
   "python.linting.flake8Path": "/usr/bin/flake8",
   "python.linting.pylintPath": "/usr/bin/pylint",
   "python.formatting.blackPath": "/usr/bin/black",
@@ -13,7 +13,7 @@
   "python.jediPath": "/usr/lib/python3.7/site-packages/",
   "python.sortImports.path": "/usr/bin/isort",
 
-  // WLS is still a little flakey, so stick with Jedi
+  // WLS is still a little flaky, so stick with Jedi
   "python.jediEnabled": true,
 
   // ALE does better async diagnostics at least for python
@@ -33,7 +33,7 @@
   "markdownlint.config": {
     "default": true,
 
-    // Needed for GitHub Pages compatability
+    // Needed for GitHub Pages compatibility
     "first-line-h1": false,
     "first-line-heading": false,
     "code-block-style": false,
