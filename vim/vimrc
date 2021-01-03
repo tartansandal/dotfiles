@@ -333,12 +333,12 @@ Plug 'junegunn/vim-easy-align'
 
 " checkbox: simple checkbox support for Markdown lists
 "
-"   https://github.com/jkramer/vim-checkbox
+"   https://github.com/tartansandal/vim-checkbox
 "   ~/.vim/plugged/vim-checkbox/README.markdown
 "
 "  `<leader>tt` to add or toggle a checkbox for the current item
 "
-Plug 'jkramer/vim-checkbox', { 'for': 'markdown' }
+Plug 'tartansandal/vim-checkbox', { 'for': 'markdown' }
 
 
 " markdown: the development version of the markdown runtime files
