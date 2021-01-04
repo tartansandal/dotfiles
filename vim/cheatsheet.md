@@ -224,29 +224,29 @@ yS{motion}X - you surround {motion} with X indented on its own line
 SX - surround visual selction with X
 
 
-## FZF
+<!-- ## FZF -->
 
-All have \f prefix
+<!-- All have \f prefix -->
 
-  \fb :Buffers
-  \ff :GFiles
-  \fF :Files
+<!--   \fb :Buffers -->
+<!--   \ff :GFiles -->
+<!--   \fF :Files -->
 
-  \fh :History
-  \f: :History:
-  \f/ :History/
+<!--   \fh :History -->
+<!--   \f: :History: -->
+<!--   \f/ :History/ -->
 
-  \ft :BTags
-  \fT :Tags
+<!--   \ft :BTags -->
+<!--   \fT :Tags -->
 
-  \fl :BLines
-  \fL :Lines
+<!--   \fl :BLines -->
+<!--   \fL :Lines -->
 
-  \fm :Methods
-  \fh :History
-  \fH :Helptags!
-  \fM :Maps
-  \fC :Commands
-  \f' :Marks
-  \fs :Filetypes
-  \fS :Snippets
+<!--   \fm :Methods -->
+<!--   \fh :History -->
+<!--   \fH :Helptags! -->
+<!--   \fM :Maps -->
+<!--   \fC :Commands -->
+<!--   \f' :Marks -->
+<!--   \fs :Filetypes -->
+<!--   \fS :Snippets -->
