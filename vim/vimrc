@@ -1568,36 +1568,27 @@ if &term ==# 'screen' || &term =~? 'xterm.*'"
   set termguicolors  " use the full 24bit colorspace
 endif
 
-"""
-" FIXME need to sort out my colorscheme loading
-"
-" For some weird reason this does not load in terminal vim
+command! Darcula call s:Darcula()
+function! s:Darcula()
+    colorscheme darcula
+    hi Cursor guifg=#2B2B2B guibg=#BBBBBB
+    hi ColorColumn guifg=#808080 guibg=#313335
+    let g:lightline.colorscheme = 'darculaOriginal'
+endfunction
 
-" let g:base16_shell_path="~/.config/base16-shell/scripts"
+command! DirtySea call s:DirtySea()
+function s:DirtySea()
+    colorscheme base16-dirtysea
+    let g:lightline.colorscheme = 'wombat'
+    " Undo some base16 boldings
+    hi Statement              gui=None
+    hi gitcommitDiscardedFile gui=None
+    hi gitcommitDiscarded     gui=None
+    hi gitcommitSelectedFile  gui=None
+    hi gitcommitSelected      gui=None
+    hi gitcommitBranch        gui=None
+    hi gitcommitComment       gui=None
+endfunction
 
-" Load the current shell colorscheme
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
+DirtySea
 
-"   " remove some boldings
-"   hi Statement gui=None
-
-" endif
-
-" Alternatively just use darcula
-" colorscheme darcula
-" hi Cursor guifg=#2B2B2B guibg=#BBBBBB
-" hi ColorColumn guifg=#808080 guibg=#313335
-" let g:lightline.colorscheme = 'darculaOriginal'
-
-" call darcula#Hi('diffAdded',   darcula#palette.null, darcula#palette.addStripe)
-" call darcula#Hi('diffChanged', darcula#palette.null, darcula#palette.changeStripe)
-" call darcula#Hi('diffRemoved', darcula#palette.null, darcula#palette.deleteStripe)
-
-" be good if we could toggle this
-colorscheme base16-dirtysea
-hi Statement gui=None
-
-" colorscheme dirtysea
-let g:lightline.colorscheme = 'wombat'
