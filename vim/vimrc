@@ -545,7 +545,8 @@ set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 "
 " Relative line numbers to encourage me to use line oriented motions more.
 "
-set relativenumber       " Display relative line numbers
+" Really don't use these
+" set relativenumber       " Display relative line numbers
 
 "
 " Automatice formating. The default is tcq. See 'help fo-table'
