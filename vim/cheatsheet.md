@@ -127,18 +127,25 @@
   :Gw[rite]
   :Gr[ead]
   :Gdiff [revision]
+  :Gedit [revision]
+  :Gvsplit [revision]
 
   :Gco[mmit]
   :Gst[atus]
 
-  :Gmove {destination}
-  :Gdelete
-  :Gremove
+  :GMove {destination}
+  :GRename {destination}
+  :GDelete
+  :GRemove
+  :GBrowse
 
-  :Gpull
-  :Gpush
-  :Gfetch
-  :Gmerge
+  :G pull
+  :G push
+  :G fetch
+  :G merge
+  :G blame
+  :G difftool
+  :G mergetool
 
   :Glog
   :Gblame
