@@ -27,7 +27,13 @@ then
     fi
 
     #> source private libraries
-    for lib in hosts prompt direnv fzf pyenv
+    for lib in \
+        hosts \
+        prompt \
+        direnv \
+        fzf \
+        pyenv \
+        base16-dirtysea.sh
     do
         [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done
