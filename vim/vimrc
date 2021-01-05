@@ -632,7 +632,7 @@ set foldlevelstart=99
 set incsearch
 
 " Use syntax highlighting
-syntax on
+syntax on 
 
 " clear search highlighting on startup
 nohlsearch
@@ -1615,6 +1615,6 @@ augroup ColorSchemeFixes
     autocmd ColorScheme darcula         call s:PostDarcula()
 augroup end
 
-echom 'Setting colorscheme base16-dirtysea'
+" WORKAROUND: have to set the colorscheme twice to get this to work in terminal
+colorscheme default
 colorscheme base16-dirtysea
-echom g:colors_name
