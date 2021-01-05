@@ -353,17 +353,6 @@ Plug 'tartansandal/vim-checkbox', { 'for': 'markdown' }
 Plug 'tpope/vim-markdown'
 
 
-" fzf: fuzzy finding of all things
-"
-"   https://github.com/junegunn/fzf.vim
-"   ~/.vim/plugged/fzf.vim/README.md
-"   ~/.vim/plugged/fzf.vim/doc/fzf-vim.txt
-"
-" Does not map well to my ususal development patterns
-" Some of the functions are really cool though.
-"
-Plug 'junegunn/fzf.vim'
-
 
 " darcula: a colorscheme that looks just like PyCharm
 "
@@ -509,6 +498,17 @@ Plug 'inkarkat/vim-DateDiff'
 
 " Plug 'vim-scripts/Decho'
 " >> temp for debugging netrw
+"
+" fzf: fuzzy finding of all things
+"
+"   https://github.com/junegunn/fzf.vim
+"   ~/.vim/plugged/fzf.vim/README.md
+"   ~/.vim/plugged/fzf.vim/doc/fzf-vim.txt
+"
+" Does not map well to my ususal development patterns
+" Some of the functions are really cool though.
+"
+" Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -963,6 +963,9 @@ highlight link MRUFileName String
 
 " XXX Don't acutally seem to use this. Not part of how I think about files,
 " buffers, etc.  Disabled until I find a real use for it
+
+" Block loading the vim plugin provided by system
+let g:loaded_fzf_vim = 1
 
 "let g:fzf_colors = {
 "            \ 'fg':      ['fg', 'Normal'],
@@ -1434,26 +1437,26 @@ noremap <silent><leader>tn :TestFile<CR>
 noremap <silent><leader>ts :TestSuite<CR>
 
 " > FZF all use a \f prefix
-noremap <silent><leader>fb :Buffers<CR>
-noremap <silent><leader>ff :GFiles<CR>
-noremap <silent><leader>fF :Files<CR>
+" noremap <silent><leader>fb :Buffers<CR>
+" noremap <silent><leader>ff :GFiles<CR>
+" noremap <silent><leader>fF :Files<CR>
 
-noremap <silent><leader>fh :History<CR>
-noremap <silent><leader>f: :History:<CR>
-noremap <silent><leader>f/ :History/<CR>
+" noremap <silent><leader>fh :History<CR>
+" noremap <silent><leader>f: :History:<CR>
+" noremap <silent><leader>f/ :History/<CR>
 
-noremap <silent><leader>ft :BTags<CR>
-" noremap <silent><leader>fT :Tags<CR>  " dont run from top level
+" noremap <silent><leader>ft :BTags<CR>
+" " noremap <silent><leader>fT :Tags<CR>  " dont run from top level
 
-noremap <silent><leader>fl :BLines<CR>
-noremap <silent><leader>fL :Lines<CR>
+" noremap <silent><leader>fl :BLines<CR>
+" noremap <silent><leader>fL :Lines<CR>
 
-noremap <silent><Leader>fm :Methods<CR>
-noremap <silent><leader>fH :Helptags!<CR>
-noremap <silent><leader>fM :Maps<CR>
-noremap <silent><leader>fC :Commands<CR>
-noremap <silent><leader>f' :Marks<CR>
-noremap <silent><leader>fs :Filetypes<CR>
+" noremap <silent><Leader>fm :Methods<CR>
+" noremap <silent><leader>fH :Helptags!<CR>
+" noremap <silent><leader>fM :Maps<CR>
+" noremap <silent><leader>fC :Commands<CR>
+" noremap <silent><leader>f' :Marks<CR>
+" noremap <silent><leader>fs :Filetypes<CR>
 
 " > Grep all with a \v prefix (same bindings as easygrep) 
 noremap <silent><leader>vv :grep! -w <cword><CR>
