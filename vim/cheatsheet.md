@@ -45,14 +45,28 @@
 ## Refactoring
 
   \rn - rename symbol
-  \rf - format selection/object/motion
-
-  if  - inner function object
-  af  - around function object
+  \rf - reformat selection/object/motion
 
   :Format - format current buffer
   :Fold   - fold current buffer
   :OR     - organize import of current buffer
+
+## TextObject
+
+  two caracter sequences: <prefix><suffix> 
+
+  The prefix "a" selects "around" an object, including its delimiters
+  The prefix "i" selects "inside" object, excluding its delimiters
+
+  suffix     | matches
+  --------------------------------------------------------------------
+  w, W, s, p | word, Word, sentence, paragraph delimited by whitespace
+  ", ', \`   | string delimited by matching marks
+  [, {, (, > | block delimited by matching pairs
+  t          | XML tag block delimited by tag
+  f, c       | function, class object delimited by programming stucture
+  i          | indentation level, delimited by line above
+  u          | url delimited by whitespace
 
 ## Completion
 
