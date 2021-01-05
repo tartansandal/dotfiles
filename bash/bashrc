@@ -32,8 +32,7 @@ then
         prompt \
         direnv \
         fzf \
-        pyenv \
-        base16-dirtysea.sh
+        pyenv
     do
         [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
     done
