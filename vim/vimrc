@@ -1340,6 +1340,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " > Key Mapping ------------------------------------------------------------{{{1
 
+
 " replace netrw's gx with somethig that works
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
@@ -1590,18 +1591,13 @@ if &term ==# 'screen' || &term =~? 'xterm.*'"
   set termguicolors  " use the full 24bit colorspace
 endif
 
-command! Darcula call s:Darcula()
-function! s:Darcula()
-    colorscheme darcula
+function! s:PostDarcula()
     hi Cursor guifg=#2B2B2B guibg=#BBBBBB
     hi ColorColumn guifg=#808080 guibg=#313335
     let g:lightline.colorscheme = 'darculaOriginal'
 endfunction
 
-command! DirtySea call s:DirtySea()
-function s:DirtySea()
-    colorscheme base16-dirtysea
-    let g:lightline.colorscheme = 'wombat'
+function! s:PostBase16DirtySea()
     " Undo some base16 boldings
     hi Statement              gui=None
     hi gitcommitDiscardedFile gui=None
@@ -1610,7 +1606,15 @@ function s:DirtySea()
     hi gitcommitSelected      gui=None
     hi gitcommitBranch        gui=None
     hi gitcommitComment       gui=None
+    let g:lightline.colorscheme = 'wombat'
 endfunction
 
-DirtySea
+augroup ColorSchemeFixes
+    autocmd!
+    autocmd ColorScheme base16-dirtysea call s:PostBase16DirtySea()
+    autocmd ColorScheme darcula         call s:PostDarcula()
+augroup end
 
+echom 'Setting colorscheme base16-dirtysea'
+colorscheme base16-dirtysea
+echom g:colors_name
