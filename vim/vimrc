@@ -394,6 +394,15 @@ Plug 'kana/vim-textobj-user'
 Plug 'jceb/vim-textobj-uri'
 
 
+" indent-object: indent base text object
+"
+"   https://github.com/michaeljsmith/vim-indent-object
+"   ~/.vim/plugged/vim-indent-object/README.md
+"   ~/.vim/plugged/vim-indent-object/doc/indent-object.txt
+"
+" Give you a `i` text object for operating on text at the current indent level
+Plug 'michaeljsmith/vim-indent-object'
+
 " open-browser: open browser for URL or search for word (selection) under cursor
 "
 "   https://github.com/tyru/open-browser.vim
