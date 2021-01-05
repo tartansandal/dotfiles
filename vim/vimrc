@@ -684,7 +684,7 @@ let g:diff_translations=0
 set diffopt+=vertical
 
 augroup vimStartup
-    au!
+    autocmd!
 
     " When editing a file, always jump to the last known cursor position.
     " Don't do it when the position is invalid, when inside an event handler
@@ -695,7 +695,7 @@ augroup vimStartup
         \ |   exe "normal! g`\""
         \ | endif
 
-augroup END
+augroup end
 
 " If we are running vim-tiny, none of the sexy plugins or filetype detections
 " will work anyway, so skip the rest of the file.
@@ -856,7 +856,7 @@ augroup terminal
             \   | setlocal signcolumn=no
             \   | setlocal colorcolumn=0
             \| endif
-augroup END
+augroup end
 
 " >> BufExplorer:-----------------------------------------------------------{{{2
 
@@ -1449,7 +1449,7 @@ augroup Diary
     autocmd!
     autocmd BufRead DIARY.md 
         \ |     vnoremap <buffer><silent><leader>d :TimeDiffUnit minutes<cr>
-augroup END
+augroup end
 
 " >> Fixes -----------------------------------------------------------------{{{2
 
