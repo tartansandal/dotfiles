@@ -152,12 +152,14 @@ Plug 'adelarsq/vim-matchit'
 "   * coc-html
 "   * coc-json
 "   * coc-markdownlint
-"   * coc-python
+"   * coc-pyright   (python3)
 "   * coc-snippets  (snippets from language server plus vim-snippets)
 "   * coc-tsserver  (javascript)
 "   * coc-word      (google 10000 words)
 "   * coc-yaml
 "   * coc-vimlsp
+"   * coc-calc      (math expression evaluation after =)
+"   * coc-sh
 "
 " And extra configuration under ~/.config/coc/
 "
