@@ -36,7 +36,7 @@
   SPACE a - Show all diagnostics
   SPACE e - Manage extensions
   SPACE c - Show commands
-  SPACE o - Find symbol of current document
+  SPACE o - Find symbol in current document
   SPACE s - Search workspace symbols
   SPACE j - Do default action for next item.
   SPACE k - Do default action for previous item.
@@ -77,7 +77,7 @@
 
   n_TAB - select selections ranges ???
 
-  Ctrl-SPACE - trigger completion without adding characters.
+  Ctrl-SPACE - trigger completion without adding characters?
 
 ## Globals
 
@@ -271,3 +271,4 @@ SX - surround visual selction with X
 <!--   \f' :Marks -->
 <!--   \fs :Filetypes -->
 <!--   \fS :Snippets -->
+
