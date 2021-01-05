@@ -488,7 +488,7 @@ Plug 'inkarkat/vim-DateDiff'
 " >> have not used Jinja2 in a while
 "
 " Plug 'jacquesbh/vim-showmarks'
-" >> I just dont use marks enough for this to be useful
+" >> I just don't use marks enough for this to be useful
 "
 " Plug 'ntpeters/vim-better-whitespace'
 " >> Superseded by auto-formaters and auto-fixers
