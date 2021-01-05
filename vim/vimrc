@@ -654,7 +654,6 @@ set autoread            " re-read open files when changed outside Vim
 set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
-set fileformat=unix
 
 " keep backups under ~/tmp
 " set backup          " keep a backup file
