@@ -1608,7 +1608,7 @@ function! s:PostBase16DirtySea()
     hi gitcommitSelected      gui=None
     hi gitcommitBranch        gui=None
     hi gitcommitComment       gui=None
-    let g:lightline.colorscheme = 'wombat'
+    let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
 augroup ColorSchemeFixes
