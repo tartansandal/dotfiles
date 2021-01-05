@@ -631,6 +631,9 @@ set foldlevelstart=99
 " (sensible): 
 set incsearch
 
+" Use syntax highlighting
+syntax on
+
 " clear search highlighting on startup
 nohlsearch
 
