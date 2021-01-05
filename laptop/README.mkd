@@ -60,6 +60,11 @@ for F32 I had to tweak the firewall
     sudo firewall-cmd --reload
     sudo systemctl restart docker
 
+
+## OLED backlight
+
+    sudo grubby --update-kernel=ALL --args="i915.enable_dpcd_backlight=1"
+
 ## Pyenv
 
 See https://github.com/pyenv/pyenv
