@@ -1052,6 +1052,8 @@ let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
 
+" Automatically delete buffers associated with menu deleted/renamed files
+let NERDTreeAutoDeleteBuffer=1
 " >> Netrw -----------------------------------------------------------------{{{2
 
 " XXX Seeing way to many bugs and errors with this. Dont think its maintained
