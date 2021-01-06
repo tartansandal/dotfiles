@@ -19,19 +19,24 @@
   Ctrl-Tab  Swicther
   Ctrl-\    Switcher
 
-## Navigation
-
-  CTRL-^ alternate window
+## CoC 
 
   [g  - goto prev diagnostic
   ]g  - goto next diagnostic
 
   gd  - goto definition
-  gy  - goto type-definition
-  gi  - goto implementation
   gr  - goto references
 
+  gy  - goto type-definition
+  gi  - goto implementation
+
   K   - to show documentation in preview window
+
+  \rn - rename symbol
+  \f  - reformat selection/object/motion
+  \a  - codeaction on selection/object/motion
+  \ac - codeaction on whole buffer
+  \qf - run quickfix on current line
 
   SPACE a - Show all diagnostics
   SPACE e - Manage extensions
@@ -41,11 +46,6 @@
   SPACE j - Do default action for next item.
   SPACE k - Do default action for previous item.
   SPACE p - Resume latest coc list
-
-## Refactoring
-
-  \rn - rename symbol
-  \rf - reformat selection/object/motion
 
   :Format - format current buffer
   :Fold   - fold current buffer
@@ -83,7 +83,7 @@
 
   g~{Motion} or {Visual}~  - togglecase
   gU{Motion} or {Visual}U  - uppercase
-  gu{Motion} or {Visual}U  - localcase
+  gu{Motion} or {Visual}u  - lowercase
 
   gc{Motion} or {Visual}gc - toggle comment
 
