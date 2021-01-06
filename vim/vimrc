@@ -1163,12 +1163,36 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns ()
-set signcolumn=yes
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Ensure these extensions are loaded on fresh startup
+let g:coc_global_extensions = [
+            \   'coc-css',
+            \   'coc-html',
+            \   'coc-json',
+            \   'coc-markdownlint',
+            \   'coc-pyright',
+            \   'coc-snippets',
+            \   'coc-tsserver',
+            \   'coc-word',
+            \   'coc-yaml',
+            \   'coc-vimlsp',
+            \   'coc-calc',
+            \   'coc-sh'
+            \ ]
+
+"">> Mappings
 
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other
-" plugin.
+" NOTE: Use command ':verbose imap <TAB>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
@@ -1181,19 +1205,20 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-@> coc#refresh()
+inoremap <silent><expr> <C-space> coc#refresh()
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" format on enter, <CR> could be remapped by other vim plugin
+inoremap <silent><expr> <CR> 
+            \  pumvisible() ? coc#_select_confirm() : 
+            \  "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" XXX Using ALE for diagnostics
 " Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
+" GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -1212,12 +1237,13 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Remap for rename current word
+" Symbol renaming
+" XXX Seems to be broken in Python
 nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-xmap <leader>rf  <Plug>(coc-format-selected)<CR>
-nmap <leader>rf  <Plug>(coc-format-selected)<CR>
+" Formating selected code
+xmap <leader>f  <Plug>(coc-format-selected)<CR>
+nmap <leader>f  <Plug>(coc-format-selected)<CR>
 
 augroup coc
     autocmd!
@@ -1232,16 +1258,18 @@ augroup coc
     autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup end
 
-" " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-" xmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
+" Apply codeAction to the selected region
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" " Remap for do codeAction of current line
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" " Fix autofix problem of current line
-" nmap <leader>qf  <Plug>(coc-fix-current)
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Create mappings for function text object, requires document symbols feature of languageserver.
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
@@ -1261,9 +1289,10 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
-" " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-" nmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <TAB> <Plug>(coc-range-select)
+" Use <C-s> for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
