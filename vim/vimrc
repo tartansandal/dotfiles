@@ -204,20 +204,6 @@ Plug 'honza/vim-snippets'
 " let g:UltiSnipsSnippetDirectories = ['UltiSnips', 'ultisnips']
 
 
-" autoformat: format code (on key mapping or save) using external programs.
-"
-"   https://github.com/Chiel92/vim-autoformat
-"   ~/.vim/plugged/vim-autoformat/README.md
-"
-" This may be superseded by Coc.
-" Currently seems more stable than Coc.
-" Note: automatically removes trailing whitespace
-" Can take a range to format only some part of the program
-" XXX checkout remark for formating Markdown
-"
-Plug 'Chiel92/vim-autoformat'
-
-
 " enmasse: editable quickfix list
 "
 "   https://github.com/Olical/vim-enmasse
@@ -508,16 +494,11 @@ Plug 'inkarkat/vim-DateDiff'
 " Plug 'vim-scripts/Decho'
 " >> temp for debugging netrw
 "
-" fzf: fuzzy finding of all things
-"
-"   https://github.com/junegunn/fzf.vim
-"   ~/.vim/plugged/fzf.vim/README.md
-"   ~/.vim/plugged/fzf.vim/doc/fzf-vim.txt
-"
-" Does not map well to my ususal development patterns
-" Some of the functions are really cool though.
-"
 " Plug 'junegunn/fzf.vim'
+" >> Dont really use it as part of my workflow
+"
+" Plug 'Chiel92/vim-autoformat'
+" >> Superseded by Coc
 
 call plug#end()
 
@@ -1442,7 +1423,9 @@ noremap <silent><leader>g :G<CR>
 noremap <silent><leader><leader>G :Gbrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
 noremap <silent><leader>n :SafeNERDTreeFind<CR>
-noremap <silent><leader>a :Autoformat<CR>
+
+" Use CoC autoformat instead
+"noremap <silent><leader>a :Autoformat<CR>
 
 " > vim-test
 " \tt should override the plugin setting
