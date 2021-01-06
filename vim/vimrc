@@ -440,6 +440,9 @@ Plug 'embear/vim-localvimrc'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-DateDiff'
 
+" vim-jsonc: support JSON with comments
+Plug 'neoclide/jsonc.vim'
+
 " base-16: all base-16 colorschemes (plus my own)
 "
 "   ~/.vim/plugged/base16-vim/README.md
