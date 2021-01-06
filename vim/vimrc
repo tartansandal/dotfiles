@@ -1634,6 +1634,8 @@ function! s:PostBase16DirtySea()
     hi gitcommitSelected      gui=None
     hi gitcommitBranch        gui=None
     hi gitcommitComment       gui=None
+    hi IncSearch ctermfg=10 ctermbg=9 guifg=#000000 guibg=#e1a8a2
+    hi Search    ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
