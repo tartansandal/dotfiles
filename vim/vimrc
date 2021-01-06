@@ -798,10 +798,11 @@ let g:lightline.component_expand = {
 
 let g:lightline.component_type = {
 \   'gitdiff': 'middle',
+\   'cocstatus': 'middle',
 \   'linter_checking': 'right',
 \   'linter_infos': 'right',
-\   'linter_warnings': 'warning',
-\   'linter_errors': 'error',
+\   'linter_warnings': 'right',
+\   'linter_errors': 'right',
 \   'linter_ok': 'right',
 \ }
 

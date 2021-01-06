@@ -12,8 +12,9 @@
   "python.formatting.blackPath": "/usr/bin/black",
   "python.formatting.yapfPath": "/usr/bin/yapf",
 
-  // ALE does better async diagnostics at least for python
-  // "diagnostic.displayByAle": true,
+  // ALE does better *async* diagnostics at least for python
+  "diagnostic.displayByAle": true,
+  // Still run diagnostic checks so we can get a quickfix listing
   "diagnostic.enable": true,
 
   "signature.enable": true,
