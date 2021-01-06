@@ -651,10 +651,10 @@ set autowrite           " write file whenever buffer becomes hidden
 set hidden              " hide buffers when they are abandoned
 set browsedir=current   " which directory to use for the file browser
 
-" keep backups under ~/tmp
-" set backup          " keep a backup file
-" set backupcopy=yes  " copy the original even if a link
-" set backupdir=~/tmp/backup,~/,/tmp
+" keep backups under ~/tmp  (this avoids the ususal problems with Coc)
+set backup          " keep a backup file
+set backupcopy=yes  " copy the original even if a link
+set backupdir=~/tmp/backup,~/,/tmp
 
 set undodir=~/tmp/undo,~/,/tmp
 set undofile          " keep a undo file
@@ -1150,7 +1150,8 @@ nmap <silent> ]g <Plug>(ale_next_wrap)
 " Some servers have issues with backup files, see #649
 "
 " NOTE: Since I write backups outside of the project root, tsserver will not see
-" this as a project change and will not trigger a recompile.
+" this as a project change and will not trigger a recompile. So backups are
+" fine.
 "
 " set nobackup
 " set nowritebackup
