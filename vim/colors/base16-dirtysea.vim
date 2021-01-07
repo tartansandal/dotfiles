@@ -17,8 +17,8 @@ endif
 " GUI color definitions
 let s:gui00        = "e0e0e0"
 let g:base16_gui00 = "e0e0e0"
-let s:gui01        = "d0dAd0"
-let g:base16_gui01 = "d0dAd0"
+let s:gui01        = "d0dad0"
+let g:base16_gui01 = "d0dad0"
 let s:gui02        = "d0d0d0"
 let g:base16_gui02 = "d0d0d0"
 let s:gui03        = "707070"
@@ -31,8 +31,8 @@ let s:gui06        = "f8f8f8"
 let g:base16_gui06 = "f8f8f8"
 let s:gui07        = "c4d9c4"
 let g:base16_gui07 = "c4d9c4"
-let s:gui08        = "000090"
-let g:base16_gui08 = "000090"
+let s:gui08        = "840000"
+let g:base16_gui08 = "840000"
 let s:gui09        = "006565"
 let g:base16_gui09 = "006565"
 let s:gui0A        = "755B00"
@@ -43,8 +43,8 @@ let s:gui0C        = "755B00"
 let g:base16_gui0C = "755B00"
 let s:gui0D        = "007300"
 let g:base16_gui0D = "007300"
-let s:gui0E        = "840000"
-let g:base16_gui0E = "840000"
+let s:gui0E        = "000090"
+let g:base16_gui0E = "000090"
 let s:gui0F        = "755B00"
 let g:base16_gui0F = "755B00"
 
@@ -100,19 +100,19 @@ endif
 " Neovim terminal colours
 if has("nvim")
   let g:terminal_color_0 =  "#e0e0e0"
-  let g:terminal_color_1 =  "#000090"
+  let g:terminal_color_1 =  "#840000"
   let g:terminal_color_2 =  "#730073"
   let g:terminal_color_3 =  "#755B00"
   let g:terminal_color_4 =  "#007300"
-  let g:terminal_color_5 =  "#840000"
+  let g:terminal_color_5 =  "#000090"
   let g:terminal_color_6 =  "#755B00"
   let g:terminal_color_7 =  "#000000"
   let g:terminal_color_8 =  "#707070"
-  let g:terminal_color_9 =  "#000090"
+  let g:terminal_color_9 =  "#840000"
   let g:terminal_color_10 = "#730073"
   let g:terminal_color_11 = "#755B00"
   let g:terminal_color_12 = "#007300"
-  let g:terminal_color_13 = "#840000"
+  let g:terminal_color_13 = "#000090"
   let g:terminal_color_14 = "#755B00"
   let g:terminal_color_15 = "#c4d9c4"
   let g:terminal_color_background = g:terminal_color_0
@@ -124,19 +124,19 @@ if has("nvim")
 elseif has("terminal")
   let g:terminal_ansi_colors = [
         \ "#e0e0e0",
-        \ "#000090",
+        \ "#840000",
         \ "#730073",
         \ "#755B00",
         \ "#007300",
-        \ "#840000",
+        \ "#000090",
         \ "#755B00",
         \ "#000000",
         \ "#707070",
-        \ "#000090",
+        \ "#840000",
         \ "#730073",
         \ "#755B00",
         \ "#007300",
-        \ "#840000",
+        \ "#000090",
         \ "#755B00",
         \ "#c4d9c4",
         \ ]

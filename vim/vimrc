@@ -1628,13 +1628,19 @@ endfunction
 function! s:PostBase16DirtySea()
     " Undo some base16 boldings
     hi Statement              gui=None
+    hi DiffDelete             gui=None  
+    hi DiffText               gui=None
     hi gitcommitDiscardedFile gui=None
     hi gitcommitDiscarded     gui=None
     hi gitcommitSelectedFile  gui=None
     hi gitcommitSelected      gui=None
     hi gitcommitBranch        gui=None
     hi gitcommitComment       gui=None
-    hi IncSearch ctermfg=10 ctermbg=9 guifg=#000000 guibg=#e1a8a2
+    hi gitcommitUnmergedFile  gui=None
+    hi CocListWhiteWhite      guibg=#e0e0e0
+    hi CocListBgWhite         guibg=#e0e0e0
+    hi PmenuThumb ctermfg=7 ctermbg=0 guifg=#e0e0e0 guibg=#000000	
+    hi IncSearch ctermfg=10 ctermbg=9 guifg=#000000 guibg=#d5b0ad
     hi Search    ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
