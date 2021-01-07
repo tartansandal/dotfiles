@@ -7,7 +7,7 @@ gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Cantarell Bold 10'
 
 if [[ $(xrandr -q | grep -c 'connected') -gt 1 ]]
 then
-    gsettings set org.gnome.desktop.interface text-scaling-factor 0.75
+    gsettings set org.gnome.desktop.interface text-scaling-factor 0.85
     message='Re-setting fonts for "connected monitor"'
 else
     gsettings set org.gnome.desktop.interface text-scaling-factor 1.0
