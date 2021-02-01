@@ -18,3 +18,8 @@ my.pyc-find-root:
 .PHONY: my.checkout-all
 my.checkout-all:
 	for d in $$(ls ..); do git -C ../$$d checkout .; done
+
+# For LabXchange development, ensure only lms and studio are running so we don't
+# run out of memory
+.PHONY: my.labxchange
+my.labxchange: dev.down dev.up.lms dev.up.studio
