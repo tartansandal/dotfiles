@@ -19,10 +19,15 @@
   Ctrl-Tab  Swicther
   Ctrl-\    Switcher
 
-## CoC 
+
+## ALE
 
   [g  - goto prev diagnostic
   ]g  - goto next diagnostic
+
+  \f  - fix (reformat) selection or buffer
+
+## CoC
 
   gd  - goto definition
   gr  - goto references
@@ -33,10 +38,8 @@
   K   - to show documentation in preview window
 
   \rn - rename symbol
-  \f  - reformat selection/object/motion
   \a  - codeaction on selection/object/motion
   \ac - codeaction on whole buffer
-  \qf - run quickfix on current line
 
   SPACE a - Show all diagnostics
   SPACE e - Manage extensions
@@ -47,7 +50,6 @@
   SPACE k - Do default action for previous item.
   SPACE p - Resume latest coc list
 
-  :Format - format current buffer
   :Fold   - fold current buffer
   :OR     - organize import of current buffer
 
@@ -231,7 +233,8 @@
 
 ## Suround
 
-X or Y are one of the chars in the following pairs:
+X or Y are one of the chars (prefer closing) in the following pairs:
+
 ```
 '' "" `` [] {} () <>
 ```

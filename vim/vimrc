@@ -247,12 +247,14 @@ Plug 'itchyny/lightline.vim'
 "
 Plug 'niklaas/lightline-gitdiff'
 
+
 " lightline-ale: show ale warning/error counts in the status line
 "
 "   https://github.com/maximbaz/lightline-ale
 "   ~/.vim/plugged/lightline-ale/README.md
 "
 Plug 'maximbaz/lightline-ale'
+
 
 " dispatch: asynchronous compiler support
 "
@@ -389,6 +391,7 @@ Plug 'jceb/vim-textobj-uri'
 " Give you a `i` text object for operating on text at the current indent level
 Plug 'michaeljsmith/vim-indent-object'
 
+
 " open-browser: open browser for URL or search for word (selection) under cursor
 "
 "   https://github.com/tyru/open-browser.vim
@@ -398,6 +401,7 @@ Plug 'michaeljsmith/vim-indent-object'
 " More reliable than the built in `gx` command from Netrw.
 "
 Plug 'tyru/open-browser.vim'
+
 
 " mru: explore Most Recently Used (MRU) files
 "
@@ -503,7 +507,7 @@ Plug 'neoclide/jsonc.vim'
 " Plug 'Chiel92/vim-autoformat'
 " >> Superseded by Coc
 
-call plug#end()
+call plug#end() 
 
 
 " > General Settings -------------------------------------------------------{{{1
@@ -1129,11 +1133,15 @@ let g:ale_linters={
 let g:ale_markdown_mdl_options='--style ~/.mdl-style.rb'
 
 " > Fixing
+let g:ale_fixers={
+             \ 'python':   ['remove_trailing_lines', 'trim_whitespace'],
+             \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
+             \ }
+
+nnoremap <silent> <leader>f <Plug>(ale_fix)
+
 " Too many problems when working on other peoples code
-" let g:ale_fixers={
-"             \ 'python':   ['remove_trailing_lines', 'trim_whitespace'],
-"             \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
-"             \ }
+" So only do this on demand
 " let g:ale_fix_on_save=1
 
 " > Display
@@ -1214,10 +1222,11 @@ inoremap <silent><expr> <CR>
             \  pumvisible() ? coc#_select_confirm() : 
             \  "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" " XXX: These are better handled by ALE
+" " Use `[g` and `]g` to navigate diagnostics
+" " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -1242,9 +1251,10 @@ endfunction
 " XXX Seems to be broken in Python
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formating selected code
-xmap <leader>f  <Plug>(coc-format-selected)<CR>
-nmap <leader>f  <Plug>(coc-format-selected)<CR>
+" " XXX This is better handled by ALE
+" " Formating selected code
+" xmap <leader>f  <Plug>(coc-format-selected)<CR>
+" nmap <leader>f  <Plug>(coc-format-selected)<CR>
 
 augroup coc
     autocmd!
@@ -1295,8 +1305,9 @@ endif
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+" " XXX: This is handled better by ALE
+" " Use `:Format` to format current buffer
+" command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
