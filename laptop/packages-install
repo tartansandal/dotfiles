@@ -55,6 +55,8 @@ xsel
 direnv
 zeal
 gcc-c++
+git 
+git-lfs
 
 # Python
 black
