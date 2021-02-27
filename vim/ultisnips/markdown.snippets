@@ -40,5 +40,12 @@ snippet co "(hh:mm) "
 (`!v strftime("%H:%M")`) < $0
 endsnippet
 
+snippet [FAL- "Jira ticket link in RichText" w
+FAL-${1:ID}|https://tasks.opencraft.com/browse/FAL-$1] $0
+endsnippet
+
+snippet FAL- "Jira ticket link in Markdown" w
+[FAL-${1:ID}](https://tasks.opencraft.com/browse/FAL-$1) $0
+endsnippet
 
 
