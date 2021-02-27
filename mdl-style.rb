@@ -27,7 +27,7 @@ all
 exclude_rule 'first-header-h1'
 exclude_rule 'first-line-h1'
 rule 'ul-indent', :indent => 2
-rule 'ol-prefix', :style => 'ordered'
+rule 'ol-prefix', :style => ':one'
 exclude_rule 'code-block-style'
 
 # Need tabs for Makefile snippets

@@ -35,7 +35,7 @@
     "first-line-heading": false,
     "code-block-style": false,
     "ul-indent": { "indent": 2 },
-    "ol-prefix": { "style": "ordered" },
+    "ol-prefix": { "style": "one" },
 
     // Need tabs for Makefile snippets
     "no-hard-tabs": false,
