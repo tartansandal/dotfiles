@@ -1138,7 +1138,7 @@ let g:ale_fixers={
              \ 'markdown': ['remove_trailing_lines', 'trim_whitespace']
              \ }
 
-nnoremap <silent> <leader>f <Plug>(ale_fix)
+nmap <silent> <leader>f <Plug>(ale_fix)
 
 " Too many problems when working on other peoples code
 " So only do this on demand
