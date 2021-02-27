@@ -194,3 +194,5 @@ fi
 # <<< conda initialize <<<
 
 complete -C /home/kal/bin/vault vault
+
+complete -C /usr/bin/terraform terraform
