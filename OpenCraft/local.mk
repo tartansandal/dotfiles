@@ -49,8 +49,15 @@ my.labxchange:               \
 	dev.down                 \
 	dev.pull.lms+studio      \
 	my.update-all            \
+	dev.up.lms+studio        \
 	dev.migrate.lms          \
 	dev.migrate.studio       \
-	dev.up.lms+studio        \
-	dev.check.lms+studio     \
 	dev.check.lms+studio
+
+.PHONY: my.labxchange-quick
+my.labxchange-quick:         \
+	dev.down                 \
+	my.update-all            \
+	dev.up.lms+studio        \
+	sleep 5 				 \
+	dev.check.lms+studio     \
