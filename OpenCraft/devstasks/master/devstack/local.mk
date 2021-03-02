@@ -40,8 +40,9 @@ my.checkout-all: my.clean-root-pyc-files
 my.update-all: my.checkout-all
 	$(call git-all,pull)
 
-# For LabXchange development, ensure code bases are up to date and ensure only
-# lms and studio are running so we don't run out of memory
+# For LabXchange development:
+# 	1. ensure edX code bases are up to date
+# 	2. ensure only lms and studio are running so we don't run out of memory
 .PHONY: my.labxchange
 my.labxchange:               \
 	requirements             \
@@ -53,15 +54,16 @@ my.labxchange:               \
 	dev.migrate.studio       \
 	dev.check.lms+studio
 
-# Wait for 5 seconds before building the next target
-.PHONY: my.sleep-5
-my.sleep-5:
-	sleep 5
+# Wait for 20 seconds before building the next target
+.PHONY: my.sleep-20
+my.sleep-20:
+	sleep 20s
 
+# A quick, but less paranoid shortcut for setting up the edX devstack for LX
 .PHONY: my.labxchange-quick
 my.labxchange-quick:         \
 	dev.down                 \
 	my.update-all            \
 	dev.up.lms+studio        \
-	my.sleep-5 				 \
+	my.sleep-20				 \
 	dev.check.lms+studio     \
