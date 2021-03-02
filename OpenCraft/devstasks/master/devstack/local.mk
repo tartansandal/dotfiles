@@ -40,9 +40,8 @@ my.checkout-all: my.clean-root-pyc-files
 my.update-all: my.checkout-all
 	$(call git-all,pull)
 
-# For LabXchange development.
-# Ensure only lms and studio are running so we don't run out of memory
-# and ensure newest versions are being run
+# For LabXchange development, ensure code bases are up to date and ensure only
+# lms and studio are running so we don't run out of memory
 .PHONY: my.labxchange
 my.labxchange:               \
 	requirements             \
@@ -54,10 +53,15 @@ my.labxchange:               \
 	dev.migrate.studio       \
 	dev.check.lms+studio
 
+# Wait for 5 seconds before building the next target
+.PHONY: my.sleep-5
+my.sleep-5:
+	sleep 5
+
 .PHONY: my.labxchange-quick
 my.labxchange-quick:         \
 	dev.down                 \
 	my.update-all            \
 	dev.up.lms+studio        \
-	sleep 5 				 \
+	my.sleep-5 				 \
 	dev.check.lms+studio     \
