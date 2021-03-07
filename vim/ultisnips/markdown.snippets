@@ -24,28 +24,41 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
+#> Snippets for time logging in my DIARY.md 
+
 snippet ddate "## Day DD Month, YYYY" b
 ## `!v strftime("%a %d %b, %Y")`
+
+### Time Log
+
+(`!v strftime("%H:%M")`)
+> $0
 endsnippet
 
+# Snippets for time tracking: only work at begining of line
 snippet dtime "(hh:mm) " b
 (`!v strftime("%H:%M")`) 
 endsnippet
 
-snippet ci "(hh:mm) "  
-(`!v strftime("%H:%M")`) > $0
+snippet ci "(hh:mm) " b 
+(`!v strftime("%H:%M")`)
+> $0
 endsnippet
 
-snippet co "(hh:mm) "  
-(`!v strftime("%H:%M")`) < $0
+snippet co "(hh:mm) " b
+(`!v strftime("%H:%M")`)
+< $0
 endsnippet
 
-snippet [FAL- "Jira ticket link in RichText" w
-FAL-${1:ID}|https://tasks.opencraft.com/browse/FAL-$1] $0
-endsnippet
+#> Snippets for drafting posts in my DIARY.md 
 
-snippet FAL- "Jira ticket link in Markdown" w
+snippet FAL- "Falcon ticket link" w
 [FAL-${1:ID}](https://tasks.opencraft.com/browse/FAL-$1) $0
 endsnippet
-
+snippet SE- "Serenity ticket link" w
+[FAL-${1:ID}](https://tasks.opencraft.com/browse/FAL-$1) $0
+endsnippet
+snippet BB- "Bebop ticket link" w
+[FAL-${1:ID}](https://tasks.opencraft.com/browse/FAL-$1) $0
+endsnippet
 

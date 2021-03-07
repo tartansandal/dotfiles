@@ -1665,3 +1665,32 @@ augroup end
 " WORKAROUND: have to set the colorscheme twice to get this to work in terminal
 colorscheme default
 colorscheme base16-dirtysea
+
+" > Time Logging -----------------------------------------------------------{{{1
+" TODO move this to its own plugin for my DIARY
+"
+command! -nargs=0 NewTimeLogEntry :call s:NewTimeLogEntry()
+function! s:NewTimeLogEntry()
+    let l:prev_heading_ln=search('^#', 'bnW')
+    let l:prev_entry_ln=search('^(\d\d:\d\d)', 'bnW', l:prev_heading_ln)
+    if l:prev_entry_ln != 0 
+        let l:prev_entry_line=getline(l:prev_entry_ln)
+        let l:then=matchlist(l:prev_entry_line, '^(\(\d\d:\d\d\)')[1]
+        let l:then_secs = ingo#date#epoch#ConvertTo(l:then)
+        let l:now_secs = ingo#date#epoch#Now()
+        let l:minutes=(l:now_secs - l:then_secs)/60 
+        call append(line('.'), [
+        \     '    [ ] log ' . l:minutes . ' minutes',
+        \     strftime('(%H:%M)'),
+        \     '> '
+        \   ]
+        \)
+        " move cursor to after the >
+        normal 3j$
+    else
+        call append(line('.'), [ strftime('(%H:%M)'), '> ' ])
+        " move cursor to after the >
+        normal 2j$
+    endif
+endfunction
+
