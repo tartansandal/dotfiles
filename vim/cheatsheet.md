@@ -53,22 +53,24 @@
   :Fold   - fold current buffer
   :OR     - organize import of current buffer
 
-## TextObject
+## TextObjects
 
-  two caracter sequences: <prefix><suffix> 
+  Two caracter sequences: <prefix><suffix>
 
-  The prefix "a" selects "around" an object, including its delimiters
-  The prefix "i" selects "inside" object, excluding its delimiters
+  The prefix "a" selects "around" an object, *including* its delimiters
+  The prefix "i" selects "inside" object, *excluding* its delimiters
 
-  suffix     | matches
-  --------------------------------------------------------------------
-  w, W, s, p | word, Word, sentence, paragraph delimited by whitespace
-  ", ', \`   | string delimited by matching marks
-  [, {, (, > | block delimited by matching pairs
-  t          | XML tag block delimited by tag
-  f, c       | function, class object delimited by programming stucture
-  i          | indentation level, delimited by line above
-  u          | url delimited by whitespace
+  There are various suffixes:
+
+    suffix     | matches
+    --------------------------------------------------------------------
+    w, W, s, p | word, Word, sentence, paragraph delimited by whitespace
+    ", ', `    | string delimited by matching marks
+    [, {, (, > | block delimited by matching pairs
+    t          | XML tag block delimited by tag
+    f, c       | function, class object delimited by programming stucture
+    i          | indentation level, delimited by line above
+    u          | url delimited by whitespace
 
 ## Completion
 
