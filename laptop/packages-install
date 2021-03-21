@@ -5,8 +5,9 @@ gimp
 # Audio
 audacity
 pavucontrol
-tuxguitar
 lame
+obs
+ardour
 
 # Backups
 duplicity
