@@ -40,6 +40,8 @@ gtk3-devel
 
 # Virtualization
 vagrant
+vagrant-sshfs
+vagrant-libvirt
 docker-ce
 
 # Development
@@ -57,6 +59,13 @@ zeal
 gcc-c++
 git 
 git-lfs
+yamllint
+rust
+cargo
+libvirt
+fuse-sshfs
+libguestfs-tools
+virt-install
 
 # Python
 black
