@@ -97,6 +97,13 @@ Plug 'airblade/vim-gitgutter'
 "
 Plug 'tpope/vim-rhubarb'
 
+" fugitive-gitlab: a fugitive extension to browse GitLab
+"
+"   https://github.com/shumphrey/fugitive-gitlab.vim
+"    ~/.vim/plugged/fugitive-gitlab.vim/README.md
+"    ~/.vim/plugged/fugitive-gitlab.vim/doc/fugitive-gitlab.txt
+
+Plug 'shumphrey/fugitive-gitlab.vim'
 
 " scriptease: vim scripting helpers
 "
