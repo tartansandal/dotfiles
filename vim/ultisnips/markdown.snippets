@@ -31,23 +31,16 @@ snippet ddate "## Day DD Month, YYYY" b
 
 ### Time Log
 
-(`!v strftime("%H:%M")`)
-> $0
+*(`!v strftime("%H:%M")`)* start of day
+
+$0
+
+### Review
 endsnippet
 
 # Snippets for time tracking: only work at begining of line
-snippet dtime "(hh:mm) " b
-(`!v strftime("%H:%M")`) 
-endsnippet
-
-snippet ci "(hh:mm) " b 
-(`!v strftime("%H:%M")`)
-> $0
-endsnippet
-
-snippet co "(hh:mm) " b
-(`!v strftime("%H:%M")`)
-< $0
+snippet dtime "*(hh:mm)*" b
+*(`!v strftime("%H:%M")`)*
 endsnippet
 
 #> Snippets for drafting posts in my DIARY.md 
