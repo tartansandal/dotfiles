@@ -1198,12 +1198,13 @@ let g:coc_global_extensions = [
             \   'coc-snippets',
             \   'coc-tsserver',
             \   'coc-word',
-            \   'coc-yaml',
             \   'coc-vimlsp',
             \   'coc-calc',
             \   'coc-sh'
             \ ]
 
+" This guy really does not work with some ansible, need to debug
+            " \   'coc-yaml',
 "">> Mappings
 
 " Use tab for trigger completion with characters ahead and navigate.
