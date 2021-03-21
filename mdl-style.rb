@@ -27,7 +27,7 @@ all
 exclude_rule 'first-header-h1'
 exclude_rule 'first-line-h1'
 rule 'ul-indent', :indent => 2
-rule 'ol-prefix', :style => ':one'
+rule 'ol-prefix', :style => ':ordered'
 exclude_rule 'code-block-style'
 
 # Need tabs for Makefile snippets
@@ -40,4 +40,7 @@ exclude_rule 'no-inline-html'
 exclude_rule 'ul-style'
 
 # GitLab and others don't like hard breaks
-exclude_tag 'line-length'
+exclude_rule 'line-length'
+
+# I use duplicated headings in my DIARY but nested differently
+exclude_rule 'no-duplicate-header'
