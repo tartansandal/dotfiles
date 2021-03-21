@@ -19,7 +19,6 @@
   Ctrl-Tab  Swicther
   Ctrl-\    Switcher
 
-
 ## ALE
 
   [g  - goto prev diagnostic
@@ -40,15 +39,6 @@
   \rn - rename symbol
   \a  - codeaction on selection/object/motion
   \ac - codeaction on whole buffer
-
-  SPACE a - Show all diagnostics
-  SPACE e - Manage extensions
-  SPACE c - Show commands
-  SPACE o - Find symbol in current document
-  SPACE s - Search workspace symbols
-  SPACE j - Do default action for next item.
-  SPACE k - Do default action for previous item.
-  SPACE p - Resume latest coc list
 
   :Fold   - fold current buffer
   :OR     - organize import of current buffer
@@ -98,8 +88,7 @@
 
   Ctrl-e   Ctrl-y   scroll down/up by lines
   Ctrl-d   Ctrl-u   scroll down/up by half-pages
-  Ctrl-f   Ctrl-b   scroll forward/back> by full pages
-  S-Up S-Down       scroll forward/back> by full pages
+  Ctrl-f   Ctrl-b   scroll forward/back by full pages
 
 ## Grep
 
@@ -248,32 +237,3 @@ ys{motion}X - you surround {motion} with X
 yS{motion}X - you surround {motion} with X indented on its own line
 
 SX - surround visual selction with X
-
-
-<!-- ## FZF -->
-
-<!-- All have \f prefix -->
-
-<!--   \fb :Buffers -->
-<!--   \ff :GFiles -->
-<!--   \fF :Files -->
-
-<!--   \fh :History -->
-<!--   \f: :History: -->
-<!--   \f/ :History/ -->
-
-<!--   \ft :BTags -->
-<!--   \fT :Tags -->
-
-<!--   \fl :BLines -->
-<!--   \fL :Lines -->
-
-<!--   \fm :Methods -->
-<!--   \fh :History -->
-<!--   \fH :Helptags! -->
-<!--   \fM :Maps -->
-<!--   \fC :Commands -->
-<!--   \f' :Marks -->
-<!--   \fs :Filetypes -->
-<!--   \fS :Snippets -->
-
