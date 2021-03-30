@@ -5,8 +5,13 @@
 if type direnv >/dev/null 2>&1
 then
     show_virtual_env() {
-        if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-            echo "($(basename $VIRTUAL_ENV))"
+        if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+            VENV=$CONDA_DEFAULT_ENV
+        else
+            VENV=$VIRTUAL_ENV
+        fi
+        if [[ -n "$VENV" && -n "$DIRENV_DIR" ]]; then
+            echo "($(basename $VENV))"
         fi
     }
     export -f show_virtual_env

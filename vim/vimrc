@@ -758,6 +758,12 @@ let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 " dispatch has a groovy set of maps, but I don't use this enough to internalise
 let g:dispatch_no_maps = 1
 
+" >> LocalVimrc ------------------------------------------------------------{{{2
+
+let g:localvimrc_enable=1
+let g:localvimrc_ask=1
+let g:localvimrc_sandbox=0
+let g:localvimrc_whitelist='/home/kal/OpenCraft/devstacks/labxchange-dev/\(frontend\|backend\)/.*'
 
 " >> lightline -------------------------------------------------------------{{{2
 
@@ -1694,12 +1700,11 @@ function! s:NewTimeLogEntry()
         else
             let l:log_string=printf(' [ ] log %dm', l:minutes)
         endif
-        call append(line('.'), ['',  strftime('*(%H:%M)*'). l:log_string, '', ''])
-        " move cursor to after the
-        normal 4j$
+        call append(line('.'), ['',  strftime('*(%H:%M)*'). l:log_string])
+        normal 2j11l
     else
         call append(line('.'), [ strftime('*(%H:%M)*'), '',  ''])
-        " move cursor to after the 
+        " move cursor to after the timestamp
         normal 3j$
     endif
 endfunction
