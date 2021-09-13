@@ -1329,6 +1329,7 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+
 " Use <C-s> for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
 " XXX: never ended up using this
@@ -1378,7 +1379,7 @@ command! -nargs=0 Run  :call     CocAction('runCommand', 'python.execInTerminal'
 "       \ coc#refresh()
 
 " let g:coc_snippet_next = '<tab>'
-"
+
 " " Use <C-l> for trigger snippet expand.
 " imap <C-l> <Plug>(coc-snippets-expand)
 
@@ -1406,7 +1407,7 @@ command! -nargs=0 Run  :call     CocAction('runCommand', 'python.execInTerminal'
 " hi CocCodeLens    ctermfg=Gray    guifg=#006565  " base09
 
 " > Key Mapping ------------------------------------------------------------{{{1
-
+"
 
 " replace netrw's gx with somethig that works
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
