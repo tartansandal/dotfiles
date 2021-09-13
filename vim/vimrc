@@ -774,13 +774,19 @@ let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 
 " dispatch has a groovy set of maps, but I don't use this enough to internalise
 let g:dispatch_no_maps = 1
+let g:echodoc#enable_at_startup = 1
 
 " >> LocalVimrc ------------------------------------------------------------{{{2
 
 let g:localvimrc_enable=1
 let g:localvimrc_ask=1
 let g:localvimrc_sandbox=0
-let g:localvimrc_whitelist='/home/kal/OpenCraft/devstacks/labxchange-dev/\(frontend\|backend\)/.*'
+let g:localvimrc_whitelist=[
+    \   '/home/kal/OpenCraft/devstacks/labxchange-dev/frontend/.*',
+    \   '/home/kal/OpenCraft/devstacks/labxchange-dev/backend/.*'
+    \ ]
+
+let g:localvimrc_debug=1
 
 " >> lightline -------------------------------------------------------------{{{2
 
