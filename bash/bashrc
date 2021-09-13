@@ -32,6 +32,7 @@ then
         prompt \
         direnv \
         fzf \
+        dockerized \
         pyenv
     do
         [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
@@ -110,6 +111,7 @@ then
             } > .envrc
         fi
     }
+
     ## Shell options
 
     # Ensured hashed commands exist, else fallback to path search
