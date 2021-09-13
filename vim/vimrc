@@ -1221,6 +1221,9 @@ let g:coc_global_extensions = [
             \   'coc-sh'
             \ ]
 
+" So we can run pyright in projects with old node version
+let g:coc_node_path='/usr/bin/node'
+
 " This guy really does not work with some ansible, need to debug
             " \   'coc-yaml',
 "">> Mappings
