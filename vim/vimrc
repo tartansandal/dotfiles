@@ -1683,6 +1683,7 @@ function! s:PostBase16DirtySea()
     hi PmenuThumb ctermfg=7 ctermbg=0 guifg=#e0e0e0 guibg=#000000	
     hi IncSearch ctermfg=10 ctermbg=9 guifg=#000000 guibg=#d5b0ad
     hi Search    ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
+    hi WildMenu  ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
