@@ -26,32 +26,6 @@
   "snippets.userSnippetsDirectory": "~/.vim/ultisnips",
   "snippets.ultisnips.enable": true,
   "snippets.snipmate.enable": false,
-
-  "markdownlint.config": {
-    "default": true,
-
-    // Needed for GitHub Pages compatibility
-    "first-line-h1": false,
-    "first-line-heading": false,
-    "code-block-style": false,
-    "ul-indent": { "indent": 2 },
-    "ol-prefix": { "style": "ordered" },
-
-    // Need tabs for Makefile snippets
-    "no-hard-tabs": false,
-
-    // Need angle brackets for "link opening" keymaps
-    "no-inline-html": false,
-
-    // I like to alternate prefixes for contrast
-    "ul-style": false,
-
-    // GitLab and others don't like hard breaks so lines are long
-    "line-length": false,
-
-    // Use common heading for time log entries
-    "no-duplicate-header": false
-  }
 }
 
 // vim: ft=jsonc

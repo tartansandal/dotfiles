@@ -158,14 +158,15 @@ Plug 'adelarsq/vim-matchit'
 "   * coc-css
 "   * coc-html
 "   * coc-json
-"   * coc-markdownlint
-"   * coc-pyright   (python3)
-"   * coc-snippets  (snippets from language server plus vim-snippets)
-"   * coc-tsserver  (javascript)
-"   * coc-word      (google 10000 words)
+"   * coc-pyright    (python3)
+"   * coc-jedi       (python2/3)
+"   * coc-snippets   (snippets from language server plus vim-snippets)
+"   * coc-tsserver   (javascript)
+"   * coc-word       (google 10000 words)
+"   * coc-dictionary (words from &dictionary)
 "   * coc-yaml
 "   * coc-vimlsp
-"   * coc-calc      (math expression evaluation after =)
+"   * coc-calc       (math expression evaluation after =)
 "   * coc-sh
 "
 " And extra configuration under ~/.config/coc/
@@ -1185,8 +1186,8 @@ let g:coc_global_extensions = [
             \   'coc-css',
             \   'coc-html',
             \   'coc-json',
-            \   'coc-markdownlint',
             \   'coc-pyright',
+            \   'coc-jedi',
             \   'coc-snippets',
             \   'coc-tsserver',
             \   'coc-word',
