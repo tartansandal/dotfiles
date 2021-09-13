@@ -13,7 +13,6 @@ ardour
 duplicity
 deja-dup
 deja-dup-nautilus
-
 rclone
 fedora-packager
 
@@ -30,14 +29,7 @@ libdrm-devel
 lm_sensors
 terminus-fonts-console
 smem
-
-# droidcam build
-ffmpeg-devel
-alsa-lib-devel
-libusbmuxd-devel
-speex
-speex-devel
-gtk3-devel
+solaar
 
 # Virtualization
 vagrant
