@@ -1069,7 +1069,7 @@ let NERDTreeHijackNetrw=1
 let NERDTreeShowBookmarks=0
 let NERDTreeIgnore=[
     \   '\~$',
-    \   '\.\(desktop\|pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
+    \   '\.\(pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
     \   '__pycache__'
     \]
 let NERDTreeQuitOnOpen=1
