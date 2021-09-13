@@ -1176,6 +1176,9 @@ let g:ale_sign_style_warning='!'
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
 
+" Coc does all our LSP stuff
+let g:ale_disable_lsp = 0
+
 " >> Coc -------------------------------------------------------------------{{{2
 
 " Some servers have issues with backup files, see #649
