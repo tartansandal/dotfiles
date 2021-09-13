@@ -21,10 +21,10 @@ ln -sf  $base_dir/gitconfig            ~/.gitconfig
 ln -sf  $base_dir/gitignore            ~/.gitignore
 ln -sf  $base_dir/inputrc              ~/.inputrc
 ln -sf  $base_dir/jsbeautifyrc         ~/.jsbeautifyrc
-ln -sf  $base_dir/mdl-style.rb         ~/.mdl-style.rb
 ln -sf  $base_dir/perltidyrc           ~/.perltidyrc
 ln -sf  $base_dir/proverc              ~/.proverc
 ln -sf  $base_dir/style.yapf           ~/.style.yapf
+ln -sf  $base_dir/remarkrc.yml         ~/.remarkrc.yml
 
 ln -snf $base_dir/vim                  ~/.vim
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
