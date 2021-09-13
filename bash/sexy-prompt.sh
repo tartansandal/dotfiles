@@ -257,6 +257,11 @@ sexy_bash_prompt_get_git_info () {
   fi
 }
 
+sexy_bash_prompt_line_break () {
+    local prefix="$USER at $HOSTNAME in $PWD"
+    [[ ${#prefix} -gt 40 ]] &&  echo -n "\\n"
+}
+
 # Define the sexy-bash-prompt
 PS1="\[$sexy_bash_prompt_reset\]\
 \[$sexy_bash_prompt_user_color\]\u\[$sexy_bash_prompt_reset\] \
