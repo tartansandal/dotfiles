@@ -1,5 +1,5 @@
 {
-  "python.linting.enabled": true,
+  "python.linting.enabled": false,
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "yapf",
@@ -12,9 +12,16 @@
   "python.formatting.blackPath": "/usr/bin/black",
   "python.formatting.yapfPath": "/usr/bin/yapf",
 
+  // Use Jedi when node 12 is not available
+  // "pyright.enable":false
+  // "jedi.enable": true,
+  
+  "pyright.enable": true,
+  "jedi.enable": false,
+  "suggest.echodocSupport": false,
+
   // ALE does better *async* diagnostics at least for python
   "diagnostic.displayByAle": true,
-  // Still run diagnostic checks so we can get a quickfix listing
   "diagnostic.enable": true,
 
   "signature.enable": true,
