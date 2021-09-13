@@ -1685,27 +1685,27 @@ colorscheme base16-dirtysea
 "
 command! -nargs=0 NewTimeLogEntry :call s:NewTimeLogEntry()
 function! s:NewTimeLogEntry()
-    let l:prev_heading_ln=search('^#', 'bnW')
-    let l:prev_entry_ln=search('^*(\d\d:\d\d)*', 'bnW', l:prev_heading_ln)
+    let l:prev_heading_ln=search('^###', 'bnW')
+    let l:prev_entry_ln=search('^#### \d\d:\d\d', 'bnW', l:prev_heading_ln)
     if l:prev_entry_ln != 0 
         let l:prev_entry_line=getline(l:prev_entry_ln)
-        let l:then=matchlist(l:prev_entry_line, '^*(\(\d\d:\d\d\)*')[1]
+        let l:then=matchlist(l:prev_entry_line, '^#### \(\d\d:\d\d\)*')[1]
         let l:then_secs = ingo#date#epoch#ConvertTo(l:then)
         let l:now_secs = ingo#date#epoch#Now()
         let l:minutes=(l:now_secs - l:then_secs)/60 
         let l:hours=l:minutes/60
         let l:minutes=l:minutes%60
         if l:hours > 0
-            let l:log_string=printf(' [ ] log %dh %dm', l:hours, l:minutes)
+            let l:log_string=printf(' - [ ] log %dh %dm', l:hours, l:minutes)
         else
-            let l:log_string=printf(' [ ] log %dm', l:minutes)
+            let l:log_string=printf(' - [ ] log %dm', l:minutes)
         endif
-        call append(line('.'), ['',  strftime('*(%H:%M)*'). l:log_string])
-        normal 2j11l
+        call setline(l:prev_entry_ln, l:prev_entry_line . l:log_string)
+        call append(line('.'), ['',  strftime('#### %H:%M')])
+        normal 2j$
     else
-        call append(line('.'), [ strftime('*(%H:%M)*'), '',  ''])
+        call append(line('.'), [ strftime('#### %H:%M')])
         " move cursor to after the timestamp
-        normal 3j$
+        normal 2j$
     endif
 endfunction
-
