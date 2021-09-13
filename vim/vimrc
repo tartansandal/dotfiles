@@ -105,6 +105,14 @@ Plug 'tpope/vim-rhubarb'
 
 Plug 'shumphrey/fugitive-gitlab.vim'
 
+" twiggy: fugitive extension for managing branches
+"
+"   https://github.com/sodapopcan/vim-twiggy
+"   ~/.vim/plugged/vim-twiggy/README.md
+"   ~/.vim/plugged/vim-twiggy/doc/twiggy.txt
+
+Plug 'sodapopcan/vim-twiggy'
+
 " scriptease: vim scripting helpers
 "
 "   https://github.com/tpope/vim-scriptease
@@ -439,6 +447,14 @@ Plug 'jlanzarotta/bufexplorer'
 "   ~/.vim/plugged/vim-localvimrc/doc/localvimrc.txt
 "
 Plug 'embear/vim-localvimrc'
+
+"  echo function signature in command line
+"  ~/.vim/plugged/echodoc.vim/README.md
+"  ~/.vim/plugged/echodoc.vim/doc/echodoc.txt
+"
+"  https://github.com/Shougo/echodoc.vim
+"
+Plug 'Shougo/echodoc.vim'
 
 " vim-DateDiff: calculate diffs of date/time-stamps in a range
 "
