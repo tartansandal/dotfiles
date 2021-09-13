@@ -159,3 +159,7 @@ Note we set the dkms config to use the MOK keys on my thumbdrive.
 dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
 
 sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe nvidia-driver-NVML.x86_64
+
+## Nvidia and Wayland
+
+See https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/6/
