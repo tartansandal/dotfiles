@@ -8,199 +8,244 @@
 #   npm i -g $(grep remark-lint ~/.remarkrc.yml | \
 #       sed -e '/\s*#/d' -e 's/^  - \(- \)\?//')
 
-## These 'settings' affect the `remark-stringify` formater and not the linter.
-# Covered in https://github.com/syntax-tree/mdast-util-to-markdown
+## These 'settings' affect the `remark-stringify` formater, not the linter,
+# and are covered in https://github.com/syntax-tree/mdast-util-to-markdown
 settings:
 
-  # Markers
+  # Markers (all set to defaults to avoid conflicts)
   bullet: '*'
   bulletOrdered: '.'
   fence: '`'
-
-  # Double the emphasis marker to make strong
+  rule: '-'
   emphasis: '*'
-  strong: '**'
+  strong: '*'
 
   # Indent the content of list items with the size of the bullet plus one space
   listItemIndent: one
 
   # Draw a long line of dashes for a thematic break
-  rule: '-'
   ruleRepetition: 80
 
-  # always use fences for code blocks
+  # Always use fences for code blocks
   fences: true
 
-## These 'plugins' affect the `remark-lint` linter
-# Covered in https://github.com/remarkjs/remark-lint/blob/main/doc/rules.md
-plugins:
-  # Warn when blockquotes are indented inconsistently
-  - remark-lint-blockquote-indentation
 
-  # Warn when list item checkboxes are inconsistent
+plugins:
+  # Enable, disable, or ignore lintng messages via comments in your Markdown.
+  # See https://github.com/remarkjs/remark-message-control
+  - - remark-message-control
+    - name: lint
+
+  # --- Github Flavoured Markdown --------------------------------------------#
+
+  # Add support for parsing GFM tables, tasklists, strikethrough, and autolinks.
+  # See https://github.com/remarkjs/remark-gfm#options for options.
+  - remark-gfm
+
+  # Load all 3 remark-lint pressets
+
+  # This parsing is required for the following `remark-lint` rules to be
+  # triggered. Note that the default option settings for the plugin correspond
+  # to the default option settings for the rules.
+
+  # Warn when table cells are incorrectly padded (MSG, C)
+  - remark-lint-table-cell-padding
+
+  # Warn when tables are indented (MSG)
+  - remark-lint-no-table-indentation
+
+  # Warn when table pipes are not aligned (MSG)
+  - remark-lint-table-pipe-alignment
+
+  # Warn when table rows are not fenced with pipes (MSG)
+  - remark-lint-table-pipes
+
+  # Warn when list item checkboxes are inconsistent (C)
   - remark-lint-checkbox-character-style
 
   # Warn when list item checkboxes are followed by too much whitespace
   - remark-lint-checkbox-content-indent
 
-  # Warn when code blocks do not adhere to the `fenced` style
+  # Warn when strikethrough markers violate the given (consistent) style
+  - remark-lint-strikethrough-marker
+
+  # --- remark-lint ----------------------------------------------------------#
+  ## These 'plugins' affect the `remark-lint` linter
+  # Covered in https://github.com/remarkjs/remark-lint/blob/main/doc/rules.md
+
+  # Warn when a heading does not conform to the ATX style (MSG, C)
+  - - remark-lint-heading-style
+    - atx
+
+  # Warn when importance (strong) markers violate the given style (MSG, C)
+  # Fixed by the `strong: '**'` formater setting above
+  - - remark-lint-strong-marker
+    - '*'
+
+  # Warn when code blocks do not adhere to the `fenced` style (MSG, C)
   # Fixed by `fences: true` formater settings above
   - - remark-lint-code-block-style
     - fenced
 
-  # Warn when definition labels are not lowercase
-  - remark-lint-definition-case
-
-  # Warn when consecutive whitespace is used in a definition
-  - remark-lint-definition-spacing
-
-  # Warn if using emphasis markers other than '*'.
+  # Warn if using emphasis markers other than '*' (MSG, C)
   # Fixed by `emphasis: '*'` formatter setting above
   - - remark-lint-emphasis-marker
     - '*'
 
-  # Warn if fenced code blocks do not have a langauge flag
-  - remark-lint-fenced-code-flag
-
-  # Warn if using fenced code markers other than '`'
+  # Warn if using fenced code markers other than '`' (MSG, C)
   # Fixed by `fence: '`'` formatter setting above
   - - remark-lint-fenced-code-marker
     - '`'
 
-  # Warn when the file extension is not '.md'
-  - remark-lint-file-extension
+  # Warn when horizontal rules violate a given style (MSG, C)
+  # Fixed by the `rule: '-'` and `ruleRepetition: 80` formater settings above
+  # This is a personal preference
+  - - remark-lint-rule-style
+    - '--------------------------------------------------------------------------------'
 
-  # Warn when definitions are placed other than at the end of the file
-  - remark-lint-final-definition
+  # Warn when a list item’s bullet is not seperated from its content
+  # by a single space. (MSG, R)
+  # Fixed by the `listItemIndent: one` formater setting above
+  - - remark-lint-list-item-indent
+    - 'space'
 
-  # Warn when a newline at the end of a file is missing
-  - remark-lint-final-newline
+  # Warn when the marker value of ordered lists violates a given style (MSG)
+  - - remark-lint-ordered-list-marker-value
+    - ordered
 
-  # Warn when the first heading has a level other than '1'
-  - - remark-lint-first-heading-level
-    - 1
+  # ---------------------------------------------------------------------
+  ## the following are fixed by the default formater
 
-  # Warn when more than 2 spaces are used to create a hard break
-  - remark-lint-hard-break-spaces
-
-  # Warn when headings increment with more than 1 level at a time
-  - remark-lint-heading-increment
-
-  # Warn when a heading does not conform to the ATX style
-  # Fixed by the default formatter output
-  - - remark-lint-heading-style
-    - atx
-
-  # Warn when linebreaks use an inconsistent style
-  - remark-lint-linebreak-style
-
-  # Warn when link and definition titles occur with inconsistent quotes
-  - remark-lint-link-title-style
-
-  # Warn when list item bullets are indented
-  # Fixed by the default formater output
-  - remark-lint-list-item-bullet-indent
-
-  # Warn when the content of a list item has mixed indentation
+  # Warn when the content of a list item has mixed indentation (MSG, C)
   - remark-lint-list-item-content-indent
 
-  # XXX Creates an error with first heading?
-  # Warn when a list item’s bullet is not seperated from its content
-  # by a single space.
-  # Fixed by the `listItemIndent: one` formater setting above
-  # - - remark-lint-list-item-indent
-  #   - 'space'
+  # Warn when the markers of ordered lists violate the given style (MSG, C, R)
+  - - remark-lint-ordered-list-marker-style
+    - consistent
 
-  # Warn when list looseness is incorrect
-  - remark-lint-list-item-spacing
+  # Warn for autolinks without protocol (MSG, R)
+  # Autolinks are URLs enclosed in < and > characters
+  - remark-lint-no-auto-link-without-protocol
 
-  # Warn when headings are longer than 60 characters
+  # Warn when blank lines without > markers are found in a block quote (MSG, R)
+  - remark-lint-no-blockquote-without-marker
+
+  # Warn when URLs without angle brackets are used (MSG, R)
+  - remark-lint-no-literal-urls
+
+  # Warn for too many consecutive blank lines (MSG)
+  - remark-lint-no-consecutive-blank-lines
+
+  # Warn when heading content is indented (R)
+  - remark-lint-no-heading-content-indent
+
+  # Warn when list item bullets are indented (R)
+  - remark-lint-list-item-bullet-indent
+
+  # Warn when headings are indented
+  - remark-lint-no-heading-indent
+
+  # Warn when hard tabs are used instead of spaces
+  - remark-lint-no-tabs
+
+  # Warn when missing blank lines before block content (except for lists)
+  - - remark-lint-no-missing-blank-lines
+    - exceptTightLists: true
+
+  # Warn when markers for unordered lists violate a given style
+  - - remark-lint-unordered-list-marker-style
+    - '*'
+
+  # ---------------------------------------------------------------------
+  # Warnings that are not fixed by the formatter
+
+  # Warn when blockquotes are indented inconsistently (MSG, C)
+  - remark-lint-blockquote-indentation
+
+  # Warn when link and definition titles occur with inconsistent quotes (MSG, C)
+  - remark-lint-link-title-style
+
+  # Warn when more than 2 spaces are used to create a hard break (MSG, R)
+  - remark-lint-hard-break-spaces
+
+  # Warn when shortcut reference images are used (MSG, R)
+  - remark-lint-no-shortcut-reference-image
+
+  # Warn when shortcut reference links are used (MSG, R)
+  - remark-lint-no-shortcut-reference-link
+
+  # Warn when headings are longer than 60 characters (MSG)
   - - remark-lint-maximum-heading-length
     - 60
 
-  # Ignore line length and take advantage of soft-wrapping in editor instead
+  # Ignore line length and take advantage of editor soft-wrapping instead (MSG)
   # (Some webpages really don't like the hard wrapping)
   - - remark-lint-maximum-line-length
     - false
 
-  # Warn for autolinks (URLs enclosed in < and > characters) without protocol
-  # Fixed by the default formater output
-  - remark-lint-no-auto-link-without-protocol
+  # Warn when definition labels are not lowercase (MSG)
+  - remark-lint-definition-case
 
-  # Warn when blank lines without > markers are found in a block quote
-  # Fixed by the default formater output
-  - remark-lint-no-blockquote-without-marker
+  # Warn when consecutive whitespace is used in a definition (MSG)
+  - remark-lint-definition-spacing
 
-  # Warn for too many consecutive blank lines
-  # Fixed by the default formater output
-  - remark-lint-no-consecutive-blank-lines
+  # Warn if fenced code blocks do not have a langauge flag (MSG)
+  - remark-lint-fenced-code-flag
 
-  # Warn when definitions define the same URL
-  - remark-lint-no-duplicate-defined-urls
+  # Warn when definitions are placed other than at the end of the file (MSG)
+  - remark-lint-final-definition
 
-  # Warn when duplicate definitions are found
-  - remark-lint-no-duplicate-definitions
+  # Warn when list looseness is incorrect (MSG)
+  - remark-lint-list-item-spacing
 
-  # Warn on duplicate headings
+  # Warn on duplicate headings (MSG)
   # Commented out since its problematic
   # - remark-lint-no-duplicate-headings
 
-  # Warn when duplicate headings are found, but only when on the same level
-  - remark-lint-no-duplicate-headings-in-section
-
-  # Warn when emphasis, instead of a heading, introduces a paragraph.
+  # Warn when emphasis, instead of a heading, introduces a paragraph  (MSG)
   - remark-lint-no-emphasis-as-heading
+
+  # Warn when headings end in (the specified) illegal characters (MSG)
+  - - remark-lint-no-heading-punctuation
+    - '.,:;!?'
+
+  # Warn when multiple top level headings are used (MSG)
+  - remark-lint-no-multiple-toplevel-headings
+
+  # Warn when shell code is prefixed by dollars (MSG)
+  - remark-lint-no-shell-dollars
+
+  # Warn when headings increment with more than 1 level at a time (MSG)
+  - remark-lint-heading-increment
+
+  # Warn when duplicate definitions are found (R)
+  - remark-lint-no-duplicate-definitions
+
+  # Warn when inline nodes (emphasis,links,...) are padded with spaces (R)
+  - remark-lint-no-inline-padding
+
+  # Warn when references to undefined definitions are found (R)
+  - remark-lint-no-undefined-references
+
+  # Warn when unused definitions are found (R)
+  - remark-lint-no-unused-definitions
+
+  # Warn when the first heading has a level other than '1'.
+  # The option defaults to 1 but we might want to change it in special cases.
+  - - remark-lint-first-heading-level
+    - 1
 
   # Warn for empty URLs in links and images
   - remark-lint-no-empty-url
 
-  # Warn when file name start with an article
-  - remark-lint-no-file-name-articles
+  # Warn when duplicate headings are found, but only when on the same level
+  - remark-lint-no-duplicate-headings-in-section
 
-  # Warn when file names contain consecutive dashes
-  - remark-lint-no-file-name-consecutive-dashes
-
-  # Warn when file names contain irregular characters
-  - remark-lint-no-file-name-irregular-characters
-
-  # Warn when file names use mixed case
-  - remark-lint-no-file-name-mixed-case
-
-  # Warn when file names contain initial or final dashes
-  - remark-lint-no-file-name-outer-dashes
-
-  # Warn when heading content is indented
-  # Fixed by the default formater output
-  - remark-lint-no-heading-content-indent
-
-  # Warn when headings are indented
-  # Fixed by the default formater output
-  - remark-lint-no-heading-indent
-
-  # For too many hashes (h7+ “headings”)
-  - remark-lint-no-heading-like-paragraph
-
-  # Warn when headings end in (the specified) illegal characters
-  - - remark-lint-no-heading-punctuation
-    - '.,:;!?'
+  # Warn when definitions define the same URL
+  - remark-lint-no-duplicate-defined-urls
 
   # Warn when HTML nodes are used (except for comments)
   - remark-lint-no-html
-
-  # Warn when inline nodes (emphasis,links,...) are padded with spaces
-  - remark-lint-no-inline-padding
-
-  # Warn when URLs without angle brackets are used
-  # Fixed by the default formater output
-  - remark-lint-no-literal-urls
-
-  # Warn when missing blank lines before block content (except for lists)
-  # Fixed by the default formater output
-  - - remark-lint-no-missing-blank-lines
-    - exceptTightLists: true
-
-  # Warn when multiple top level headings are used
-  - remark-lint-no-multiple-toplevel-headings
 
   # Warn when the content in paragraphs are indented
   - remark-lint-no-paragraph-content-indent
@@ -208,71 +253,40 @@ plugins:
   # Warn when URLs are also defined identifiers
   - remark-lint-no-reference-like-url
 
-  # Warn when shell code is prefixed by dollars
-  - remark-lint-no-shell-dollars
-
-  # Warn when shortcut reference images are used
-  - remark-lint-no-shortcut-reference-image
-
-  # Warn when shortcut reference links are used
-  - remark-lint-no-shortcut-reference-link
-
-  # Warn when tables are indented
-  # Fixed by the default formater output
-  - remark-lint-no-table-indentation
-
-  # Warn when hard tabs are used instead of spaces
-  # Fixed by the default formater output
-  - remark-lint-no-tabs
-
-  # Warn when references to undefined definitions are found
-  - remark-lint-no-undefined-references
-
   # Warn when full reference images are used if they can be collapsed
-  - remark-lint-no-unneeded-full-reference-image
+  # XXX conflicts with no-shortcuts
+  # - remark-lint-no-unneeded-full-reference-image
 
   # Warn when full reference links are used if they can be collapsed
-  - remark-lint-no-unneeded-full-reference-link
+  # XXX conflicts with no-shortcuts
+  # - remark-lint-no-unneeded-full-reference-link
 
-  # Warn when unused definitions are found
-  - remark-lint-no-unused-definitions
+  # For too many hashes (h7+ “headings”)
+  - remark-lint-no-heading-like-paragraph
 
-  # Warn when the markers of ordered lists violate the given style
-  # Fixed by the default formater output
-  - - remark-lint-ordered-list-marker-style
-    - consistent
+  # --- Rules suitable for Pre-commit Hooks --------------------------------#
 
-  # Warn when the marker value of ordered lists violates a given style
-  # Fixed by the default formater output
-  - - remark-lint-ordered-list-marker-value
-    - ordered
+  # Warn when file name start with an article (MSG)
+  - remark-lint-no-file-name-articles
 
-  # Warn when horizontal rules violate a given style
-  # Fixed by the `rule: '-'` and `ruleRepetition: 80` formater settings above
-  - - remark-lint-rule-style
-    - '--------------------------------------------------------------------------------'
+  # Warn when file names contain consecutive dashes (MSG)
+  - remark-lint-no-file-name-consecutive-dashes
 
-  # Warn when strikethrough markers violate the given (consistent) style
-  - remark-lint-strikethrough-marker
+  # Warn when file names contain irregular characters (MSG)
+  - remark-lint-no-file-name-irregular-characters
 
-  # Warn when importance (strong) markers violate the given style
-  # Fixed by the `strong: '**'` formater setting above
-  - - remark-lint-strong-marker
-    - '*'
+  # Warn when file names use mixed case (MSG)
+  - remark-lint-no-file-name-mixed-case
 
-  # Warn when table cells are incorrectly padded
-  # Fixed by the default formater output
-  - remark-lint-table-cell-padding
+  # Warn when file names contain initial or final dashes (MSG)
+  - remark-lint-no-file-name-outer-dashes
 
-  # Warn when table pipes are not aligned
-  # Fixed by the default formater output
-  - remark-lint-table-pipe-alignment
+  # Warn when the file extension is not '.md' (MSG)
+  - remark-lint-file-extension
 
-  # Warn when table rows are not fenced with pipes
-  # Fixed by the default formater output
-  - remark-lint-table-pipes
+  # Warn when a newline at the end of a file is missing (R)
+  - remark-lint-final-newline
 
-  # Warn when markers of unordered lists violate a given style
-  # Fixed by the `bullet: '*'` formater setting above
-  - - remark-lint-unordered-list-marker-style
-    - '*'
+  # Warn when linebreaks use an inconsistent style
+  - remark-lint-linebreak-style
+
