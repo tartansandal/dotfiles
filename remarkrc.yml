@@ -8,8 +8,8 @@
 #   npm i -g $(grep remark-lint ~/.remarkrc.yml | \
 #       sed -e '/\s*#/d' -e 's/^  - \(- \)\?//')
 
-## These 'settings' affect the `remark-stringify` formater, not the linter,
-# and are covered in https://github.com/syntax-tree/mdast-util-to-markdown
+# These 'settings' affect the `remark-stringify` formater, not the linter, and
+# are mostly covered in https://github.com/syntax-tree/mdast-util-to-markdown
 settings:
 
   # Markers (all set to defaults to avoid conflicts)
@@ -17,285 +17,413 @@ settings:
   bulletOrdered: '.'
   fence: '`'
   rule: '-'
-  emphasis: '*'
   strong: '*'
+  emphasis: '*'
 
   # Indent the content of list items with the size of the bullet plus one space
   listItemIndent: one
 
+  # Always use fences for code blocks to match MSG
+  fences: true
+
   # Draw a long line of dashes for a thematic break
   ruleRepetition: 80
 
-  # Always use fences for code blocks
-  fences: true
-
 
 plugins:
-  # Enable, disable, or ignore lintng messages via comments in your Markdown.
+
+  # --- Message Control -------------------------------------------------------#
+  # Enable, disable, or ignore linting messages via comments in your Markdown.
   # See https://github.com/remarkjs/remark-message-control
+
   - - remark-message-control
     - name: lint
 
-  # --- Github Flavoured Markdown --------------------------------------------#
-
+  # --- Git Flavoured Markdown ------------------------------------------------#
   # Add support for parsing GFM tables, tasklists, strikethrough, and autolinks.
-  # See https://github.com/remarkjs/remark-gfm#options for options.
-  - remark-gfm
+  # See https://github.com/remarkjs/remark-gfm
+  # Must be loaded before presets and rules since additional parsing may be
+  # required for those rules to be applied.  Note that the default option
+  # settings for the plugin correspond to the default option settings for the
+  # rules.
 
-  # Load all 3 remark-lint pressets before any setting overrides
-  # - remark-preset-lint-consistent           # (C)
-  - remark-preset-lint-markdown-style-guide   # (MSG)
-  - remark-preset-lint-recommended            # (R)
+  - - remark-gfm
+    - singleTilde: false  # bestrict about strikethrough
 
-  # This parsing is required for the following `remark-lint` rules to be
-  # triggered. Note that the default option settings for the plugin correspond
-  # to the default option settings for the rules.
+  # --- Linting Presets -------------------------------------------------------#
+  # Must be loaded before rule and setting overides
+
+  # Consistent Preset (aka C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-preset-lint-consistent
+  # - remark-preset-lint-consistent
+
+  # Recommended Preset (aka R)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-preset-lint-recommended
+  - remark-preset-lint-recommended
+
+  # Markdown Style Guide Preset (aka MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-preset-lint-markdown-style-guide
+  - remark-preset-lint-markdown-style-guide
+
+  # --- Linting Rules and Settings --------------------------------------------#
+  # See https://github.com/remarkjs/remark-lint/blob/main/doc/rules.md
+  
+  ## XXX: many of the following are commented out because they are implied by
+  #the preset rules. We note which presets the rules are included in by code
+  #list in parentheses at the end of their description.  For each rule setting,
+  #we also not whether it is the default or set via a preset with a similar
+  #comment.
 
   # # Warn when table cells are incorrectly padded (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-table-cell-padding
   # - - remark-lint-table-cell-padding
   # # - consistent  # (default, C)
-  #   - padded      # (MSG)
   # # - compact
+  #   - padded      # (MSG)
 
   # # Warn when table rows are not fenced with pipes (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-table-pipes
   # - remark-lint-table-pipes
 
   # # Warn when table pipes are not aligned (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-table-pipe-alignment
   # - remark-lint-table-pipe-alignment
 
   # # Warn when tables are indented (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-table-indentation
   # - remark-lint-no-table-indentation
 
   # Warn when list item checkboxes are inconsistent (C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-checkbox-character-style
   - - remark-lint-checkbox-character-style
+  # - { checked: 'x', unchecked: ' '}     # example
   # - consistent                          # (default, C)
-  # - { checked: 'x', unchecked: ' '}
 
   # Warn when list item checkboxes are followed by too much whitespace
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-checkbox-content-indent
   - remark-lint-checkbox-content-indent
 
-  # Warn when strikethrough markers violate the given (consistent) style
-  - remark-lint-strikethrough-marker
+  # Warn when strikethrough markers violate the given style
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-strikethrough-marker
+  - - remark-lint-strikethrough-marker
+  # - consistent    # (default)
+  # - '~'           # github allows this
+    - '~~'          # strict GFM spec ('~' might be used in a file path)
 
   # --- remark-lint ----------------------------------------------------------#
-  ## These 'plugins' affect the `remark-lint` linter
-  # Covered in https://github.com/remarkjs/remark-lint/blob/main/doc/rules.md
 
   # Warn when a heading does not conform to the ATX style (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-heading-style
   - - remark-lint-heading-style
-    - atx
+  # - consistent  # (default, C)
+  # - atx-closed  #       matches formatter setting `closeAtx: true`
+  # - setext      #       matches formatter setting `setext: true`
+    - atx         # (MSG) matches formatter default
 
   # Warn when importance (strong) markers violate the given style (MSG, C)
-  # Fixed by the `strong: '**'` formater setting above
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-strong-marker
   - - remark-lint-strong-marker
-    - '*'
-
-  # Warn when code blocks do not adhere to the `fenced` style (MSG, C)
-  # Fixed by `fences: true` formater settings above
-  - - remark-lint-code-block-style
-    - fenced
+  # - consistent # (C) default 
+  # - '_'        #       matches formatter setting `strong: _`
+    - '*'        # (MSG) matches formatter default
 
   # Warn if using emphasis markers other than '*' (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-emphasis-marker
   # Fixed by `emphasis: '*'` formatter setting above
   - - remark-lint-emphasis-marker
-    - '*'
+  # - consistent # (C) default 
+  # - '_'        #       matches formatter setting `emphasis: _`
+    - '*'        # (MSG) matches formatter default
 
   # Warn if using fenced code markers other than '`' (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-fenced-code-marker
   # Fixed by `fence: '`'` formatter setting above
   - - remark-lint-fenced-code-marker
-    - '`'
+  # - consistent # (C) default 
+  # - '~'     # matches formatter setting `fence: ~`
+    - '`'     # (default, MSG) formatter default
+
+  # Warn when code blocks do not adhere to the `fenced` style (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-code-block-style
+  - - remark-lint-code-block-style
+  # - consistent  # (C)
+  # - indented    #       matches formatter default if no flags
+    - fenced      # (MSG) matches formatter setting `fences: true`
 
   # Warn when horizontal rules violate a given style (MSG, C)
-  # Fixed by the `rule: '-'` and `ruleRepetition: 80` formater settings above
-  # This is a personal preference
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-rule-style
   - - remark-lint-rule-style
+  # - consistent  # (C)
+  # - '***'       # (default) matches formatter default
+  # - '---'       # (MSG)     matches formatter setting `rule: -`
     - '--------------------------------------------------------------------------------'
+  # # ^ matches formatter settings `rule: '-'` and `ruleRepetition: 80`
+  # # This is a personal preference
 
-  # Warn when a list item’s bullet is not seperated from its content
-  # by a single space. (MSG, R)
+  # Warn when a bullet and content are not seperated by a single space. (MSG, R)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-list-item-indent
   # Fixed by the `listItemIndent: one` formater setting above
   - - remark-lint-list-item-indent
-    - 'space'
+  # - tab-size   # (R)   matches formatter setting `listItemIndent: tab`
+  # - mixed      # (MSG) matches formatter setting `listItemIndent: mixed`
+    - space      #       matches formatter setting `listItemIndent: one`
 
   # Warn when the marker value of ordered lists violates a given style (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-ordered-list-marker-value
   - - remark-lint-ordered-list-marker-value
-    - ordered
-
-  # ---------------------------------------------------------------------
-  ## the following are fixed by the default formater
-
-  # # Warn when the content of a list item has mixed indentation (MSG, C)
-  # - remark-lint-list-item-content-indent
+  # - one     # (MSG)     not enforcable by formatter     
+  # - single  #           matches formatter setting `incrementListMarker: false`
+    - ordered # (default) matches formatter default
 
   # # Warn when the markers of ordered lists violate the given style (MSG, C, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-ordered-list-marker-style
   # - - remark-lint-ordered-list-marker-style
-  #   - consistent
+  # # - consistent # (default, C) 
+  # # - ')'        #              matches formatter setting `bulletOrdered: )`
+      - '.'        # (MSG, R)     matches formatter default
+
+  # Warn when markers for unordered lists violate a given style
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-unordered-list-marker-style
+  - - remark-lint-unordered-list-marker-style
+  # # - consistent # (default) 
+  # # - '-'        # (MSG)     matches formatter setting `bullet: -`
+  # # - '+'        # (MSG)     matches formatter setting `bullet: +`
+      - '*'        #           matches formatter default
+
+  #### The following mandatory rules match output enforced by the formater
+
+  # # Warn when the content of a list item has mixed indentation (MSG, C)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-list-item-content-indent
+  # - remark-lint-list-item-content-indent
 
   # # Warn for autolinks without protocol (MSG, R)
   # # Autolinks are URLs enclosed in < and > characters
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-auto-link-without-protocol
   # - remark-lint-no-auto-link-without-protocol
 
   # # Warn when blank lines without > markers are in a block quote (MSG, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-blockquote-without-marker
   # - remark-lint-no-blockquote-without-marker
 
   # # Warn when URLs without angle brackets are used (MSG, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-literal-urls
   # - remark-lint-no-literal-urls
 
   # # Warn for too many consecutive blank lines (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-consecutive-blank-lines
   # - remark-lint-no-consecutive-blank-lines
 
   # # Warn when heading content is indented (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-heading-content-indent
   # - remark-lint-no-heading-content-indent
 
   # # Warn when list item bullets are indented (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-list-item-bullet-indent
   # - remark-lint-list-item-bullet-indent
 
   # Warn when headings are indented
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-heading-indent
   - remark-lint-no-heading-indent
 
   # Warn when hard tabs are used instead of spaces
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-tabs
   - remark-lint-no-tabs
 
-  # Warn when missing blank lines before block content (except for lists)
+  # Warn when missing blank lines before block content (maybe except for lists)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-missing-blank-lines
   - - remark-lint-no-missing-blank-lines
-    - exceptTightLists: true
+  # - exceptTightLists: false # (default)
+    - exceptTightLists: true  #           matches formatter default
 
-  # Warn when markers for unordered lists violate a given style
-  - - remark-lint-unordered-list-marker-style
-    - '*'
-
+  # Warn when link and definition titles have inconsistent quotes (MSG, C)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-link-title-style
+  - - remark-lint-link-title-style
+  # - consistent # (default, C)
+  # - '\''       # 
+  # - '()'       # 
+  # - '"'        # (MSG)
+      - false 
+  # XXX: The formatter uses single or double quotes depending on the contents of
+  # the title. There is no linting rule that accommodates this, so we turn it
+  # off.
+  
   # ---------------------------------------------------------------------
   # Warnings that are not fixed by the formatter
 
   # # Warn when blockquotes are indented inconsistently (MSG, C)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-blockquote-indentation
   # - - remark-lint-blockquote-indentation
   # # - consistent  # (C)
   #   - 2           # (MSG)
-
-  # # Warn when link and definition titles have inconsistent quotes (MSG, C)
-  # - remark-lint-link-title-style
-
+  
   # # Warn when more than 2 spaces are used to create a hard break (MSG, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-hard-break-spaces
   # - remark-lint-hard-break-spaces
 
   # # Warn when shortcut reference images are used (MSG, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-shortcut-reference-image
   # - remark-lint-no-shortcut-reference-image
 
   # # Warn when shortcut reference links are used (MSG, R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-shortcut-reference-link
   # - remark-lint-no-shortcut-reference-link
 
-  # Warn when headings are longer than 60 characters (MSG)
-  - - remark-lint-maximum-heading-length
-    - 60
+  # # Warn when headings are longer than 60 characters (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-maximum-heading-length
+  # - - remark-lint-maximum-heading-length
+  #   - 60 # (default, MSG)
 
-  # Ignore line length and take advantage of editor soft-wrapping instead (MSG)
-  # (Some webpages really don't like the hard wrapping)
+  # Warn when lines are too long (except headings, tables, code, defns) (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-maximum-line-length
   - - remark-lint-maximum-line-length
+  # - 80    # (default, MSG)
     - false
+  # XXX: Some sites like GitLab really don't like the hard wrapping so I turn
+  # this off and let VIM to do soft-wrapping instead.
 
   # # Warn when definition labels are not lowercase (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-definition-case
   # - remark-lint-definition-case
 
-  # # Warn when consecutive whitespace is used in a definition (MSG)
+  # # Warn when consecutive whitespace is used in a definition label (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-definition-spacing
   # - remark-lint-definition-spacing
 
   # # Warn if fenced code blocks do not have a langauge flag (MSG)
-  # - remark-lint-fenced-code-flag
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-fenced-code-flag
+  # - - remark-lint-fenced-code-flag
+  # # - ['bash', 'js', 'markdown', ...]   
+  #   - allowEmpty: false   # (MSG)
 
   # # Warn when definitions are placed other than at the end of the file (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-final-definition
   # - remark-lint-final-definition
 
-  # # Warn when list looseness is incorrect (MSG)
-  # - remark-lint-list-item-spacing
+  # Warn when list looseness is incorrect (MSG)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-list-item-spacing
+  - - remark-lint-list-item-spacing
+  # - checkBlanks: false  # (default, MSG)
+    - checkBlanks: true  
 
   # # Warn on duplicate headings (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-headings
   # - remark-lint-no-duplicate-headings
 
   # # Warn when emphasis, instead of a heading, introduces a paragraph  (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-emphasis-as-heading
   # - remark-lint-no-emphasis-as-heading
 
-  # Warn when headings end in (the specified) illegal characters (MSG)
-  - - remark-lint-no-heading-punctuation
-    - '.,:;!?'
+  # # Warn when headings end in (the specified) illegal characters (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-heading-punctuation
+  # - - remark-lint-no-heading-punctuation
+  # # - '.,;:!?' # (default)
+  #   - '.:'     # (MSG)
 
   # # Warn when multiple top level headings are used (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-multiple-toplevel-headings
   # - remark-lint-no-multiple-toplevel-headings
 
   # # Warn when shell code is prefixed by dollars (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-shell-dollars
   # - remark-lint-no-shell-dollars
 
   # # Warn when headings increment with more than 1 level at a time (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-heading-increment
   # - remark-lint-heading-increment
 
   # # Warn when duplicate definitions are found (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-definitions
   # - remark-lint-no-duplicate-definitions
 
   # # Warn when inline nodes (emphasis,links,...) are padded with spaces (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-inline-padding
   # - remark-lint-no-inline-padding
 
   # # Warn when references to undefined definitions are found (R)
-  # - remark-lint-no-undefined-references
-
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-undefined-references
+  # - - remark-lint-no-undefined-references
+  # # - allow: ['...']   # example to allow, say, `[...]` for elided content
+  #   - true
+  
   # # Warn when unused definitions are found (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unused-definitions
   # - remark-lint-no-unused-definitions
 
-  # Warn when the first heading has a level other than '1'.
-  # The option defaults to 1 but we might want to change it in special cases.
-  - - remark-lint-first-heading-level
-    - 1
+  # # Warn when the first heading has a level other than '1'.
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-first-heading-level
+  # - - remark-lint-first-heading-level
+  # # - 2  # example for, say, a markdown fragment to be included in another file
+  #   - 1  # (default)
 
   # Warn for empty URLs in links and images
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-empty-url
   - remark-lint-no-empty-url
 
   # Warn when duplicate headings are found, but only when on the same level
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-duplicate-headings-in-section
   - remark-lint-no-duplicate-headings-in-section
 
   # Warn when definitions define the same URL
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-defined-urls
   - remark-lint-no-duplicate-defined-urls
 
   # Warn when HTML nodes are used (except for comments)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-html
   - remark-lint-no-html
 
   # Warn when the content in paragraphs are indented
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-paragraph-content-indent
   - remark-lint-no-paragraph-content-indent
 
   # Warn when URLs are also defined identifiers
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-reference-like-url
   # (might get mixed up with auto-links)
   - remark-lint-no-reference-like-url
 
-  # Warn when full reference images are used if they can be collapsed
+  # # Warn when full reference images are used if they can be collapsed
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unneeded-full-reference-image
   # XXX conflicts with no-shortcuts
   # - remark-lint-no-unneeded-full-reference-image
 
-  # Warn when full reference links are used if they can be collapsed
+  # # Warn when full reference links are used if they can be collapsed
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unneeded-full-reference-link
   # XXX conflicts with no-shortcuts
   # - remark-lint-no-unneeded-full-reference-link
 
-  # For too many hashes (h7+ “headings”)
+  # Warn if too many hashes (h7+ “headings”)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-heading-like-paragraph
   - remark-lint-no-heading-like-paragraph
 
   # --- Rules suitable for Pre-commit Hooks --------------------------------#
 
   # # Warn when file name start with an article (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-articles
   # - remark-lint-no-file-name-articles
 
   # # Warn when file names contain consecutive dashes (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-consecutive-dashes
   # - remark-lint-no-file-name-consecutive-dashes
 
   # # Warn when file names contain irregular characters (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-irregular-characters
   # - remark-lint-no-file-name-irregular-characters
 
   # # Warn when file names use mixed case (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-mixed-case
   # - remark-lint-no-file-name-mixed-case
 
   # # Warn when file names contain initial or final dashes (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-outer-dashes
   # - remark-lint-no-file-name-outer-dashes
 
   # # Warn when the file extension is not '.md' (MSG)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-file-extension
   # - remark-lint-file-extension
 
   # # Warn when a newline at the end of a file is missing (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-final-newline
   # - remark-lint-final-newline
 
   # Warn when linebreaks use an inconsistent style
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-linebreak-style
   - remark-lint-linebreak-style
