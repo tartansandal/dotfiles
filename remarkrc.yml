@@ -51,7 +51,11 @@ plugins:
   # rules.
 
   - - remark-gfm
-    - singleTilde: false  # bestrict about strikethrough
+
+  # --- Processfrontmatter -------------------------------------#
+  # Ignore intial frontmatter in 
+  # See https://github.com/micromark/micromark-extension-frontmatter
+  # - remark-frontmatter
 
   # --- Linting Presets -------------------------------------------------------#
   # Must be loaded before rule and setting overides
