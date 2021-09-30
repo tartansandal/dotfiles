@@ -246,7 +246,8 @@ plugins:
   
   # Warn when hard tabs are used instead of spaces
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-tabs
-  - remark-lint-no-tabs
+  # - remark-lint-no-tabs
+  # XXX: vim settings avoid this issue
 
   # ---------------------------------------------------------------------
   # Warnings that are not fixed by the formatter
@@ -316,7 +317,7 @@ plugins:
   # # Warn when list looseness is incorrect (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-list-item-spacing
   # - - remark-lint-list-item-spacing
-  # # - checkBlanks: false  # (default, MSG)
+  #   - checkBlanks: false  # (default, MSG)
 
   # # Warn on duplicate headings (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-headings
@@ -344,33 +345,16 @@ plugins:
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-heading-increment
   # - remark-lint-heading-increment
 
-  # # Warn when duplicate definitions are found (R)
-  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-definitions
-  # - remark-lint-no-duplicate-definitions
-
-  # # Warn when inline nodes (emphasis,links,...) are padded with spaces (R)
-  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-inline-padding
-  - remark-lint-no-inline-padding
-
-  # # Warn when references to undefined definitions are found (R)
-  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-undefined-references
-  # - - remark-lint-no-undefined-references
-  # # - allow: ['...']   # example to allow, say, `[...]` for elided content
-  #   - true
-  
-  # # Warn when unused definitions are found (R)
-  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unused-definitions
-  # - remark-lint-no-unused-definitions
-
   # Warn when the first heading has a level other than '1'.
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-first-heading-level
   - - remark-lint-first-heading-level
   # - 2  # example for, say, a markdown fragment to be included in another file
-    - 1  # (default)
+  # - 1  # (default)
 
   # Warn for empty URLs in links and images
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-empty-url
-  - remark-lint-no-empty-url
+  # - remark-lint-no-empty-url
+  # XXX: better in a post-commit hook
 
   # Warn when duplicate headings are found, but only when on the same level
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-headings-in-section
@@ -382,7 +366,8 @@ plugins:
 
   # Warn when HTML nodes are used (except for comments)
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-html
-  - remark-lint-no-html
+  # - remark-lint-no-html
+  # XXX: depends on publishing target
 
   # Warn when the content in paragraphs are indented
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-paragraph-content-indent
@@ -395,40 +380,71 @@ plugins:
 
   # Warn when full reference images are used if they can be collapsed
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unneeded-full-reference-image
-  - remark-lint-no-unneeded-full-reference-image
+  # - remark-lint-no-unneeded-full-reference-image
+  # XXX: limited utility
 
   # Warn when full reference links are used if they can be collapsed
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unneeded-full-reference-link
-  - remark-lint-no-unneeded-full-reference-link
+  # - remark-lint-no-unneeded-full-reference-link
+  # XXX: limited utility
 
   # Warn if too many hashes (h7+ “headings”)
   # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-heading-like-paragraph
   - remark-lint-no-heading-like-paragraph
 
-  # --- Rules maybe more suitable for pre-commit Hooks ------------------------#
+  # --- MSG Rules that are more suitable for a pre-commit hooks ---------------#
 
   # # Warn when file name start with an article (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-articles
-  # - remark-lint-no-file-name-articles
+  - - remark-lint-no-file-name-articles
+    - false
 
   # # Warn when file names contain consecutive dashes (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-consecutive-dashes
-  # - remark-lint-no-file-name-consecutive-dashes
+  - - remark-lint-no-file-name-consecutive-dashes
+    - false
 
   # # Warn when file names contain irregular characters (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-irregular-characters
-  # - remark-lint-no-file-name-irregular-characters
+  - - remark-lint-no-file-name-irregular-characters
+    - false
 
   # # Warn when file names use mixed case (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-mixed-case
-  # - remark-lint-no-file-name-mixed-case
+  - - remark-lint-no-file-name-mixed-case
+    - false
 
   # # Warn when file names contain initial or final dashes (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-file-name-outer-dashes
-  # - remark-lint-no-file-name-outer-dashes
+  - - remark-lint-no-file-name-outer-dashes
+    - false
 
   # # Warn when the file extension is not '.md' (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-file-extension
-  # - - remark-lint-file-extension
-  #   - md  # (default, MSG)
+  - - remark-lint-file-extension
+  # - md  # (default, MSG)
+    - false
+      
+  # --- Recomended Rules that are more suitable for a pre-commit hooks --------#
+
+  # # Warn when inline nodes (emphasis,links,...) are padded with spaces (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-inline-padding
+  - - remark-lint-no-inline-padding
+    - false
+
+  # Warn when duplicate definitions are found (R)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-definitions
+  - - remark-lint-no-duplicate-definitions
+    - false
+
+  # Warn when references to undefined definitions are found (R)
+  # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-undefined-references
+  - - remark-lint-no-undefined-references
+  # - allow: ['...']   # example to allow, say, `[...]` for elided content
+    - false
+  
+  # # Warn when unused definitions are found (R)
+  # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-unused-definitions
+  - - remark-lint-no-unused-definitions
+    - false
 
