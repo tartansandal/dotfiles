@@ -781,12 +781,12 @@ let g:echodoc#enable_at_startup = 1
 let g:localvimrc_enable=1
 let g:localvimrc_ask=1
 let g:localvimrc_sandbox=0
-let g:localvimrc_whitelist=[
-    \   '/home/kal/OpenCraft/devstacks/labxchange-dev/frontend/.*',
-    \   '/home/kal/OpenCraft/devstacks/labxchange-dev/backend/.*'
-    \ ]
+" let g:localvimrc_whitelist=[
+"     \   '/home/kal/OpenCraft/devstacks/labxchange-dev/frontend/.*',
+"     \   '/home/kal/OpenCraft/devstacks/labxchange-dev/backend/.*'
+"     \ ]
 
-let g:localvimrc_debug=1
+" let g:localvimrc_debug=1
 
 " >> lightline -------------------------------------------------------------{{{2
 
