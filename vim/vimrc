@@ -583,8 +583,6 @@ set formatoptions+=l    " Long lines are not broken in insert mode
 set formatoptions+=1    " Don't break a line after a one-letter word.
 set formatoptions+=j    " Remove stray comment leaders when reformating
 set formatoptions+=p    " Don't break lines at single spaces that follow periods.
-set joinspaces          " Insert 2 spaces after '.' with the join command
-set cpoptions+=J        " Two spaces after a '.' defines a sentence
 
 " Use both system clipboard (+) and selection (*) for yank and put
 set clipboard^=unnamed,unnamedplus
@@ -1172,12 +1170,14 @@ let g:ale_sign_style_error='✗'
 let g:ale_sign_warning='!'
 let g:ale_sign_style_warning='!'
 
+" Coc does all our LSP stuff
+let g:ale_disable_lsp = 0
+
 " same mapping as Coc
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
 
-" Coc does all our LSP stuff
-let g:ale_disable_lsp = 0
+nmap <silent> <leader>ai :ALEInfo<CR>
 
 " >> Coc -------------------------------------------------------------------{{{2
 
