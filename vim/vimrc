@@ -566,9 +566,8 @@ set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 
 "
 " Relative line numbers to encourage me to use line oriented motions more.
-"
-" Really don't use these
-" set relativenumber       " Display relative line numbers
+" e.g., if my target line is has relative number 16, I can go there with 16j
+set relativenumber       " Display relative line numbers
 
 "
 " Automatice formating. The default is tcq. See 'help fo-table'
@@ -1685,6 +1684,8 @@ function! s:PostBase16DirtySea()
     hi IncSearch ctermfg=10 ctermbg=9 guifg=#000000 guibg=#d5b0ad
     hi Search    ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
     hi WildMenu  ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
+    " hi LineNR ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
+    hi SignColumn ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
