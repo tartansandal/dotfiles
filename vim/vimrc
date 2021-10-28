@@ -170,6 +170,7 @@ Plug 'adelarsq/vim-matchit'
 "   * coc-jedi       (python2/3)
 "   * coc-snippets   (snippets from language server plus vim-snippets)
 "   * coc-tsserver   (javascript)
+"   * coc-prettier   (formating JS like languages)
 "   * coc-word       (google 10000 words)
 "   * coc-dictionary (words from &dictionary)
 "   * coc-yaml
@@ -582,6 +583,7 @@ set formatoptions+=l    " Long lines are not broken in insert mode
 set formatoptions+=1    " Don't break a line after a one-letter word.
 set formatoptions+=j    " Remove stray comment leaders when reformating
 set formatoptions+=p    " Don't break lines at single spaces that follow periods.
+
 
 " Use both system clipboard (+) and selection (*) for yank and put
 set clipboard^=unnamed,unnamedplus
@@ -1214,6 +1216,7 @@ let g:coc_global_extensions = [
             \   'coc-jedi',
             \   'coc-snippets',
             \   'coc-tsserver',
+            \   'coc-prettier',
             \   'coc-word',
             \   'coc-vimlsp',
             \   'coc-calc',
@@ -1280,6 +1283,7 @@ endfunction
 nmap <leader>rn <Plug>(coc-rename)
 
 " " XXX This is better handled by ALE
+" " Except for TypeScript
 " " Formating selected code
 " xmap <leader>f  <Plug>(coc-format-selected)<CR>
 " nmap <leader>f  <Plug>(coc-format-selected)<CR>
@@ -1293,7 +1297,6 @@ augroup coc
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
     " Highlight symbol under cursor on CursorHold
-    " XXX Does not seem to work for me
     autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup end
 
@@ -1347,6 +1350,9 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " use `:Run` run the current buffer
 command! -nargs=0 Run  :call     CocAction('runCommand', 'python.execInTerminal')
+
+" Run prettier to format the file
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
