@@ -194,6 +194,9 @@ zR - fold none
 zg - mark word as good
 zw - mark word as wrong
 z= - spell suggestions
+
+zG - mark word as good for this session only
+zW - mark word as wrong for this session only
 ```
 
 ## Unimpaired
