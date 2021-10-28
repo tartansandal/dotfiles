@@ -322,6 +322,8 @@ plugins:
   # # Warn on duplicate headings (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-duplicate-headings
   # - remark-lint-no-duplicate-headings
+  - - remark-lint-no-duplicate-headings
+    - false
 
   # # Warn when emphasis, instead of a heading, introduces a paragraph  (MSG)
   # # See https://github.com/remarkjs/remark-lint/tree/main/packages/remark-lint-no-emphasis-as-heading
