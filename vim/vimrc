@@ -481,6 +481,21 @@ Plug 'neoclide/jsonc.vim'
 "
 " Plug 'tartansandal/base16-vim'
 
+""""" Experiments with typscript support
+
+"   ~/.vim/plugged/vim-javascript/README.md
+Plug 'pangloss/vim-javascript'
+
+
+"   ~/.vim/plugged/typescript-vim/README.md
+Plug 'leafgarland/typescript-vim'
+
+"   ~/.vim/plugged/vim-jsx-typescript/README.md
+Plug 'peitalin/vim-jsx-typescript'
+
+" vim-mdx: basic MDX fileformat support
+Plug 'jxnblk/vim-mdx-js'
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Still experimenting with these
 "
