@@ -49,3 +49,5 @@
     rebase = false
 [init]
 	defaultBranch = main
+[include]
+	path = /home/kal/.gitalias
