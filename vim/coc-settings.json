@@ -20,6 +20,8 @@
   "jedi.enable": false,
   "suggest.echodocSupport": false,
 
+  "javascript.suggestionActions.enabled": false,
+  
   // ALE does better *async* diagnostics at least for python
   "diagnostic.displayByAle": true,
   "diagnostic.enable": true,
