@@ -112,6 +112,8 @@ then
         fi
     }
 
+    alias dnf-check-update='sudo dnf check-update --changelog | less'
+
     ## Shell options
 
     # Ensured hashed commands exist, else fallback to path search
