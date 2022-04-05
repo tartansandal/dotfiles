@@ -439,7 +439,7 @@ Plug 'yegappan/mru'
 " Part of my Switcher utility
 "
 Plug 'jlanzarotta/bufexplorer'
-
+"Plug 'tartansandal/bufexplorer'
 
 " localvimrc: load per-project vimrc files
 "
@@ -930,6 +930,9 @@ let g:bufExplorerSplitHorzSize=15    " New window is 15 rows high (same as MRU).
 
 " Disable default <leader> mappings.
 let g:bufExplorerDisableDefaultKeyMapping=1  
+
+" After selecting a buffer, make it the only window
+" let g:BufExplorerFuncRef = {-> execute("wincmd o") }
 
 " Default mappings for the bufexplore window
 "
@@ -1447,6 +1450,15 @@ nnoremap <S-Up>    <C-w>k
 nnoremap <S-Down>  <C-w>j
 nnoremap <S-Left>  <C-w>h
 nnoremap <S-Right> <C-w>l
+
+" This seemed to break badly
+" " Allow macros to apply to the selected visual region
+" xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+" function! ExecuteMacroOverVisualRange()
+"   echo "@".getcmdline()
+"   execute ":'<,'>normal @".nr2char(getchar())
+" endfunction
 
 " Switcher -----------------------------------------------------------------{{{2
 function! MyCycleNextLine()
