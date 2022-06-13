@@ -2,88 +2,138 @@
 
 Install yum repos etc
 
-    sudo rsync -rv ./etc/ /etc/
+```console
+sudo rsync -rv ./etc/ /etc/
+```
+
+Maybe think about those independently
 
 Install packages in `packages-install` file
 
-    sudo dnf install `grep -v '^#\|^$' packages-install`
+```console
+sudo dnf install `grep -v '^#\|^$' packages-install`
+```
 
 Remove packages in `packages-remove` file
 
-    sudo dnf remove `grep -v '^#\|^$' packages-remove`
+```console
+sudo dnf remove `grep -v '^#\|^$' packages-remove`
+```
 
 Turn on automatic performace tuning:
+May not need this for Fedora 36 
 
+```console
     sudo systemctl enable tuned --now
+```
 
-install Zoom from https://zoom.us/download#client_4meeting
+install Zoom from <https://zoom.us/download#client_4meeting>
 
-    flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+```console
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+```
 
+```console
 flatpak install io.dbeaver.DBeaverCommunity
 flatpak install com.rafaelmardojai.Blanket
 flatpak install ca.desrt.dconf-editor
 flatpak install com.uploadedlobster.peek
 flatpak install org.gnome.Solanum
+flatpak install us.zoom.Zoom
+flatpak install com.leinardi.gwe
+flatpak install com.lakoliu.Furtherance
+```
 
-Logout and log backin before running these or at least
+Might need the NVIDIA stuff too:
 
-    source ~/.bash_profile
+```console
+flatpak install org.freedesktop.Platform.GL.default          
+flatpak install org.freedesktop.Platform.GL.default          
+flatpak install org.freedesktop.Platform.GL.nvidia-470-63-01 
+flatpak install org.freedesktop.Platform.VAAPI.Intel         
+flatpak install org.freedesktop.Platform.VAAPI.Intel         
+flatpak install org.freedesktop.Platform.ffmpeg-full         
+flatpak install org.freedesktop.Platform.openh264   
+```
 
-and perhaps createing the .local/ directories
+Log out and back in before running these, or at least
 
-  npm install -g eslint
-  npm install -g babel-eslint
-  npm install -g eslint-plugin-react
-  npm install -g js-beautify
+```console
+source ~/.bash_profile
+```
 
-  pip install --user `cat pips`
-  gem install `cat gems`
+and perhaps creating the .local/ directories
 
-anaconda?
-texlive?
+Think much of this is now covered by CoC and lsp
+
+```console
+npm install -g eslint
+npm install -g babel-eslint
+npm install -g eslint-plugin-react
+npm install -g js-beautify
+
+pip install --user `cat pips`
+gem install `cat gems`
+```
 
 ## docker
 
 Need To enable cgroups1
+Probabaly wont need this for fedora 36 
 
-    sudo dnf install grubby
-    sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+```console
+sudo dnf install grubby
+sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+```
 
 reboot then
 
-    sudo dnf install docker-ce
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker $(whoami)
+```console
+sudo dnf install docker-ce
+sudo systemctl enable --now docker
+sudo usermod -aG docker $(whoami)
+```
 
+For F32 I had to tweak the firewall
+May not need this for Fedora 36
 
-for F32 I had to tweak the firewall
-
-    sudo firewall-cmd --zone=FedoraWorkstation --add-masquerade --permanent
-    sudo firewall-cmd --reload
-    sudo systemctl restart docker
-
+```console
+sudo firewall-cmd --zone=FedoraWorkstation --add-masquerade --permanent
+sudo firewall-cmd --reload
+sudo systemctl restart docker
+```
 
 ## OLED backlight
 
-    sudo grubby --update-kernel=ALL --args="i915.enable_dpcd_backlight=1"
+May not need this for Fedora 36
+
+```console
+sudo grubby --update-kernel=ALL --args="i915.enable_dpcd_backlight=1"
+```
 
 ## Pyenv
 
-See https://github.com/pyenv/pyenv
+May not need this for Fedora 36
+
+See <https://github.com/pyenv/pyenv>
 
 Need extra packages:
- bzip2-devel
- libffi-devel
- openssl-devel
- readline-devel
- sqlite-devel
- xz-devel
- ncurses-c++-libs
- ncurses-devel
+
+```console
+sudo dnf install        \
+    bzip2-devel         \
+    libffi-devel        \
+    openssl-devel       \
+    readline-devel      \
+    sqlite-devel        \
+    xz-devel            \
+    ncurses-c++-libs    \
+    ncurses-devel
+```
 
 update pip for each version
-```
+
+```console
 for VERSION in $(pyenv versions --bare) ; do
   pyenv shell ${VERSION} ;
   pip install --upgrade pip ;
@@ -92,7 +142,7 @@ done
 
 add pyvenv for any python2 versions
 
-```
+```console
 for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
   pyenv shell ${VERSION} ;
   pip install py2venv ;
@@ -103,17 +153,17 @@ done
 
 for ACC and mpg4
 
-```
+```console
 sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 sudo dnf install ffmpeg
 ```
 
-test with website http://demo.nimius.net/video_test/
+test with website <http://demo.nimius.net/video_test/>
 
 ## hardware accelleration
 
-```
+```console
 sudo dnf install libva-intel-hybrid-driver.x86_64
 ```
 
@@ -121,7 +171,9 @@ sudo dnf install libva-intel-hybrid-driver.x86_64
 
 From <https://fedoramagazine.org/configure-fedora-to-practise-and-compose-music/>
 
-```
+May not need this for Fedora 36
+
+```console
 sudo rpm -Uvh http://ccrma.stanford.edu/planetccrma/mirror/fedora/linux/planetccrma/$(rpm -E %fedora)/x86_64/planetccrma-repo-1.1-3.fc$(rpm -E %fedora).ccrma.noarch.rpm
 sudo dnf install jack-audio-connection-kit qjackctl
 sudo usermod -a -G jackuser kal
@@ -130,6 +182,7 @@ sudo dnf install lmms
 sudo dnf install kernel-rt
 sudo dnf install guitarix
 ```
+
 
 ## increase grub prompt fonts
 
@@ -142,7 +195,7 @@ GRUB_TERMINAL_OUTPUT="gfxterm"
 
 then run
 
-```
+```console
 sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/DejaVuSansMono36.pf2 --size=36 /usr/share/fonts/dejavu/DejaVuSansMono.ttf
 sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
@@ -152,14 +205,16 @@ default command line to set `vconsole.font` to something bigger like `ter-132n`
 
 ## Nvidia drivers with dkms
 
-See https://negativo17.org/nvidia-driver/
+See <https://negativo17.org/nvidia-driver/>
 
 Note we set the dkms config to use the MOK keys on my thumbdrive.
 
-dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
+```console
+dnf config-manager --add-repo=<https://negativo17.org/repos/fedora-nvidia.repo>
 
-sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe nvidia-driver-NVML.x86_64
+sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe nvidia-driver-NVML.x86\_64
+```
 
 ## Nvidia and Wayland
 
-See https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/6/
+See <https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/6/>

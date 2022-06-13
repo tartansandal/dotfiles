@@ -1,13 +1,21 @@
 # Apps
 google-chrome-stable
 gimp
+openshot
 
 # Audio
 audacity
 pavucontrol
 lame
 obs
-ardour
+ardour6
+ffmpeg
+
+pipenv-2021.5.29-7.fc35.noarch
+pipewire-alsa-0.3.51-2.fc35.x86_64
+pipewire-gstreamer-0.3.51-2.fc35.x86_64
+pipewire-jack-audio-connection-kit-0.3.51-2.fc35.i686
+pipewire-pulseaudio-0.3.51-2.fc35.x86_64
 
 # Backups
 duplicity
@@ -18,29 +26,35 @@ fedora-packager
 
 # Gnome
 gnome-shell-extension-windowoverlay-icons
-gnome-shell-extension-pomodoro
 gnome-terminal-nautilus
 gnome-tweak-tool
 
 # System
 tuned
 htop
-libdrm-devel
 lm_sensors
 terminus-fonts-console
 smem
 solaar
+earlyoom
+firewall-config
+flameshot
+grubby
+hping3
+mediawriter
 
 # Virtualization
-vagrant
-vagrant-sshfs
-vagrant-libvirt
+# vagrant
+# vagrant-sshfs
+# vagrant-libvirt
 docker-ce
+awscli
 
 # Development
 tmux
 vim
 vim-X11
+vim-enhanced
 ripgrep
 jq
 fd-find
@@ -59,13 +73,15 @@ libvirt
 fuse-sshfs
 libguestfs-tools
 virt-install
+make
+xpad
+xsel
 
 # Python
 black
 python-django-bash-completion
 python3-yapf
 python3-flake8
-python3-pyscaffold
 python3-pudb
 python3-isort
 python3-jedi
@@ -74,4 +90,3 @@ python3-pytest
 python3-ipython
 python3-ipython-doc
 python3-ipdb
-python3-rope

@@ -15,7 +15,10 @@ texlive-updmap-map
 texlive-bibtex
 
 # for code formating
+
+```console
 conda install -c conda-forge black
 jupyter labextension install @ryantam626/jupyterlab_code_formatter
 conda install -c conda-forge jupyterlab_code_formatter
 jupyter serverextension enable --py jupyterlab_code_formatter
+```
