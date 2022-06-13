@@ -51,3 +51,6 @@
 	defaultBranch = main
 [include]
 	path = /home/kal/.gitalias
+
+[alias]
+    log-list-week = log-list --date=format:%F' '(%V)
