@@ -46,6 +46,6 @@ let g:MyGuiFontSize=g:MyGuiFontSizeDefault
 exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 
 " Have to be explicit with shift key in newer version of vim
-nnoremap <A-S-+> :call MyGuiFontSizeInc()<CR>
-nnoremap <A-S-_> :call MyGuiFontSizeDec()<CR>
-nnoremap <A-S-)> :call MyGuiFontSizeReset()<CR>
+nnoremap <leader>+ :call MyGuiFontSizeInc()<CR>
+nnoremap <leader>_ :call MyGuiFontSizeDec()<CR>
+nnoremap <leader>) :call MyGuiFontSizeReset()<CR>
