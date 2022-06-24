@@ -30,8 +30,6 @@ ln -snf $base_dir/vim                  ~/.vim
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 
-ln -sf  $base_dir/bin/reset-fonts.sh   ~/bin/reset-fonts.sh
-
 if [[ `tmux -V | cut -f2 -d' '` > 2 ]]
 then
 	ln -sf  $base_dir/tmux2.conf            ~/.tmux.conf
