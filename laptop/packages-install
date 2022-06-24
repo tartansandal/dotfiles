@@ -1,21 +1,21 @@
 # Apps
 google-chrome-stable
 gimp
-openshot
+#openshot
+#obs
 
 # Audio
 audacity
 pavucontrol
 lame
-obs
 ardour6
 ffmpeg
 
-pipenv-2021.5.29-7.fc35.noarch
-pipewire-alsa-0.3.51-2.fc35.x86_64
-pipewire-gstreamer-0.3.51-2.fc35.x86_64
-pipewire-jack-audio-connection-kit-0.3.51-2.fc35.i686
-pipewire-pulseaudio-0.3.51-2.fc35.x86_64
+pipenv
+pipewire-alsa
+pipewire-gstreamer
+pipewire-jack-audio-connection-kit
+pipewire-pulseaudio
 
 # Backups
 duplicity
@@ -25,7 +25,6 @@ rclone
 fedora-packager
 
 # Gnome
-gnome-shell-extension-windowoverlay-icons
 gnome-terminal-nautilus
 gnome-tweak-tool
 
@@ -44,9 +43,6 @@ hping3
 mediawriter
 
 # Virtualization
-# vagrant
-# vagrant-sshfs
-# vagrant-libvirt
 docker-ce
 awscli
 

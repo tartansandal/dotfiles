@@ -33,6 +33,13 @@ install Zoom from <https://zoom.us/download#client_4meeting>
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 ```
 
+That does not work. Have to get past the `fedora-flatpack-filter`. The following
+does that and gives me access to DBeaverCommunity.
+
+```
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
 ```console
 flatpak install io.dbeaver.DBeaverCommunity
 flatpak install com.rafaelmardojai.Blanket
@@ -103,14 +110,6 @@ sudo firewall-cmd --reload
 sudo systemctl restart docker
 ```
 
-## OLED backlight
-
-May not need this for Fedora 36
-
-```console
-sudo grubby --update-kernel=ALL --args="i915.enable_dpcd_backlight=1"
-```
-
 ## Pyenv
 
 May not need this for Fedora 36
@@ -167,36 +166,20 @@ test with website <http://demo.nimius.net/video_test/>
 sudo dnf install libva-intel-hybrid-driver.x86_64
 ```
 
-## making music
-
-From <https://fedoramagazine.org/configure-fedora-to-practise-and-compose-music/>
-
-May not need this for Fedora 36
-
-```console
-sudo rpm -Uvh http://ccrma.stanford.edu/planetccrma/mirror/fedora/linux/planetccrma/$(rpm -E %fedora)/x86_64/planetccrma-repo-1.1-3.fc$(rpm -E %fedora).ccrma.noarch.rpm
-sudo dnf install jack-audio-connection-kit qjackctl
-sudo usermod -a -G jackuser kal
-newgrp -
-sudo dnf install lmms
-sudo dnf install kernel-rt
-sudo dnf install guitarix
-```
-
-
 ## increase grub prompt fonts
 
 Add the following lines to `/etc/default/grub`
 
 ```bash
-GRUB_FONT=/boot/efi/EFI/fedora/fonts/DejaVuSansMono36.pf2
+GRUB_FONT=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2
 GRUB_TERMINAL_OUTPUT="gfxterm"
 ```
 
 then run
 
 ```console
-sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/DejaVuSansMono36.pf2 --size=36 /usr/share/fonts/dejavu/DejaVuSansMono.ttf
+sudo mkdir /boot/efi/EFI/fedora/fonts/
+sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2 --size=36 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
 sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
 
@@ -210,9 +193,37 @@ See <https://negativo17.org/nvidia-driver/>
 Note we set the dkms config to use the MOK keys on my thumbdrive.
 
 ```console
+sudo dnf install dkms
+```
+
+Make sure key drive is plugged in and unlocked. 
+Copy the signing helper to `/etc/dkms`
+
+```console
+cp ./etc/dkms/sign_helper.sh /etc/dkms/
+```
+
+Edit `/etc/dkms/framework.conf` and ensure the signing helper is turned on.
+
+```console
 dnf config-manager --add-repo=<https://negativo17.org/repos/fedora-nvidia.repo>
 
-sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe nvidia-driver-NVML.x86\_64
+sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe
+```
+
+Debugging this generally requires runing the dkms commands from the the
+`dkms-nvidia` scripts manually:
+
+```console
+$ rpm -q --scripts dkms-nvidia 
+postinstall scriptlet (using /bin/sh):
+dkms add -m nvidia -v 515.48.07 -q || :
+# Rebuild and make available for the currently running kernel:
+dkms build -m nvidia -v 515.48.07 -q || :
+dkms install -m nvidia -v 515.48.07 -q --force || :
+preuninstall scriptlet (using /bin/sh):
+# Remove all versions from DKMS registry:
+dkms remove -m nvidia -v 515.48.07 -q --all || :
 ```
 
 ## Nvidia and Wayland
