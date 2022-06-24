@@ -64,12 +64,7 @@ then
     alias ls='ls -p --color=auto'
     alias ..='cd ..'
 
-    if [[ -f ~/.vim/gvim.sh ]]
-    then
-        alias g='~/.vim/gvim.sh'
-    else
-        alias g='/usr/bin/gvim'
-    fi
+    alias g='/usr/bin/gvim'
     alias vimdiff='vimdiff --noplugins'
 
     # use vim with clipboard defined if available
