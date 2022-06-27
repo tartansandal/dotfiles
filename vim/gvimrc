@@ -40,8 +40,8 @@ endfunction
 
 set columns=88
 set lines=56
-let g:MyGuiFontFamily='Liberation\ Mono,\ Regular\ '
-let g:MyGuiFontSizeDefault=14
+let g:MyGuiFontFamily='Liberation\ Mono\ '
+let g:MyGuiFontSizeDefault=12
 let g:MyGuiFontSize=g:MyGuiFontSizeDefault
 exec 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 
