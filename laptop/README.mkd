@@ -179,14 +179,48 @@ then run
 
 ```console
 sudo mkdir /boot/efi/EFI/fedora/fonts/
-sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2 --size=36 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
+sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono48.pf2 --size=48 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
 sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
 
-After grub the fontsize can be set via `/etc/vconsole.conf` or by altering the
-default command line to set `vconsole.font` to something bigger like `ter-132n`
+After grub the fontsize can be set via `/etc/vconsole.conf` and by altering the
+default command line to set `vconsole.font` to something bigger like `ter-132n`.
+Then run: 
+
+```console
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+sudo dracut -f
+```
 
 ## Nvidia drivers with dkms
+
+I think my laptop is what is called Optimus with the dual Nvidia/Intel video.
+
+Despite all this I won't get harware accelleration under Firefox yet. :(
+I think I really need WebGL.
+
+
+Websites with information about this:
+
+* <about:support> (Firefox)
+* <https://fedoraproject.org/wiki/Firefox_Hardware_acceleration>
+* <https://rpmfusion.org/Howto/NVIDIA>
+* <https://webglreport.com/>
+
+Checking what is running:
+
+```console
+glxinfo | grep "profile version"
+eglinfo | grep version
+vainfo
+```
+
+How to turn it all off?
+
+```console
+sudo dnf remove nvidia*
+reboot
+```
 
 See <https://negativo17.org/nvidia-driver/>
 
@@ -204,6 +238,24 @@ cp ./etc/dkms/sign_helper.sh /etc/dkms/
 ```
 
 Edit `/etc/dkms/framework.conf` and ensure the signing helper is turned on.
+
+Ensure the keys are mounted at boot (for reboot to install)
+Add the following to `/etc/crypttab`
+
+```text
+secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
+```
+
+And add the following to `/etc/fstab`
+
+```text
+/dev/mapper/secret	/secret 	ext4 defaults,nofail,nosuid,nodev,relatime 0 0
+```
+
+Then reboot to ensure thumbdrive is mounted on /secret
+
+Next install the negativo17 nvidia modules
+
 
 ```console
 dnf config-manager --add-repo=<https://negativo17.org/repos/fedora-nvidia.repo>
@@ -225,6 +277,14 @@ preuninstall scriptlet (using /bin/sh):
 # Remove all versions from DKMS registry:
 dkms remove -m nvidia -v 515.48.07 -q --all || :
 ```
+
+To triger a rebuild and resigning
+
+```console
+dkms autobuild
+```
+
+Though you may have to remove the old build directory first.
 
 ## Nvidia and Wayland
 
