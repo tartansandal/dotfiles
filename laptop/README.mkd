@@ -42,6 +42,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 ```console
 flatpak install io.dbeaver.DBeaverCommunity
+flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
+flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
+flatpak install com.mattjakeman.ExtensionManager
+
 flatpak install com.rafaelmardojai.Blanket
 flatpak install ca.desrt.dconf-editor
 flatpak install com.uploadedlobster.peek
@@ -49,18 +53,6 @@ flatpak install org.gnome.Solanum
 flatpak install us.zoom.Zoom
 flatpak install com.leinardi.gwe
 flatpak install com.lakoliu.Furtherance
-```
-
-Might need the NVIDIA stuff too:
-
-```console
-flatpak install org.freedesktop.Platform.GL.default          
-flatpak install org.freedesktop.Platform.GL.default          
-flatpak install org.freedesktop.Platform.GL.nvidia-470-63-01 
-flatpak install org.freedesktop.Platform.VAAPI.Intel         
-flatpak install org.freedesktop.Platform.VAAPI.Intel         
-flatpak install org.freedesktop.Platform.ffmpeg-full         
-flatpak install org.freedesktop.Platform.openh264   
 ```
 
 Log out and back in before running these, or at least
@@ -85,29 +77,12 @@ gem install `cat gems`
 
 ## docker
 
-Need To enable cgroups1
-Probabaly wont need this for fedora 36 
-
-```console
-sudo dnf install grubby
-sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
-```
-
-reboot then
+Add myself to the `docker` group
 
 ```console
 sudo dnf install docker-ce
 sudo systemctl enable --now docker
 sudo usermod -aG docker $(whoami)
-```
-
-For F32 I had to tweak the firewall
-May not need this for Fedora 36
-
-```console
-sudo firewall-cmd --zone=FedoraWorkstation --add-masquerade --permanent
-sudo firewall-cmd --reload
-sudo systemctl restart docker
 ```
 
 ## Pyenv
