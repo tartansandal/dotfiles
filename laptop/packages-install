@@ -41,6 +41,7 @@ flameshot
 grubby
 hping3
 mediawriter
+intel-media-driver
 
 # Virtualization
 docker-ce
