@@ -42,6 +42,7 @@ grubby
 hping3
 mediawriter
 intel-media-driver
+inotify-tools
 
 # Virtualization
 docker-ce
