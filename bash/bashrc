@@ -107,6 +107,14 @@ then
         fi
     }
 
+    create-flake8() {
+        {
+            echo "[flake8]"
+            echo "max-line-length = 88"
+            echo "extend-ignore = E203"
+        } > .flake8
+    }
+
     alias dnf-check-update='sudo dnf check-update --changelog | less'
 
     ## Shell options
