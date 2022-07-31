@@ -3,6 +3,9 @@
 ## Personal Shortcuts
 
 ```keys
+\+  - increase fontsize
+\-  - decrease fontsize
+
 \<space> - one window
 Ctrl-L  - clear search highlighting
 
