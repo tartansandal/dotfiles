@@ -2,8 +2,8 @@
   "python.linting.enabled": false,
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
-  "python.formatting.provider": "yapf",
-  //"python.formatting.provider": "black",
+  // "python.formatting.provider": "yapf",
+  "python.formatting.provider": "black",
   "python.analysis.typeCheckingMode": "off",
 
   // These are installed globally so I don't have to install in each virtual env
@@ -18,7 +18,6 @@
   
   "pyright.enable": true,
   "jedi.enable": false,
-  "suggest.echodocSupport": false,
 
   "javascript.suggestionActions.enabled": false,
   
