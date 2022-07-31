@@ -656,17 +656,18 @@ set scrolloff=1         " always show 1 lines of context when scrolling
 set sidescrolloff=5     " keep at least 5 columns of context to either side
 
 " Specify which characters to use for 'listing'. (not sensible)
-set listchars=tab:→\ ,trail:·,nbsp:¤,precedes:«,extends:»,eol:↲
-"set list     " turn on display of listchars
+" set listchars=tab:→\ ,trail:␣,nbsp:¤,precedes:«,extends:»,eol:↲
+set listchars=tab:→\ ,trail:␣,nbsp:¤,precedes:«,extends:»
+set list      " turn on display of listchars
 "set nolist   " turn off display of listchars
-	    
+
 set foldlevelstart=99
 
-" (sensible): 
+" (sensible):
 set incsearch
 
 " Use syntax highlighting
-syntax on 
+syntax on
 
 " clear search highlighting on startup
 nohlsearch
