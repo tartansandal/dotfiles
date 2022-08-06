@@ -285,3 +285,6 @@ yS{motion}X - you surround {motion} with X indented on its own line
 
 SX - surround visual selction with X
 ```
+
+For (X)HTML tags use `t`, for example, `cst<p>` changes the surround "tag" to
+`<p>`.
