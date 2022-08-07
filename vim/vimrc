@@ -1340,7 +1340,7 @@ nmap <leader>rn <Plug>(coc-rename)
 " xmap <leader>f  <Plug>(coc-format-selected)<CR>
 " nmap <leader>f  <Plug>(coc-format-selected)<CR>
 
-augroup coc
+augroup mycoc
     autocmd!
     " Setup formatexpr specified filetype(s).
     autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
@@ -1753,6 +1753,7 @@ function! s:PostBase16DirtySea()
     hi WildMenu  ctermfg=10 ctermbg=3 guifg=#000000 guibg=#d0d0ee
     " hi LineNR ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
     hi SignColumn ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
+    hi! link CocMenuSel WildMenu
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
@@ -1765,4 +1766,3 @@ augroup end
 " WORKAROUND: have to set the colorscheme twice to get this to work in terminal
 colorscheme default
 colorscheme base16-dirtysea
-
