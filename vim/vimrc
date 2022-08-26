@@ -1562,7 +1562,7 @@ noremap <leader>N :NERDTree ~/Notes<CR>
 
 " > Browsers
 noremap <silent><leader>g :G<CR>
-noremap <silent><leader><leader>G :Gbrowse<CR>
+noremap <silent><leader><leader>G :GBrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
 noremap <silent><leader>n :SafeNERDTreeFind<CR>
 
