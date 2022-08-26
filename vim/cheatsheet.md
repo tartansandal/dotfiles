@@ -9,7 +9,7 @@
 \<space> - one window
 Ctrl-L  - clear search highlighting
 
-\a - autoformat   ( may not need this anymore use \rf instead )
+\a - autoformat   ( may not need this anymore use \f instead )
 
 \g - open Fugitive Status
 \\G - open file in github
@@ -81,7 +81,7 @@ There are various suffixes:
 i_TAB - trigger completion
         repeat for next selection
         S-TAB for previous selection
-        CR to configure completion
+        CR to accept completion
 
 n_TAB - select selections ranges ???
 
@@ -239,18 +239,18 @@ zW - mark word as wrong for this session only
 
 | On   | Off  | Toggle | Option
 |------|------|--------|----------
-| [oh	 | ]oh  | =oh    | hlsearch
-| [oi	 | ]oi  | =oi    | ignorecase
-| [ol	 | ]ol  | =ol    | list
-| [on	 | ]on  | =on    | number
-| [or	 | ]or  | =or    | relativenumber
-| [os	 | ]os  | =os    | spell
-| [ov	 | ]ov  | =ov    | virtualedit
-| [ow	 | ]ow  | =ow    | wrap
-| [oc	 | ]oc  | =oc    | cursorline
-| [ou	 | ]ou  | =ou    | cursorcolumn
-| [ox	 | ]ox  | =ox    | cursorline cursorcolumn (x as in crosshairs)
-| [od	 | ]od  | =od    | diff (actually |:diffthis| / |:diffoff|)
+| [oh  | ]oh  | =oh    | hlsearch
+| [oi  | ]oi  | =oi    | ignorecase
+| [ol  | ]ol  | =ol    | list
+| [on  | ]on  | =on    | number
+| [or  | ]or  | =or    | relativenumber
+| [os  | ]os  | =os    | spell
+| [ov  | ]ov  | =ov    | virtualedit
+| [ow  | ]ow  | =ow    | wrap
+| [oc  | ]oc  | =oc    | cursorline
+| [ou  | ]ou  | =ou    | cursorcolumn
+| [ox  | ]ox  | =ox    | cursorline cursorcolumn (x as in crosshairs)
+| [od  | ]od  | =od    | diff (actually |:diffthis| / |:diffoff|)
 
 | Encode | Decode |  target
 | -------|--------|--------
