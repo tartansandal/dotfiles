@@ -38,7 +38,8 @@ function! MyGuiFontSizeReset()
     echom 'set guifont='.g:MyGuiFontFamily.g:MyGuiFontSize
 endfunction
 
-set columns=88
+" 88 + 8 columns                                                               
+set columns=96
 set lines=56
 let g:MyGuiFontFamily='Liberation\ Mono\ '
 let g:MyGuiFontSizeDefault=12
