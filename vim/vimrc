@@ -460,6 +460,13 @@ Plug 'neoclide/jsonc.vim'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
+" vim-sneak: jump to any location specified by two characters.
+"
+"   https://github.com/justinmk/vim-sneak
+"   ~/.vim/plugged/
+
+Plug 'justinmk/vim-sneak'
+
 """"" Experiments with typscript support
 
 "   ~/.vim/plugged/vim-javascript/README.md
@@ -543,7 +550,7 @@ Plug 'jxnblk/vim-mdx-js'
 " Plug 'tartansandal/base16-vim'
 
 
-call plug#end() 
+call plug#end()
 
 
 
@@ -1850,6 +1857,8 @@ function! s:PostBase16DirtySea()
     " hi LineNR ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
     hi SignColumn ctermfg=12 ctermbg=11 guifg=#202020 guibg=#d0d0d0
     hi! link CocMenuSel WildMenu
+    hi! link Sneak WildMenu
+    hi! link SneakScope ColorColumn
     let g:lightline.colorscheme = 'dirtysea'
 endfunction
 
