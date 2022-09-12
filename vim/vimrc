@@ -456,7 +456,7 @@ Plug 'neoclide/jsonc.vim'
 " markdown-preview: preview markdown in a browser
 "
 "   https://github.com/iamcco/markdown-preview.nvim
-"   ~/.vim/plugged/
+"   ~/.vim/plugged/markdown-preview.nvim/README.md
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
