@@ -75,6 +75,30 @@ pip install --user `cat pips`
 gem install `cat gems`
 ```
 
+## Emoji and Special characters?
+
+First remember you have capslock maped to "compose" so that `CapsLock + c + ,`
+gives  `ç`.  See the `Multi-Key` entries in
+/usr/share/X11/locale/en_US.UTF-8/Compose for more examples.
+
+Can do this via the Typing Booster input method (see
+<https://opensource.com/article/19/10/how-type-emoji-linux>).
+
+To toggle input methods use `Super + space`.  But this does not help for input
+in chrome or vim (works in terminal though:) )
+
+Okay, found a chrome extension that seems to be working.
+
+## Flameshot
+
+To bind print-screen to flameshot ...
+
+Goto Settings > Keyboard > View and Customize Shortcuts.
+
+Search for "Print". If not set to "Flameshot", select the "Print" binding then
+hit "backspace" to disable. Then add a new Custom Shortcut for  "flameshot gui"
+and bind that to the "Print" key.
+
 ## docker
 
 Add myself to the `docker` group
@@ -173,7 +197,7 @@ Websites with information about this:
 * <https://rpmfusion.org/Howto/NVIDIA>
 * <https://webglreport.com/>
 
-Checking GPU support 
+Checking GPU support
 
 ```console
 glxinfo | grep "profile version"
@@ -185,7 +209,7 @@ Need OpenGL >= 3.2 or GLES >= 3.0
 
 Need `intel-media-driver`
 
-## Nvidia drivers with dkms 
+## Nvidia drivers with dkms
 
 Firefox does not support hardware accelleration with NVIDIA yet, due to poor 
 VAAPI support, so this is not so useful.
@@ -205,7 +229,7 @@ Note we set the dkms config to use the MOK keys on my thumbdrive.
 sudo dnf install dkms
 ```
 
-Make sure key drive is plugged in and unlocked. 
+Make sure key drive is plugged in and unlocked.
 Copy the signing helper to `/etc/dkms`
 
 ```console
