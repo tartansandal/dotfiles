@@ -588,7 +588,9 @@ set nrformats-=octal    " Do not recognize octal numbers for Ctrl-A and Ctrl-X
 "
 " Relative line numbers to encourage me to use line oriented motions more.
 " e.g., if my target line is has relative number 16, I can go there with 16j
-set relativenumber       " Display relative line numbers
+" The sneak plugin makes this redundant
+" set relativenumber       " Display relative line numbers
+set number              " Display current linenumber
 
 "
 " Automatice formating. The default is tcq. See 'help fo-table'
