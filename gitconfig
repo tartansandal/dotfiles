@@ -55,3 +55,10 @@
 
 [alias]
     log-list-week = log-list --date=format:%F' '(%V)
+[submodule]
+	recurse = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
