@@ -12,7 +12,7 @@ PROMPT_SYMBOL_COLOR="\033[0;32m"        # purple
 source ~/dotfiles/bash/sexy-prompt.sh
 
 # The following is normally defined in /etc/profile.d/vte.sh on Fedora,
-# but wont exists in our Ubuntu shells
+# but won't exist in Ubuntu shells
 if [[ -z $(type -t __vte_prompt_command) ]];
 then
     __vte_urlencode() (
