@@ -1671,9 +1671,6 @@ noremap <silent><leader><leader>G :GBrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
 noremap <silent><leader>n :SafeNERDTreeFind<CR>
 
-" Use CoC autoformat instead
-"noremap <silent><leader>a :Autoformat<CR>
-
 " > vim-test
 " \tt should override the plugin setting
 " noremap <silent><leader>tt :TestNearest<CR>
@@ -1681,38 +1678,13 @@ noremap <silent><leader>tn :TestNearest<CR>
 noremap <silent><leader>tn :TestFile<CR>
 noremap <silent><leader>ts :TestSuite<CR>
 
-" > FZF all use a \f prefix
-" noremap <silent><leader>fb :Buffers<CR>
-" noremap <silent><leader>ff :GFiles<CR>
-" noremap <silent><leader>fF :Files<CR>
-
-" noremap <silent><leader>fh :History<CR>
-" noremap <silent><leader>f: :History:<CR>
-" noremap <silent><leader>f/ :History/<CR>
-
-" noremap <silent><leader>ft :BTags<CR>
-" " noremap <silent><leader>fT :Tags<CR>  " dont run from top level
-
-" noremap <silent><leader>fl :BLines<CR>
-" noremap <silent><leader>fL :Lines<CR>
-
-" noremap <silent><Leader>fm :Methods<CR>
-" noremap <silent><leader>fH :Helptags!<CR>
-" noremap <silent><leader>fM :Maps<CR>
-" noremap <silent><leader>fC :Commands<CR>
-" noremap <silent><leader>f' :Marks<CR>
-" noremap <silent><leader>fs :Filetypes<CR>
-
 " > Grep all with a \v prefix (same bindings as easygrep) 
 noremap <silent><leader>vv :grep! -w <cword><CR>
 noremap <silent><leader>vV :grep! -w <cWORD><CR>
 noremap <silent><leader>vf :grep! <cfile><CR>
 
-augroup Diary 
-    autocmd!
-    autocmd BufRead DIARY.md 
-        \ |     vnoremap <buffer><silent><leader>d :TimeDiffUnit minutes<cr>
-augroup end
+noremap <leader>cf :let @+=expand("%")<CR>
+noremap <leader>cp :let @+=expand("%:p")<CR>
 
 " >> Fixes -----------------------------------------------------------------{{{2
 
