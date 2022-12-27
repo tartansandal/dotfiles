@@ -3,22 +3,19 @@
 ## Personal Shortcuts
 
 ```keys
+\? - goto this cheatsheet
+
 \+  - increase fontsize
 \-  - decrease fontsize
 
 \<space> - one window
 Ctrl-L  - clear search highlighting
 
-\a - autoformat   ( may not need this anymore use \f instead )
-
 \g - open Fugitive Status
 \\G - open file in github
 
 \u - toggle undo tree
 \n - find current file in NERDTree
-
-\? - goto this cheatsheet
-\N - goto Notes directory
 
 Ctrl-Tab  Swicther
 Ctrl-\    Switcher
