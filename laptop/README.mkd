@@ -287,3 +287,10 @@ Though you may have to remove the old build directory first.
 ## Nvidia and Wayland
 
 See <https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/6/>
+
+### realtime audio for guitarix and ardour
+
+install realtime-setup.x86_64
+
+ensure you are in both the audio and realtime groups
+

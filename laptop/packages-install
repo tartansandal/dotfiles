@@ -16,6 +16,9 @@ pipewire-alsa
 pipewire-gstreamer
 pipewire-jack-audio-connection-kit
 pipewire-pulseaudio
+pipewire-codec-aptx
+pipewire-plugin-libcamera
+tuned-profiles-realtime
 
 # Backups
 duplicity
