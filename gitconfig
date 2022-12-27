@@ -1,60 +1,60 @@
 [user]
-    name = Kahlil Hodgson
+	name = Kahlil Hodgson
 	email = tartansandal@users.noreply.github.com
 
 [core]
-    excludesfile = ~/.gitignore
-    repositoryformatversion = 0
-    filemode = true
-    bare = false
-    logallrefupdates = true
+	excludesfile = ~/.gitignore
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
 
 [color]
-    branch = auto
-    diff = auto
-    status = auto
-    ui = true
+	branch = auto
+	diff = auto
+	status = auto
+	ui = true
 
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+	current = yellow reverse
+	local = yellow
+	remote = green
 
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
 
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+	added = yellow
+	changed = green
+	untracked = cyan
 
 [gui]
-    editor = gvim
+	editor = gvim
 
 [push]
-    default = simple
+	default = simple
 	autoSetupRemote = true
 
 [log]
-    abbrevCommit = true
+	abbrevCommit = true
 
 [showbranch]
-    default = --topo-order
+	default = --topo-order
 
 [diff]
-    tool = gvimdiff
+	tool = gvimdiff
 [pull]
-    rebase = false
+	rebase = false
 [init]
 	defaultBranch = main
 [include]
 	path = /home/kal/.gitalias
 
 [alias]
-    log-list-week = log-list --date=format:%F' '(%V)
+	log-list-week = log-list --date=format:%F' '(%V)
 [submodule]
 	recurse = true
 [filter "lfs"]
@@ -62,3 +62,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[fetch]
+	prune = true
