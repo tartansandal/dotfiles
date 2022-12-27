@@ -61,7 +61,8 @@
   "python.formatting.provider": "black",
   "python.formatting.blackPath": "/usr/bin/black",
 
-  "pyright.inlayHints.enable": false,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.functionReturnTypes": false,
 
   // See coc-tserver for `tserver`, `typescript`, and `javascript` keys:
   // https://github.com/neoclide/coc-tsserver#configuration-options
