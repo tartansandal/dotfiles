@@ -22,9 +22,3 @@ nmap <buffer> <leader>> ysiu>
 " > Linting
 let b:ale_linters=['remark-lint']
 let b:ale_fixers=['remark-lint']
-
-" For time tracking DIARY
-nmap <buffer> <silent> <leader>tt :call checkbox#ToggleCB()<cr>
-nmap <buffer> <silent> <leader>te  :NewTimeLogEntry<cr>
-imap <buffer> <silent> <leader>tt <Esc>:call checkbox#ToggleCB()<cr>
-imap <buffer> <silent> <leader>te <Esc>:NewTimeLogEntry<cr>
