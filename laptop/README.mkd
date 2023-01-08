@@ -20,13 +20,6 @@ Remove packages in `packages-remove` file
 sudo dnf remove `grep -v '^#\|^$' packages-remove`
 ```
 
-Turn on automatic performace tuning:
-May not need this for Fedora 36 
-
-```console
-    sudo systemctl enable tuned --now
-```
-
 install Zoom from <https://zoom.us/download#client_4meeting>
 
 ```console
@@ -52,7 +45,6 @@ flatpak install com.uploadedlobster.peek
 flatpak install org.gnome.Solanum
 flatpak install us.zoom.Zoom
 flatpak install com.leinardi.gwe
-flatpak install com.lakoliu.Furtherance
 ```
 
 Log out and back in before running these, or at least
@@ -183,7 +175,7 @@ sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 sudo dracut -f
 ```
 
-## Hardware accelleration
+## Hardware acceleration
 
 I think my laptop is what is called Optimus with the dual Nvidia/Intel video.
 
@@ -211,7 +203,7 @@ Need `intel-media-driver`
 
 ## Nvidia drivers with dkms
 
-Firefox does not support hardware accelleration with NVIDIA yet, due to poor 
+Firefox does not support hardware accelleration with NVIDIA yet, due to poor
 VAAPI support, so this is not so useful.
 
 How to turn it all off?
