@@ -6,7 +6,6 @@ gimp
 
 # Audio
 audacity
-pavucontrol
 lame
 ardour6
 ffmpeg
@@ -58,6 +57,7 @@ vim-X11
 vim-enhanced
 ripgrep
 jq
+jc
 fd-find
 fzf
 nodejs
