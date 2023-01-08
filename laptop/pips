@@ -1,1 +1,6 @@
 vint
+mjml
+mypy
+iredis
+black
+prettier
