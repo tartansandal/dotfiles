@@ -20,5 +20,6 @@ nmap <buffer> <leader>` ysiW`
 nmap <buffer> <leader>> ysiu>
 
 " > Linting
-let b:ale_linters=['remark-lint']
-let b:ale_fixers=['remark-lint']
+" remark is broken again
+let b:ale_linters=[] " 'remark-lint']
+let b:ale_fixers=[]  " 'remark-lint']
