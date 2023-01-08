@@ -48,6 +48,7 @@ export RSYNC_RSH=ssh
 export LESS="-R"
 unset MAILCHECK
 export VAGRANT_DEFAULT_PROVIDER=libvirt
+export MANPAGER="vim +MANPAGER --not-a-term -"
 
 # ensure clean UTF-8 environment
 # export LC_ALL="en_AU.UTF-8"
