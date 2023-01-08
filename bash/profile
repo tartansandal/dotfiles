@@ -129,12 +129,6 @@ then
     ln -sf $HOME/bin $HOME/.gem/ruby/
 fi
 
-#> Poetry setup
-if [[ -d $HOME/.poetry ]]
-then
-    pathmunge $HOME/.poetry/bin
-fi
-
 #> PyEnv setup
 if [[ -d $HOME/.pyenv ]]
 then
