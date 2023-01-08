@@ -43,6 +43,8 @@
     "default": "\uf29c"
   },
 
+  // "prettier.disableLanguages": ["markdown"],
+
   // Use Jedi when node 12 is not available
   "pyright.enable": true,
   "jedi.enable": false,
