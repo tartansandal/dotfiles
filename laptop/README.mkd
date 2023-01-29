@@ -268,6 +268,14 @@ preuninstall scriptlet (using /bin/sh):
 dkms remove -m nvidia -v 515.48.07 -q --all || :
 ```
 
+So the following should work:
+
+```
+version=XXXX
+sudo dkms build -m nvidia -v $version --force
+sudo dkms install -m nvidia -v $version --force
+```
+
 To triger a rebuild and resigning
 
 ```console
