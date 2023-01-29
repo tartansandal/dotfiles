@@ -9,6 +9,7 @@ audacity
 lame
 ardour6
 ffmpeg
+guitarix
 
 pipenv
 pipewire-alsa
@@ -18,6 +19,8 @@ pipewire-pulseaudio
 pipewire-codec-aptx
 pipewire-plugin-libcamera
 tuned-profiles-realtime
+
+openh264
 
 # Backups
 duplicity
@@ -29,6 +32,7 @@ fedora-packager
 # Gnome
 gnome-terminal-nautilus
 gnome-tweak-tool
+gnome-pomodoro
 
 # System
 tuned
@@ -45,9 +49,13 @@ hping3
 mediawriter
 intel-media-driver
 inotify-tools
+egl-utils
+egl-wayland
+egl-gbm
 
 # Virtualization
 docker-ce
+docker-compose-plugin
 awscli
 
 # Development
@@ -77,15 +85,15 @@ virt-install
 make
 xpad
 xsel
+golang
+mariadb
+mariadb-devel
 
 # Python
-black
-python-django-bash-completion
 python3-yapf
 python3-flake8
 python3-pudb
 python3-isort
-python3-jedi
 python3-pylint
 python3-pytest
 python3-ipython
