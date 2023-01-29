@@ -222,16 +222,9 @@ sudo dnf install dkms
 ```
 
 Make sure key drive is plugged in and unlocked.
-Copy the signing helper to `/etc/dkms`
 
-```console
-cp ./etc/dkms/sign_helper.sh /etc/dkms/
-```
-
-Edit `/etc/dkms/framework.conf` and ensure the signing helper is turned on.
-
-Ensure the keys are mounted at boot (for reboot to install)
-Add the following to `/etc/crypttab`
+To ensure the keys are mounted at boot (for reboot to install)
+add the following to `/etc/crypttab`
 
 ```text
 secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
@@ -244,6 +237,9 @@ And add the following to `/etc/fstab`
 ```
 
 Then reboot to ensure thumbdrive is mounted on /secret
+
+Note that `/etc/dkms/framework.conf` will assume the MOK keys are under that
+mountpoint.
 
 Next install the negativo17 nvidia modules
 
