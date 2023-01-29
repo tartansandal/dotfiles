@@ -52,6 +52,7 @@ inotify-tools
 egl-utils
 egl-wayland
 egl-gbm
+tailscale
 
 # Virtualization
 docker-ce
