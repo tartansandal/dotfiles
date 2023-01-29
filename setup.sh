@@ -25,6 +25,7 @@ ln -sf  $base_dir/proverc              ~/.proverc
 ln -sf  $base_dir/style.yapf           ~/.style.yapf
 ln -sf  $base_dir/remarkrc.yml         ~/.remarkrc.yml
 ln -sf  $base_dir/isort.cfg            ~/.isort.cfg
+ln -sf  $base_dir/NERDTreeBookmarks    ~/.NERDTreeBookmarks
 
 ln -snf $base_dir/vim                  ~/.vim
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
