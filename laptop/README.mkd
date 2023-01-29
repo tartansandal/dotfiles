@@ -6,34 +6,25 @@ Install yum repos etc
 sudo rsync -rv ./etc/ /etc/
 ```
 
-Maybe think about those independently
-
 Install packages in `packages-install` file
 
 ```console
 sudo dnf install `grep -v '^#\|^$' packages-install`
 ```
 
-Remove packages in `packages-remove` file
+Integrate app data from rpmfusion:
 
 ```console
-sudo dnf remove `grep -v '^#\|^$' packages-remove`
+sudo dnf groupupdate core
 ```
 
-install Zoom from <https://zoom.us/download#client_4meeting>
+
+Install flatpacks
 
 ```console
-flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
-```
-
-That does not work. Have to get past the `fedora-flatpack-filter`. The following
-does that and gives me access to DBeaverCommunity.
-
-```console
+# by-pass `fedora-flatpack-filter`.
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-```
 
-```console
 flatpak install io.dbeaver.DBeaverCommunity
 flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
 flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
@@ -44,7 +35,6 @@ flatpak install ca.desrt.dconf-editor
 flatpak install com.uploadedlobster.peek
 flatpak install org.gnome.Solanum
 flatpak install us.zoom.Zoom
-flatpak install com.leinardi.gwe
 ```
 
 Log out and back in before running these, or at least
