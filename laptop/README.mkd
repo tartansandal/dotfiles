@@ -2,21 +2,15 @@
 
 Install yum repos etc
 
-```console
-sudo rsync -rv ./etc/ /etc/
-```
+    sudo rsync -rv ./etc/ /etc/
 
 Install packages in `packages-install` file
 
-```console
-sudo dnf install `grep -v '^#\|^$' packages-install`
-```
+    sudo dnf install `grep -v '^#\|^$' packages-install`
 
 Integrate app data from rpmfusion:
 
-```console
-sudo dnf groupupdate core
-```
+    sudo dnf groupupdate core
 
 
 Install flatpacks
@@ -38,23 +32,19 @@ flatpak install us.zoom.Zoom
 
 Log out and back in before running these, or at least
 
-```console
-source ~/.bash_profile
-```
+    source ~/.bash_profile
 
 and perhaps creating the .local/ directories
 
 Think much of this is now covered by CoC and lsp
 
-```console
-npm install -g eslint
-npm install -g babel-eslint
-npm install -g eslint-plugin-react
-npm install -g js-beautify
+    npm install -g eslint
+    npm install -g babel-eslint
+    npm install -g eslint-plugin-react
+    npm install -g js-beautify
 
-pip install --user `cat pips`
-gem install `cat gems`
-```
+    pip install --user `cat pips`
+    gem install `cat gems`
 
 ## Emoji and Special characters?
 
@@ -74,7 +64,7 @@ Okay, found a chrome extension that seems to be working.
 
 To bind print-screen to flameshot ...
 
-Goto Settings > Keyboard > View and Customize Shortcuts.
+Goto `Settings > Keyboard > View` and Customize Shortcuts.
 
 Search for "Print". If not set to "Flameshot", select the "Print" binding then
 hit "backspace" to disable. Then add a new Custom Shortcut for  "flameshot gui"
@@ -84,11 +74,9 @@ and bind that to the "Print" key.
 
 Add myself to the `docker` group
 
-```console
-sudo dnf install docker-ce
-sudo systemctl enable --now docker
-sudo usermod -aG docker $(whoami)
-```
+    sudo dnf install docker-ce
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker $(whoami)
 
 ## Pyenv
 
@@ -98,71 +86,51 @@ See <https://github.com/pyenv/pyenv>
 
 Need extra packages:
 
-```console
-sudo dnf install        \
-    bzip2-devel         \
-    libffi-devel        \
-    openssl-devel       \
-    readline-devel      \
-    sqlite-devel        \
-    xz-devel            \
-    ncurses-c++-libs    \
-    ncurses-devel
-```
+    sudo dnf install        \
+        bzip2-devel         \
+        libffi-devel        \
+        openssl-devel       \
+        readline-devel      \
+        sqlite-devel        \
+        xz-devel            \
+        ncurses-c++-libs    \
+        ncurses-devel
 
-update pip for each version
+Update pip for each version
 
-```console
-for VERSION in $(pyenv versions --bare) ; do
-  pyenv shell ${VERSION} ;
-  pip install --upgrade pip ;
-done
-```
-
-add pyvenv for any python2 versions
-
-```console
-for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
-  pyenv shell ${VERSION} ;
-  pip install py2venv ;
-done
-```
+    for VERSION in $(pyenv versions --bare)
+    do
+        pyenv shell ${VERSION}
+        pip install --upgrade pip
+    done
 
 ## ffmpeg
 
 for ACC and mpg4
 
-```console
-sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf install ffmpeg
-```
+    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf install ffmpeg
 
 ## Increase grub prompt fonts
 
 Add the following lines to `/etc/default/grub`
 
-```bash
-GRUB_FONT=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2
-GRUB_TERMINAL_OUTPUT="gfxterm"
-```
+    GRUB_FONT=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2
+    GRUB_TERMINAL_OUTPUT="gfxterm"
 
 then run
 
-```console
-sudo mkdir /boot/efi/EFI/fedora/fonts/
-sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono48.pf2 --size=48 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
-sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-```
+    sudo mkdir /boot/efi/EFI/fedora/fonts/
+    sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono48.pf2 --size=48 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
+    sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 After grub the fontsize can be set via `/etc/vconsole.conf` and by altering the
 default command line to set `vconsole.font` to something bigger like `ter-132n`.
-Then run: 
+Then run:
 
-```console
-sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-sudo dracut -f
-```
+    sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+    sudo dracut -f
 
 ## Hardware acceleration
 
@@ -180,98 +148,21 @@ Websites with information about this:
 
 Checking GPU support
 
-```console
-glxinfo | grep "profile version"
-eglinfo | grep version
-vainfo
-```
+    glxinfo | grep "profile version"
+    eglinfo | grep version
+    vainfo
 
 Need OpenGL >= 3.2 or GLES >= 3.0
 
 Need `intel-media-driver`
 
-## Nvidia drivers with dkms
+## Nvidia drivers with RPMFusion
 
-Firefox does not support hardware accelleration with NVIDIA yet, due to poor
-VAAPI support, so this is not so useful.
+Run
 
-How to turn it all off?
+    sudo dnf install nvidia
 
-```console
-sudo dnf remove nvidia*
-reboot
-```
-
-See <https://negativo17.org/nvidia-driver/>
-
-Note we set the dkms config to use the MOK keys on my thumbdrive.
-
-```console
-sudo dnf install dkms
-```
-
-Make sure key drive is plugged in and unlocked.
-
-To ensure the keys are mounted at boot (for reboot to install)
-add the following to `/etc/crypttab`
-
-```text
-secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
-```
-
-And add the following to `/etc/fstab`
-
-```text
-/dev/mapper/secret	/secret 	ext4 defaults,nofail,nosuid,nodev,relatime 0 0
-```
-
-Then reboot to ensure thumbdrive is mounted on /secret
-
-Note that `/etc/dkms/framework.conf` will assume the MOK keys are under that
-mountpoint.
-
-Next install the negativo17 nvidia modules
-
-```console
-dnf config-manager --add-repo=<https://negativo17.org/repos/fedora-nvidia.repo>
-
-sudo dnf install nvidia-driver dkms-nvidia nvidia-settings nvidia-modprobe
-```
-
-Debugging this generally requires runing the dkms commands from the the
-`dkms-nvidia` scripts manually:
-
-```console
-$ rpm -q --scripts dkms-nvidia 
-postinstall scriptlet (using /bin/sh):
-dkms add -m nvidia -v 515.48.07 -q || :
-# Rebuild and make available for the currently running kernel:
-dkms build -m nvidia -v 515.48.07 -q || :
-dkms install -m nvidia -v 515.48.07 -q --force || :
-preuninstall scriptlet (using /bin/sh):
-# Remove all versions from DKMS registry:
-dkms remove -m nvidia -v 515.48.07 -q --all || :
-```
-
-So the following should work:
-
-```
-version=XXXX
-sudo dkms build -m nvidia -v $version --force
-sudo dkms install -m nvidia -v $version --force
-```
-
-To triger a rebuild and resigning
-
-```console
-dkms autobuild
-```
-
-Though you may have to remove the old build directory first.
-
-## Nvidia and Wayland
-
-See <https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/6/>
+Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
 
 ### realtime audio for guitarix and ardour
 
