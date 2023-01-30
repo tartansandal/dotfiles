@@ -53,6 +53,7 @@ egl-utils
 egl-wayland
 egl-gbm
 tailscale
+screenfetch
 
 # Virtualization
 docker-ce

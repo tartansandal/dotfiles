@@ -33,7 +33,6 @@ flatpak install com.mattjakeman.ExtensionManager
 flatpak install com.rafaelmardojai.Blanket
 flatpak install ca.desrt.dconf-editor
 flatpak install com.uploadedlobster.peek
-flatpak install org.gnome.Solanum
 flatpak install us.zoom.Zoom
 ```
 
