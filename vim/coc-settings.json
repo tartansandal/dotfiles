@@ -11,7 +11,6 @@
   "suggest.formatItems": ["abbr","menu","kind","shortcut"],
   "suggest.enablePreselect": true,
   "suggest.autoTrigger": "always",
-  "suggest.fixInsertedWord": true,
   "suggest.removeDuplicateItems": true,
   "suggest.defaultSortMethod": "length", // "alphabetical", "none",
   "suggest.completionItemKindLabels": {
@@ -84,20 +83,14 @@
   "snippets.snipmate.enable": false,
 
   "tsserver.enable": true,
-  "tsserver.formatOnType": true,
-  "tsserver.enableJavascript": true,
   "tsserver.log": "off",
   "tsserver.trace.server": "off",
   "tsserver.reportStyleChecksAsWarnings": true,
   "tsserver.implicitProjectConfig.checkJs": false,
   "tsserver.implicitProjectConfig.experimentalDecorators": false,
   "tsserver.disableAutomaticTypeAcquisition": false,
-  "tsserver.useBatchedBufferSync": true,
   "tsserver.enableTracing": false,
 
-  "typescript.updateImportsOnFileMove.enable": true,
-  "typescript.implementationsCodeLens.enable": true,
-  "typescript.referencesCodeLens.enable": true,
   "typescript.referencesCodeLens.showOnAllFunctions": false,
   "typescript.preferences.importModuleSpecifier": "shortest",
   "typescript.preferences.importModuleSpecifierEnding": "auto",
