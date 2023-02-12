@@ -1,8 +1,6 @@
 # Apps
 google-chrome-stable
 gimp
-#openshot
-#obs
 
 # Audio
 audacity
@@ -21,6 +19,10 @@ pipewire-plugin-libcamera
 tuned-profiles-realtime
 
 openh264
+vdpauinfo
+libva-vdpau-driver
+libva-utils
+vulkan
 
 # Backups
 duplicity
@@ -101,3 +103,4 @@ python3-pytest
 python3-ipython
 python3-ipython-doc
 python3-ipdb
+pre-commit

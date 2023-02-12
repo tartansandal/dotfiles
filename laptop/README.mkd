@@ -156,13 +156,71 @@ Need OpenGL >= 3.2 or GLES >= 3.0
 
 Need `intel-media-driver`
 
+## Auto unlock secret thumbdrive
+
+```
+mkdir /secret
+```
+
+To ensure the keys are mounted at boot (for reboot to install)
+add the following to `/etc/crypttab`
+
+```text
+secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
+```
+
+And add the following to `/etc/fstab`
+
+```text
+/dev/mapper/secret	/etc/pki/akmods/ 	ext4 defaults,nofail,nosuid,nodev,relatime 0 0
+```
+
+Then reboot to ensure thumbdrive is mounted on `/etc/pki/akmods`
+
+
 ## Nvidia drivers with RPMFusion
 
-Run
+Install the metapackage
 
-    sudo dnf install nvidia
+    sudo dnf install kmod-nvidia
+
+Ensure the following are installed:
+
+    akmod-nvidia
+    nvidia-settings
+    xorg-x11-drv-nvidia
+    xorg-x11-drv-nvidia-kmodsrc
+    xorg-x11-drv-nvidia-libs
+    xorg-x11-drv-nvidia-cuda-libs
+    xorg-x11-drv-nvidia-power
+
+Some extras?
+
+    nvidia-gpu-firmware
+    nvidia-persistenced
+    nvidia-vaapi-driver
+    xorg-x11-drv-nvidia-cuda
 
 Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
+
+### Optimus PRIME GPU offloading
+
+Ref: https://wiki.archlinux.org/title/PRIME
+
+Install:
+
+    vulkan
+    swticheroo-control
+
+To manually run with the nvidia gpu:
+
+    __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia command
+
+Or use the switcheroo service:
+
+> GNOME will respect the PrefersNonDefaultGPU property in the desktop
+> entry. Alternatively, you can launch applications with GPU by right clicking
+> on the icon and choosing Launch using Discrete Graphics Card. 
 
 ### realtime audio for guitarix and ardour
 

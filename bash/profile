@@ -108,14 +108,10 @@ then
     export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
 fi
 
-# This only seems to work in Xorg so switching between Wayland and Xorg logins
-# is an easy way to switch between the low power drain of the on-chip Intel
-# graphics (say for when on battery) and the high power drain of the discrete
-# Nvidia card (for when I'm plugged in). 
+# I'm almost always plugged in, so turn on Optimus PRIME for everything.
+# Comment the following out and LOLI when you need to preserve battery.
 export __NV_PRIME_RENDER_OFFLOAD=1
-# Add the following to prefix to commands that you want to use the nvidia card:
-#
-#    env __GLX_VENDOR_LIBRARY_NAME=nvidia  <command>
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
 
 #> Ruby setup
 #
@@ -127,6 +123,7 @@ export __NV_PRIME_RENDER_OFFLOAD=1
 export GEM_HOME=$HOME/.gem/ruby
 if [[ ! -e $HOME/.gem/ruby/bin ]]
 then
+    mkdir -p $HOME/.gem/ruby
     ln -sf $HOME/bin $HOME/.gem/ruby/
 fi
 
