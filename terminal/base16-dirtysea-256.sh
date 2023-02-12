@@ -81,51 +81,6 @@ if which "$DCONF" > /dev/null 2>&1; then
     fi
 fi
 
-# Fallback for Gnome 2 and early Gnome 3
-[[ -z "$GCONFTOOL" ]] && GCONFTOOL=gconftool
-[[ -z "$BASE_KEY" ]] && BASE_KEY=/apps/gnome-terminal/profiles
-
-PROFILE_KEY="$BASE_KEY/$PROFILE_SLUG"
-
-gset() {
-    local type="$1"; shift
-    local key="$1"; shift
-    local val="$1"; shift
-
-    "$GCONFTOOL" --set --type "$type" "$PROFILE_KEY/$key" -- "$val"
-}
-
-# Because gconftool doesn't have "append"
-glist_append() {
-    local type="$1"; shift
-    local key="$1"; shift
-    local val="$1"; shift
-
-    local entries="$(
-        {
-            "$GCONFTOOL" --get "$key" | tr -d '[]' | tr , "\n" | fgrep -v "$val"
-            echo "$val"
-        } | head -c-1 | tr "\n" ,
-    )"
-
-    "$GCONFTOOL" --set --type list --list-type $type "$key" "[$entries]"
-}
-
-# Append the Base16 profile to the profile list
-glist_append string /apps/gnome-terminal/global/profile_list "$PROFILE_SLUG"
-
-gset string visible_name "$PROFILE_NAME"
-gset string palette "#e0e0e0:#840000:#730073:#755B00:#007300:#000090:#755B00:#000000:#707070:#840000:#730073:#755B00:#007300:#000090:#755B00:#c4d9c4"
-gset string background_color "#e0e0e0"
-gset string foreground_color "#000000"
-gset string bold_color "#000000"
-gset bool   bold_color_same_as_fg "true"
-gset bool   cursor-colors-set "true"
-gset string cursor-background-color "'#000000'"
-gset string cursor-foreground-color "'#e0e0e0'"
-gset bool   use_theme_colors "false"
-gset bool   use_theme_background "false"
-
 unset PROFILE_NAME
 unset PROFILE_SLUG
 unset DCONF
