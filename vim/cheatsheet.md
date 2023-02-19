@@ -285,3 +285,10 @@ SX - surround visual selction with X
 
 For (X)HTML tags use `t`, for example, `cst<p>` changes the surround "tag" to
 `<p>`.
+
+## Copying filename/path/directory to cliplboard
+
+\cf     relative path (src/foo.txt)
+\cF     absolute path (/something/src/foo.txt)
+\ct     filename (foo.txt)
+\ch     directory name (/something/src)

@@ -1682,13 +1682,20 @@ noremap <silent><leader>tn :TestNearest<CR>
 noremap <silent><leader>tn :TestFile<CR>
 noremap <silent><leader>ts :TestSuite<CR>
 
-" > Grep all with a \v prefix (same bindings as easygrep) 
+" > Grep all with a \v prefix (same bindings as easygrep)
 noremap <silent><leader>vv :grep! -w <cword><CR>
 noremap <silent><leader>vV :grep! -w <cWORD><CR>
 noremap <silent><leader>vf :grep! <cfile><CR>
 
-noremap <leader>cf :let @+=expand("%")<CR>
-noremap <leader>cp :let @+=expand("%:p")<CR>
+" > Copying filename/path/directory to clipboard
+" relative path (src/foo.txt)
+nnoremap <leader>cf :let @+=expand("%")<CR>
+" absolute path (/something/src/foo.txt)
+nnoremap <leader>cF :let @+=expand("%:p")<CR>
+" filename (foo.txt)
+nnoremap <leader>ct :let @+=expand("%:t")<CR>
+" directory name (/something/src)
+nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
 
 " >> Fixes -----------------------------------------------------------------{{{2
 
