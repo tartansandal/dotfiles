@@ -20,7 +20,6 @@ tuned-profiles-realtime
 
 openh264
 vdpauinfo
-libva-vdpau-driver
 libva-utils
 vulkan
 
