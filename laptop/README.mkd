@@ -139,6 +139,14 @@ I think my laptop is what is called Optimus with the dual Nvidia/Intel video.
 Despite all this I won't get harware accelleration under Firefox yet. :(
 I think I really need WebGL.
 
+Can get it to work if I disable NVIDIA with
+
+    __NV_PRIME_RENDER_OFFLOAD=0 firefox
+
+> Run Firefox and force enable VA-API as it's disabled on NVIDIA by default. Go
+> to about:config page and set media.ffmpeg.vaapi.enabled to true.
+> Run Firefox with NVD_BACKEND=direct MOZ_DISABLE_RDD_SANDBOX=1 env variables.
+
 Websites with information about this:
 
 * <about:support> (Firefox)
@@ -154,8 +162,12 @@ Checking GPU support
 
 Need OpenGL >= 3.2 or GLES >= 3.0
 
-Need `intel-media-driver`
+Maybe need:
 
+    intel-media-driver
+    libva-intel-hybrid-driver
+
+MOZ_ENABLE_WAYLAND=0 ./firefox
 ## Auto unlock secret thumbdrive
 
 ```
@@ -228,3 +240,15 @@ install realtime-setup.x86_64
 
 ensure you are in both the audio and realtime groups
 
+## Doist
+
+Hosts updates:
+
+    {
+        echo "127.0.0.1   elasticmq.local redis.local"
+        echo "127.0.0.1   local.todoist.com local.mailhog.com"
+    } | sudo tee -a /etc/hosts
+
+Use dev CA for local.todoist.com:
+
+    sudo trust anchor --store path/to/ide-tools/traefik/ssl/rootCA.pem
