@@ -56,7 +56,7 @@ Can do this via the Typing Booster input method (see
 <https://opensource.com/article/19/10/how-type-emoji-linux>).
 
 To toggle input methods use `Super + space`.  But this does not help for input
-in chrome or vim (works in terminal though:) )
+in chrome under wayland.
 
 Okay, found a chrome extension that seems to be working.
 
