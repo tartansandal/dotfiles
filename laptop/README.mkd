@@ -252,3 +252,10 @@ Hosts updates:
 Use dev CA for local.todoist.com:
 
     sudo trust anchor --store path/to/ide-tools/traefik/ssl/rootCA.pem
+
+## GitHub CLI
+
+    sudo dnf install 'dnf-command(config-manager)'
+    sudo dnf config-manager \
+        --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+    sudo dnf install gh
