@@ -61,7 +61,7 @@ Plug 'tpope/vim-commentary'
 "
 "   https://github.com/tpope/vim-fugitive
 "   ~/.vim/plugged/vim-fugitive/README.markdown
-"M   ~/.vim/plugged/vim-fugitive/doc/fugitive.txt
+"   ~/.vim/plugged/vim-fugitive/doc/fugitive.txt
 "
 Plug 'tpope/vim-fugitive'
 
