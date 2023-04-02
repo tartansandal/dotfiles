@@ -1683,9 +1683,10 @@ noremap <silent><leader>tn :TestFile<CR>
 noremap <silent><leader>ts :TestSuite<CR>
 
 " > Grep all with a \v prefix (same bindings as easygrep)
-noremap <silent><leader>vv :grep! -w <cword><CR>
-noremap <silent><leader>vV :grep! -w <cWORD><CR>
-noremap <silent><leader>vf :grep! <cfile><CR>
+" no <silent> or <CR> since we often want to refine the command
+noremap <leader>vv :grep! -w <cword>
+noremap <leader>vV :grep! -w <cWORD>
+noremap <leader>vf :grep! <cfile>
 
 " > Copying filename/path/directory to clipboard
 " relative path (src/foo.txt)
