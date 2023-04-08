@@ -76,7 +76,7 @@ xsel
 direnv
 zeal
 gcc-c++
-git 
+git
 git-lfs
 yamllint
 rust
