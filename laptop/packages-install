@@ -17,6 +17,7 @@ pipewire-pulseaudio
 pipewire-codec-aptx
 pipewire-plugin-libcamera
 tuned-profiles-realtime
+realtime-setup
 
 openh264
 vdpauinfo
