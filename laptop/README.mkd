@@ -251,7 +251,7 @@ Hosts updates:
 
     {
         echo "127.0.0.1   elasticmq.local redis.local"
-        echo "127.0.0.1   local.todoist.com local.mailhog.com"
+        echo "127.0.0.1   local.todoist.com local.twist.com local.mailhog.com"
     } | sudo tee -a /etc/hosts
 
 Use dev CA for local.todoist.com:
