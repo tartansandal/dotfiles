@@ -239,7 +239,7 @@ Or use the switcheroo service:
 > entry. Alternatively, you can launch applications with GPU by right clicking
 > on the icon and choosing Launch using Discrete Graphics Card. 
 
-### realtime audio for guitarix and ardour
+### Realtime audio for guitarix and ardour
 
 install realtime-setup.x86_64
 
