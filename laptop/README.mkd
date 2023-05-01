@@ -215,6 +215,11 @@ Some extras?
 
 Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
 
+
+To force a rebuild run (as normal user):
+
+    akmodsbuild /usr/src/akmods/nvidia-kmod.latest
+
 ### Optimus PRIME GPU offloading
 
 Ref: https://wiki.archlinux.org/title/PRIME
