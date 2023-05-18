@@ -467,6 +467,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 Plug 'justinmk/vim-sneak'
 
+Plug 'AndrewRadev/sideways.vim'
+
 """"" Experiments with typscript support
 
 "   ~/.vim/plugged/vim-javascript/README.md
@@ -787,7 +789,7 @@ if !exists(':DiffOrig')
 endif
 
 " > Plugin Settings --------------------------------------------------------{{{1
-" >> Misc ------------------------------------------------------------------{{{2
+"q >> Misc ------------------------------------------------------------------{{{2
 
 " undotree
 let g:undotree_ShortIndicators=1
@@ -797,6 +799,13 @@ let g:zv_docsets_dir=expand('~/.local/share/Zeal/Zeal/docsets/')
 " dispatch has a groovy set of maps, but I don't use this enough to internalise
 let g:dispatch_no_maps = 1
 let g:echodoc#enable_at_startup = 1
+
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
 
 " >> Markdown Preview ------------------------------------------------------{{{2
 
@@ -1856,4 +1865,5 @@ augroup end
 
 " WORKAROUND: have to set the colorscheme twice to get this to work in terminal
 colorscheme default
-colorscheme base16-dirtysea
+"colorscheme base16-dirtysea
+colorscheme darcula
