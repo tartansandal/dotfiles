@@ -44,6 +44,10 @@ then
         complete -C '/usr/bin/aws_completer' aws
     fi
 
+    # asdf support
+    . "$HOME/.asdf/asdf.sh"
+    . "$HOME/.asdf/completions/asdf.bash"
+
     #> aliases
 
     # personal preferences
