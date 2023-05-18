@@ -198,19 +198,19 @@ Install the metapackage
 
 Ensure the following are installed:
 
-    akmod-nvidia
-    nvidia-settings
-    xorg-x11-drv-nvidia
-    xorg-x11-drv-nvidia-kmodsrc
-    xorg-x11-drv-nvidia-libs
-    xorg-x11-drv-nvidia-cuda-libs
+    akmod-nvidia                    \
+    nvidia-settings                 \
+    xorg-x11-drv-nvidia             \
+    xorg-x11-drv-nvidia-kmodsrc     \
+    xorg-x11-drv-nvidia-libs        \
+    xorg-x11-drv-nvidia-cuda-libs   \
     xorg-x11-drv-nvidia-power
 
 Some extras?
 
-    nvidia-gpu-firmware
-    nvidia-persistenced
-    nvidia-vaapi-driver
+    nvidia-gpu-firmware         \
+    nvidia-persistenced         \
+    nvidia-vaapi-driver         \
     xorg-x11-drv-nvidia-cuda
 
 Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
