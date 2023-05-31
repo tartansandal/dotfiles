@@ -10,178 +10,178 @@ then
     . /etc/bashrc
 fi
 
-#> If running interactively ...
-if [[ $PS1 ]]
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+#> turn off terminal driver flow control so C-s and C-q works
+#> and don't interfere with vim
+stty -ixon -ixoff
+
+# use vi editing mode -- must set before FZF shell integration
+# set -o vi
+
+# This is MacOS foo
+if [[ -r /usr/local/etc/bash_completion ]]
 then
-    #> turn off terminal driver flow control so C-s and C-q works
-    #> and don't interfere with vim
-    stty -ixon -ixoff
-
-    # use vi editing mode -- must set before FZF shell integration
-    # set -o vi
-
-    # This is MacOS foo
-    if [[ -r /usr/local/etc/bash_completion ]]
-    then
-        . /usr/local/etc/bash_completion
-    fi
-
-    #> source private libraries
-    for lib in \
-        hosts \
-        prompt \
-        direnv \
-        fzf \
-        dockerized \
-        pyenv
-    do
-        [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
-    done
-    unset lib
-
-    if [[ -r /usr/bin/aws_completer ]]
-    then
-        complete -C '/usr/bin/aws_completer' aws
-    fi
-
-    # asdf support
-    . "$HOME/.asdf/asdf.sh"
-    . "$HOME/.asdf/completions/asdf.bash"
-
-    #> aliases
-
-    # personal preferences
-    alias cp='cp -i'
-    alias mv='mv -i'
-    alias rm='rm -I'
-    alias ff='firefox'
-    alias lo='libreoffice'
-    alias jl='jupyter lab'
-    alias jn='jl'
-
-    # this pydoc works in venvs too
-    alias pydoc='python -m pydoc'
-
-    # use color ls
-    alias ll='ls -h -p -l --color=auto'
-    alias l.='ls -p -d --color=auto .*'
-    alias ls='ls -p --color=auto'
-    alias ..='cd ..'
-
-    alias g='/usr/bin/gvim'
-    alias vimdiff='vimdiff --noplugins'
-
-    # use vim with clipboard defined if available
-    if hash vimx 2>/dev/null
-    then
-        alias vim=vimx
-    fi
-
-    # overrides for weird Mac env
-    if [[ -n $Apple_PubSub_Socket_Render ]]
-    then
-        alias ll='ls -h -p -l -G'
-        alias l.='ls -p -d -G .*'
-        alias ls='ls -p -G'
-        alias rm='rm -i'
-    fi
-
-    #>bash_completion
-    if [[ -n "$BASH_COMPLETION" ]]
-    then
-        complete -F _root_command -o filenames s
-    fi
-
-    shrug(){
-        echo -n "¯\_(ツ)_/¯" | xsel -i
-        echo -n "¯\_(ツ)_/¯" | xsel -b
-        echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
-    } # Function to help with an emoji.
-
-    create-python-envrc() {
-        if [[ -f .envrc ]]
-        then
-            echo "Cowardly refusing to overwrite exiting .envrc file" 
-        else
-            {
-                echo "# vim: ft=sh"
-                echo "export VIRTUAL_ENV=venv"
-                echo "layout python-venv"
-            } > .envrc
-        fi
-    }
-
-    create-flake8() {
-        {
-            echo "[flake8]"
-            echo "max-line-length = 88"
-            echo "extend-ignore = E203"
-        } > .flake8
-    }
-
-    alias dnf-check-update='sudo dnf check-update --changelog | less'
-
-    ## Shell options
-
-    # Ensured hashed commands exist, else fallback to path search
-    shopt -s checkhash
-
-    # Auto update updates LINES and COLUMNS on change in window size
-    shopt -s checkwinsize
-
-    # Convert multi-line command to single line commands in history
-    shopt -s cmdhist
-
-    # Append history to existing hist file on exit
-    shopt -s histappend
-
-    # Allow re-edit of failed history substitution.
-    shopt -s histreedit
-
-    # Verify hist substitution before executing
-    shopt -s histverify
-
-    # Make # on command line behave like a comment char in scripts
-    shopt -s interactive_comments
-
-    # Don't attempt completion if the command line is empty
-    shopt -s no_empty_cmd_completion
-
-    # Filename expansion is case-insensitive
-    shopt -s nocaseglob
-
-    # Enable programmable completion facilities
-    shopt -s progcomp
-
-    # Expand vars and parameters in prompt strings
-    shopt -s promptvars
-
-    # Turn off the following unintuitive options
-
-    # Filename globs that match nothing expand to themselves
-    shopt -u nullglob
-
-    # Don't check PATH when looking for args to the 'source' command
-    shopt -u sourcepath
-
-    # Don't sent SIGHUP to all jobs when a interactive login shell exits
-    shopt -u huponexit
-
-    #> Don't let `cd' fallback to variable lookup using the arg as name
-    shopt -u cdable_vars
-
-    #> Don't auto correct minor spelling errors
-    shopt -u cdspell
-
-    # Don't allow dotfiles in the results of path-name expansion
-    shopt -u dotglob
-
-    # Don't save multi-line commands to history literally
-    shopt -u lithist
-
-    # Don't check mail
-    shopt -u mailwarn
+    . /usr/local/etc/bash_completion
 fi
+
+#> source private libraries
+for lib in \
+    hosts \
+    prompt \
+    direnv \
+    fzf \
+    dockerized \
+    pyenv
+do
+    [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
+done
+unset lib
+
+if [[ -r /usr/bin/aws_completer ]]
+then
+    complete -C '/usr/bin/aws_completer' aws
+fi
+
+# asdf support
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
+
+#> aliases
+
+# personal preferences
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I'
+alias ff='firefox'
+alias lo='libreoffice'
+alias jl='jupyter lab'
+alias jn='jl'
+
+# this pydoc works in venvs too
+alias pydoc='python -m pydoc'
+
+# use color ls
+alias ll='ls -h -p -l --color=auto'
+alias l.='ls -p -d --color=auto .*'
+alias ls='ls -p --color=auto'
+alias ..='cd ..'
+
+alias g='/usr/bin/gvim'
+alias vimdiff='vimdiff --noplugins'
+
+# use vim with clipboard defined if available
+if hash vimx 2>/dev/null
+then
+    alias vim=vimx
+fi
+
+# overrides for weird Mac env
+if [[ -n $Apple_PubSub_Socket_Render ]]
+then
+    alias ll='ls -h -p -l -G'
+    alias l.='ls -p -d -G .*'
+    alias ls='ls -p -G'
+    alias rm='rm -i'
+fi
+
+#>bash_completion
+if [[ -n "$BASH_COMPLETION" ]]
+then
+    complete -F _root_command -o filenames s
+fi
+
+shrug(){
+    echo -n "¯\_(ツ)_/¯" | xsel -i
+    echo -n "¯\_(ツ)_/¯" | xsel -b
+    echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
+} # Function to help with an emoji.
+
+create-python-envrc() {
+    if [[ -f .envrc ]]
+    then
+        echo "Cowardly refusing to overwrite exiting .envrc file" 
+    else
+        {
+            echo "# vim: ft=sh"
+            echo "export VIRTUAL_ENV=venv"
+            echo "layout python-venv"
+        } > .envrc
+    fi
+}
+
+create-flake8() {
+    {
+        echo "[flake8]"
+        echo "max-line-length = 88"
+        echo "extend-ignore = E203"
+    } > .flake8
+}
+
+## Shell options
+
+# Ensured hashed commands exist, else fallback to path search
+shopt -s checkhash
+
+# Auto update updates LINES and COLUMNS on change in window size
+shopt -s checkwinsize
+
+# Convert multi-line command to single line commands in history
+shopt -s cmdhist
+
+# Append history to existing hist file on exit
+shopt -s histappend
+
+# Allow re-edit of failed history substitution.
+shopt -s histreedit
+
+# Verify hist substitution before executing
+shopt -s histverify
+
+# Make # on command line behave like a comment char in scripts
+shopt -s interactive_comments
+
+# Don't attempt completion if the command line is empty
+shopt -s no_empty_cmd_completion
+
+# Filename expansion is case-insensitive
+shopt -s nocaseglob
+
+# Enable programmable completion facilities
+shopt -s progcomp
+
+# Expand vars and parameters in prompt strings
+shopt -s promptvars
+
+# Turn off the following unintuitive options
+
+# Filename globs that match nothing expand to themselves
+shopt -u nullglob
+
+# Don't check PATH when looking for args to the 'source' command
+shopt -u sourcepath
+
+# Don't sent SIGHUP to all jobs when a interactive login shell exits
+shopt -u huponexit
+
+#> Don't let `cd' fallback to variable lookup using the arg as name
+shopt -u cdable_vars
+
+#> Don't auto correct minor spelling errors
+shopt -u cdspell
+
+# Don't allow dotfiles in the results of path-name expansion
+shopt -u dotglob
+
+# Don't save multi-line commands to history literally
+shopt -u lithist
+
+# Don't check mail
+shopt -u mailwarn
 
 
 # >>> conda initialize >>>
@@ -198,7 +198,7 @@ else
 fi
 unset __conda_setup
 
-CONDA_ROOT=~/anaconda3 
+CONDA_ROOT=~/anaconda3
 if [[ -r $CONDA_ROOT/etc/profile.d/bash_completion.sh ]]; then
     source $CONDA_ROOT/etc/profile.d/bash_completion.sh
 fi
