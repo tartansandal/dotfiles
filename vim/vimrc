@@ -1584,7 +1584,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " > Key Mapping ------------------------------------------------------------{{{1
 "
 
-" replace netrw's gx with somethig that works
+" replace netrw's gx with something that works
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
