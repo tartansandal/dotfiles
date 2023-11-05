@@ -25,3 +25,6 @@ set visible-stats on
 
 # don't page completions
 set page-completions off
+
+set colored-completion-prefix on
+set colored-stats on
