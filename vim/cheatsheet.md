@@ -162,11 +162,8 @@ Or maybe Shift-Tab to cycle windows
 :G fetch
 :G merge
 :G blame
-:G difftool
-:G mergetool
+:G blame
 
-:Glog
-:Gblame
 ```
 
 \g - open fugitive status
@@ -286,7 +283,7 @@ SX - surround visual selction with X
 For (X)HTML tags use `t`, for example, `cst<p>` changes the surround "tag" to
 `<p>`.
 
-## Copying filename/path/directory to cliplboard
+## Copying filename/path/directory to clipboard
 
 \cf     relative path (src/foo.txt)
 \cF     absolute path (/something/src/foo.txt)
