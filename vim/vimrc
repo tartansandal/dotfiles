@@ -1611,11 +1611,15 @@ inoremap <Down> <C-O>gj
 inoremap <Up>   <C-O>gk
 
 " Use shifter arrow keys for window movement
-nnoremap <S-Up>    <C-w>k
-nnoremap <S-Down>  <C-w>j
-nnoremap <S-Left>  <C-w>h
-nnoremap <S-Right> <C-w>l
+nnoremap <C-k>    <C-w>k
+nnoremap <C-j>  <C-w>j
+nnoremap <C-h>  <C-w>h
+nnoremap <C-l> <C-w>l
 
+" The following conflicts with sideways
+" Make <c-l> clear the highlight as well as redraw
+" nnoremap <C-L> :nohls<CR><C-L>
+" inoremap <C-L> <C-O>:nohls<CR>
 " This seemed to break badly
 " " Allow macros to apply to the selected visual region
 " xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
