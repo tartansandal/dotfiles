@@ -636,7 +636,6 @@ set matchpairs+=<:>     " Allow % to bounce between angles too
 set pastetoggle=<F2>
 
 set spelllang=en_au
-set printoptions=paper:A4,formfeed:y
 
 " (sensible)
 set ttimeout            " Time out for key codes
@@ -723,8 +722,6 @@ set undodir=~/tmp/undo,~/,/tmp
 set undofile          " keep a undo file
 set undolevels=100    " maximum number of changes that can be undone
 set undoreload=1000   " maximum number lines to save for undo on a buffer reloada
-
-set cryptmethod=blowfish  " use stronger encryption by default
 
 set noswapfile  " swapfiles an annoyance since I save often
 
@@ -1021,20 +1018,24 @@ noremap <silent><leader>tt :TestNearest<CR>
 " a new window.  Only use this for testig the following augroup. 
 tnoremap <F1> <C-W>N
 
-augroup terminal
-    autocmd!
-    " The `relativenumber` and `signcolumn` options shift the content of
-    " terminal windows 6 columns to the right. This causes terminal content to
-    " wrap in Normal Mode, which does not look good in PyTest output, so we turn
-    " these off.  We also hide the `colorcolumn` which makes no sense in
-    " terminal.
-    autocmd TerminalOpen,TerminalWinOpen * 
-            \  if &buftype ==# 'terminal' 
-            \   | setlocal norelativenumber 
-            \   | setlocal signcolumn=no
-            \   | setlocal colorcolumn=0
-            \| endif
-augroup end
+" Need an nvim guard for this
+
+if ! has('nvim')
+    augroup terminal
+        autocmd!
+        " The `relativenumber` and `signcolumn` options shift the content of
+        " terminal windows 6 columns to the right. This causes terminal content to
+        " wrap in Normal Mode, which does not look good in PyTest output, so we turn
+        " these off.  We also hide the `colorcolumn` which makes no sense in
+        " terminal.
+        autocmd TerminalOpen,TerminalWinOpen * 
+                \  if &buftype ==# 'terminal' 
+                \   | setlocal norelativenumber 
+                \   | setlocal signcolumn=no
+                \   | setlocal colorcolumn=0
+                \| endif
+    augroup end
+endif
 
 " >> BufExplorer:-----------------------------------------------------------{{{2
 
