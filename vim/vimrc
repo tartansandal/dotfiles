@@ -1218,7 +1218,7 @@ let NERDTreeIgnore=[
     \   '\.\(pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
     \   '__pycache__'
     \]
-let NERDTreeQuitOnOpen=0
+let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize=31
 let NERDTreeWinSizeMax=93
@@ -1227,8 +1227,7 @@ let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 
 " Putting this on the right means the content in source window (which is left
 " aligned) move less when toggle the browser
-"let NERDTreeWinPos='right'
-let NERDTreeWinPos='left'
+let NERDTreeWinPos='right'
 let NERDTreeHighlightCursorline=1
 
 " Automatically delete buffers associated with menu deleted/renamed files
@@ -1700,7 +1699,7 @@ noremap <leader>N :NERDTree ~/Notes<CR>
 noremap <silent><leader>g :G<CR>
 noremap <silent><leader><leader>G :GBrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
-noremap <silent><leader>e :SafeNERDTreeFind<CR>
+noremap <silent><leader>n :SafeNERDTreeFind<CR>
 
 " > vim-test
 " \tt should override the plugin setting
