@@ -619,8 +619,11 @@ set formatoptions+=p    " Don't break lines at single spaces that follow periods
 
 
 " Use both system clipboard (+) and selection (*) for yank and put
-set clipboard^=unnamed,unnamedplus
+"set clipboard^=unnamed,unnamedplus
 
+" To ALWAYS use the clipboard for ALL operations (instead of interacting with
+" the "+" and/or "*" registers explicitly): >vim
+set clipboard+=unnamedplus
 
 " Allow virtual editing in visual block mode so we can form rectangles
 set virtualedit=block
