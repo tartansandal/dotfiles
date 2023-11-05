@@ -1619,6 +1619,7 @@ nnoremap <C-l> <C-w>l
 " Make <c-l> clear the highlight as well as redraw
 " nnoremap <C-L> :nohls<CR><C-L>
 " inoremap <C-L> <C-O>:nohls<CR>
+
 " This seemed to break badly
 " " Allow macros to apply to the selected visual region
 " xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
@@ -1627,8 +1628,7 @@ nnoremap <C-l> <C-w>l
 "   echo "@".getcmdline()
 "   execute ":'<,'>normal @".nr2char(getchar())
 " endfunction
-
-" Switcher -----------------------------------------------------------------{{{2
+" >> Switcher ---------------------------------------------------------------{{{2
 function! MyCycleNextLine()
     " Proceed to next line, or back to the top
     if getline('.') == getline('$')
@@ -1686,6 +1686,8 @@ command! -nargs=0 SafeNERDTreeFind :call SafeNERDTreeFind()
 
 " >> Leader Keys -----------------------------------------------------------{{{2
 
+let mapleader = '\'
+
 " This is my equivalent of a "no distractions" mode
 " Note: Ctrl-L also does `nohlsearch`
 noremap <silent><leader><space> :nohlsearch\|silent only<CR>
@@ -1698,7 +1700,7 @@ noremap <leader>N :NERDTree ~/Notes<CR>
 noremap <silent><leader>g :G<CR>
 noremap <silent><leader><leader>G :GBrowse<CR>
 noremap <silent><leader>u :UndotreeToggle<CR>
-noremap <silent><leader>n :SafeNERDTreeFind<CR>
+noremap <silent><leader>e :SafeNERDTreeFind<CR>
 
 " > vim-test
 " \tt should override the plugin setting
@@ -1718,9 +1720,9 @@ noremap <leader>vf :grep! <cfile>
 nnoremap <leader>cf :let @+=expand("%")<CR>
 " absolute path (/something/src/foo.txt)
 nnoremap <leader>cF :let @+=expand("%:p")<CR>
-" filename (foo.txt)
+" filename (copy tail) (foo.txt)
 nnoremap <leader>ct :let @+=expand("%:t")<CR>
-" directory name (/something/src)
+" directory (coppy head) name (/something/src)
 nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
 
 " >> Fixes -----------------------------------------------------------------{{{2
@@ -1881,5 +1883,5 @@ augroup end
 
 " WORKAROUND: have to set the colorscheme twice to get this to work in terminal
 colorscheme default
-"colorscheme base16-dirtysea
+colorscheme base16-dirtysea
 colorscheme darcula
