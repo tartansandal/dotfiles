@@ -20,6 +20,10 @@ nmap <buffer> <leader>` ysiW`
 " Map \> to suround the inner URL with <> marks
 nmap <buffer> <leader>> ysiu>
 
+iabbr <buffer> PR] [PR]()
+iabbr <buffer> GH] [GH]()
+iabbr <buffer> TW] [TW]()
+
 " > Linting
 " remark is broken again
 let b:ale_linters=[] " 'remark-lint']
