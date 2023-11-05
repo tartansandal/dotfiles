@@ -28,6 +28,7 @@ ln -sf  $base_dir/isort.cfg            ~/.isort.cfg
 ln -sf  $base_dir/gitalias             ~/.gitalias
 
 ln -snf $base_dir/vim                  ~/.vim
+ln -snf $base_dir/nvim                 ~/.config/nvim
 ln -sf  $base_dir/vim/gvimrc           ~/.gvimrc
 ln -sf  $base_dir/vim/vimrc            ~/.vimrc
 
