@@ -143,6 +143,13 @@ Plug 'tpope/vim-speeddating'
 "
 Plug 'preservim/nerdtree'
 
+" nvim-tree: File systme explorer
+"
+"   https://github.com/nvim-tree
+"   ~/.vim/plugged/nvim-tree.lua/README.md
+"   ~/.vim/plugged/nvim-tree.lua/doc/nvim-tree-lua.txt
+Plug 'nvim-tree/nvim-web-devicons' " optional
+Plug 'nvim-tree/nvim-tree.lua'
 
 " matchit: extended "%" matching to "if", "else", "endif", etc
 "
