@@ -1,4 +1,4 @@
-"" Personal VIM set up
+" Personal VIM set up
 " vim: foldmethod=marker foldlevel=1
 
 " > Encoding ---------------------------------------------------------------{{{2
@@ -472,9 +472,11 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 "   https://github.com/justinmk/vim-sneak
 "   ~/.vim/plugged/
 
-Plug 'justinmk/vim-sneak'
+" This steals my 'z' folding mappings :(
+" Plug 'justinmk/vim-sneak'
 
-Plug 'AndrewRadev/sideways.vim'
+" This is cool but need alternative mappings
+" Plug 'AndrewRadev/sideways.vim'
 
 """"" Experiments with typscript support
 
