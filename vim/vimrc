@@ -1218,7 +1218,7 @@ let NERDTreeIgnore=[
     \   '\.\(pyc\|pdf\|odt\|odg\|doc\|xls\|png\|ai\|jpg\)$',
     \   '__pycache__'
     \]
-let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=0
 let NERDTreeAutoCenter=1
 let NERDTreeWinSize=31
 let NERDTreeWinSizeMax=93
@@ -1227,9 +1227,9 @@ let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$']
 
 " Putting this on the right means the content in source window (which is left
 " aligned) move less when toggle the browser
-let NERDTreeWinPos='right'
+"let NERDTreeWinPos='right'
+let NERDTreeWinPos='left'
 let NERDTreeHighlightCursorline=1
-let NERDTreeHijackNetrw=1
 
 " Automatically delete buffers associated with menu deleted/renamed files
 let NERDTreeAutoDeleteBuffer=1
