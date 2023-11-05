@@ -35,7 +35,11 @@ pathmunge $HOME/bin
 ## omit superfluous commands from histlist
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTTIMEFORMAT='%a %H:%M | '
-if hash vimx 2>/dev/null
+if hash nvim 2>/dev/null
+then
+    export EDITOR='nvim';
+    export VISUAL='nvim';
+elif hash vimx 2>/dev/null
 then
     export EDITOR='vimx';
     export VISUAL='vimx';

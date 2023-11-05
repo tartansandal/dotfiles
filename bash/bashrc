@@ -48,8 +48,8 @@ then
 fi
 
 # asdf support
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
+# . "$HOME/.asdf/asdf.sh"
+# . "$HOME/.asdf/completions/asdf.bash"
 
 #> aliases
 
@@ -57,10 +57,6 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
-alias ff='firefox'
-alias lo='libreoffice'
-alias jl='jupyter lab'
-alias jn='jl'
 
 # this pydoc works in venvs too
 alias pydoc='python -m pydoc'
@@ -71,13 +67,17 @@ alias l.='ls -p -d --color=auto .*'
 alias ls='ls -p --color=auto'
 alias ..='cd ..'
 
-alias g='/usr/bin/gvim'
-alias vimdiff='vimdiff --noplugins'
+alias lg=lazygit
 
 # use vim with clipboard defined if available
 if hash vimx 2>/dev/null
 then
     alias vim=vimx
+fi
+
+if hash nvim 2>/dev/null
+then
+    alias vim=nvim
 fi
 
 # overrides for weird Mac env
@@ -93,15 +93,11 @@ fi
 if [[ -n "$BASH_COMPLETION" ]]
 then
     complete -F _root_command -o filenames s
+    complete -C /home/kal/bin/vault vault
+    complete -C /usr/bin/terraform terraform
 fi
 
-shrug(){
-    echo -n "¯\_(ツ)_/¯" | xsel -i
-    echo -n "¯\_(ツ)_/¯" | xsel -b
-    echo "¯\_(ツ)_/¯ copied to your clipboard and primary selection"
-} # Function to help with an emoji.
-
-create-python-envrc() {
+-make-python-envrc() {
     if [[ -f .envrc ]]
     then
         echo "Cowardly refusing to overwrite exiting .envrc file" 
@@ -114,7 +110,7 @@ create-python-envrc() {
     fi
 }
 
-create-flake8() {
+-make-flake8() {
     {
         echo "[flake8]"
         echo "max-line-length = 88"
@@ -204,6 +200,3 @@ if [[ -r $CONDA_ROOT/etc/profile.d/bash_completion.sh ]]; then
 fi
 # <<< conda initialize <<<
 
-complete -C /home/kal/bin/vault vault
-
-complete -C /usr/bin/terraform terraform
