@@ -1,3 +1,7 @@
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- Add any additional options here
+
 -- [[ Options ]]
 
 local set = vim.opt
@@ -6,19 +10,19 @@ local set = vim.opt
 -- Limit line length to 80-88 chars.
 -- Black has some rationale for extending beyond 80
 --
-set.textwidth = 88     -- Wrap at this column
+set.textwidth = 88 -- Wrap at this column
 set.colorcolumn = "+1" -- Number of columns to highligh after textwidth
 
 --
 -- Indent 4 spaces - a consistent and common convention
 --
-set.tabstop = 4       -- Indentation levels every four columns
-set.shiftwidth = 4    -- Indent/outdent by four columns
+set.tabstop = 4 -- Indentation levels every four columns
+set.shiftwidth = 4 -- Indent/outdent by four columns
 set.shiftround = true -- Convert all tabs typed to spaces
-set.linebreak = true  -- Wrap long lines at word boundaries
+set.linebreak = true -- Wrap long lines at word boundaries
 
 -- > same as sensible
-set.autoindent = true              -- Preserve current indent on new lines
+set.autoindent = true -- Preserve current indent on new lines
 set.backspace = "indent,eol,start" -- Make backspaces delete sensibly
 set.smarttab = true
 
@@ -42,22 +46,23 @@ set.formatoptions:append("1") -- Don't break a line after a one-letter word.
 set.formatoptions:append("j") -- Remove stray comment leaders when reformating
 set.formatoptions:append("p") -- Don't break lines at single spaces that follow periods.
 
-
 -- Allow virtual editing in visual block mode so we can form rectangles
 set.virtualedit = "block"
 
 set.spelllang = "en_au"
 
 -- (sensible)
-set.autoread = true       -- re-read open files when changed outside Vim
-set.autowrite = true      -- write file whenever buffer becomes hidden
+set.autoread = true -- re-read open files when changed outside Vim
+set.autowrite = true -- write file whenever buffer becomes hidden
 set.browsedir = "current" -- which directory to use for the file browser
 
 -- keep backups under ~/tmp  (this avoids the ususal problems with Coc)
-set.backup = true      -- keep a backup file
+set.backup = true -- keep a backup file
 set.backupcopy = "yes" -- copy the original even if a link
 set.backupdir = "~/tmp/backup,~/,/tmp"
 
 -- set.markdown_fenced_languages = {"python", "javascript"}
 -- set.markdown_folding = 1
 
+-- set termguicolors to enable highlight groups
+set.termguicolors = true
