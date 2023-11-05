@@ -168,6 +168,7 @@ Maybe need:
     libva-intel-hybrid-driver
 
 MOZ_ENABLE_WAYLAND=0 ./firefox
+
 ## Auto unlock secret thumbdrive
 
 ```
