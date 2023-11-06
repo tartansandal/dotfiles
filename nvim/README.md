@@ -23,15 +23,25 @@ Need to make this a similar to my Vim setup
 
 - Snippets are controlled by LSP
 - Deleting buffers
+
   - `<space bd>`
   - `<bd>` inside `NeoTree` buffer source
-  - Telescope?
+
+- Deleting surrounding marks
+
+  - Got to be fast to avoid `flash` and `which`
+  - Different mnemonics
+    - add: `gsa`
+    - delete: `gsd`
+    - replace: `gsr`
+
+- Flash for quick motions
+  - `s`: start flash jump
+  - `S`: start tree-sitter jump
 
 ## TODO
 
-- Deleting surrounding marks?
-- Got to be fast to avoid flash
-- Search? Something is working differently here. Flash?
+- Telescope?
 - Spelling for completions
 - Python ruff?
 - Cut/Copy in `NeoTree`
