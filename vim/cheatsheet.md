@@ -28,7 +28,7 @@ Ctrl-\    Switcher
 ]g  - goto next diagnostic
 ```
 
-\f  - fix (reformat) selection or buffer
+\f - fix (reformat) selection or buffer
 
 ## CoC
 
@@ -53,10 +53,10 @@ K   - to show documentation in preview window
 
 ## TextObjects
 
-Two caracter sequences: <prefix><suffix>
+Two character sequences: <prefix><suffix>
 
-The prefix "a" selects "around" an object, *including* its delimiters
-The prefix "i" selects "inside" object, *excluding* its delimiters
+The prefix "a" selects "around" an object, _including_ its delimiters
+The prefix "i" selects "inside" object, _excluding_ its delimiters
 
 There are various suffixes:
 
@@ -260,12 +260,12 @@ X or Y are one of the chars (prefer closing) in the following pairs:
 
 ```text
 
-'' 
-"" 
-`` 
-[] 
-{} 
-() 
+''
+""
+``
+[]
+{}
+()
 <>
 
 ```
@@ -285,7 +285,7 @@ For (X)HTML tags use `t`, for example, `cst<p>` changes the surround "tag" to
 
 ## Copying filename/path/directory to clipboard
 
-\cf     relative path (src/foo.txt)
-\cF     absolute path (/something/src/foo.txt)
-\ct     filename (foo.txt)
-\ch     directory name (/something/src)
+\cf relative path (src/foo.txt)
+\cF absolute path (/something/src/foo.txt)
+\ct filename (foo.txt)
+\ch directory name (/something/src)
