@@ -61,6 +61,12 @@ opt.backup = true -- keep a backup file
 opt.backupcopy = "yes" -- copy the original even if a link
 opt.backupdir = "~/tmp/backup,~/,/tmp"
 
+opt.undodir = "~/tmp/undo,~/,/tmp"
+opt.undofile = true --  keep a undo file
+opt.undolevels = 100 --  maximum number of changes that can be undone
+opt.undoreload = 1000 --  maximum number lines to save for undo on a buffer reloada
+opt.swapfile = false -- swapfiles an annoyance since I save often
+
 -- Markdown settings
 vim.g.markdown_fenced_languages = { "python", "javascript" }
 vim.g.markdown_folding = 1
