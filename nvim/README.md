@@ -6,28 +6,42 @@ API so its picking up my spelling files
 
 Need to make this a similar to my Vim setup
 
-## Improvements
+## Differences
 
-- Better file explorer
+- `NeoTree` for file explorer
+  - `<space e>` to toggle
+  - `>` to change between source: files, git, buffers
+  - `?` to see many commands
 - Telescope for file/search/lookup
   - `<leader ss>` for symbol search
-- Nice conceal support for markdown
+- Markdown
+  - Nice conceal support for markdown
+- buffer switching
 
--
-
-## Fixes
-
-- `Supertab` like thing working with LSP
--
-
-## What are the differences
+- `<space ,>` for buffer switching. Defaults to alternate buffer
+- `<space backtick>` for switching to alternate buffer
 
 - Snippets are controlled by LSP
-- Python ruff?
+- Deleting buffers
+  - `<space bd>`
+  - `<bd>` inside `NeoTree` buffer source
+  - Telescope?
 
 ## TODO
 
-- missing \` for markdown mode
+- Deleting surrounding marks?
+- Got to be fast to avoid flash
 - Search? Something is working differently here. Flash?
 - Spelling for completions
-- localvimrc
+- Python ruff?
+- Cut/Copy in `NeoTree`
+- Open URL in browser?
+- Text objects, Indent Objects?
+- `pyright`?
+- Tweaking the color scheme
+- Ariel for code outline
+- Running tests in Docker?
+- `EasyAlign?`
+- `Spectre` instead of `enmasse`
+- `Zeavim?`
+- `localvimrc`
