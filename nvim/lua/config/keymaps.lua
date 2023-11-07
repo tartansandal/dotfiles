@@ -4,7 +4,9 @@
 
 local map = vim.keymap.set
 
+--
 -- blank line insertion
+--
 
 local blank_up = function()
   -- start with 1 empty line
@@ -18,7 +20,7 @@ local blank_up = function()
   vim.cmd("']+")
 end
 
-local blank_down = function(count)
+local blank_down = function()
   local lines = { "" }
   -- add empty lines for each value of count greater than 1
   for _ = 2, vim.v.count do
@@ -31,3 +33,8 @@ end
 
 map("n", "[<space>", blank_up, { desc = "Add line above" })
 map("n", "]<space>", blank_down, { desc = "Add line below" })
+
+--
+-- window mappings
+--
+map("n", "<leader>o", "<c-w>o", { desc = "Close other windows" })
