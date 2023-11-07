@@ -14,6 +14,7 @@ local blank_up = function()
     table.insert(lines, "")
   end
   vim.api.nvim_put(lines, "l", false, false)
+  -- return to previous position
   vim.cmd("']+")
 end
 
@@ -24,6 +25,7 @@ local blank_down = function(count)
     table.insert(lines, "")
   end
   vim.api.nvim_put(lines, "l", true, false)
+  -- return to previous position
   vim.cmd("'[-")
 end
 
