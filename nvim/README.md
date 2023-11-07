@@ -88,19 +88,18 @@ Need to make this a similar to my Vim setup
   - ...`d`: code line diagnostics
 
 - git: `<space>g`
+
   - ...`g`: `lazygit`
   - ...`s`: git status (Telescope)
   - ...`c`: git commits (Telescope)
   - ...`c`: git explorer (NeoTree)
-  - ...`h`...: git signs
+  - git-signs: ...`h`...
+    - ...`b`: blame
+
+- telescope starts in insert mode.
 
 ## TODO
 
-- Git?
-- Formatters
-- Python
-  - ruff
-  - black
 - Telescope?
 - Spelling for completions
 - Cut/Copy in `NeoTree`
