@@ -16,6 +16,7 @@ return {
     lazy = true,
     name = "catppuccin",
     opts = {
+      dim_inactive = { enabled = true },
       integrations = {
         aerial = true,
         alpha = true,
