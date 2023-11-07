@@ -72,7 +72,7 @@ Need to make this a similar to my Vim setup
   - `w`: warnings
   - `<space>`: empty lines
 
-- Coding
+- Source Code
 
   - Go to `g` ..
     - `gd` definition
@@ -96,19 +96,16 @@ Need to make this a similar to my Vim setup
   - git-signs: ...`h`...
     - ...`b`: blame
 
-- telescope starts in insert mode.
+- Use flash for most motions
+- Telescope starts in insert mode. Enter `<esc>`once to enter normal mode.
 
 ## TODO
 
-- Telescope?
-- Spelling for completions
-- Cut/Copy in `NeoTree`
-- Open URL in browser?
-- Text objects, Indent Objects?
-- Tweaking the color scheme
-- Ariel for code outline
+- Obsidian mode?
+  <https://github.com/epwalsh/obsidian.nvim>
+
 - Running tests in Docker?
 - `EasyAlign?`
-- `Spectre` instead of `enmasse`
+- `Spectre` instead of `onmasse`
 - `Zeavim?`
 - `localvimrc`
