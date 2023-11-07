@@ -1,9 +1,5 @@
 # Notes on Neovim configuration
 
-This is in a markdown file.
-
-API so its picking up my spelling files
-
 Need to make this a similar to my Vim setup
 
 ## Differences
@@ -59,27 +55,48 @@ Need to make this a similar to my Vim setup
     - `<space>us`: toggle diagnostics
     - `<space>uc`: toggle conceal
 
-- Most unimpaired things work
+- Windows: `<space>w`...
+
+  - ...`w`: other window
+  - ...`d`: delete window
+  - ...`-`: split below
+  - ...`|`: split right
+  - `<space>-`: split below
+  - `<space>|`: split right
+
+- Most unimpaired things work: `[,]`..
 
   - `q`: quickfix
   - `d`: diagnostics
   - `e`: errors
   - `w`: warnings
+  - `<space>`: empty lines
 
-- Code
-  - Go to ..
+- Coding
+
+  - Go to `g` ..
     - `gd` definition
     - `gr` references
+    - ..
+  - Docs
     - `K` hover doc
     - `gK` signature help
-    - ...
-  - `<space>cf`: code format
-  - `<space>cr`: code rename
-  - `<space>ca`: code action
-  - `<space>cA`: source action
+  - Code: `<space>c`...
+  - ...`f`: code format
+  - ...`r`: code rename
+  - ...`a`: code action
+  - ...`d`: code line diagnostics
+
+- git: `<space>g`
+  - ...`g`: `lazygit`
+  - ...`s`: git status (Telescope)
+  - ...`c`: git commits (Telescope)
+  - ...`c`: git explorer (NeoTree)
+  - ...`h`...: git signs
 
 ## TODO
 
+- Git?
 - Formatters
 - Python
   - ruff
