@@ -257,3 +257,8 @@ Neovim
 LSP
 autoformat
 #olorscheme
+Base64
+CSRF
+Auth
+auth
+SHA256
