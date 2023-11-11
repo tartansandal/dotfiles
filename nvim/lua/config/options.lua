@@ -31,6 +31,7 @@ opt.smarttab = true
 -- The sneak plugin makes this redundant
 -- set relativenumber       " Display relative line numbers
 opt.number = true -- Display current linenumber
+opt.relativenumber = false -- Display relative linenumber
 
 --
 -- Automatic formating. The default is tcq. See 'help fo-table'
@@ -64,7 +65,7 @@ opt.backupdir = "~/tmp/backup,~/,/tmp"
 opt.undodir = "~/tmp/undo,~/,/tmp"
 opt.undofile = true --  keep a undo file
 opt.undolevels = 100 --  maximum number of changes that can be undone
-opt.undoreload = 1000 --  maximum number lines to save for undo on a buffer reloada
+opt.undoreload = 1000 --  maximum number lines to save for undo on a buffer reload
 opt.swapfile = false -- swapfiles an annoyance since I save often
 
 -- Markdown settings
