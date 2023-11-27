@@ -89,3 +89,5 @@ vim.g.clipboard = {
   cache_enabled = 1,
 }
 
+-- conceal level 3 breaks markdown after font changes
+opt.conceallevel = 2
