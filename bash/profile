@@ -6,20 +6,18 @@
 # User specific environment and startup programs
 
 # Redefine pathmunge which gets unset at end of /etc/profile
-pathmunge ()
-#
-# Insert a new element into your path is not already there
-# Stolen from /etc/profile
-#
-{
+pathmunge() { #
+	# Insert a new element into your path is not already there
+	# Stolen from /etc/profile
+	#
 	# skip non-existant directories
 	[[ -d $1 ]] || return
-	if ! echo $PATH | /bin/egrep  "(^|:)$1($|:)" 1>/dev/null 2>&1; then
-	   if [ "$2" = "after" ] ; then
-	      PATH=$PATH:$1
-	   else
-	      PATH=$1:$PATH
-	   fi
+	if ! echo $PATH | /bin/egrep "(^|:)$1($|:)" 1>/dev/null 2>&1; then
+		if [ "$2" = "after" ]; then
+			PATH=$PATH:$1
+		else
+			PATH=$1:$PATH
+		fi
 	fi
 }
 
@@ -35,19 +33,17 @@ pathmunge $HOME/bin
 ## omit superfluous commands from histlist
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTTIMEFORMAT='%a %H:%M | '
-if hash nvim 2>/dev/null
-then
-    export EDITOR='nvim';
-    export VISUAL='nvim';
-elif hash vimx 2>/dev/null
-then
-    export EDITOR='vimx';
-    export VISUAL='vimx';
+if hash nvim 2>/dev/null; then
+	export EDITOR='nvim'
+	export VISUAL='nvim'
+elif hash vimx 2>/dev/null; then
+	export EDITOR='vimx'
+	export VISUAL='vimx'
 else
-    export EDITOR='vim';
-    export VISUAL='vim';
+	export EDITOR='vim'
+	export VISUAL='vim'
 fi
-export PAGER='less';
+export PAGER='less'
 export RSYNC_RSH=ssh
 export LESS="-R"
 unset MAILCHECK
@@ -64,52 +60,46 @@ export BAT_THEME='ansi-light'
 ## The following helps with anaconda interferring with gsettings
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
-if [[ -d ~/.local/lib/perl5 ]]
-then
-    export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local";
-    export PERL_MB_OPT="--install_base ~/.local";
-    export PERL_MM_OPT="INSTALL_BASE=~/.local";
-    export PERL5LIB="~/.local/lib/perl5:$PERL5LIB";
+if [[ -d ~/.local/lib/perl5 ]]; then
+	export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local"
+	export PERL_MB_OPT="--install_base ~/.local"
+	export PERL_MM_OPT="INSTALL_BASE=~/.local"
+	export PERL5LIB="~/.local/lib/perl5:$PERL5LIB"
 fi
 
-if [[ -d ~/.local/lib/python ]]
-then
-    export PYTHONPATH=~/.local/lib/python
+if [[ -d ~/.local/lib/python ]]; then
+	export PYTHONPATH=~/.local/lib/python
 fi
 
-if [[ -d ~/.local/lib/node_modules ]]
-then
-    # setup a localized global environment
-    export npm_config_prefix=~/.local
-    export NODE_PATH=~/.local/lib/node_modules
+if [[ -d ~/.local/lib/node_modules ]]; then
+	# setup a localized global environment
+	#export npm_config_prefix=~/.local XXX: this is incompatible with nvm
+	export NODE_PATH=~/.local/lib/node_modules
 fi
 
 if [[ -f /usr/bin/google-chrome ]]; then
-    export CHROME_BIN=/usr/bin/google-chrome
+	export CHROME_BIN=/usr/bin/google-chrome
 fi
 
 if [[ -f ~/.local/bin/gox ]]; then
-    export GOPATH=~/.local
+	export GOPATH=~/.local
 fi
 
-if [[ -x /usr/bin/keychain ]]
-then
-    /usr/bin/keychain id_rsa
-    [ -z "$HOSTNAME" ] && HOSTNAME=`uname -n`
-    [ -f $HOME/.keychain/$HOSTNAME-sh ] && . $HOME/.keychain/$HOSTNAME-sh
+if [[ -x /usr/bin/keychain ]]; then
+	/usr/bin/keychain id_rsa
+	[ -z "$HOSTNAME" ] && HOSTNAME=$(uname -n)
+	[ -f $HOME/.keychain/$HOSTNAME-sh ] && . $HOME/.keychain/$HOSTNAME-sh
 fi
 
-if [[ -d "$HOME/.local/lib/google-cloud-sdk" ]]
-then
+if [[ -d "$HOME/.local/lib/google-cloud-sdk" ]]; then
 	source $HOME/.local/lib/google-cloud-sdk/completion.bash.inc
 	source $HOME/.local/lib/google-cloud-sdk/path.bash.inc
 fi
 
-if [ -d ~/.texlive2019 ]
-then
-    export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH
-    export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH
-    export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
+if [ -d ~/.texlive2019 ]; then
+	export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH
+	export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH
+	export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
 fi
 
 # I'm almost always plugged in, so turn on Optimus PRIME for everything.
@@ -123,20 +113,23 @@ export __GLX_VENDOR_LIBRARY_NAME=nvidia
 # and associated executables under ~/bin. This make 'gem install' just work, but
 # screws up 'gem uninstall' and bundler. Make this work with by setting GEM_HOME
 # and adding a symbolic link.
-# 
+#
 export GEM_HOME=$HOME/.gem/ruby
-if [[ ! -e $HOME/.gem/ruby/bin ]]
-then
-    mkdir -p $HOME/.gem/ruby
-    ln -sf $HOME/bin $HOME/.gem/ruby/
+if [[ ! -e $HOME/.gem/ruby/bin ]]; then
+	mkdir -p $HOME/.gem/ruby
+	ln -sf $HOME/bin $HOME/.gem/ruby/
 fi
 
 #> PyEnv setup
-if [[ -d $HOME/.pyenv ]]
-then
-    pathmunge $HOME/.pyenv/bin
-    pathmunge $HOME/.pyenv/shims
-    export PYENV_SHELL=bash
+if [[ -d $HOME/.pyenv ]]; then
+	pathmunge $HOME/.pyenv/bin
+	pathmunge $HOME/.pyenv/shims
+	export PYENV_SHELL=bash
+fi
+
+export NVM_DIR="${HOME}/.nvm"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+	. "$NVM_DIR/nvm.sh" # This loads nvm
 fi
 
 ################################################################################
@@ -145,8 +138,6 @@ export PATH
 unset pathmunge
 
 # Get the aliases and functions
-if [ -f ~/.bashrc ]
-then
+if [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
-
