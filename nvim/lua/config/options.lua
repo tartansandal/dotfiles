@@ -74,3 +74,18 @@ vim.g.markdown_folding = 1
 
 -- set True color support for highlight groups
 opt.termguicolors = true
+
+-- use xsel rather than wl-clipboard since the later hangs yankey
+vim.g.clipboard = {
+  name = "xsel_override",
+  copy = {
+    ["+"] = "xsel --input --clipboard",
+    ["*"] = "xsel --input --primary",
+  },
+  paste = {
+    ["+"] = "xsel --output --clipboard",
+    ["*"] = "xsel --output --primary",
+  },
+  cache_enabled = 1,
+}
+
