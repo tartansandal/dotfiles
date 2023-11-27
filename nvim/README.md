@@ -1,5 +1,7 @@
 # Notes on Neovim configuration
 
+vim: concealevel=2
+
 Need to make this a similar to my Vim setup
 
 ## Differences
@@ -86,6 +88,8 @@ Need to make this a similar to my Vim setup
   - ...`r`: code rename
   - ...`a`: code action
   - ...`d`: code line diagnostics
+
+* Use `gw` for formatting comments in code, skipping the format expression.
 
 - git: `<space>g`
 
