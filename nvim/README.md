@@ -103,6 +103,14 @@ Need to make this a similar to my Vim setup
 - Use flash for most motions
 - Telescope starts in insert mode. Enter `<esc>`once to enter normal mode.
 
+* Completion via
+
+  - vim-cmp
+  - cmp-lsp
+
+* tree-sitter
+  - `C-space` to increase TS selection
+
 ## TODO
 
 - Obsidian mode?
