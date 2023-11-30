@@ -1,7 +1,5 @@
 # Notes on Neovim configuration
 
-vim: concealevel=2
-
 Need to make this a similar to my Vim setup
 
 ## Differences
@@ -121,3 +119,4 @@ Need to make this a similar to my Vim setup
 - `Spectre` instead of `onmasse`
 - `Zeavim?`
 - `localvimrc`
+- [DevDocs](https://neovimcraft.com/plugin/luckasRanarison/nvim-devdocs)
