@@ -15,7 +15,7 @@ return {
         injected = {
           options = {
             -- Silence errors in formating code blocks
-            ignore_errors = true,
+            ignore_errors = false,
           },
         },
       },
