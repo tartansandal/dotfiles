@@ -690,6 +690,10 @@ return {
           current = "window", -- current is when position = current
         },
       },
+      window = { -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
+        -- possible options. These can also be functions that return these options.
+        position = "float", -- left, right, top, bottom, float, current
+      },
     },
   },
 }
