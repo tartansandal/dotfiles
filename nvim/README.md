@@ -109,6 +109,12 @@ Need to make this a similar to my Vim setup
 * tree-sitter
   - `C-space` to increase TS selection
 
+## Difficulties
+
+Completion being too aggressive.
+
+Uncertainty about search.
+
 ## TODO
 
 - Obsidian mode?
