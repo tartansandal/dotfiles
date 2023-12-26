@@ -18,6 +18,7 @@ return {
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-calc",
     },
+
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       -- load up cmp plugins
