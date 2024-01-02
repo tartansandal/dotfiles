@@ -5,6 +5,7 @@ return {
   -- surround
   -- comment
   -- ai
+
   {
     "L3MON4D3/LuaSnip",
     keys = function()
@@ -28,12 +29,27 @@ return {
       local has_words_before = function()
         unpack = unpack or table.unpack
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        return col ~= 0
+          and vim.api
+              .nvim_buf_get_lines(0, line - 1, line, true)[1]
+              :sub(col, col)
+              :match("%s")
+            == nil
       end
 
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      -- opts.window = {
+      --   completion = cmp.config.window.bordered(),
+      --   documentation = cmp.config.window.bordered(),
+      -- }
+
+      -- need force disabling PreselectMode
+      opts.completion.completeopt = "menu,menuone,noinsert,noselect"
+      opts.preselect = cmp.PreselectMode.None
+
+      -- Suppertab-like mapping
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -58,6 +74,21 @@ return {
             fallback()
           end
         end, { "i", "s" }),
+        ["<CR>"] = cmp.mapping({
+          -- In INSERT mode only use a completion if explicitly selected
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm({ select = true }),
+          c = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          }),
+        }),
       })
     end,
   },
@@ -91,6 +122,10 @@ return {
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
+  },
+  {
+    "echasnovski/mini.pairs",
     enabled = false,
   },
 }

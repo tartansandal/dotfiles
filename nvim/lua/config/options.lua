@@ -92,4 +92,6 @@ vim.g.clipboard = {
 -- conceal level 3 breaks markdown after font changes
 opt.conceallevel = 2
 
+opt.completeopt = "menu,menuone,noselect"
+
 vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
