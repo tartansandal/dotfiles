@@ -14,7 +14,3 @@ nmap <buffer> <localleader>` gsaiW`
 
 " Map \> to suround the inner URL with <> marks
 nmap <buffer> <localleader>> gsaiu>
-
-iabbr <buffer> PR] [PR]()
-iabbr <buffer> GH] [GH]()
-iabbr <buffer> TW] [TW]()
