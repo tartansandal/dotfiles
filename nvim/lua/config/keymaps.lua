@@ -43,7 +43,27 @@ map("n", "<leader>wo", "<c-w>o", { desc = "Close other windows" })
 --
 -- Copy buffer filenames
 --
-map("n", "<leader>bfr", '<cmd>let @+=expand("%")<CR>', { remap = false, desc = "relative path to clipboard" })
-map("n", "<leader>bfa", '<cmd>let @+=expand("%:p")<CR>', { remap = false, desc = "absolute path to clipboard" })
-map("n", "<leader>bff", '<cmd>let @+=expand("%:t")<CR>', { remap = false, desc = "filename to clipboard" })
-map("n", "<leader>bfd", '<cmd>let @+=expand("%:p:h")<CR>', { remap = false, desc = "directory to clipboard" })
+map(
+  "n",
+  "<leader>bfr",
+  '<cmd>let @+=expand("%")<CR>',
+  { remap = false, desc = "relative path to clipboard" }
+)
+map(
+  "n",
+  "<leader>bfa",
+  '<cmd>let @+=expand("%:p")<CR>',
+  { remap = false, desc = "absolute path to clipboard" }
+)
+map(
+  "n",
+  "<leader>bff",
+  '<cmd>let @+=expand("%:t")<CR>',
+  { remap = false, desc = "filename to clipboard" }
+)
+map(
+  "n",
+  "<leader>bfd",
+  '<cmd>let @+=expand("%:p:h")<CR>',
+  { remap = false, desc = "directory to clipboard" }
+)

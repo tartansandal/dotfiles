@@ -18,6 +18,8 @@ return {
     dependencies = {
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-calc",
+      -- "hrsh7th/cmp-spell",
+      -- "hrsh7th/cmp-dictionary",
     },
 
     ---@param opts cmp.ConfigSchema
@@ -112,20 +114,7 @@ return {
     },
   },
 
-  { "tpope/vim-fugitive" },
-  { "tpope/vim-rhubarb" },
+  { "tpope/vim-rhubarb", dependencies = { "tpope/vim-fugitive" } },
 
-  -- Disabled plugins
-  {
-    "echasnovski/mini.indentscope",
-    enabled = false,
-  },
-  {
-    "RRethy/vim-illuminate",
-    enabled = false,
-  },
-  {
-    "echasnovski/mini.pairs",
-    enabled = false,
-  },
+  { "echasnovski/mini.pairs" },
 }

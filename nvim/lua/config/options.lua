@@ -30,7 +30,7 @@ opt.smarttab = true
 -- e.g., if my target line is has relative number 16, I can go there with 16j
 -- The sneak plugin makes this redundant
 -- set relativenumber       " Display relative line numbers
-opt.number = true -- Display current linenumber
+opt.number = false -- Display current linenumber
 opt.relativenumber = false -- Display relative linenumber
 
 --
@@ -95,3 +95,5 @@ opt.conceallevel = 2
 opt.completeopt = "menu,menuone,noselect"
 
 vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
+vim.g.loaded_perl_provider = 0 -- disable perl provider
+vim.g.loaded_ruby_provider = 0 -- disable ruby provider
