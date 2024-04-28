@@ -16,6 +16,12 @@ return {
         -- Whether to use for editing directories
         use_as_default_explorer = true,
       },
+      content = {
+        -- hide dotfiles by default
+        filter = function(fs_entry)
+          return not vim.startswith(fs_entry.name, ".")
+        end,
+      },
     },
     keys = {
       {
@@ -32,17 +38,34 @@ return {
         end,
         desc = "Explore (cwd)",
       },
+      -- override the defaults from extras
+      {
+        "<leader>fe",
+        function()
+          require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+        end,
+        desc = "Explore (Directory of Current File)",
+      },
+      {
+        "<leader>fE",
+        function()
+          require("mini.files").open(vim.uv.cwd(), true)
+        end,
+        desc = "Explore (cwd)",
+      },
     },
     config = function(_, opts)
       require("mini.files").setup(opts)
 
-      local show_dotfiles = true
       local filter_show = function(fs_entry)
         return true
       end
       local filter_hide = function(fs_entry)
         return not vim.startswith(fs_entry.name, ".")
       end
+
+      -- dotfiles hidden by initial content filter
+      local show_dotfiles = false
 
       local toggle_dotfiles = function()
         show_dotfiles = not show_dotfiles
@@ -82,9 +105,9 @@ return {
         callback = function(args)
           vim.keymap.set(
             "n",
-            "g~",
+            "g/",
             files_set_cwd,
-            { buffer = args.data.buf_id, desc = "Set cwd" }
+            { buffer = args.data.buf_id, desc = "Set CWD" }
           )
         end,
       })
