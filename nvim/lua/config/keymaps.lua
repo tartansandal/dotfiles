@@ -47,23 +47,17 @@ map(
   "n",
   "<leader>bfr",
   '<cmd>let @+=expand("%")<CR>',
-  { remap = false, desc = "relative path to clipboard" }
+  { remap = false, silent = true, desc = "Copy relative path of buffer file" }
 )
 map(
   "n",
   "<leader>bfa",
   '<cmd>let @+=expand("%:p")<CR>',
-  { remap = false, desc = "absolute path to clipboard" }
+  { remap = false, silent = true, desc = "Copy absolute path of buffer file" }
 )
-map(
+vim.keymap.set(
   "n",
-  "<leader>bff",
-  '<cmd>let @+=expand("%:t")<CR>',
-  { remap = false, desc = "filename to clipboard" }
-)
-map(
-  "n",
-  "<leader>bfd",
-  '<cmd>let @+=expand("%:p:h")<CR>',
-  { remap = false, desc = "directory to clipboard" }
+  "<leader>b/",
+  ":exec 'cd' . expand('%:p:h')<CR>",
+  { remap = false, silent = true, desc = "CD to the current buffers directory" }
 )
