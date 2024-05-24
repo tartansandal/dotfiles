@@ -58,8 +58,12 @@ layout_poetry() {
     exit 2
   fi
 
-  # create venv if it doesn't exist
-  poetry run true
+  local VENV=$(poetry env list --full-path | cut -d' ' -f1)
+  if [[ -z $VENV || ! -d $VENV/bin ]]; then
+    log_error 'No poetry virtual environment found. Use `poetry install` to create'
+    log_error 'Use `poetry env use <PATH_TO_PYTHON>` first if using non-default python vesrion'
+    exit 2
+  fi
 
   export VIRTUAL_ENV=$(poetry env info --path)
   export POETRY_ACTIVE=1
