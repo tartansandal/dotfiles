@@ -31,6 +31,15 @@ return {
     -- This is where *new* notes go
     notes_subdir = "Cards",
 
+    templates = {
+      folder = "~/Notes/Templates",
+      date_format = "%Y-%m-%d",
+      time_format = "%H:%M",
+      -- A map for custom variables, the key should be the variable and the value
+      -- a function
+      substitutions = {},
+    },
+
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.
       folder = "Daily",
@@ -40,15 +49,6 @@ return {
       alias_format = "%B %-d, %Y",
       -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
       template = "daily.md",
-    },
-
-    templates = {
-      subdir = "Templates",
-      date_format = "%Y-%m-%d",
-      time_format = "%H:%M",
-      -- A map for custom variables, the key should be the variable and the value
-      -- a function
-      substitutions = {},
     },
 
     -- Where to put new notes created from completion. Valid options are
@@ -75,20 +75,25 @@ return {
         end,
         opts = { noremap = false, expr = true, buffer = true },
       },
-      ["<leader>b"] = {
+      ["<localleader>b"] = {
         action = "<cmd>ObsidianBacklinks<cr>",
         desc = "Open Backlinks",
         opts = { noremap = false, buffer = true },
       },
-      ["<leader>i"] = {
+      ["<localleader>i"] = {
         action = "<cmd>ObsidianTemplate<cr>",
 
         desc = "Insert Template",
         opts = { noremap = false, buffer = true },
       },
-      ["<leader>o"] = {
+      ["<localleader>o"] = {
         action = "<cmd>ObsidianOpen<cr>",
         desc = "Open in Obsidian",
+        opts = { noremap = false, buffer = true },
+      },
+      ["<localleader>p"] = {
+        action = "<cmd>ObsidianPasteImg<cr>",
+        desc = "Paste clipboard image",
         opts = { noremap = false, buffer = true },
       },
     },
@@ -233,6 +238,23 @@ return {
         ObsidianTag = { italic = true, fg = "#89ddff" },
         ObsidianHighlightText = { bg = "#75662e" },
       },
+      -- Specify how to handle attachments.
+      attachments = {
+        -- The default folder to place images in via `:ObsidianPasteImg`.
+        -- If this is a relative path it will be interpreted as relative to the vault root.
+        -- You can always override this per image by passing a full path to the command instead of just a filename.
+        img_folder = "Files/Images", -- This is the default
+        -- A function that determines the text to insert in the note when pasting an image.
+        -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+        -- This is the default implementation.
+        ---@param client obsidian.Client
+        ---@param path obsidian.Path the absolute path to the image file
+        ---@return string
+        img_text_func = function(client, path)
+          path = client:vault_relative_path(path) or path
+          return string.format("![%s](%s)", path.name, path)
+        end,
+      },
     },
 
     -- -- Specify how to handle attachments.
@@ -265,5 +287,6 @@ return {
   keys = {
     { "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Todays Note " },
     { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
+    { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Quick Switcher" },
   },
 }
