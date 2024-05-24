@@ -67,7 +67,7 @@ if [[ -d ~/.local/lib/perl5 ]]; then
 	export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local"
 	export PERL_MB_OPT="--install_base ~/.local"
 	export PERL_MM_OPT="INSTALL_BASE=~/.local"
-	export PERL5LIB="~/.local/lib/perl5:$PERL5LIB"
+	export PERL5LIB="$HOME/.local/lib/perl5:$PERL5LIB"
 fi
 
 if [[ -d ~/.local/lib/python ]]; then
@@ -82,21 +82,6 @@ fi
 
 if [[ -f /usr/bin/google-chrome ]]; then
 	export CHROME_BIN=/usr/bin/google-chrome
-fi
-
-if [[ -f ~/.local/bin/gox ]]; then
-	export GOPATH=~/.local
-fi
-
-if [[ -x /usr/bin/keychain ]]; then
-	/usr/bin/keychain id_rsa
-	[ -z "$HOSTNAME" ] && HOSTNAME=$(uname -n)
-	[ -f $HOME/.keychain/$HOSTNAME-sh ] && . $HOME/.keychain/$HOSTNAME-sh
-fi
-
-if [[ -d "$HOME/.local/lib/google-cloud-sdk" ]]; then
-	source $HOME/.local/lib/google-cloud-sdk/completion.bash.inc
-	source $HOME/.local/lib/google-cloud-sdk/path.bash.inc
 fi
 
 if [ -d ~/.texlive2019 ]; then
@@ -118,15 +103,15 @@ export __GLX_VENDOR_LIBRARY_NAME=nvidia
 # and adding a symbolic link.
 #
 export GEM_HOME=$HOME/.gem/ruby
-if [[ ! -e $HOME/.gem/ruby/bin ]]; then
-	mkdir -p $HOME/.gem/ruby
-	ln -sf $HOME/bin $HOME/.gem/ruby/
+if [[ ! -e "$HOME/.gem/ruby/bin" ]]; then
+	mkdir -p "$HOME/.gem/ruby"
+	ln -sf "$HOME/bin" "$HOME/.gem/ruby/"
 fi
 
 #> PyEnv setup
 if [[ -d $HOME/.pyenv ]]; then
-	pathmunge $HOME/.pyenv/bin
-	pathmunge $HOME/.pyenv/shims
+	pathmunge "$HOME/.pyenv/bin"
+	pathmunge "$HOME/.pyenv/shims"
 	export PYENV_SHELL=bash
 fi
 
