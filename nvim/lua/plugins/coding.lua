@@ -31,4 +31,15 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     version = "3.5.4",
   },
+
+  { "Olical/vim-enmasse" },
+  {
+    "KabbAmine/zeavim.vim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = { "python" },
+    keys = {
+      { "<leader>z", "<cmd>Zeavim<cr>", desc = "Zeal lookup" },
+    },
+  },
 }
