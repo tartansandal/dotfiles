@@ -55,7 +55,6 @@ opt.spelllang = { "en_au" }
 -- (sensible)
 opt.autoread = true -- re-read open files when changed outside Vim
 opt.autowrite = true -- write file whenever buffer becomes hidden
-opt.browsedir = "current" -- which directory to use for the file browser
 
 -- keep backups under ~/tmp  (this avoids the ususal problems with Coc)
 opt.backup = true -- keep a backup file
