@@ -11,7 +11,7 @@ return {
     dependencies = {
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-calc",
-      "f3fora/cmp-spell",
+      "octaltree/cmp-look",
     },
 
     ---@param opts cmp.ConfigSchema
@@ -19,7 +19,15 @@ return {
       -- load up cmp plugins
       table.insert(opts.sources, { name = "emoji" })
       table.insert(opts.sources, { name = "calc" })
-      table.insert(opts.sources, { name = "spell" })
+      table.insert(opts.sources, {
+        name = "look",
+        keyword_length = 2,
+        option = {
+          convert_case = true,
+          loud = true,
+          dict = "/home/kal/dotfiles/10k-sorted.txt",
+        },
+      })
 
       local has_words_before = function()
         unpack = unpack or table.unpack
