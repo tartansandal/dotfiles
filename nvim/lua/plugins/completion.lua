@@ -7,6 +7,17 @@ return {
   },
 
   {
+    "octaltree/cmp-look",
+    keyword_length = 2,
+    lazy = true,
+    option = {
+      convert_case = true,
+      loud = true,
+      dict = "/home/kal/dotfiles/10k-sorted.txt",
+    },
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-emoji",
@@ -19,15 +30,7 @@ return {
       -- load up cmp plugins
       table.insert(opts.sources, { name = "emoji" })
       table.insert(opts.sources, { name = "calc" })
-      table.insert(opts.sources, {
-        name = "look",
-        keyword_length = 2,
-        option = {
-          convert_case = true,
-          loud = true,
-          dict = "/home/kal/dotfiles/10k-sorted.txt",
-        },
-      })
+      table.insert(opts.sources, { name = "look" })
 
       local has_words_before = function()
         unpack = unpack or table.unpack
