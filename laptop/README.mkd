@@ -178,7 +178,7 @@ To ensure the keys are mounted at boot (for reboot to install)
 add the following to `/etc/crypttab`
 
 ```text
-secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
+secret UUID=44b7c449-b63e-4e47-874c-65f7a39cab16 none nofail,timeout=1ms
 ```
 
 And add the following to `/etc/fstab`
