@@ -12,7 +12,6 @@ Integrate app data from rpmfusion:
 
     sudo dnf groupupdate core
 
-
 Install flatpacks
 
 ```console
@@ -49,13 +48,13 @@ Think much of this is now covered by CoC and lsp
 ## Emoji and Special characters?
 
 First remember you have capslock maped to "compose" so that `CapsLock + c + ,`
-gives  `ç`.  See the `Multi-Key` entries in
+gives `ç`. See the `Multi-Key` entries in
 /usr/share/X11/locale/en_US.UTF-8/Compose for more examples.
 
 Can do this via the Typing Booster input method (see
 <https://opensource.com/article/19/10/how-type-emoji-linux>).
 
-To toggle input methods use `Super + space`.  But this does not help for input
+To toggle input methods use `Super + space`. But this does not help for input
 in chrome under wayland.
 
 Okay, found a chrome extension that seems to be working.
@@ -67,7 +66,7 @@ To bind print-screen to flameshot ...
 Goto `Settings > Keyboard > View` and Customize Shortcuts.
 
 Search for "Print". If not set to "Flameshot", select the "Print" binding then
-hit "backspace" to disable. Then add a new Custom Shortcut for  "flameshot gui"
+hit "backspace" to disable. Then add a new Custom Shortcut for "flameshot gui"
 and bind that to the "Print" key.
 
 ## docker
@@ -149,10 +148,10 @@ Can get it to work if I disable NVIDIA with
 
 Websites with information about this:
 
-* <about:support> (Firefox)
-* <https://fedoraproject.org/wiki/Firefox_Hardware_acceleration>
-* <https://rpmfusion.org/Howto/NVIDIA>
-* <https://webglreport.com/>
+- <about:support> (Firefox)
+- <https://fedoraproject.org/wiki/Firefox_Hardware_acceleration>
+- <https://rpmfusion.org/Howto/NVIDIA>
+- <https://webglreport.com/>
 
 Checking GPU support
 
@@ -185,11 +184,10 @@ secret UUID=986e470b-e870-435e-85d0-c96e881e9699 none nofail,timeout=1ms
 And add the following to `/etc/fstab`
 
 ```text
-/dev/mapper/secret	/etc/pki/akmods/ 	ext4 defaults,nofail,nosuid,nodev,relatime 0 0
+/dev/mapper/secret /etc/pki/akmods/  ext4 defaults,nofail,nosuid,nodev,relatime 0 0
 ```
 
 Then reboot to ensure thumbdrive is mounted on `/etc/pki/akmods`
-
 
 ## Nvidia drivers with RPMFusion
 
@@ -216,14 +214,13 @@ Some extras?
 
 Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
 
-
 To force a rebuild run (as normal user):
 
     akmodsbuild /usr/src/akmods/nvidia-kmod.latest
 
 ### Optimus PRIME GPU offloading
 
-Ref: https://wiki.archlinux.org/title/PRIME
+Ref: <https://wiki.archlinux.org/title/PRIME>
 
 Install:
 
@@ -238,7 +235,7 @@ Or use the switcheroo service:
 
 > GNOME will respect the PrefersNonDefaultGPU property in the desktop
 > entry. Alternatively, you can launch applications with GPU by right clicking
-> on the icon and choosing Launch using Discrete Graphics Card. 
+> on the icon and choosing Launch using Discrete Graphics Card.
 
 ### Realtime audio for guitarix and ardour
 
