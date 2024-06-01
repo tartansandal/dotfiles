@@ -8,7 +8,7 @@ return {
 
   {
     "octaltree/cmp-look",
-    keyword_length = 2,
+    keyword_length = 3,
     lazy = true,
     option = {
       convert_case = true,
