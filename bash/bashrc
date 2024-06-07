@@ -5,15 +5,14 @@
 # see /usr/share/doc/bash/examples/startup-files for examples
 
 ## source global defaults
-if [[ -f /etc/bashrc ]]
-then
-    . /etc/bashrc
+if [[ -f /etc/bashrc ]]; then
+	. /etc/bashrc
 fi
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 #> turn off terminal driver flow control so C-s and C-q works
@@ -24,27 +23,27 @@ stty -ixon -ixoff
 # set -o vi
 
 # This is MacOS foo
-if [[ -r /usr/local/etc/bash_completion ]]
-then
-    . /usr/local/etc/bash_completion
+if [[ -r /usr/local/etc/bash_completion ]]; then
+	# shellcheck source=/dev/null
+	. /usr/local/etc/bash_completion
 fi
 
 #> source private libraries
 for lib in \
-    hosts \
-    prompt \
-    direnv \
-    fzf \
-    dockerized \
-    pyenv
-do
-    [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
+	hosts \
+	prompt \
+	direnv \
+	fzf \
+	dockerized \
+	pyenv; do
+	# shellcheck source=/home/kal/dotfiles/bash/pyenv
+	[[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
 done
 unset lib
 
-if [[ -r /usr/bin/aws_completer ]]
-then
-    complete -C '/usr/bin/aws_completer' aws
+if [[ -r /usr/bin/aws_completer ]]; then
+	# shellcheck source=/dev/null
+	complete -C '/usr/bin/aws_completer' aws
 fi
 
 # asdf support
@@ -70,52 +69,47 @@ alias ..='cd ..'
 alias lg=lazygit
 
 # use vim with clipboard defined if available
-if hash vimx 2>/dev/null
-then
-    alias vim=vimx
+if hash vimx 2>/dev/null; then
+	alias vim=vimx
 fi
 
-if hash nvim 2>/dev/null
-then
-    alias vim=nvim
+if hash nvim 2>/dev/null; then
+	alias vim=nvim
 fi
 
 # overrides for weird Mac env
-if [[ -n $Apple_PubSub_Socket_Render ]]
-then
-    alias ll='ls -h -p -l -G'
-    alias l.='ls -p -d -G .*'
-    alias ls='ls -p -G'
-    alias rm='rm -i'
+if [[ -n $Apple_PubSub_Socket_Render ]]; then
+	alias ll='ls -h -p -l -G'
+	alias l.='ls -p -d -G .*'
+	alias ls='ls -p -G'
+	alias rm='rm -i'
 fi
 
 #>bash_completion
-if [[ -n "$BASH_COMPLETION" ]]
-then
-    complete -F _root_command -o filenames s
-    complete -C /home/kal/bin/vault vault
-    complete -C /usr/bin/terraform terraform
+if [[ -n "$BASH_COMPLETION" ]]; then
+	complete -F _root_command -o filenames s
+	complete -C /home/kal/bin/vault vault
+	complete -C /usr/bin/terraform terraform
 fi
 
 -make-python-envrc() {
-    if [[ -f .envrc ]]
-    then
-        echo "Cowardly refusing to overwrite exiting .envrc file" 
-    else
-        {
-            echo "# vim: ft=sh"
-            echo "export VIRTUAL_ENV=venv"
-            echo "layout python-venv"
-        } > .envrc
-    fi
+	if [[ -f .envrc ]]; then
+		echo "Cowardly refusing to overwrite exiting .envrc file"
+	else
+		{
+			echo "# vim: ft=sh"
+			echo "export VIRTUAL_ENV=venv"
+			echo "layout python-venv"
+		} >.envrc
+	fi
 }
 
 -make-flake8() {
-    {
-        echo "[flake8]"
-        echo "max-line-length = 88"
-        echo "extend-ignore = E203"
-    } > .flake8
+	{
+		echo "[flake8]"
+		echo "max-line-length = 88"
+		echo "extend-ignore = E203"
+	} >.flake8
 }
 
 ## Shell options
@@ -179,28 +173,27 @@ shopt -u lithist
 # Don't check mail
 shopt -u mailwarn
 
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+if __conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2>/dev/null)"; then
+	eval "$__conda_setup"
 else
-    if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/kal/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/kal/anaconda3/bin:$PATH"
-    fi
+	if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
+		. "/home/kal/anaconda3/etc/profile.d/conda.sh"
+	else
+		export PATH="/home/kal/anaconda3/bin:$PATH"
+	fi
 fi
 unset __conda_setup
 
 CONDA_ROOT=~/anaconda3
 if [[ -r $CONDA_ROOT/etc/profile.d/bash_completion.sh ]]; then
-    source $CONDA_ROOT/etc/profile.d/bash_completion.sh
+	# shellcheck source=/home/kal/anaconda3/etc/profile.d/bash_completion.sh
+	source $CONDA_ROOT/etc/profile.d/bash_completion.sh
 fi
 # <<< conda initialize <<<
-
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# shellcheck source=/home/kal/.nvm/nvm.sh
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# shellcheck source=/home/kal/.nvm/bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
