@@ -23,7 +23,14 @@ return {
     },
   },
 
-  { "tpope/vim-rhubarb", dependencies = { "tpope/vim-fugitive" } },
+  {
+    "tpope/vim-rhubarb",
+    lazy = true,
+    dependencies = { "tpope/vim-fugitive" },
+    keys = {
+      { "<leader>gB", "<cmd>GBrowse<cr>", desc = "Browse in GitHub" },
+    },
+  },
 
   { "echasnovski/mini.pairs" },
 
@@ -33,7 +40,7 @@ return {
     version = "3.5.4",
   },
 
-  { "Olical/vim-enmasse" },
+  { "Olical/vim-enmasse", lazy = true },
   {
     "KabbAmine/zeavim.vim",
     version = "*", -- recommended, use latest release instead of latest commit
