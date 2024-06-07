@@ -96,6 +96,13 @@ return {
         desc = "Paste clipboard image",
         opts = { noremap = false, buffer = true },
       },
+      -- This does not work
+      -- ["<localleader>e"] = {
+      --   action = "<cmd>'<,'>ObsidianExtractNote<cr>",
+      --   mode = { "v", "x" },
+      --   desc = "Extract selection to new note",
+      --   opts = { noremap = false, buffer = true },
+      -- },
     },
 
     -- Optional, customize how names/IDs for new notes are created.
