@@ -17,6 +17,11 @@ return {
     },
   },
 
+  -- {
+  --   "hrsh7th/cmp-buffer",
+  --   enabled = false,
+  -- },
+
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -31,6 +36,17 @@ return {
       table.insert(opts.sources, { name = "emoji" })
       table.insert(opts.sources, { name = "calc" })
       table.insert(opts.sources, { name = "look" })
+
+      -- remove the buffer source
+      -- local index = nil
+      -- for i, v in ipairs(opts.sources) do
+      --   if v.name == "buffer" then
+      --     index = i
+      --   end
+      -- end
+      -- if index ~= nil then
+      --   table.remove(opts.sources, index)
+      -- end
 
       local has_words_before = function()
         unpack = unpack or table.unpack
@@ -50,6 +66,9 @@ return {
       --   completion = cmp.config.window.bordered(),
       --   documentation = cmp.config.window.bordered(),
       -- }
+
+      -- turn off ghost_text
+      opts.experimental.ghost_text = false
 
       -- need force disabling PreselectMode
       opts.completion.completeopt = "menu,menuone,noinsert,noselect"
