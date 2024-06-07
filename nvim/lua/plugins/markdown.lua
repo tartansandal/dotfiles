@@ -4,6 +4,7 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
+        -- turn off markdown linting?
         markdown = {},
       },
     },
@@ -15,7 +16,7 @@ return {
         injected = {
           options = {
             -- Silence errors in formating code blocks
-            ignore_errors = false,
+            -- ignore_errors = false,
           },
         },
       },
