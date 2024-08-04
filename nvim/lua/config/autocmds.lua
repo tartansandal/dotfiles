@@ -30,31 +30,31 @@ vim.api.nvim_create_autocmd("FileType", {
     map(
       "n",
       "<localleader>`",
-      "gsaiW`",
+      "saiW`",
       { remap = true, buffer = true, desc = "Suround WORD with `" }
     )
     map(
       "n",
       '<localleader>"',
-      'gsaiW"',
+      'saiW"',
       { remap = true, buffer = true, desc = 'Suround WORD with "' }
     )
     map(
       "n",
       "<localleader>'",
-      "gsaiW'",
+      "saiW'",
       { remap = true, buffer = true, desc = "Suround WORD with '" }
     )
     map(
       "n",
       "<localleader>*",
-      "gsaiW*",
+      "saiW*",
       { remap = true, buffer = true, desc = "Suround WORD with *" }
     )
     map(
       "n",
       "<localleader>>",
-      "gsaiW>",
+      "saiW>",
       { remap = true, buffer = true, desc = "Suround WORD with >" }
     )
   end,

@@ -37,7 +37,11 @@ return {
       time_format = "%H:%M",
       -- A map for custom variables, the key should be the variable and the value
       -- a function
-      substitutions = {},
+      substitutions = {
+        week = function()
+          return tostring(os.date("%W"))
+        end,
+      },
     },
 
     daily_notes = {

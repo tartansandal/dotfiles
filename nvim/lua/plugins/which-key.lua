@@ -2,9 +2,9 @@ return {
   {
     "folke/which-key.nvim",
     opts = {
-      defaults = {
-        ["<leader>bf"] = { name = "+filename" },
-        ["<leader>o"] = { name = "+obsidian" },
+      spec = {
+        { "<leader>bf", group = "filename" },
+        { "<leader>o", group = "obsidian" },
       },
     },
   },

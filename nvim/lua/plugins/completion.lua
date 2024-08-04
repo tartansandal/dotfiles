@@ -6,16 +6,16 @@ return {
     end,
   },
 
-  {
-    "octaltree/cmp-look",
-    keyword_length = 3,
-    lazy = true,
-    option = {
-      convert_case = true,
-      loud = true,
-      dict = "/home/kal/dotfiles/10k-sorted.txt",
-    },
-  },
+  -- {
+  --   "octaltree/cmp-look",
+  --   keyword_length = 3,
+  --   lazy = true,
+  --   option = {
+  --     convert_case = true,
+  --     loud = true,
+  --     dict = "/home/kal/dotfiles/10k-sorted.txt",
+  --   },
+  -- },
 
   -- {
   --   "hrsh7th/cmp-buffer",
@@ -27,7 +27,9 @@ return {
     dependencies = {
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-calc",
-      "octaltree/cmp-look",
+      -- "octaltree/cmp-look",
+      "nvim-tree/nvim-web-devicons",
+      --      "onsails/lspkind.nvim",
     },
 
     ---@param opts cmp.ConfigSchema
@@ -35,7 +37,7 @@ return {
       -- load up cmp plugins
       table.insert(opts.sources, { name = "emoji" })
       table.insert(opts.sources, { name = "calc" })
-      table.insert(opts.sources, { name = "look" })
+      -- table.insert(opts.sources, { name = "look" })
 
       -- remove the buffer source
       -- local index = nil
@@ -69,6 +71,20 @@ return {
 
       -- turn off ghost_text
       opts.experimental.ghost_text = false
+
+      -- this seems to slow things down too much
+      -- opts.formatting.format = function(entry, vim_item)
+      --   if vim.tbl_contains({ "path" }, entry.source.name) then
+      --     local icon, hl_group =
+      --       require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
+      --     if icon then
+      --       vim_item.kind = icon
+      --       vim_item.kind_hl_group = hl_group
+      --       return vim_item
+      --     end
+      --   end
+      --   return require("lspkind").cmp_format({ with_text = false })(entry, vim_item)
+      -- end
 
       -- need force disabling PreselectMode
       opts.completion.completeopt = "menu,menuone,noinsert,noselect"
