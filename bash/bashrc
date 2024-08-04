@@ -6,7 +6,7 @@
 
 ## source global defaults
 if [[ -f /etc/bashrc ]]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 
 # If not running interactively, don't do anything
@@ -24,26 +24,26 @@ stty -ixon -ixoff
 
 # This is MacOS foo
 if [[ -r /usr/local/etc/bash_completion ]]; then
-	# shellcheck source=/dev/null
-	. /usr/local/etc/bash_completion
+    # shellcheck source=/dev/null
+    . /usr/local/etc/bash_completion
 fi
 
 #> source private libraries
 for lib in \
-	hosts \
-	prompt \
-	direnv \
-	fzf \
-	dockerized \
-	pyenv; do
-	# shellcheck source=/home/kal/dotfiles/bash/pyenv
-	[[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
+    hosts \
+    prompt \
+    direnv \
+    fzf \
+    dockerized \
+    pyenv; do
+    # shellcheck source=/home/kal/dotfiles/bash/pyenv
+    [[ -r ~/dotfiles/bash/$lib ]] && source ~/dotfiles/bash/$lib
 done
 unset lib
 
 if [[ -r /usr/bin/aws_completer ]]; then
-	# shellcheck source=/dev/null
-	complete -C '/usr/bin/aws_completer' aws
+    # shellcheck source=/dev/null
+    complete -C '/usr/bin/aws_completer' aws
 fi
 
 # asdf support
@@ -68,48 +68,50 @@ alias ..='cd ..'
 
 alias lg=lazygit
 
+alias dnf-update='sudo dnf update -y'
+
 # use vim with clipboard defined if available
 if hash vimx 2>/dev/null; then
-	alias vim=vimx
+    alias vim=vimx
 fi
 
 if hash nvim 2>/dev/null; then
-	alias vim=nvim
+    alias vim=nvim
 fi
 
 # overrides for weird Mac env
 if [[ -n $Apple_PubSub_Socket_Render ]]; then
-	alias ll='ls -h -p -l -G'
-	alias l.='ls -p -d -G .*'
-	alias ls='ls -p -G'
-	alias rm='rm -i'
+    alias ll='ls -h -p -l -G'
+    alias l.='ls -p -d -G .*'
+    alias ls='ls -p -G'
+    alias rm='rm -i'
 fi
 
 #>bash_completion
 if [[ -n "$BASH_COMPLETION" ]]; then
-	complete -F _root_command -o filenames s
-	complete -C /home/kal/bin/vault vault
-	complete -C /usr/bin/terraform terraform
+    complete -F _root_command -o filenames s
+    complete -C /home/kal/bin/vault vault
+    complete -C /usr/bin/terraform terraform
 fi
 
 -make-python-envrc() {
-	if [[ -f .envrc ]]; then
-		echo "Cowardly refusing to overwrite exiting .envrc file"
-	else
-		{
-			echo "# vim: ft=sh"
-			echo "export VIRTUAL_ENV=venv"
-			echo "layout python-venv"
-		} >.envrc
-	fi
+    if [[ -f .envrc ]]; then
+        echo "Cowardly refusing to overwrite exiting .envrc file"
+    else
+        {
+            echo "# vim: ft=sh"
+            echo "export VIRTUAL_ENV=venv"
+            echo "layout python-venv"
+        } >.envrc
+    fi
 }
 
 -make-flake8() {
-	{
-		echo "[flake8]"
-		echo "max-line-length = 88"
-		echo "extend-ignore = E203"
-	} >.flake8
+    {
+        echo "[flake8]"
+        echo "max-line-length = 88"
+        echo "extend-ignore = E203"
+    } >.flake8
 }
 
 ## Shell options
@@ -176,20 +178,20 @@ shopt -u mailwarn
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if __conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2>/dev/null)"; then
-	eval "$__conda_setup"
+    eval "$__conda_setup"
 else
-	if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
-		. "/home/kal/anaconda3/etc/profile.d/conda.sh"
-	else
-		export PATH="/home/kal/anaconda3/bin:$PATH"
-	fi
+    if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/kal/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/kal/anaconda3/bin:$PATH"
+    fi
 fi
 unset __conda_setup
 
 CONDA_ROOT=~/anaconda3
 if [[ -r $CONDA_ROOT/etc/profile.d/bash_completion.sh ]]; then
-	# shellcheck source=/home/kal/anaconda3/etc/profile.d/bash_completion.sh
-	source $CONDA_ROOT/etc/profile.d/bash_completion.sh
+    # shellcheck source=/home/kal/anaconda3/etc/profile.d/bash_completion.sh
+    source $CONDA_ROOT/etc/profile.d/bash_completion.sh
 fi
 # <<< conda initialize <<<
 export NVM_DIR="$HOME/.nvm"
