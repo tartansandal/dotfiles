@@ -35,16 +35,17 @@ return {
   { "echasnovski/mini.pairs" },
 
   {
-    -- Need neovim 0.10 for newer versions
     "lukas-reineke/indent-blankline.nvim",
-    version = "3.5.4",
+    -- Need neovim 0.10 for newer versions
+    -- version = "3.5.4",
   },
 
   { "Olical/vim-enmasse", lazy = true },
+
   {
     "KabbAmine/zeavim.vim",
     version = "*", -- recommended, use latest release instead of latest commit
-    lazy = true,
+    event = "LazyFile",
     keys = {
       { "<leader>cz", "<cmd>Zeavim<cr>", desc = "Zeal lookup" },
     },
