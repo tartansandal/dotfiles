@@ -31,6 +31,9 @@
 	changed = green
 	untracked = cyan
 
+[rebase]
+    updateREfs = true
+
 [gui]
 	editor = gvim
 
