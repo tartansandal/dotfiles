@@ -41,6 +41,7 @@ Install Flatpacks
     flatpak install ca.desrt.dconf-editor
     flatpak install com.uploadedlobster.peek
     flatpak install us.zoom.Zoom
+    flatpak install io.github.congard.qnvsm
 
 Log out and back in before running these, or at least
 
@@ -180,14 +181,15 @@ Some extras?
       nvidia-gpu-firmware             \
       nvidia-persistenced             \
       nvidia-vaapi-driver             \
+      xorg-x11-drv-nvidia-cuda
       xorg-x11-drv-nvidia-cuda-libs   \
       xorg-x11-drv-nvidia-power
 
 Then mount the Module Signing thumb drive and run the `resign-nvidia.sh` script.
 
-To force a rebuild run (as normal user):
+To force a rebuild run:
 
-    akmodsbuild /usr/src/akmods/nvidia-kmod.latest
+    sudo akmods --rebuild
 
 May need either of these temporary workarounds:
 
