@@ -72,13 +72,6 @@ return {
     -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
     -- way then set 'mappings = {}'.
     mappings = {
-      -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-      ["gf"] = {
-        action = function()
-          return require("obsidian").util.gf_passthrough()
-        end,
-        opts = { noremap = false, expr = true, buffer = true },
-      },
       ["<localleader>b"] = {
         action = "<cmd>ObsidianBacklinks<cr>",
         desc = "Open Backlinks",
@@ -100,6 +93,7 @@ return {
         desc = "Paste clipboard image",
         opts = { noremap = false, buffer = true },
       },
+
       -- This does not work
       -- ["<localleader>e"] = {
       --   action = "<cmd>'<,'>ObsidianExtractNote<cr>",
@@ -107,6 +101,21 @@ return {
       --   desc = "Extract selection to new note",
       --   opts = { noremap = false, buffer = true },
       -- },
+
+      -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+      ["gf"] = {
+        action = function()
+          return require("obsidian").util.gf_passthrough()
+        end,
+        opts = { noremap = false, expr = true, buffer = true },
+      },
+      -- Smart action depending on context, either follow link or toggle checkbox.
+      ["<cr>"] = {
+        action = function()
+          return require("obsidian").util.smart_action()
+        end,
+        opts = { buffer = true, expr = true },
+      },
     },
 
     -- Optional, customize how names/IDs for new notes are created.
@@ -221,8 +230,10 @@ return {
         -- are defined below.
         [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
         ["x"] = { char = "", hl_group = "ObsidianDone" },
-        [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-        ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+        -- [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+        -- ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+        -- ["!"] = { char = "", hl_group = "ObsidianImportant" },
+
         -- Replace the above with this if you don't have a patched font:
         -- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
         -- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
