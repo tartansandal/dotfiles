@@ -9,10 +9,9 @@ ardour6
 ffmpeg
 guitarix
 
-pipenv
 pipewire-alsa
 pipewire-gstreamer
-pipewire-jack-audio-connection-kit
+#pipewire-jack-audio-connection-kit
 pipewire-pulseaudio
 pipewire-codec-aptx
 pipewire-plugin-libcamera
@@ -27,7 +26,6 @@ vulkan
 # Backups
 duplicity
 deja-dup
-deja-dup-nautilus
 rclone
 fedora-packager
 
@@ -63,9 +61,9 @@ docker-compose-plugin
 awscli
 
 # Development
+lazygit
 tmux
 vim
-vim-X11
 vim-enhanced
 ripgrep
 jq
@@ -84,23 +82,10 @@ rust
 cargo
 libvirt
 fuse-sshfs
-libguestfs-tools
-virt-install
 make
 xpad
 xsel
 golang
 mariadb
 mariadb-devel
-
-# Python
-python3-yapf
-python3-flake8
-python3-pudb
-python3-isort
-python3-pylint
-python3-pytest
-python3-ipython
-python3-ipython-doc
-python3-ipdb
 pre-commit

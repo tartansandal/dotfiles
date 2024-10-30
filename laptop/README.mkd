@@ -1,111 +1,81 @@
 # Notes on setting up a fresh laptop
 
-Install yum repos etc
+Ensure focus follows mouse:
+
+    gsettings set org.gnome.desktop.wm.preferences focus-mode mouse
+
+Install yum repositories:
 
     sudo rsync -rv ./etc/ /etc/
+
+Enable some `COPR` repositories:
+
+    sudo dnf copr enable atim/lazygit -y
 
 Install packages in `packages-install` file
 
     sudo dnf install `grep -v '^#\|^$' packages-install`
 
-Integrate app data from rpmfusion:
+Integrate application data from `rpmfusion:`
 
-    sudo dnf groupupdate core
+    sudo dnf group upgrade core
 
-Install flatpacks
+Remove unused packages:
 
-```console
-# by-pass `fedora-flatpack-filter`.
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo dnf remove \
+      plocate       \
+      gnome-boxes   \
+      libreoffice*
 
-flatpak install io.dbeaver.DBeaverCommunity
-flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
-flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
-flatpak install com.mattjakeman.ExtensionManager
+Install Flatpacks
 
-flatpak install com.rafaelmardojai.Blanket
-flatpak install ca.desrt.dconf-editor
-flatpak install com.uploadedlobster.peek
-flatpak install us.zoom.Zoom
-```
+    # by-pass `fedora-flatpack-filter`.
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+    flatpak install io.dbeaver.DBeaverCommunity
+    flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
+    flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
+    flatpak install com.mattjakeman.ExtensionManager
+
+    flatpak install com.rafaelmardojai.Blanket
+    flatpak install ca.desrt.dconf-editor
+    flatpak install com.uploadedlobster.peek
+    flatpak install us.zoom.Zoom
 
 Log out and back in before running these, or at least
 
     source ~/.bash_profile
 
-and perhaps creating the .local/ directories
-
-Think much of this is now covered by CoC and lsp
-
-    npm install -g eslint
-    npm install -g babel-eslint
-    npm install -g eslint-plugin-react
-    npm install -g js-beautify
-
-    pip install --user `cat pips`
-    gem install `cat gems`
-
 ## Emoji and Special characters?
 
-First remember you have capslock maped to "compose" so that `CapsLock + c + ,`
-gives `ç`. See the `Multi-Key` entries in
-/usr/share/X11/locale/en_US.UTF-8/Compose for more examples.
-
-Can do this via the Typing Booster input method (see
-<https://opensource.com/article/19/10/how-type-emoji-linux>).
-
-To toggle input methods use `Super + space`. But this does not help for input
-in chrome under wayland.
+First remember you have `CapsLock` key mapped to "compose" so that `CapsLock + c + ,`
+gives `ç`. See the `Multi-Key` entries in `/usr/share/X11/locale/en_US.UTF-8/Compose` for
+more examples.
 
 Okay, found a chrome extension that seems to be working.
 
-## Flameshot
+## `flameshot`
 
-To bind print-screen to flameshot ...
+To bind print-screen to `flameshot` ...
 
-Goto `Settings > Keyboard > View` and Customize Shortcuts.
+Go to `Settings > Keyboard > View` and Customize Shortcuts.
 
 Search for "Print". If not set to "Flameshot", select the "Print" binding then
-hit "backspace" to disable. Then add a new Custom Shortcut for "flameshot gui"
+hit "backspace" to disable. Then add a new Custom Shortcut for `flameshot gui`
 and bind that to the "Print" key.
 
-## docker
+## `docker`
 
 Add myself to the `docker` group
 
     sudo dnf install docker-ce
     sudo systemctl enable --now docker
     sudo usermod -aG docker $(whoami)
+    newgrp docker
 
-## Pyenv
+## `ffmpeg`
 
-May not need this for Fedora 36
-
-See <https://github.com/pyenv/pyenv>
-
-Need extra packages:
-
-    sudo dnf install        \
-        bzip2-devel         \
-        libffi-devel        \
-        openssl-devel       \
-        readline-devel      \
-        sqlite-devel        \
-        xz-devel            \
-        ncurses-c++-libs    \
-        ncurses-devel
-
-Update pip for each version
-
-    for VERSION in $(pyenv versions --bare)
-    do
-        pyenv shell ${VERSION}
-        pip install --upgrade pip
-    done
-
-## ffmpeg
-
-for ACC and mpg4
+Needed for ACC and mpg4
 
     sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -118,13 +88,13 @@ Add the following lines to `/etc/default/grub`
     GRUB_FONT=/boot/efi/EFI/fedora/fonts/LiberationMono36.pf2
     GRUB_TERMINAL_OUTPUT="gfxterm"
 
-then run
+Then run
 
     sudo mkdir /boot/efi/EFI/fedora/fonts/
     sudo grub2-mkfont --output=/boot/efi/EFI/fedora/fonts/LiberationMono48.pf2 --size=48 /usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf
     sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
-After grub the fontsize can be set via `/etc/vconsole.conf` and by altering the
+After grub the font size can be set via `/etc/vconsole.conf` and by altering the
 default command line to set `vconsole.font` to something bigger like `ter-132n`.
 Then run:
 
@@ -135,16 +105,16 @@ Then run:
 
 I think my laptop is what is called Optimus with the dual Nvidia/Intel video.
 
-Despite all this I won't get harware accelleration under Firefox yet. :(
+Despite all this I won't get hardware acceleration under Firefox yet. :(
 I think I really need WebGL.
 
 Can get it to work if I disable NVIDIA with
 
     __NV_PRIME_RENDER_OFFLOAD=0 firefox
 
-> Run Firefox and force enable VA-API as it's disabled on NVIDIA by default. Go
-> to about:config page and set media.ffmpeg.vaapi.enabled to true.
-> Run Firefox with NVD_BACKEND=direct MOZ_DISABLE_RDD_SANDBOX=1 env variables.
+> Run Firefox and force enable `VA-API` as it's disabled on NVIDIA by default. Go
+> to `about:config` page and set `media.ffmpeg.vaapi.enabled` to true.
+> Run Firefox with `NVD_BACKEND=direct MOZ_DISABLE_RDD_SANDBOX=1` env variables.
 
 Websites with information about this:
 
@@ -163,12 +133,11 @@ Need OpenGL >= 3.2 or GLES >= 3.0
 
 Maybe need:
 
-    intel-media-driver
-    libva-intel-hybrid-driver
+    intel-media-driver \
+    libva-intel-hybrid-driver \
+    nvidia-gpu-firmware
 
-MOZ_ENABLE_WAYLAND=0 ./firefox
-
-## Auto unlock secret thumbdrive
+## Auto unlock secret thumb drive
 
 ```
 mkdir /secret
@@ -187,36 +156,43 @@ And add the following to `/etc/fstab`
 /dev/mapper/secret /etc/pki/akmods/  ext4 defaults,nofail,nosuid,nodev,relatime 0 0
 ```
 
-Then reboot to ensure thumbdrive is mounted on `/etc/pki/akmods`
+Then reboot to ensure thumb drive is mounted on `/etc/pki/akmods`
 
 ## Nvidia drivers with RPMFusion
 
-Install the metapackage
+Install the meta-package
 
     sudo dnf install kmod-nvidia
 
 Ensure the following are installed:
 
-    akmod-nvidia                    \
-    nvidia-settings                 \
-    xorg-x11-drv-nvidia             \
-    xorg-x11-drv-nvidia-kmodsrc     \
-    xorg-x11-drv-nvidia-libs        \
-    xorg-x11-drv-nvidia-cuda-libs   \
-    xorg-x11-drv-nvidia-power
+    sudo dnf install \
+      akmod-nvidia                    \
+      nvidia-modprobe                 \
+      nvidia-settings                 \
+      xorg-x11-drv-nvidia             \
+      xorg-x11-drv-nvidia-kmodsrc     \
+      xorg-x11-drv-nvidia-libs        \
 
 Some extras?
 
-    nvidia-gpu-firmware         \
-    nvidia-persistenced         \
-    nvidia-vaapi-driver         \
-    xorg-x11-drv-nvidia-cuda
+    sudo dnf install \
+      nvidia-gpu-firmware             \
+      nvidia-persistenced             \
+      nvidia-vaapi-driver             \
+      xorg-x11-drv-nvidia-cuda-libs   \
+      xorg-x11-drv-nvidia-power
 
-Then mount the Module Signing thumbdrive and run the `resign-nvidia.sh` script.
+Then mount the Module Signing thumb drive and run the `resign-nvidia.sh` script.
 
 To force a rebuild run (as normal user):
 
     akmodsbuild /usr/src/akmods/nvidia-kmod.latest
+
+May need either of these temporary workarounds:
+
+    echo "GSK_RENDERER = NGL" | sudo tee -a /etc/environment
+    echo "DRI_PRIME=1" | sudo tee -a /etc/environment
 
 ### Optimus PRIME GPU offloading
 
@@ -227,21 +203,25 @@ Install:
     vulkan
     swticheroo-control
 
-To manually run with the nvidia gpu:
+To manually run with the Nvidia GPU:
 
     __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia command
 
-Or use the switcheroo service:
+Or use the `switcheroo` service:
 
-> GNOME will respect the PrefersNonDefaultGPU property in the desktop
+> GNOME will respect the `PrefersNonDefaultGPU` property in the desktop
 > entry. Alternatively, you can launch applications with GPU by right clicking
 > on the icon and choosing Launch using Discrete Graphics Card.
 
-### Realtime audio for guitarix and ardour
+### Real-time audio for `guitarix` and `ardour`
 
-install realtime-setup.x86_64
+    sudo dnf install realtime-setup.x86_64
 
-ensure you are in both the audio and realtime groups
+And ensure you are in both the `audio` and `realtime` groups
+
+    sudo usermod -a -G audio,realtime kal
+    newgrp audio
+    newgrp realtime
 
 ## Doist
 
@@ -252,7 +232,7 @@ Hosts updates:
         echo "127.0.0.1   local.todoist.com local.twist.com local.mailhog.com"
     } | sudo tee -a /etc/hosts
 
-Use dev CA for local.todoist.com:
+Use `dev` CA for local.todoist.com:
 
     sudo trust anchor --store path/to/ide-tools/traefik/ssl/rootCA.pem
 
