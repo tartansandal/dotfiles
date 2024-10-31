@@ -57,6 +57,12 @@ Okay, found a chrome extension that seems to be working.
 
 ## `flameshot`
 
+First fix some permission:
+
+    dbus-send --session --print-reply=literal --dest=org.freedesktop.impl.portal.PermissionStore /org/freedesktop/impl/portal/PermissionStore org.freedesktop.impl.portal.PermissionStore.SetPermission string:'screenshot' boolean:true string:'screenshot' string:'flameshot' array:string:'yes'
+
+    dbus-send --session --print-reply=literal --dest=org.freedesktop.impl.portal.PermissionStore /org/freedesktop/impl/portal/PermissionStore org.freedesktop.impl.portal.PermissionStore.Lookup string:'screenshot' string:'screenshot'
+
 To bind print-screen to `flameshot` ...
 
 Go to `Settings > Keyboard > View` and Customize Shortcuts.
