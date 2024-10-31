@@ -1,3 +1,10 @@
+# Notes on recovering home from a backup
+
+You don't want to do this from GNOME, since your settings will be changing under the hood.
+
+TODO: how to do recovery from deja-dup?
+Or
+
 # Notes on setting up a fresh laptop
 
 Ensure focus follows mouse:
