@@ -35,6 +35,9 @@ gnome-tweak-tool
 gnome-pomodoro
 
 # System
+clean-rpm-gpg-pubkey
+remove-retired-packages
+rpmconf
 tuned
 htop
 lm_sensors
@@ -52,7 +55,6 @@ inotify-tools
 egl-utils
 egl-wayland
 egl-gbm
-tailscale
 screenfetch
 
 # Virtualization

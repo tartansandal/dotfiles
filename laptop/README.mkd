@@ -54,13 +54,65 @@ Log out and back in before running these, or at least
 
     source ~/.bash_profile
 
+## Post upgrade/install cleanup
+
+From [Fedora Docs: Optional post-upgrade tasks](https://docs.fedoraproject.org/en-US/quick-docs/upgrading-fedora-offline/#sect-optional-post-upgrade-tasks)
+
+Check for and resolve `.rpmsave` files created during the upgrade:
+
+    sudo rpmconf -a
+
+Remove any packages retired by the new release:
+
+    sudo remove-retired-packages
+
+Check for duplicate packages with:
+
+    sudo dnf repoquery --duplicates
+
+And remove with
+
+    sudo dnf remove --duplicates
+
+Clean up any old RPM GPG keys:
+
+    sudo clean-rpm-gpg-pubkey
+
+Check orphaned packages no longer provided by repositories:
+
+    sudo dnf upgrade
+    sudo dnf list --extras
+
+Remove orphaned packages with either:
+
+    sudo dnf remove $(sudo dnf repoquery --extras --exclude=kernel,kernel-\*)
+    sudo dnf autoremove
+
+Check for dangling symlinks:
+
+    sudo symlinks -r /usr | grep dangling
+
+Then clean up with
+
+    sudo symlinks -r -d /usr
+
+Any of the following may help with resolving problems
+
+    sudo rpm --rebuilddb
+
+    sudo dnf distro-sync
+
+    sudo dnf distro-sync --allowerasing
+
+    sudo fixfiles -B onboot
+
 ## Emoji and Special characters?
 
 First remember you have `CapsLock` key mapped to "compose" so that `CapsLock + c + ,`
 gives `ç`. See the `Multi-Key` entries in `/usr/share/X11/locale/en_US.UTF-8/Compose` for
 more examples.
 
-Okay, found a chrome extension that seems to be working.
+Install the Smile gnome-extension and use `Super-.` to focus.
 
 ## `flameshot`
 
