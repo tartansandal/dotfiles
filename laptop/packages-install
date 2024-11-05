@@ -1,6 +1,7 @@
 # Apps
 google-chrome-stable
 gimp
+inkscape
 
 # Audio
 audacity
@@ -18,16 +19,15 @@ pipewire-plugin-libcamera
 tuned-profiles-realtime
 realtime-setup
 
+# Videa
 openh264
 vdpauinfo
 libva-utils
 vulkan
+switcheroo-control
 
 # Backups
-duplicity
-deja-dup
-rclone
-fedora-packager
+pika
 
 # Gnome
 gnome-terminal-nautilus

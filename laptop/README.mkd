@@ -29,10 +29,15 @@ Integrate application data from `rpmfusion:`
 
 Remove unused packages:
 
-    sudo dnf remove \
-      plocate       \
-      gnome-boxes   \
-      libreoffice*
+    sudo dnf remove  \
+      plocate        \
+      gnome-boxes    \
+      libreoffice*   \
+      libvirt        \
+      gnome-weather  \
+      simple-scan    \
+      gnome-calendar \
+      open-vm-tools
 
 Install Flatpacks
 
