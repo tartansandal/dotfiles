@@ -46,20 +46,7 @@ return {
         percentage = 0.15, -- percentage of the shade to apply to the inactive window
       },
       integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = false,
-        flash = true,
-        treesitter = true,
-        noice = true,
-        notify = true,
-        nvim_surround = true,
-        lsp_trouble = true,
-        which_key = true,
-        mini = {
-          enabled = true,
-          indentscope_color = "",
-        },
+        leap = false,
       },
       color_overrides = {
         latte = latte2,

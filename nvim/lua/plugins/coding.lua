@@ -2,7 +2,13 @@ return {
   -- surround
   -- comment
   -- ai
-
+  {
+    "snacks.nvim",
+    opts = {
+      lazygit = { enabled = true },
+      indent = { enabled = true, scope = { enabled = false } },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -22,25 +28,6 @@ return {
       },
     },
   },
-
-  {
-    "tpope/vim-rhubarb",
-    lazy = true,
-    dependencies = { "tpope/vim-fugitive" },
-    keys = {
-      { "<leader>gB", "<cmd>GBrowse<cr>", desc = "Browse in GitHub" },
-    },
-  },
-
-  { "echasnovski/mini.pairs" },
-
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    -- Need neovim 0.10 for newer versions
-    -- version = "3.5.4",
-  },
-
-  { "Olical/vim-enmasse", lazy = true },
 
   {
     "KabbAmine/zeavim.vim",

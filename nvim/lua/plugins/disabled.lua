@@ -3,10 +3,17 @@ return {
     "echasnovski/mini.indentscope",
     enabled = false,
   },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
+  },
+
   {
     "RRethy/vim-illuminate",
     enabled = false,
   },
+
   {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,
@@ -16,11 +23,6 @@ return {
     "folke/tokyonight.nvim",
     enabled = false,
   },
-
-  -- {
-  --   "catppuccin/nvim",
-  --   enabled = false,
-  -- },
 
   {
     "nvim-pack/nvim-spectre",
