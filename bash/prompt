@@ -1,47 +1,12 @@
 #!/bin/bash
 
 # Match base16_dirtysea colours
-PROMPT_USER_COLOR="\033[0;35m"          # red
-PROMPT_PREPOSITION_COLOR="\033[0;36m"   # grey
-PROMPT_DEVICE_COLOR="\033[0;31m"        # blue
-PROMPT_DIR_COLOR="\033[0;33m"           # cyan
-PROMPT_GIT_STATUS_COLOR="\033[0;34m"    # green
-PROMPT_GIT_PROGRESS_COLOR="\033[0;35m"  # red
-PROMPT_SYMBOL_COLOR="\033[0;32m"        # purple
+PROMPT_USER_COLOR="\033[0;35m"         # red
+PROMPT_PREPOSITION_COLOR="\033[0;36m"  # grey
+PROMPT_DEVICE_COLOR="\033[0;31m"       # blue
+PROMPT_DIR_COLOR="\033[0;33m"          # cyan
+PROMPT_GIT_STATUS_COLOR="\033[0;34m"   # green
+PROMPT_GIT_PROGRESS_COLOR="\033[0;35m" # red
+PROMPT_SYMBOL_COLOR="\033[0;32m"       # purple
 
 source ~/dotfiles/bash/sexy-prompt.sh
-
-# The following is normally defined in /etc/profile.d/vte.sh on Fedora,
-# but won't exist in Ubuntu shells
-if [[ -z $(type -t __vte_prompt_command) ]];
-then
-    __vte_urlencode() (
-        # This is important to make sure string manipulation is handled
-        # byte-by-byte.
-        LC_ALL=C
-        str="$1"
-        while [ -n "$str" ]; do
-            safe="${str%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
-            printf "%s" "$safe"
-            str="${str#"$safe"}"
-            if [ -n "$str" ]; then
-            printf "%%%02X" "'$str"
-            str="${str#?}"
-            fi
-        done
-    )
-
-    __vte_osc7 () {
-        printf "\033]7;file://%s%s\007" "${HOSTNAME:-}" "$(__vte_urlencode "${PWD}")"
-    }
-
-    __vte_prompt_command() {
-        local command=$(HISTTIMEFORMAT= history 1 | sed 's/^ *[0-9]\+ *//')
-        command="${command//;/ }"
-        local pwd='~'
-        [ "$PWD" != "$HOME" ] && pwd=${PWD/#$HOME\//\~\/}
-        printf "\033]777;notify;Command completed;%s\007\033]0;%s@%s:%s\007%s" "${command}" "${USER}" "${HOSTNAME%%.*}" "${pwd}" "$(__vte_osc7)"
-    }
-
-    PROMPT_COMMAND="__vte_prompt_command;"$PROMPT_COMMAND
-fi
