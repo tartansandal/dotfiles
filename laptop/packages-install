@@ -91,3 +91,5 @@ golang
 mariadb
 mariadb-devel
 pre-commit
+luarocks
+python3-neovim
