@@ -12,8 +12,33 @@ opt.iskeyword["t"] = nil -- dont auto-wrap text using textwidth
 table.insert(opt.iskeyword, "-")
 
 local map = vim.keymap.set
-map("n", "<localleader>`", "saiW`", { remap = true, buffer = true, desc = "Suround WORD with `" })
-map("n", '<localleader>"', 'saiW"', { remap = true, buffer = true, desc = 'Suround WORD with "' })
-map("n", "<localleader>'", "saiW'", { remap = true, buffer = true, desc = "Suround WORD with '" })
-map("n", "<localleader>*", "saiW*", { remap = true, buffer = true, desc = "Suround WORD with *" })
-map("n", "<localleader>>", "saiW>", { remap = true, buffer = true, desc = "Suround WORD with >" })
+map(
+  "n",
+  "<localleader>`",
+  "saiW`",
+  { remap = true, buffer = true, desc = "Suround WORD with `" }
+)
+map(
+  "n",
+  '<localleader>"',
+  'saiW"',
+  { remap = true, buffer = true, desc = 'Suround WORD with "' }
+)
+map(
+  "n",
+  "<localleader>'",
+  "saiW'",
+  { remap = true, buffer = true, desc = "Suround WORD with '" }
+)
+map(
+  "n",
+  "<localleader>*",
+  "saiW*",
+  { remap = true, buffer = true, desc = "Suround WORD with *" }
+)
+map(
+  "n",
+  "<localleader>>",
+  "saiW>",
+  { remap = true, buffer = true, desc = "Suround WORD with >" }
+)
