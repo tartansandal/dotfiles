@@ -1,16 +1,17 @@
 return {
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    enabled = false,
+  },
+  {
     "echasnovski/mini.files",
     version = "*",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
     opts = {
       windows = {
         preview = true,
         width_focus = 30,
         width_nofocus = 20,
-        width_preview = 50,
+        width_preview = 90,
       },
       options = {
         -- Whether to use for editing directories
@@ -78,19 +79,14 @@ return {
         callback = function(args)
           local buf_id = args.data.buf_id
           -- Tweak left-hand side of mapping to your liking
-          vim.keymap.set(
-            "n",
-            "g.",
-            toggle_dotfiles,
-            { buffer = buf_id, desc = "Toggle Hidden Files" }
-          )
+          vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle Hidden Files" })
         end,
       })
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesActionRename",
         callback = function(event)
-          LazyVim.lsp.on_rename(event.data.from, event.data.to)
+          Snacks.rename.on_rename_file(event.data.from, event.data.to)
         end,
       })
       local files_set_cwd = function(path)
@@ -103,18 +99,9 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",
         callback = function(args)
-          vim.keymap.set(
-            "n",
-            "g/",
-            files_set_cwd,
-            { buffer = args.data.buf_id, desc = "Set CWD" }
-          )
+          vim.keymap.set("n", "g/", files_set_cwd, { buffer = args.data.buf_id, desc = "Set CWD" })
         end,
       })
     end,
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
   },
 }
