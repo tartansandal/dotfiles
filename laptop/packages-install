@@ -93,3 +93,5 @@ mariadb-devel
 pre-commit
 luarocks
 python3-neovim
+chafa
+delta
