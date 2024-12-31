@@ -3,36 +3,20 @@ local frappe = require("catppuccin.palettes").get_palette("frappe")
 local macchiato = require("catppuccin.palettes").get_palette("macchiato")
 local mocha = require("catppuccin.palettes").get_palette("mocha")
 
-local CC = require("libs.color-conversion")
+local C = require("catppuccin.utils.colors")
 
-local function transform_palette_hsl(palette, map)
+local function transform_palette_hsl(palette, amount)
   local new = {}
   for name, hex in pairs(palette) do
-    local h, s, l = CC.hex_to_hsl(hex)
-    local adjustment = map[name] or map["default"]
-    h = h * (adjustment["h"] or 1)
-    s = s * (adjustment["s"] or 1)
-    l = l * (adjustment["l"] or 1)
-    new[name] = CC.hsl_to_hex(h, s, l)
+    new[name] = C.darken(hex, amount, "#000000")
   end
   return new
 end
 
-local latte2 = transform_palette_hsl(latte, {
-  default = { s = 0.65, l = 0.96 },
-})
-
-local frappe2 = transform_palette_hsl(frappe, {
-  default = { s = 0.6, l = 0.9 },
-})
-
-local macchiato2 = transform_palette_hsl(macchiato, {
-  default = { s = 0.6, l = 0.9 },
-})
-
-local mocha2 = transform_palette_hsl(mocha, {
-  default = { s = 0.6, l = 0.9 },
-})
+local latte_decaf = transform_palette_hsl(latte, 0.90)
+local frappe_decaf = transform_palette_hsl(frappe, 0.84)
+local macchiato_decaf = transform_palette_hsl(macchiato, 0.85)
+local mocha_decaf = transform_palette_hsl(mocha, 0.87)
 
 return {
   {
@@ -40,19 +24,59 @@ return {
     name = "catppuccin",
     opts = {
       flavour = "mocha",
+      no_italic = false, -- Force no italic
+      no_bold = true, -- Force no bold
+      no_underline = false, -- Force no underline
       dim_inactive = {
         enabled = true, -- dims the background color of inactive window
-        shade = "light",
+        -- shade = "light",
+        shade = "dark",
         percentage = 0.15, -- percentage of the shade to apply to the inactive window
       },
       integrations = {
-        leap = false,
+        aerial = false, -- true,
+        alpha = false, -- true,
+        cmp = false, -- true,
+        blink_cmp = true, -- new
+        dashboard = true,
+        flash = true,
+        fzf = true,
+        grug_far = true,
+        gitsigns = true,
+        headlines = true,
+        illuminate = true,
+        indent_blankline = { enabled = true },
+        leap = false, -- true,
+        lsp_trouble = true,
+        mason = true,
+        markdown = true,
+        mini = true,
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
+        navic = { enabled = true, custom_bg = "lualine" },
+        neotest = true,
+        neotree = false, -- true,
+        noice = true,
+        notify = true,
+        semantic_tokens = true,
+        snacks = true,
+        telescope = false, -- true,
+        treesitter = true,
+        treesitter_context = true,
+        which_key = true,
       },
       color_overrides = {
-        latte = latte2,
-        frappe = frappe2,
-        macchiato = macchiato2,
-        mocha = mocha2,
+        latte = latte_decaf,
+        frappe = frappe_decaf,
+        macchiato = macchiato_decaf,
+        mocha = mocha_decaf,
       },
     },
   },
