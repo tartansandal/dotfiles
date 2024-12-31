@@ -81,14 +81,18 @@ return {
       -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
       -- way then set 'mappings = {}'.
       mappings = {
+        ["<localleader>l"] = {
+          action = "<cmd>ObsidianLinks<cr>",
+          desc = "Search links",
+          opts = { noremap = false, buffer = true },
+        },
         ["<localleader>b"] = {
           action = "<cmd>ObsidianBacklinks<cr>",
-          desc = "Open Backlinks",
+          desc = "Search backlinks",
           opts = { noremap = false, buffer = true },
         },
         ["<localleader>i"] = {
           action = "<cmd>ObsidianTemplate<cr>",
-
           desc = "Insert Template",
           opts = { noremap = false, buffer = true },
         },
@@ -102,14 +106,6 @@ return {
           desc = "Paste clipboard image",
           opts = { noremap = false, buffer = true },
         },
-
-        -- This does not work
-        -- ["<localleader>e"] = {
-        --   action = "<cmd>'<,'>ObsidianExtractNote<cr>",
-        --   mode = { "v", "x" },
-        --   desc = "Extract selection to new note",
-        --   opts = { noremap = false, buffer = true },
-        -- },
 
         -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
         ["gf"] = {
@@ -165,6 +161,9 @@ return {
       -- end,
       wiki_link_func = "use_alias_only",
 
+      -- Either 'wiki' or 'markdown'.
+      preferred_link_style = "wiki",
+
       -- Optional, set to true if you don't want obsidian.nvim to manage frontmatter.
       disable_frontmatter = false,
 
@@ -193,8 +192,14 @@ return {
       -- URL it will be ignored but you can customize this behavior here.
       follow_url_func = function(url)
         -- Open the URL in the default web browser.
-        -- vim.fn.jobstart({ "open", url }) -- Mac OS
         vim.fn.jobstart({ "xdg-open", url }) -- linux
+      end,
+
+      -- Optional, by default when you use `:ObsidianFollowLink` on a link to an image
+      -- file it will be ignored but you can customize this behavior here.
+      ---@param img string
+      follow_img_func = function(img)
+        vim.fn.jobstart({ "xdg-open", img })
       end,
 
       -- Optional, set to true if you use the Obsidian Advanced URI plugin.
@@ -210,11 +215,17 @@ return {
         name = "fzf-lua",
         -- Optional, configure key mappings for the picker. These are the defaults.
         -- Not all pickers support all mappings.
-        mappings = {
+        notemappings = {
           -- Create a new note from your query.
           new = "<C-x>",
           -- Insert a link to the selected note.
           insert_link = "<C-l>",
+        },
+        tag_mappings = {
+          -- Add tag(s) to current note.
+          tag_note = "<C-x>",
+          -- Insert a tag at the current location.
+          insert_tag = "<C-l>",
         },
       },
 
@@ -272,56 +283,39 @@ return {
           ObsidianTag = { italic = true, fg = "#89ddff" },
           ObsidianHighlightText = { bg = "#75662e" },
         },
-        -- Specify how to handle attachments.
-        attachments = {
-          -- The default folder to place images in via `:ObsidianPasteImg`.
-          -- If this is a relative path it will be interpreted as relative to the vault root.
-          -- You can always override this per image by passing a full path to the command instead of just a filename.
-          img_folder = "Files/Images", -- This is the default
-          -- A function that determines the text to insert in the note when pasting an image.
-          -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-          -- This is the default implementation.
-          ---@param client obsidian.Client
-          ---@param path obsidian.Path the absolute path to the image file
-          ---@return string
-          img_text_func = function(client, path)
-            path = client:vault_relative_path(path) or path
-            return string.format("![%s](%s)", path.name, path)
-          end,
-        },
       },
 
-      -- -- Specify how to handle attachments.
-      -- attachments = {
-      --   -- The default folder to place images in via `:ObsidianPasteImg`.
-      --   -- If this is a relative path it will be interpreted as relative to the vault root.
-      --   -- You can always override this per image by passing a full path to the command instead of just a filename.
-      --   img_folder = ".assets/imgs", -- This is the default
-      --   -- A function that determines the text to insert in the note when pasting an image.
-      --   -- It takes two arguments, the `obsidian.Client` and a plenary `Path` to the image file.
-      --   -- This is the default implementation.
-      --   ---@param client obsidian.Client
-      --   ---@param path Path the absolute path to the image file
-      --   ---@return string
-      --   img_text_func = function(client, path)
-      --     local link_path
-      --     local vault_relative_path = client:vault_relative_path(path)
-      --     if vault_relative_path ~= nil then
-      --       -- Use relative path if the image is saved in the vault dir.
-      --       link_path = vault_relative_path
-      --     else
-      --       -- Otherwise use the absolute path.
-      --       link_path = tostring(path)
-      --     end
-      --     local display_name = vim.fs.basename(link_path)
-      --     return string.format("![%s](%s)", display_name, link_path)
-      --   end,
-      -- },
+      -- Specify how to handle attachments.
+      attachments = {
+        -- The default folder to place images in via `:ObsidianPasteImg`.
+        -- If this is a relative path it will be interpreted as relative to the vault root.
+        -- You can always override this per image by passing a full path to the command instead of just a filename.
+        img_folder = "Files/Images", -- This is the default
+
+        -- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.
+        ---@return string
+        img_name_func = function()
+          -- Prefix image names with timestamp.
+          return string.format("%s-", os.time())
+        end,
+
+        -- A function that determines the text to insert in the note when pasting an image.
+        -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+        -- This is the default implementation.
+        ---@param client obsidian.Client
+        ---@param path obsidian.Path the absolute path to the image file
+        ---@return string
+        img_text_func = function(client, path)
+          path = client:vault_relative_path(path) or path
+          return string.format("![%s](%s)", path.name, path)
+        end,
+      },
     },
     keys = {
       { "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Todays Note " },
       { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
       { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Quick Switcher" },
+      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" },
     },
   },
 }
