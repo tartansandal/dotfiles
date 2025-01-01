@@ -57,8 +57,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # export LANG="en_AU.UTF-8"
 # export LANGUAGE="en_AU.UTF-8"
 
-export BAT_THEME='ansi-light'
-
 ## The following helps with anaconda interferring with gsettings
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
