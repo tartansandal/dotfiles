@@ -9,9 +9,9 @@ return {
     opts = {
       windows = {
         preview = true,
-        width_focus = 30,
-        width_nofocus = 20,
-        width_preview = 90,
+        width_focus = 20,
+        width_nofocus = 15,
+        width_preview = 60,
       },
       options = {
         -- Whether to use for editing directories
