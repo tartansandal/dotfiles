@@ -312,10 +312,11 @@ return {
       },
     },
     keys = {
-      { "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Todays Note " },
+      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Todays Note " },
       { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
       { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Quick Switcher" },
       { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" },
+      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Search Tags" },
     },
   },
 }
