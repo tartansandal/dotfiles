@@ -90,9 +90,20 @@ xsel
 golang
 mariadb
 mariadb-devel
+postgresql-devel
 pre-commit
 luarocks
 python3-neovim
 chafa
 delta
 bat
+
+# PyEnv
+# Need these otherwise random modules will not build
+libffi-devel
+ncurses-devel
+bzip2-devel
+sqlite-devel
+xz-devel
+readline-devel
+tk-devel
