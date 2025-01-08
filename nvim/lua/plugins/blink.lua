@@ -20,8 +20,13 @@ return {
     ---@type blink.cmp.Config
     opts = {
       -- experimental signature help support
-      -- signature = { enabled = true },
-
+      signature = { enabled = true },
+      completion = {
+        keyword = {
+          -- range = "prefix", -- match text before cursor
+          range = "full", -- match text before and after cursor
+        },
+      },
       sources = {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
