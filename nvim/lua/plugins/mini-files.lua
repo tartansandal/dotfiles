@@ -18,9 +18,10 @@ return {
         use_as_default_explorer = true,
       },
       content = {
-        -- hide dotfiles by default
+        -- filter = nil,
+        -- hide __pycache__ directories
         filter = function(fs_entry)
-          return not vim.startswith(fs_entry.name, ".")
+          return not (fs_entry.name == "__pycache__")
         end,
       },
     },
@@ -56,22 +57,29 @@ return {
       },
     },
     config = function(_, opts)
-      require("mini.files").setup(opts)
+      -- hide dotfiles by default
+      local hide_dotfiles = true
 
-      local filter_show = function(fs_entry)
+      -- track the original configured filter
+      local orig_filter = opts.content.filter
+
+      local filter_hidden = function(fs_entry)
+        if hide_dotfiles and vim.startswith(fs_entry.name, ".") then
+          return false
+        end
+        if type(orig_filter) == "function" then
+          return orig_filter(fs_entry)
+        end
         return true
       end
-      local filter_hide = function(fs_entry)
-        return not vim.startswith(fs_entry.name, ".")
-      end
+      opts.content.filter = filter_hidden
 
-      -- dotfiles hidden by initial content filter
-      local show_dotfiles = false
+      -- don't like the I have to do this to inject the option change
+      require("mini.files").setup(opts)
 
       local toggle_dotfiles = function()
-        show_dotfiles = not show_dotfiles
-        local new_filter = show_dotfiles and filter_show or filter_hide
-        require("mini.files").refresh({ content = { filter = new_filter } })
+        hide_dotfiles = not hide_dotfiles
+        require("mini.files").refresh({ content = { filter = filter_hidden } })
       end
 
       vim.api.nvim_create_autocmd("User", {
@@ -94,24 +102,34 @@ return {
           Snacks.rename.on_rename_file(event.data.from, event.data.to)
         end,
       })
-      local files_set_cwd = function(path)
-        -- Works only if cursor is on the valid file system entry
-        local cur_entry_path = MiniFiles.get_fs_entry().path
-        local cur_directory = vim.fs.dirname(cur_entry_path)
-        vim.fn.chdir(cur_directory)
+
+      -- Set focused directory as current working directory
+      local set_cwd = function()
+        local path = (MiniFiles.get_fs_entry() or {}).path
+        if path == nil then
+          return vim.notify("Cursor is not on valid entry")
+        end
+        vim.fn.chdir(vim.fs.dirname(path))
+      end
+
+      -- Yank in register full path of entry under cursor
+      local yank_path = function()
+        local path = (MiniFiles.get_fs_entry() or {}).path
+        if path == nil then
+          return vim.notify("Cursor is not on valid entry")
+        end
+        vim.fn.setreg(vim.v.register, path)
       end
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",
         callback = function(args)
-          vim.keymap.set(
-            "n",
-            "g/",
-            files_set_cwd,
-            { buffer = args.data.buf_id, desc = "Set CWD" }
-          )
+          local b = args.data.buf_id
+          vim.keymap.set("n", "g~", set_cwd, { buffer = b, desc = "Set cwd" })
+          vim.keymap.set("n", "gy", yank_path, { buffer = b, desc = "Yank path" })
         end,
       })
+      return opts
     end,
   },
 }
