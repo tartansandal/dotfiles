@@ -107,3 +107,9 @@ sqlite-devel
 xz-devel
 readline-devel
 tk-devel
+
+# VimTex
+texlive
+latexmk
+xdotool
+zathura
