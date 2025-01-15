@@ -5,19 +5,14 @@ return {
       injected = {
         options = {
           ignore_errors = false,
-          lang_to_ext = {
-            bash = "sh",
-            javascript = "js",
-            markdown = "md",
-            python = "py",
-            typescript = "ts",
-            sql = "sql",
-          },
-        },
-        lang_to_formatters = {
-          python = "rust",
         },
       },
+    },
+    formatters_by_ft = {
+      lua = { "stylua" },
+      sh = { "shfmt" },
+      python = { "ruff_format" },
+      sql = { "sqlfmt" },
     },
   },
 }
