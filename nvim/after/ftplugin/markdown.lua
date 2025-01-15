@@ -33,8 +33,14 @@ map(
 map(
   "n",
   "<localleader>*",
-  "saiW*",
-  { remap = true, buffer = true, desc = "Suround WORD with *" }
+  "saiW*saiW*",
+  { remap = true, buffer = true, desc = "Suround WORD with **" }
+)
+map(
+  "n",
+  "<localleader>_",
+  "saiW_",
+  { remap = true, buffer = true, desc = "Suround WORD with _" }
 )
 map(
   "n",
