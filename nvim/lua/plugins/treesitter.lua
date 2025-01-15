@@ -2,6 +2,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     optional = true,
-    opts = { ensure_installed = { "sql" } },
+    opts = { ensure_installed = { "sql", "latex", "html" } },
   },
 }
