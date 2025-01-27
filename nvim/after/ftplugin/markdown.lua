@@ -48,3 +48,15 @@ map(
   "saiW>",
   { remap = true, buffer = true, desc = "Suround WORD with >" }
 )
+map(
+  "n",
+  "<localleader>s",
+  "[s1z=``",
+  { noremap = false, buffer = true, desc = "Fix last spelling mistake" }
+)
+map(
+  "i",
+  "<localleader>s",
+  "<Esc>[s1z=A",
+  { noremap = false, buffer = true, desc = "Fix last spelling mistake" }
+)
