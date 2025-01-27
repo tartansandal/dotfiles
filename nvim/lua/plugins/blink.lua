@@ -26,12 +26,6 @@ return {
           -- range = "prefix", -- match text before cursor
           range = "full", -- match text before and after cursor
         },
-        -- Don't select by default, auto insert on selection
-        list = { selection = { preselect = false, auto_insert = true } },
-
-        -- Disable auto brackets
-        -- NOTE: some LSPs may add auto brackets themselves anyway
-        accept = { auto_brackets = { enabled = false } },
       },
       sources = {
         -- adding any nvim-cmp sources here will enable them
@@ -84,10 +78,11 @@ return {
       },
       keymap = {
         preset = "enter",
-        ["<Esc>"] = { "cancel", "fallback" },
         ["<C-y>"] = { "select_and_accept" },
-        ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-        ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+        -- ["<Space>"] = { "accept", "fallback" },
+        -- ["<Esc>"] = { "cancel", "fallback" },
+        -- ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+        -- ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
       },
     },
   },
