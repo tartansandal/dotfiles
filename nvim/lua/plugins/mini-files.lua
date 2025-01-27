@@ -1,8 +1,8 @@
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
-  },
+  -- {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   enabled = false,
+  -- },
   {
     "echasnovski/mini.files",
     version = "*",
@@ -27,29 +27,28 @@ return {
     },
     keys = {
       {
-        "<leader>e",
+        "<leader>m",
         function()
           require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
         end,
         desc = "Explore (Directory of Current File)",
       },
       {
-        "<leader>E",
+        "<leader>M",
         function()
           require("mini.files").open(vim.uv.cwd(), true)
         end,
         desc = "Explore (cwd)",
       },
-      -- override the defaults from extras
       {
-        "<leader>fe",
+        "<leader>fm",
         function()
           require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
         end,
         desc = "Explore (Directory of Current File)",
       },
       {
-        "<leader>fE",
+        "<leader>fM",
         function()
           require("mini.files").open(vim.uv.cwd(), true)
         end,
