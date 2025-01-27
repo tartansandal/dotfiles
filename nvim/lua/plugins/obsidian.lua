@@ -83,43 +83,60 @@ return {
       mappings = {
         ["<localleader>l"] = {
           action = "<cmd>ObsidianLinks<cr>",
-          desc = "Search links",
-          opts = { noremap = false, buffer = true },
+          opts = {
+            noremap = false,
+            buffer = true,
+            desc = "Search links",
+          },
         },
         ["<localleader>b"] = {
           action = "<cmd>ObsidianBacklinks<cr>",
-          desc = "Search backlinks",
-          opts = { noremap = false, buffer = true },
+          opts = {
+            noremap = false,
+            buffer = true,
+            desc = "Search backlinks",
+          },
         },
         ["<localleader>i"] = {
           action = "<cmd>ObsidianTemplate<cr>",
-          desc = "Insert Template",
-          opts = { noremap = false, buffer = true },
+          opts = {
+            noremap = false,
+            buffer = true,
+            desc = "Insert Template",
+          },
         },
         ["<localleader>o"] = {
           action = "<cmd>ObsidianOpen<cr>",
-          desc = "Open in Obsidian",
-          opts = { noremap = false, buffer = true },
+          opts = {
+            noremap = false,
+            buffer = true,
+            desc = "Open in Obsidian",
+          },
         },
         ["<localleader>p"] = {
           action = "<cmd>ObsidianPasteImg<cr>",
-          desc = "Paste clipboard image",
-          opts = { noremap = false, buffer = true },
-        },
-
-        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-        ["gf"] = {
-          action = function()
-            return require("obsidian").util.gf_passthrough()
-          end,
-          opts = { noremap = false, expr = true, buffer = true },
+          opts = {
+            noremap = false,
+            buffer = true,
+            desc = "Paste clipboard image",
+          },
         },
         -- Toggle check-boxes.
         ["<localleader>x"] = {
           action = function()
             return require("obsidian").util.toggle_checkbox()
           end,
-          opts = { buffer = true },
+          desc = "Toggle checkbox",
+          opts = { noremap = false, buffer = true },
+        },
+
+        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+        ["gf"] = {
+          desc = "Open file or markdown/wiki link",
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
         },
       },
 
