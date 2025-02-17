@@ -14,8 +14,8 @@ return {
       "moyiz/blink-emoji.nvim",
       "saghen/blink.compat",
       "hrsh7th/cmp-calc",
+      "fang2hou/blink-copilot",
     },
-
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -31,9 +31,24 @@ return {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
         compat = { "calc" },
-        default = { "lsp", "path", "calc", "snippets", "buffer", "emoji" },
-
+        default = function()
+          if vim.bo.filetype == "markdown" then
+            return { "lsp", "path", "calc", "snippets", "buffer", "emoji" }
+          else
+            return { "copilot", "lsp", "path", "snippets", "buffer" }
+          end
+        end,
         providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+            opts = {
+              max_completions = 1,
+              max_attempts = 2,
+            },
+          },
           emoji = {
             module = "blink-emoji",
             name = "emoji",
