@@ -32,7 +32,7 @@ return {
         -- with blink.compat
         compat = { "calc" },
         default = { "lsp", "path", "calc", "snippets", "buffer", "emoji" },
-        cmdline = {},
+
         providers = {
           emoji = {
             module = "blink-emoji",
@@ -42,7 +42,6 @@ return {
           buffer = {
             -- keep case of first char
             transform_items = function(a, items)
-              -- Have to do the following since a.get_keyword() does not work
               local keyword = a.get_keyword()
 
               local correct, case
@@ -77,10 +76,10 @@ return {
         },
       },
       keymap = {
-        preset = "enter",
+        preset = "default",
         ["<C-y>"] = { "select_and_accept" },
+        ["<Esc>"] = { "cancel", "fallback" },
         -- ["<Space>"] = { "accept", "fallback" },
-        -- ["<Esc>"] = { "cancel", "fallback" },
         -- ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
         -- ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
       },
