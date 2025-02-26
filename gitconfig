@@ -2,68 +2,98 @@
 	name = Kahlil Hodgson
 	email = tartansandal@users.noreply.github.com
 
+[init]
+        defaultBranch = main
+
+[help]
+        autocorrect = prompt
+
 [core]
-	excludesfile = ~/.gitignore
-	repositoryformatversion = 0
-	filemode = true
-	bare = false
-	logallrefupdates = true
-
-[color]
-	branch = auto
-	diff = auto
-	status = auto
-	ui = true
-
-[color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
-
-[color "diff"]
-	meta = yellow
-	frag = magenta
-	old = red
-	new = green
-
-[color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
-
-[rebase]
-    updateREfs = true
-
-[gui]
-	editor = gvim
+        excludesfile = ~/.gitignore
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
 
 [push]
-	default = simple
-	autoSetupRemote = true
+        default = simple
+        autoSetupRemote = true
+        followTags = true
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
+
+[pull]
+        rebase = true
+
+[commit]
+        verbose = true
+
+[rerere]
+        enabled = true
+        autoupdate = true
+
+[submodule]
+        recurse = true
+
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
+
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
 
 [log]
-	abbrevCommit = true
+        abbrevCommit = true
+
+[column]
+        ui = auto
+
+[branch]
+        sort = -committerdate
+
+[tag]
+        sort = version:refname
 
 [showbranch]
-	default = --topo-order
+        default = --topo-order
 
 [diff]
-	tool = gvimdiff
-[pull]
-	rebase = false
-[init]
-	defaultBranch = main
-[include]
-	path = /home/kal/.gitalias
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
 
-[alias]
-	log-list-week = log-list --date=format:%F' '(%V)
-[submodule]
-	recurse = true
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[fetch]
-	prune = true
+; Make colors work well with catppuccin and lazygit
+[color]
+        branch = auto
+        diff = auto
+        status = auto
+        ui = true
+
+[color "branch"]
+        current = yellow reverse
+        local = yellow
+        remote = green
+
+[color "diff"]
+        meta = yellow
+        frag = magenta
+        old = red
+        new = green
+
+[color "status"]
+        added = yellow
+        changed = green
+        untracked = cyan
+
+; [include]
+; 	path = /home/kal/.gitalias
+; [alias]
+; 	log-list-week = log-list --date=format:%F' '(%V)
+
