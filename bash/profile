@@ -114,6 +114,9 @@ if [[ -f "$NVM_DIR/nvm.sh" ]]; then
     . "$NVM_DIR/nvm.sh" # This loads nvm
 fi
 
+# Use buildx for docker-compose bake
+export COMPOSE_BAKE=true
+
 ################################################################################
 
 export PATH
