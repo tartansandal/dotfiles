@@ -9,6 +9,11 @@ return {
     opts = {},
   },
   {
+    -- disable the default installed by extras
+    "giuxtaposition/blink-cmp-copilot",
+    enabled = false,
+  },
+  {
     "saghen/blink.cmp",
     dependencies = {
       "moyiz/blink-emoji.nvim",
