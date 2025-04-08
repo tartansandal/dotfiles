@@ -63,7 +63,7 @@ return {
             score_offset = 100,
             async = true,
             opts = {
-              max_completions = 1,
+              max_completions = 3,
               max_attempts = 2,
             },
           },
