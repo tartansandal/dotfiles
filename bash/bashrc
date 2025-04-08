@@ -100,7 +100,7 @@ fi
     else
         {
             echo "# vim: ft=sh"
-            echo "export VIRTUAL_ENV=venv"
+            echo "export VIRTUAL_ENV=.venv"
             echo "layout python-venv"
         } >.envrc
     fi
@@ -199,3 +199,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # shellcheck source=/home/kal/.nvm/bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+. "$HOME/.local/share/../bin/env"
+
+# bun
+export BUN_INSTALL="$HOME/.local/share/reflex/bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.local/share/reflex/bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
