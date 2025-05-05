@@ -28,12 +28,10 @@ return {
       -- signature = { enabled = true },
       completion = {
         keyword = {
-          -- range = "prefix", -- match text before cursor
-          range = "full", -- match text before and after cursor
+          range = "prefix", -- match text before cursor
+          -- range = "full", -- match text before and after cursor
         },
         documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 200,
           window = {
             border = "rounded",
             winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
@@ -42,7 +40,17 @@ return {
         menu = {
           border = "rounded",
           draw = { gap = 2 },
-          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine: BlinkCmpMenuSelection,Search:None",
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+        },
+        accept = {
+          -- disable experimental auto-brackets support
+          auto_brackets = {
+            enabled = false,
+          },
+        },
+        list = {
+          -- require manual selection and insetion
+          selection = { preselect = false, auto_insert = false },
         },
       },
       sources = {
@@ -109,12 +117,14 @@ return {
         },
       },
       keymap = {
-        preset = "default",
+        -- preset = "default",
+        preset = "enter",
+        -- preset = "super-tab",
         ["<C-y>"] = { "select_and_accept" },
         ["<Esc>"] = { "cancel", "fallback" },
         -- ["<Space>"] = { "accept", "fallback" },
-        -- ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-        -- ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+        ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
       },
     },
   },
