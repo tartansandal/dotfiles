@@ -67,6 +67,7 @@ alias ls='ls -p --color=auto'
 alias ..='cd ..'
 
 alias lg=lazygit
+alias gg=gitui
 
 alias dnf-update='sudo dnf update -y'
 
