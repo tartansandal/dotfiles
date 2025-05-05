@@ -1,5 +1,9 @@
 return {
   {
+    "akinsho/bufferline.nvim",
+    enabled = false,
+  },
+  {
     "echasnovski/mini.indentscope",
     enabled = false,
   },
@@ -13,11 +17,6 @@ return {
     "RRethy/vim-illuminate",
     enabled = false,
   },
-
-  -- {
-  --   "nvim-neo-tree/neo-tree.nvim",
-  --   enabled = false,
-  -- },
 
   {
     "folke/tokyonight.nvim",
