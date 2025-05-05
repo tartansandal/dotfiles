@@ -45,13 +45,13 @@ map("n", "<leader>wo", "<c-w>o", { desc = "Close other windows" })
 --
 map(
   "n",
-  "<leader>bfr",
+  "<leader>bp",
   '<cmd>let @+=expand("%")<CR>',
   { remap = false, silent = true, desc = "Copy relative path of buffer file" }
 )
 map(
   "n",
-  "<leader>bfa",
+  "<leader>bP",
   '<cmd>let @+=expand("%:p")<CR>',
   { remap = false, silent = true, desc = "Copy absolute path of buffer file" }
 )
