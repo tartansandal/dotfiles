@@ -13,6 +13,21 @@ return {
         },
       },
     },
+    keys = {
+      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+      {
+        "<leader>aa",
+        "<cmd>CodeCompanionActions<cr>",
+        desc = "Code Companion Actions",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ac",
+        "<cmd>CodeCompanionChat Toggle<cr>",
+        desc = "Code Companion Actions",
+        mode = { "n", "v" },
+      },
+    },
   },
 
   {
