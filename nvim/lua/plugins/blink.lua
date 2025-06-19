@@ -28,8 +28,8 @@ return {
       -- signature = { enabled = true },
       completion = {
         keyword = {
-          range = "prefix", -- match text before cursor
-          -- range = "full", -- match text before and after cursor
+          -- range = "prefix", -- match text before cursor
+          range = "full", -- match text before and after cursor
         },
         documentation = {
           window = {
