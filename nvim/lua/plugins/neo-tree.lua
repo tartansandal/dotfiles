@@ -2,7 +2,7 @@ return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
     window = {
-      position = "right",
+      -- position = "right",
       mappings = {
         ["<tab>"] = function(state)
           state.commands["open"](state)
