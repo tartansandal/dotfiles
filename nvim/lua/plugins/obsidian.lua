@@ -10,7 +10,8 @@ return {
     },
   },
   {
-    "epwalsh/obsidian.nvim",
+    -- "epwalsh/obsidian.nvim",
+    "obsidian-nvim/obsidian.nvim",
 
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
@@ -219,15 +220,8 @@ return {
         vim.fn.jobstart({ "xdg-open", img })
       end,
 
-      -- Optional, set to true if you use the Obsidian Advanced URI plugin.
-      -- https://github.com/Vinzent03/obsidian-advanced-uri
-      use_advanced_uri = true,
-
-      -- Optional, set to true to force ':ObsidianOpen' to bring the app to the foreground.
-      open_app_foreground = true,
-
       picker = {
-        -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
+        -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick', or 'snacks.pick'.
         -- name = "telescope.nvim",
         name = "fzf-lua",
         -- Optional, configure key mappings for the picker. These are the defaults.
