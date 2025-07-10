@@ -15,7 +15,7 @@ local function decaffeinate(palette, weight)
   return new
 end
 
-local latte_decaf = decaffeinate(latte, 0.90)
+local latte_decaf = decaffeinate(latte, 0.87)
 local frappe_decaf = decaffeinate(frappe, 0.84)
 local macchiato_decaf = decaffeinate(macchiato, 0.85)
 local mocha_decaf = decaffeinate(mocha, 0.87)
@@ -110,7 +110,7 @@ return {
         enabled = true, -- dims the background color of inactive window
         -- shade = "light",
         shade = "dark",
-        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        percentage = 0.25, -- percentage of the shade to apply to the inactive window
       },
       integrations = {
         aerial = false, -- true,
@@ -141,7 +141,7 @@ return {
         },
         navic = { enabled = true, custom_bg = "lualine" },
         neotest = true,
-        neotree = false, -- true,
+        neotree = true,
         noice = true,
         notify = true,
         semantic_tokens = true,
@@ -150,6 +150,7 @@ return {
         treesitter = true,
         treesitter_context = true,
         which_key = true,
+        window_picker = true,
       },
       color_overrides = {
         latte = latte_decaf,
