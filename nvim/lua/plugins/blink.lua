@@ -24,9 +24,8 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      -- experimental signature help support
-      -- signature = { enabled = true },
       completion = {
+        -- fuzzy = { implementation = "prefer_rust_with_warning" },
         keyword = {
           -- range = "prefix", -- match text before cursor
           range = "full", -- match text before and after cursor
@@ -49,8 +48,18 @@ return {
           },
         },
         list = {
-          -- require manual selection and insetion
+          -- require manual selection and insertion
           selection = { preselect = false, auto_insert = false },
+        },
+      },
+      -- Experimental signature help support
+      -- This interferes with the default LSP signature help
+      signature = {
+        -- enabled = true,
+        enabled = false,
+        window = {
+          border = "rounded",
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
         },
       },
       sources = {
