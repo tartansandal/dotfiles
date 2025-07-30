@@ -69,8 +69,6 @@ alias ..='cd ..'
 alias lg=lazygit
 alias gg=gitui
 
-alias dnf-update='sudo dnf update -y'
-
 # use vim with clipboard defined if available
 if hash vimx 2>/dev/null; then
     alias vim=vimx
@@ -94,6 +92,10 @@ if [[ -n "$BASH_COMPLETION" ]]; then
     complete -C /home/kal/bin/vault vault
     complete -C /usr/bin/terraform terraform
 fi
+
+-dnf-update() {
+    sudo dnf update -y
+}
 
 -make-python-envrc() {
     if [[ -f .envrc ]]; then
