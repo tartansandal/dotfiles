@@ -6,9 +6,11 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "zbirenbaum/copilot.lua",
+      "franco-ruggeri/codecompanion-spinner.nvim",
     },
     opts = {
       extensions = {
+        spinner = {},
         vectorcode = {
           opts = { add_tool = true, add_slash_command = true, tool_opts = {} },
         },
