@@ -9,7 +9,7 @@ local opt = vim.opt
 -- Black has some rationale for extending beyond 80
 --
 opt.textwidth = 88 -- Wrap at this column
-opt.colorcolumn = "+1" -- Number of columns to highligh after textwidth
+opt.colorcolumn = "+1" -- Number of columns to highlight after textwidth
 -- opt.wrap = false  -  Disable line wrapping
 
 --
@@ -34,9 +34,9 @@ opt.number = false -- Display current linenumber
 opt.relativenumber = false -- Display relative linenumber
 
 --
--- Automatic formating. The default is tcq. See 'help fo-table'
+-- Automatic formatting. The default is tcq. See 'help fo-table'
 --
-opt.formatoptions:append("j") -- Remove stray comment leaders when reformating
+opt.formatoptions:append("j") -- Remove stray comment leaders when reformatting
 opt.formatoptions:append("c") -- Auto-wrap comment text using comment leader
 opt.formatoptions:append("r") -- Auto insert the comment leader on Enter
 opt.formatoptions:append("o") -- Insert the current comment leader after hitting 'o'
@@ -56,7 +56,7 @@ opt.spelllang = { "en_au" }
 opt.autoread = true -- re-read open files when changed outside Vim
 opt.autowrite = true -- write file whenever buffer becomes hidden
 
--- keep backups under ~/tmp  (this avoids the ususal problems with Coc)
+-- keep backups under ~/tmp  (this avoids the usual problems with Coc)
 opt.backup = true -- keep a backup file
 opt.backupcopy = "yes" -- copy the original even if a link
 opt.backupdir = "~/tmp/backup,~/,/tmp"
@@ -92,7 +92,7 @@ vim.g.clipboard = {
 opt.conceallevel = 2
 
 opt.completeopt = "menu,menuone,noselect"
-opt.autochdir = false -- turnng this on wil break many plugins
+opt.autochdir = false -- turnng this on will break many plugins
 
 vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
 vim.g.loaded_perl_provider = 0 -- disable perl provider

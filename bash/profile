@@ -7,7 +7,7 @@ pathmunge() { #
     # Insert a new element into your path is not already there
     # Stolen from /etc/profile
     #
-    # skip non-existant directories
+    # skip non-existent directories
     [[ -d $1 ]] || return
     if ! echo "$PATH" | /bin/grep -E "(^|:)$1($|:)" 1>/dev/null 2>&1; then
         if [ "$2" = "after" ]; then
@@ -54,7 +54,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # export LANG="en_AU.UTF-8"
 # export LANGUAGE="en_AU.UTF-8"
 
-## The following helps with anaconda interferring with gsettings
+## The following helps with anaconda interfering with gsettings
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
 if [[ -d ~/.local/lib/perl5 ]]; then
@@ -109,13 +109,18 @@ if [[ -d $HOME/.pyenv ]]; then
     export PYENV_SHELL=bash
 fi
 
+# Cargo path
+if [[ -d ~/.cargo/bin ]]; then
+    pathmunge "$HOME/.cargo/bin"
+fi
+
 export NVM_DIR="${HOME}/.nvm"
 if [[ -f "$NVM_DIR/nvm.sh" ]]; then
     . "$NVM_DIR/nvm.sh" # This loads nvm
 fi
 
-# Use buildx for docker-compose bake
-export COMPOSE_BAKE=true
+# Buildkit does not work well in fedora
+export DOCKER_BUILDKIT=0
 
 ################################################################################
 
