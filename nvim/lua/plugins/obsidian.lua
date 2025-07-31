@@ -28,41 +28,53 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
-      -- Optional, set the log level for obsidian.nvim. This is an integer corresponding
-      -- to one of the log levels defined by "vim.log.levels.*".
-      log_level = vim.log.levels.INFO,
-
+      -- A list of workspace names, paths, and configuration overrides.
+      -- If you use the Obsidian app, the 'path' of a workspace should generally be
+      -- your vault root (where the `.obsidian` folder is located).
+      -- When obsidian.nvim is loaded by your plugin manager, it will automatically set
+      -- the workspace to the first workspace in the list whose `path` is a parent of the
+      -- current markdown file being edited.
       workspaces = {
         {
           name = "Notes",
           path = "~/Notes",
         },
       },
-      -- This is where *new* notes go
+
+      -- Optional, if you keep notes in a specific subdirectory of your vault.
       notes_subdir = "Cards",
 
-      templates = {
-        folder = "~/Notes/Templates",
-        date_format = "%Y-%m-%d",
-        time_format = "%H:%M",
-        -- A map for custom variables, the key should be the variable and the value
-        -- a function
-        substitutions = {
-          week = function()
-            return tostring(os.date("%V"))
-          end,
-        },
-      },
+      -- Optional, set the log level for obsidian.nvim. This is an integer corresponding
+      -- to one of the log levels defined by "vim.log.levels.*".
+      log_level = vim.log.levels.INFO,
 
       daily_notes = {
         -- Optional, if you keep daily notes in a separate directory.
         folder = "Daily",
         -- Optional, if you want to change the date format for the ID of daily notes.
         date_format = "%Y/%V/%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
+        -- Optional, if you want to change the date format of the default alias of daily
+        -- notes.
         alias_format = "%a %-d %B %Y",
-        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+        -- Optional, if you want to automatically insert a template from your template
+        -- directory like 'daily.md'
         template = "daily.md",
+        -- Optional, if you want `Obsidian yesterday` to return the last work day or
+        -- `Obsidian tomorrow` to return the next work day.
+        workdays_only = false,
+      },
+
+      -- Optional, completion of wiki links, local markdown links, and tags using
+      -- nvim-cmp.
+      completion = {
+        -- Enables completion using nvim_cmp.
+        nvim_cmp = false,
+        -- Enables completion using blink.cmp
+        blink = true,
+        -- Trigger completion at 2 chars
+        min_chars = 2,
+        -- Set to false to disable new note creation in the picker
+        create_new = true,
       },
 
       -- Where to put new notes created from completion. Valid options are
@@ -70,82 +82,13 @@ return {
       --  * "notes_subdir" - put new notes in the default notes subdirectory.
       new_notes_location = "notes_subdir",
 
-      -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
-      completion = {
-        -- Set to false to disable completion.
-        nvim_cmp = false,
-
-        -- Trigger completion at 2 chars.
-        min_chars = 2,
-      },
-
-      -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
-      -- way then set 'mappings = {}'.
-      mappings = {
-        ["<localleader>l"] = {
-          action = "<cmd>ObsidianLinks<cr>",
-          opts = {
-            noremap = false,
-            buffer = true,
-            desc = "Search links",
-          },
-        },
-        ["<localleader>b"] = {
-          action = "<cmd>ObsidianBacklinks<cr>",
-          opts = {
-            noremap = false,
-            buffer = true,
-            desc = "Search backlinks",
-          },
-        },
-        ["<localleader>i"] = {
-          action = "<cmd>ObsidianTemplate<cr>",
-          opts = {
-            noremap = false,
-            buffer = true,
-            desc = "Insert Template",
-          },
-        },
-        ["<localleader>o"] = {
-          action = "<cmd>ObsidianOpen<cr>",
-          opts = {
-            noremap = false,
-            buffer = true,
-            desc = "Open in Obsidian",
-          },
-        },
-        ["<localleader>p"] = {
-          action = "<cmd>ObsidianPasteImg<cr>",
-          opts = {
-            noremap = false,
-            buffer = true,
-            desc = "Paste clipboard image",
-          },
-        },
-        -- Toggle check-boxes.
-        ["<localleader>x"] = {
-          action = function()
-            return require("obsidian").util.toggle_checkbox()
-          end,
-          desc = "Toggle checkbox",
-          opts = { noremap = false, buffer = true },
-        },
-
-        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-        ["gf"] = {
-          desc = "Open file or markdown/wiki link",
-          action = function()
-            return require("obsidian").util.gf_passthrough()
-          end,
-          opts = { noremap = false, expr = true, buffer = true },
-        },
-      },
-
       -- Optional, customize how names/IDs for new notes are created.
       note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        -- In this case a note with the title 'My new note' will be given an ID that looks
-        -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix. In
+        -- this case a note with the title 'My new note' will be given an ID that looks
+        -- like '1657296016-my-new-note', and therefore the file name
+        -- '1657296016-my-new-note.md'. You may have as many periods in the note ID as
+        -- you'd like—the ".md" will be added automatically
         local suffix = ""
         if title ~= nil then
           -- If title is given, transform it into valid file name.
@@ -169,15 +112,20 @@ return {
       end,
 
       -- Optional, customize how wiki links are formatted. You can set this to one of:
-      --  * "use_alias_only", e.g. '[[Foo Bar]]'
-      --  * "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
-      --  * "prepend_note_path", e.g. '[[foo-bar.md|Foo Bar]]'
-      --  * "use_path_only", e.g. '[[foo-bar.md]]'
+      -- _ "use_alias_only", e.g. '[[Foo Bar]]'
+      -- _ "prepend*note_id", e.g. '[[foo-bar|Foo Bar]]'
+      -- * "prepend*note_path", e.g. '[[foo-bar.md|Foo Bar]]'
+      -- * "use_path_only", e.g. '[[foo-bar.md]]'
       -- Or you can set it to a function that takes a table of options and returns a string, like this:
       -- wiki_link_func = function(opts)
       --   return require("obsidian.util").wiki_link_id_prefix(opts)
       -- end,
       wiki_link_func = "use_alias_only",
+
+      -- Optional, customize how markdown links are formatted.
+      markdown_link_func = function(opts)
+        return require("obsidian.util").markdown_link(opts)
+      end,
 
       -- Either 'wiki' or 'markdown'.
       preferred_link_style = "wiki",
@@ -206,19 +154,39 @@ return {
         return out
       end,
 
-      -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
-      -- URL it will be ignored but you can customize this behavior here.
+      -- Optional, for templates (see
+      -- https://github.com/obsidian-nvim/obsidian.nvim/wiki/Using-templates)
+      templates = {
+        folder = "Templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        -- A map for custom variables, the key should be the variable and the value
+        -- a function
+        substitutions = {
+          week = function()
+            return tostring(os.date("%V"))
+          end,
+        },
+      },
+
+      -- Sets how you follow URLs
+      ---@param url string
       follow_url_func = function(url)
-        -- Open the URL in the default web browser.
-        vim.fn.jobstart({ "xdg-open", url }) -- linux
+        -- vim.ui.open(url)
+        vim.ui.open(url, { cmd = { "xdg-open" } })
       end,
 
-      -- Optional, by default when you use `:ObsidianFollowLink` on a link to an image
-      -- file it will be ignored but you can customize this behavior here.
+      -- Sets how you follow images
       ---@param img string
       follow_img_func = function(img)
-        vim.fn.jobstart({ "xdg-open", img })
+        -- vim.ui.open(img)
+        vim.ui.open(img, { cmd = { "xdg-open" } })
       end,
+
+      open = {
+        use_advanced_uri = false,
+        func = vim.ui.open,
+      },
 
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick', or 'snacks.pick'.
@@ -240,56 +208,119 @@ return {
         },
       },
 
+      -- Optional, by default, `:ObsidianBacklinks` parses the header under
+      -- the cursor. Setting to `false` will get the backlinks for the current
+      -- note instead. Doesn't affect other link behaviour.
+      backlinks = {
+        parse_headers = true,
+      },
+
       -- Optional, sort search results by "path", "modified", "accessed", or "created".
       -- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
       -- that `:ObsidianQuickSwitch` will show the notes sorted by latest modified time
       sort_by = "modified",
       sort_reversed = true,
 
+      -- Set the maximum number of lines to read from notes on disk when performing certain searches.
+      search_max_lines = 1000,
+
       -- Optional, determines how certain commands open notes. The valid options are:
       -- 1. "current" (the default) - to always open in the current window
-      -- 2. "vsplit" - to open in a vertical split if there's not already a vertical split
-      -- 3. "hsplit" - to open in a horizontal split if there's not already a horizontal split
+      -- 2. "vsplit" - only open in a vertical split if a vsplit does not exist.
+      -- 3. "hsplit" - only open in a horizontal split if a hsplit does not exist.
+      -- 4. "vsplit_force" - always open a new vertical split if the file is not in the adjacent vsplit.
+      -- 5. "hsplit_force" - always open a new horizontal split if the file is not in the adjacent hsplit.
       open_notes_in = "current",
 
+      -- Optional, define your own callbacks to further customize behavior.
+      callbacks = {
+        -- Runs at the end of `require("obsidian").setup()`.
+        post_setup = function(client) end,
+
+        -- Runs anytime you enter the buffer for a note.
+        -- enter_note = function(client, note) end,
+        enter_note = function(_, note)
+          vim.keymap.set("n", "<localleader>d", "<cmd>Obsidian dailies 1<cr>", {
+            buffer = note.bufnr,
+            desc = "Show dailies",
+          })
+
+          vim.keymap.set("n", "<localleader>x", "<cmd>Obsidian toggle_checkbox<cr>", {
+            buffer = note.bufnr,
+            desc = "Toggle checkbox",
+          })
+
+          vim.keymap.set("n", "<localleader>l", "<cmd>Obsidian links<cr>", {
+            buffer = note.bufnr,
+            desc = "Search links",
+          })
+
+          vim.keymap.set("n", "<localleader>b", "<cmd>Obsidian backlinks<cr>", {
+            buffer = note.bufnr,
+            desc = "Search backlinks",
+          })
+
+          vim.keymap.set("n", "<localleader>i", "<cmd>Obsidian template<cr>", {
+            buffer = note.bufnr,
+            desc = "Insert Template",
+          })
+
+          vim.keymap.set("n", "<localleader>p", "<cmd>Obsidian paste_img<cr>", {
+            buffer = note.bufnr,
+            desc = "Paste clipboard image",
+          })
+        end,
+
+        -- Runs anytime you leave the buffer for a note.
+        leave_note = function(client, note) end,
+
+        -- Runs right before writing the buffer for a note.
+        pre_write_note = function(client, note) end,
+
+        -- Runs anytime the workspace is set/changed.
+        post_set_workspace = function(workspace) end,
+      },
+
       -- Optional, configure additional syntax highlighting / extmarks.
+      -- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
       ui = {
         -- Need to turn the ui off so that render-markdown can work
         enable = false, -- set to false to disable all additional syntax features
+        -- ...
       },
 
       -- Specify how to handle attachments.
       attachments = {
         -- The default folder to place images in via `:ObsidianPasteImg`.
-        -- If this is a relative path it will be interpreted as relative to the vault root.
-        -- You can always override this per image by passing a full path to the command instead of just a filename.
-        img_folder = "Files/Images", -- This is the default
+        img_folder = "Files/Images",
 
-        -- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.
-        ---@return string
         img_name_func = function()
-          -- Prefix image names with timestamp.
-          return string.format("%s-", os.time())
+          return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
         end,
-
-        -- A function that determines the text to insert in the note when pasting an image.
-        -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-        -- This is the default implementation.
-        ---@param client obsidian.Client
-        ---@param path obsidian.Path the absolute path to the image file
-        ---@return string
-        img_text_func = function(client, path)
-          path = client:vault_relative_path(path) or path
-          return string.format("![%s](%s)", path.name, path)
-        end,
+        confirm_img_paste = true,
       },
+
+      footer = {
+        enabled = true,
+        format = "{{backlinks}} backlinks  {{properties}} properties  {{words}} words  {{chars}} chars",
+        hl_group = "Comment",
+        separator = string.rep("-", 80),
+      },
+
+      ---Order of checkbox state chars, e.g. { " ", "x" }
+      checkbox = {
+        -- order = { " ", "~", "!", ">", "x" },
+        order = { " ", "x" },
+      },
+
+      legacy_commands = false,
     },
     keys = {
-      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Todays Note " },
-      { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
-      { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Quick Switcher" },
-      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" },
-      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Search Tags" },
+      { "<leader>od", "<cmd>Obsidian today<cr>", desc = "Todays Note " },
+      { "<leader>on", "<cmd>Obsidian new<cr>", desc = "New Note" },
+      { "<leader>oo", "<cmd>Obsidian quick_switch<cr>", desc = "Open Quick Switcher" },
+      { "<leader>os", "<cmd>Obsidian search<cr>", desc = "Search Notes" },
+      { "<leader>ot", "<cmd>Obsidian tags<cr>", desc = "Search Tags" },
     },
   },
 }
