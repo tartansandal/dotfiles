@@ -2,21 +2,24 @@
 
 # functions for host access
 
-_tunnel_to_host () {
+_tunnel_to_host() {
     #
     # Create an ssh tunnel to a host via a gateway
     #
-    local local_port=$1;     shift
-    local remote_host=$1;    shift
-    local remote_port=$1;    shift
-    local gateway=$1;        shift
+    local local_port=$1
+    shift
+    local remote_host=$1
+    shift
+    local remote_port=$1
+    shift
+    local gateway=$1
+    shift
     local options='-o ServerAliveInterval=15 -o TCPKeepAlive=no'
 
-    # funky re to get arround parsing bug in pkill
+    # funky re to get around parsing bug in pkill
     pkill -f "L $local_port:" || true # kill the existing tunnel
     ssh -Nf $options -L $local_port:$remote_host:$remote_port $gateway
 }
-
 
 #dbdomain=coggtwdpmbtw.ap-southeast-2.rds.amazonaws.com
 #
