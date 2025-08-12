@@ -58,7 +58,7 @@ return {
         alias_format = "%a %-d %B %Y",
         -- Optional, if you want to automatically insert a template from your template
         -- directory like 'daily.md'
-        template = "daily.md",
+        template = "daily_unwell.md",
         -- Optional, if you want `Obsidian yesterday` to return the last work day or
         -- `Obsidian tomorrow` to return the next work day.
         workdays_only = false,
