@@ -17,10 +17,10 @@
 # 	set vi-cmd-mode-string \1\e[2 q\2
 # $endif
 
-# show all posible completions if more than one matches
+# show all possible completions if more than one matches
 set show-all-if-ambiguous on
 
-# append indicator chars to filname completions
+# append indicator chars to filename completions
 set visible-stats on
 
 # don't page completions
