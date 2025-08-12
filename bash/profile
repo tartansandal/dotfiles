@@ -102,13 +102,6 @@ if [[ ! -e "$HOME/.gem/ruby/bin" ]]; then
     ln -sf "$HOME/bin" "$HOME/.gem/ruby/"
 fi
 
-#> PyEnv setup
-if [[ -d $HOME/.pyenv ]]; then
-    pathmunge "$HOME/.pyenv/bin"
-    pathmunge "$HOME/.pyenv/shims"
-    export PYENV_SHELL=bash
-fi
-
 # Cargo path
 if [[ -d ~/.cargo/bin ]]; then
     pathmunge "$HOME/.cargo/bin"
