@@ -2,6 +2,11 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      diagnostics = {
+        float = {
+          border = "rounded",
+        },
+      },
       servers = {
         pyright = {
           settings = {
@@ -22,6 +27,17 @@ return {
       opts.lsp.signature = {
         auto_open = { enabled = false },
       }
+      opts.presets = {
+        lsp_doc_border = true,
+      }
     end,
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ui = {
+        border = "rounded",
+      },
+    },
   },
 }
