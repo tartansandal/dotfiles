@@ -66,6 +66,8 @@ alias ..='cd ..'
 
 alias lg=lazygit
 alias gg=gitui
+alias docker=podman
+alias docker-compose=podman-compose
 
 # use vim with clipboard defined if available
 if hash vimx 2>/dev/null; then
