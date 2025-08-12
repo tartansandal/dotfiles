@@ -30,8 +30,6 @@ switcheroo-control
 pika
 
 # Gnome
-gnome-terminal-nautilus
-gnome-tweak-tool
 gnome-pomodoro
 
 # System
@@ -58,8 +56,8 @@ egl-gbm
 screenfetch
 
 # Virtualization
-docker-ce
-docker-compose-plugin
+podman
+podman-compose
 awscli
 
 # Development
