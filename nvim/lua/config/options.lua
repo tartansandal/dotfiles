@@ -92,7 +92,7 @@ vim.g.clipboard = {
 opt.conceallevel = 2
 
 opt.completeopt = "menu,menuone,noselect"
-opt.autochdir = false -- turnng this on will break many plugins
+opt.autochdir = false -- turning this on will break many plugins
 
 vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
 vim.g.loaded_perl_provider = 0 -- disable perl provider
