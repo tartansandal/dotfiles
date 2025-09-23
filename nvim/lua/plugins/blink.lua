@@ -21,11 +21,17 @@ return {
       "hrsh7th/cmp-calc",
       "fang2hou/blink-copilot",
     },
+    version = "1.*",
+    -- build = "cargo build --release",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
+      fuzzy = {
+        -- implementation = "prefer_rust_with_warning",
+        implementation = "lua",
+        -- prebuilt_binaries = { download = false },
+      },
       completion = {
-        -- fuzzy = { implementation = "prefer_rust_with_warning" },
         keyword = {
           -- range = "prefix", -- match text before cursor
           range = "full", -- match text before and after cursor
