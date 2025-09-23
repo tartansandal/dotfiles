@@ -1,6 +1,6 @@
 return {
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     version = "*",
     opts = {
       -- Module mappings. Use `''` (empty string) to disable one.
