@@ -70,9 +70,9 @@ alias docker=podman
 alias docker-compose=podman-compose
 
 # use vim with clipboard defined if available
-if hash vimx 2>/dev/null; then
-    alias vim=vimx
-fi
+# if hash vimx 2>/dev/null; then
+#     alias vim=vimx
+# fi
 
 if hash nvim 2>/dev/null; then
     alias vim=nvim
@@ -107,14 +107,6 @@ fi
             echo "layout python-venv"
         } >.envrc
     fi
-}
-
--make-flake8() {
-    {
-        echo "[flake8]"
-        echo "max-line-length = 88"
-        echo "extend-ignore = E203"
-    } >.flake8
 }
 
 ## Shell options
