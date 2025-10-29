@@ -27,9 +27,9 @@ return {
     ---@type blink.cmp.Config
     opts = {
       fuzzy = {
-        -- implementation = "prefer_rust_with_warning",
-        implementation = "lua",
-        -- prebuilt_binaries = { download = false },
+        implementation = "prefer_rust_with_warning",
+        -- implementation = "lua",
+        prebuilt_binaries = { download = false },
       },
       completion = {
         keyword = {
