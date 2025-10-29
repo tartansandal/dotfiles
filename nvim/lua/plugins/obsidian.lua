@@ -238,8 +238,8 @@ return {
         post_setup = function(client) end,
 
         -- Runs anytime you enter the buffer for a note.
-        -- enter_note = function(client, note) end,
-        enter_note = function(_, note)
+        -- enter_note = function(note) end,
+        enter_note = function(note)
           vim.keymap.set("n", "<localleader>d", "<cmd>Obsidian dailies 1<cr>", {
             buffer = note.bufnr,
             desc = "Show dailies",
@@ -272,10 +272,10 @@ return {
         end,
 
         -- Runs anytime you leave the buffer for a note.
-        leave_note = function(client, note) end,
+        leave_note = function(note) end,
 
         -- Runs right before writing the buffer for a note.
-        pre_write_note = function(client, note) end,
+        pre_write_note = function(note) end,
 
         -- Runs anytime the workspace is set/changed.
         post_set_workspace = function(workspace) end,
