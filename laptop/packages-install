@@ -28,6 +28,7 @@ switcheroo-control
 
 # Backups
 pika
+borgbackup
 
 # Gnome
 gnome-pomodoro

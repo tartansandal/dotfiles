@@ -1,63 +1,15 @@
-# Notes on recovering home from a backup
+# Notes on Laptop Setup
 
-You don't want to do this from GNOME, since your settings will be changing under the hood.
+## Recovering home from a backup
 
-TODO: how to do recovery from deja-dup?
-Or
+Do this from Pika Backup if you have access to the graphical tool.
 
-# Notes on setting up a fresh laptop
+If you are restricted to command-line only. Use the [BorgBackup](https://borgbackup.readthedocs.io/en/stable/) tools.
 
-Ensure focus follows mouse:
-
-    gsettings set org.gnome.desktop.wm.preferences focus-mode mouse
-
-Install yum repositories:
-
-    sudo rsync -rv ./etc/ /etc/
-
-Enable some `COPR` repositories:
-
-    sudo dnf copr enable atim/lazygit -y
-
-Install packages in `packages-install` file
-
-    sudo dnf install `grep -v '^#\|^$' packages-install`
-
-Integrate application data from `rpmfusion:`
-
-    sudo dnf group upgrade core
-
-Remove unused packages:
-
-    sudo dnf remove  \
-      plocate        \
-      gnome-boxes    \
-      libreoffice*   \
-      libvirt        \
-      gnome-weather  \
-      simple-scan    \
-      gnome-calendar \
-      open-vm-tools
-
-Install Flatpacks
-
-    # by-pass `fedora-flatpack-filter`.
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-    flatpak install io.dbeaver.DBeaverCommunity
-    flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
-    flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
-    flatpak install com.mattjakeman.ExtensionManager
-
-    flatpak install com.rafaelmardojai.Blanket
-    flatpak install ca.desrt.dconf-editor
-    flatpak install com.uploadedlobster.peek
-    flatpak install us.zoom.Zoom
-    flatpak install io.github.congard.qnvsm
-
-Log out and back in before running these, or at least
-
-    source ~/.bash_profile
+    mount /dev/sdb1
+    borg list /run/media/kal/Elements/backup-krieger-kal/
+    cd /home/kal
+    bork extract --list /run/media/kal/Elements/backup-krieger-kal/
 
 ## Post upgrade/install cleanup
 
@@ -111,7 +63,63 @@ Any of the following may help with resolving problems
 
     sudo fixfiles -B onboot
 
-## Emoji and Special characters?
+Reinstalling GRUB boot-loader requires booting from a live thumb-drive.
+
+## Setting up a fresh laptop
+
+Ensure focus follows mouse:
+
+    gsettings set org.gnome.desktop.wm.preferences focus-mode mouse
+
+Install yum repositories:
+
+    sudo rsync -rv ./etc/ /etc/
+
+Enable some `COPR` repositories:
+
+    sudo dnf copr enable atim/lazygit -y
+
+Install packages in `packages-install` file
+
+    sudo dnf install `grep -v '^#\|^$' packages-install`
+
+Integrate application data from `rpmfusion:`
+
+    sudo dnf group upgrade core
+
+Remove unused packages:
+
+    sudo dnf remove  \
+      plocate        \
+      gnome-boxes    \
+      libreoffice*   \
+      libvirt        \
+      gnome-weather  \
+      simple-scan    \
+      gnome-calendar \
+      open-vm-tools
+
+Install Flatpacks
+
+    # by-pass `fedora-flatpack-filter`.
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+    flatpak install io.dbeaver.DBeaverCommunity
+    flatpak install io.dbeaver.DBeaverCommunity.Client.mariadb
+    flatpak install io.dbeaver.DBeaverCommunity.Client.pgsql
+    flatpak install com.mattjakeman.ExtensionManager
+
+    flatpak install com.rafaelmardojai.Blanket
+    flatpak install ca.desrt.dconf-editor
+    flatpak install com.uploadedlobster.peek
+    flatpak install us.zoom.Zoom
+    flatpak install io.github.congard.qnvsm
+
+Log out and back in before running these, or at least
+
+    source ~/.bash_profile
+
+### Emoji and Special characters?
 
 First remember you have `CapsLock` key mapped to "compose" so that `CapsLock + c + ,`
 gives `ç`. See the `Multi-Key` entries in `/usr/share/X11/locale/en_US.UTF-8/Compose` for
@@ -119,7 +127,7 @@ more examples.
 
 Install the Smile gnome-extension and use `Super-.` to focus.
 
-## `flameshot`
+### `flameshot`
 
 First fix some permission:
 
@@ -135,16 +143,7 @@ Search for "Print". If not set to "Flameshot", select the "Print" binding then
 hit "backspace" to disable. Then add a new Custom Shortcut for `flameshot gui`
 and bind that to the "Print" key.
 
-## `docker`
-
-Add myself to the `docker` group
-
-    sudo dnf install docker-ce
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker $(whoami)
-    newgrp docker
-
-## `ffmpeg`
+### `ffmpeg`
 
 Needed for ACC and mpg4
 
@@ -152,7 +151,7 @@ Needed for ACC and mpg4
     sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     sudo dnf install ffmpeg
 
-## Increase grub prompt fonts
+### Increase grub prompt fonts
 
 Add the following lines to `/etc/default/grub`
 
@@ -172,7 +171,45 @@ Then run:
     sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
     sudo dracut -f
 
-## Hardware acceleration
+### Auto unlock secret thumb drive
+
+```
+mkdir /secret
+```
+
+To ensure the keys are mounted at boot (for reboot to install)
+add the following to `/etc/crypttab`
+
+```text
+secret UUID=44b7c449-b63e-4e47-874c-65f7a39cab16 none nofail,timeout=1ms
+```
+
+And add the following to `/etc/fstab`
+
+```text
+/dev/mapper/secret /etc/pki/akmods/  ext4 defaults,nofail,nosuid,nodev,relatime 0 0
+```
+
+Then reboot to ensure thumb drive is mounted on `/etc/pki/akmods`
+
+### Real-time audio for `guitarix` and `ardour`
+
+    sudo dnf install realtime-setup.x86_64
+
+And ensure you are in both the `audio` and `realtime` groups
+
+    sudo usermod -a -G audio,realtime kal
+    newgrp audio
+    newgrp realtime
+
+### GitHub CLI
+
+    sudo dnf install 'dnf-command(config-manager)'
+    sudo dnf config-manager \
+        --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+    sudo dnf install gh
+
+### Hardware acceleration
 
 I think my laptop is what is called Optimus with the dual Nvidia/Intel video.
 
@@ -207,27 +244,6 @@ Maybe need:
     intel-media-driver \
     libva-intel-hybrid-driver \
     nvidia-gpu-firmware
-
-## Auto unlock secret thumb drive
-
-```
-mkdir /secret
-```
-
-To ensure the keys are mounted at boot (for reboot to install)
-add the following to `/etc/crypttab`
-
-```text
-secret UUID=44b7c449-b63e-4e47-874c-65f7a39cab16 none nofail,timeout=1ms
-```
-
-And add the following to `/etc/fstab`
-
-```text
-/dev/mapper/secret /etc/pki/akmods/  ext4 defaults,nofail,nosuid,nodev,relatime 0 0
-```
-
-Then reboot to ensure thumb drive is mounted on `/etc/pki/akmods`
 
 ## Nvidia drivers with RPMFusion
 
@@ -284,33 +300,3 @@ Or use the `switcheroo` service:
 > GNOME will respect the `PrefersNonDefaultGPU` property in the desktop
 > entry. Alternatively, you can launch applications with GPU by right clicking
 > on the icon and choosing Launch using Discrete Graphics Card.
-
-### Real-time audio for `guitarix` and `ardour`
-
-    sudo dnf install realtime-setup.x86_64
-
-And ensure you are in both the `audio` and `realtime` groups
-
-    sudo usermod -a -G audio,realtime kal
-    newgrp audio
-    newgrp realtime
-
-## Doist
-
-Hosts updates:
-
-    {
-        echo "127.0.0.1   elasticmq.local redis.local"
-        echo "127.0.0.1   local.todoist.com local.twist.com local.mailhog.com"
-    } | sudo tee -a /etc/hosts
-
-Use `dev` CA for local.todoist.com:
-
-    sudo trust anchor --store path/to/ide-tools/traefik/ssl/rootCA.pem
-
-## GitHub CLI
-
-    sudo dnf install 'dnf-command(config-manager)'
-    sudo dnf config-manager \
-        --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-    sudo dnf install gh
