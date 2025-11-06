@@ -1,6 +1,6 @@
 -- Obsidian.nvim configuration for ~/Notes vault
--- Sections: workspaces, daily notes, completion, templates, callbacks, UI, attachments
--- Also disables markdown linting to avoid conflicts
+-- Updated for v3.14+ API: frontmatter table structure, no plenary dependency
+-- Sections: workspaces, daily notes, completion, frontmatter, templates, callbacks, UI, attachments
 return {
   {
     "mfussenegger/nvim-lint",
@@ -21,7 +21,6 @@ return {
       "BufNewFile " .. vim.fn.expand("~") .. "/Notes/**.md",
     },
     dependencies = {
-      "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
@@ -70,19 +69,22 @@ return {
         return require("obsidian.util").markdown_link(opts)
       end,
       preferred_link_style = "wiki",
-      disable_frontmatter = false,
-      note_frontmatter_func = function(note)
-        if note.title then
-          note:add_alias(note.title)
-        end
-        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-          for k, v in pairs(note.metadata) do
-            out[k] = v
+      frontmatter = {
+        enabled = true,
+        sort = true, -- Keep frontmatter keys in consistent order
+        func = function(note)
+          if note.title then
+            note:add_alias(note.title)
           end
-        end
-        return out
-      end,
+          local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+          if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+            for k, v in pairs(note.metadata) do
+              out[k] = v
+            end
+          end
+          return out
+        end,
+      },
       templates = {
         folder = "Templates",
         date_format = "%Y-%m-%d",
