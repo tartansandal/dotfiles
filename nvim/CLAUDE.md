@@ -38,7 +38,7 @@ All custom plugins live in `lua/plugins/*.lua`. Each file returns a table of plu
 - **Completion**: blink.cmp instead of nvim-cmp, with copilot integration
 - **Colorscheme**: Catppuccin Mocha with custom "decaf" color overrides (darkened variants)
 - **File picker**: Snacks picker (recently switched from Telescope per git history)
-- **File explorer**: Snacks explorer (NeoTree is disabled per git history)
+- **File explorer**: NeoTree (Snacks explorer disabled, mini.files removed)
 - **Formatting**: conform.nvim with stylua, shfmt, ruff_format, sqlfmt
 - **LSP**: Pyright with typeCheckingMode "on", rounded borders throughout
 - **AI**: GitHub Copilot + Copilot Chat (sidekick)
@@ -158,7 +158,7 @@ Contains Neovim-specific filetype overrides (loaded after plugins):
 ## Important Notes
 
 - LazyVim automatically lazy-loads its own plugins but custom plugins load at startup by default (see `defaults.lazy = false` in lazy.lua)
-- The config uses Snacks.nvim for many UI components (picker, explorer, lazygit, indent, bigfile)
-- **File explorers**: Both mini.files (`<leader>m/M`) and Snacks explorer (`<leader>e`) are enabled - mini.files is more feature-rich with custom keymaps
+- The config uses Snacks.nvim for many UI components (picker, lazygit, indent, bigfile)
+- **File explorer**: NeoTree with custom `<tab>` mapping to open and reveal
 - Git operations use lazygit integration via Snacks
 - No line numbers displayed (user preference to encourage motion-based navigation)

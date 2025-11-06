@@ -1,4 +1,5 @@
--- Configure Snacks: explorer, picker, lazygit, indent (scope disabled)
+-- Configure Snacks: picker, lazygit, indent (scope disabled)
+-- Explorer disabled in favor of neo-tree
 return {
   {
     "snacks.nvim",
@@ -9,7 +10,7 @@ return {
         -- terminal = { keys = { term_normal = false } },
         lazygit = { keys = { term_normal = false } },
       },
-      explorer = { enabled = true },
+      explorer = { enabled = false },
       bigfile = { enabled = true },
       picker = {
         enabled = true,
