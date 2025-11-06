@@ -29,7 +29,9 @@ return {
       fuzzy = {
         implementation = "prefer_rust_with_warning",
         -- implementation = "lua",
-        prebuilt_binaries = { download = false },
+
+        -- ** Uncomment the following if precompiled extension fails **
+        -- prebuilt_binaries = { download = false },
       },
       completion = {
         keyword = {
