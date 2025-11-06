@@ -138,14 +138,27 @@ The `lua/plugins/colorscheme.lua` file implements custom "decaf" variants of all
 - **Keymap preset**: "enter" (CR to accept, Tab/S-Tab for snippets and selection)
 - **No auto-brackets**: Disabled experimental feature
 
-### Filetype Configurations
+## Filetype-Specific Configuration
 
-- `after/ftplugin/markdown.lua` - Markdown-specific settings
-- `ftplugin/` directory for other filetype-specific configs
+The configuration uses two directories for filetype-specific settings:
+
+### `ftplugin/` Directory
+Contains legacy filetype settings (mostly from old Vim config):
+- `python.vim` - textwidth=88, foldmethod=indent
+- `json.vim`, `css.vim`, `javascript.vim`, `vue.vim`, `yaml.vim`, `sh.vim` - Various settings
+
+### `after/ftplugin/` Directory
+Contains Neovim-specific filetype overrides (loaded after plugins):
+- `markdown.lua` - 2-space indent, soft-wrap, markdown-specific surround keymaps, spell fix shortcuts
+- `lua.vim` - 2-space indent, textwidth=88
+- `tex.vim` - vimtex okular integration
+
+**Note**: Settings in `after/ftplugin/` take precedence over `ftplugin/` and plugin defaults.
 
 ## Important Notes
 
 - LazyVim automatically lazy-loads its own plugins but custom plugins load at startup by default (see `defaults.lazy = false` in lazy.lua)
 - The config uses Snacks.nvim for many UI components (picker, explorer, lazygit, indent, bigfile)
+- **File explorers**: Both mini.files (`<leader>m/M`) and Snacks explorer (`<leader>e`) are enabled - mini.files is more feature-rich with custom keymaps
 - Git operations use lazygit integration via Snacks
 - No line numbers displayed (user preference to encourage motion-based navigation)
