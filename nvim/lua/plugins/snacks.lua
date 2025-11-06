@@ -1,3 +1,4 @@
+-- Configure Snacks: explorer, picker, lazygit, indent (scope disabled)
 return {
   {
     "snacks.nvim",

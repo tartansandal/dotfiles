@@ -1,3 +1,4 @@
+-- Remap flash from 's' to 'f' to avoid conflicts with surround
 return {
   {
     "folke/flash.nvim",

@@ -1,3 +1,4 @@
+-- Ensure additional treesitter parsers are installed
 return {
   {
     "nvim-treesitter/nvim-treesitter",

@@ -1,3 +1,4 @@
+-- Use open-browser for 'gx' to open URLs (netrw disabled)
 return {
   {
     "tyru/open-browser.vim",

@@ -1,11 +1,10 @@
+-- Configure blink.cmp for completion (replaces nvim-cmp)
+-- Key customizations: manual selection, case-preserving buffer completion, copilot integration
 return {
   {
     "saghen/blink.compat",
-    -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
     version = "*",
-    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
     lazy = true,
-    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
     opts = {},
   },
   {
@@ -50,30 +49,23 @@ return {
           winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
         },
         accept = {
-          -- disable experimental auto-brackets support
           auto_brackets = {
-            enabled = false,
+            enabled = false, -- disable experimental auto-brackets
           },
         },
         list = {
-          -- require manual selection and insertion
-          selection = { preselect = false, auto_insert = false },
+          selection = { preselect = false, auto_insert = false }, -- manual selection only
         },
       },
-      -- Experimental signature help support
-      -- This interferes with the default LSP signature help
       signature = {
-        -- enabled = true,
-        enabled = false,
+        enabled = false, -- disabled: interferes with default LSP signature help
         window = {
           border = "rounded",
           winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
         },
       },
       sources = {
-        -- adding any nvim-cmp sources here will enable them
-        -- with blink.compat
-        compat = { "calc" },
+        compat = { "calc" }, -- enable nvim-cmp calc source via blink.compat
         default = function()
           if vim.bo.filetype == "markdown" then
             return { "lsp", "path", "calc", "snippets", "buffer", "emoji" }
@@ -98,7 +90,7 @@ return {
             score_offset = 15, -- Tune by preference
           },
           buffer = {
-            -- keep case of first char
+            -- Transform buffer completions to match case of first typed character
             transform_items = function(a, items)
               local keyword = a.get_keyword()
 

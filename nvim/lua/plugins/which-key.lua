@@ -1,3 +1,4 @@
+-- Add custom which-key groups for buffer filenames and obsidian
 return {
   {
     "folke/which-key.nvim",

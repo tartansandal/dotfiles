@@ -1,30 +1,27 @@
+-- Disable LazyVim default plugins that we don't use
 return {
   {
     "akinsho/bufferline.nvim",
-    enabled = false,
+    enabled = false, -- prefer no buffer line
   },
   {
     "nvim-mini/mini.indentscope",
-    enabled = false,
+    enabled = false, -- using snacks.indent instead
   },
-
   {
     "lukas-reineke/indent-blankline.nvim",
-    enabled = false,
+    enabled = false, -- using snacks.indent instead
   },
-
   {
     "RRethy/vim-illuminate",
-    enabled = false,
+    enabled = false, -- don't want word highlighting
   },
-
   {
     "folke/tokyonight.nvim",
-    enabled = false,
+    enabled = false, -- using catppuccin
   },
-
   {
     "nvim-pack/nvim-spectre",
-    enabled = false,
+    enabled = false, -- not used
   },
 }

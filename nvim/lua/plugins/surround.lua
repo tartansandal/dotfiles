@@ -1,3 +1,4 @@
+-- Remap surround to use 's' prefix (instead of default 'gs')
 return {
   {
     "nvim-mini/mini.surround",

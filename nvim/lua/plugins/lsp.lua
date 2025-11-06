@@ -1,3 +1,4 @@
+-- LSP configuration: rounded borders, pyright type checking
 return {
   {
     "neovim/nvim-lspconfig",

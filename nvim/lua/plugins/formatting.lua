@@ -1,3 +1,4 @@
+-- Configure formatters: stylua, shfmt, ruff_format, sqlfmt
 return {
   "stevearc/conform.nvim",
   opts = {

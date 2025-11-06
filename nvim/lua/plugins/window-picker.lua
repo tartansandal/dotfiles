@@ -1,3 +1,4 @@
+-- Window picker for easy window selection
 return {
   "s1n7ax/nvim-window-picker",
   name = "window-picker",

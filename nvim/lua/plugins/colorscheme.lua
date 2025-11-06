@@ -1,3 +1,4 @@
+-- Catppuccin colorscheme with custom "decaf" darkened color overrides
 local P = require("catppuccin.palettes")
 
 local latte = P.get_palette("latte")

@@ -1,3 +1,4 @@
+-- Configure mini.files file explorer with dotfile hiding and custom mappings
 return {
   {
     "nvim-mini/mini.files",
