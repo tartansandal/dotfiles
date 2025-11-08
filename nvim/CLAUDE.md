@@ -49,7 +49,7 @@ The following LazyVim extras are enabled (see `lazyvim.json`):
 - AI: copilot, sidekick
 - Coding: mini-comment, mini-surround, yanky
 - DAP: core debugging
-- Editor: dial, inc-rename, outline, snacks explorer/picker
+- Editor: dial, inc-rename, outline, snacks explorer (disabled in snacks.lua), snacks picker
 - Formatting: prettier
 - Languages: cmake, docker, json, markdown, python, tex, toml, typescript
 - Testing: core
@@ -155,10 +155,42 @@ Contains Neovim-specific filetype overrides (loaded after plugins):
 
 **Note**: Settings in `after/ftplugin/` take precedence over `ftplugin/` and plugin defaults.
 
+## Obsidian Integration
+
+Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in markdown files within that directory):
+
+- **Vault structure**:
+  - Notes: `Cards/`
+  - Daily notes: `Daily/` (format: `YYYY/VV/YYYY-MM-DD`)
+  - Templates: `Templates/`
+  - Attachments: `Files/Images/`
+
+- **Note creation**: Timestamp-based IDs (`YYYYMMDDhhmmss-slugified-title`)
+- **Completion**: Integrated with blink.cmp (nvim-cmp disabled)
+- **Link style**: Wiki links preferred, alias-only display
+- **Frontmatter**: Auto-generated with ID, aliases, and tags
+
+**Global keymaps** (`<leader>o`):
+- `<leader>od` - Today's daily note
+- `<leader>on` - New note
+- `<leader>oo` - Quick switcher
+- `<leader>os` - Search notes
+- `<leader>ot` - Search tags
+
+**Buffer-local keymaps** (in Obsidian notes, `<localleader>`):
+- `<localleader>d` - Show dailies
+- `<localleader>x` - Toggle checkbox
+- `<localleader>l` - Search links
+- `<localleader>b` - Search backlinks
+- `<localleader>i` - Insert template
+- `<localleader>p` - Paste clipboard image
+
+**Note**: Obsidian UI is disabled to allow render-markdown.nvim to work.
+
 ## Important Notes
 
 - LazyVim automatically lazy-loads its own plugins but custom plugins load at startup by default (see `defaults.lazy = false` in lazy.lua)
-- The config uses Snacks.nvim for many UI components (picker, lazygit, indent, bigfile)
+- The config uses Snacks.nvim for many UI components (picker, lazygit, indent, bigfile). Snacks explorer is disabled in favor of NeoTree.
 - **File explorer**: NeoTree with custom `<tab>` mapping to open and reveal
 - Git operations use lazygit integration via Snacks
 - No line numbers displayed (user preference to encourage motion-based navigation)
