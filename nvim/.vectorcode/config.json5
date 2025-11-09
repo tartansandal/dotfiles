@@ -1,0 +1,26 @@
+// ~/.config/vectorcode/config.json5
+{
+  "db_url": "http://127.0.0.1:6131",
+  "embedding_function": "SentenceTransformerEmbeddingFunction",
+  "embedding_params": {
+    // "model_name": "all-mpnet-base-v2",
+    "model_name": "all-MiniLM-L6-v2",
+  },
+  "db_log_path": "~/.local/share/vectorcode/",
+  "db_settings": null,
+  "chunk_size": 1000,
+  "overlap_ratio": 0.3,
+  "query_multiplier": 5,
+  "reranker": "CrossEncoderReranker",
+  "reranker_params": {
+    // "model_name_or_path": "cross-encoder/ms-marco-MiniLM-L-12-v2",
+    "model_name_or_path": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  },
+  "hnsw": {
+    "hnsw:M": 128,
+    "hnsw:construction_ef": 200,
+    "hnsw:search_ef": 100
+  },
+  "chunk_filters": {},
+  "encoding": "utf8"
+}

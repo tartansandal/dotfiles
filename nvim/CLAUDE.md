@@ -10,7 +10,7 @@ This is a Neovim configuration built on top of LazyVim, a pre-configured Neovim 
 
 ### Initialization Flow
 
-1. `init.lua` - Entry point that bootstraps lazy.nvim and sets up debug utilities (_G.dd, _G.bt)
+1. `init.lua` - Entry point that bootstraps lazy.nvim and sets up debug utilities (\_G.dd, \_G.bt)
 2. `lua/config/lazy.lua` - Configures lazy.nvim plugin manager and loads LazyVim base + custom plugins
 3. `lua/config/options.lua` - Sets vim options (loaded before lazy.nvim startup)
 4. `lua/config/keymaps.lua` - Defines custom keymaps (loaded on VeryLazy event)
@@ -27,6 +27,7 @@ All custom plugins live in `lua/plugins/*.lua`. Each file returns a table of plu
 ### Key Plugin Decisions
 
 **Disabled plugins** (`lua/plugins/disabled.lua`):
+
 - bufferline (tabline)
 - mini.indentscope
 - indent-blankline
@@ -35,6 +36,7 @@ All custom plugins live in `lua/plugins/*.lua`. Each file returns a table of plu
 - nvim-spectre (search/replace)
 
 **Core customizations**:
+
 - **Completion**: blink.cmp instead of nvim-cmp, with copilot integration
 - **Colorscheme**: Catppuccin Mocha with custom "decaf" color overrides (darkened variants)
 - **File picker**: Snacks picker (recently switched from Telescope per git history)
@@ -46,6 +48,7 @@ All custom plugins live in `lua/plugins/*.lua`. Each file returns a table of plu
 ## LazyVim Extras
 
 The following LazyVim extras are enabled (see `lazyvim.json`):
+
 - AI: copilot, sidekick
 - Coding: mini-comment, mini-surround, yanky
 - DAP: core debugging
@@ -58,12 +61,14 @@ The following LazyVim extras are enabled (see `lazyvim.json`):
 ## Development Commands
 
 ### Formatting
+
 ```bash
 # Format Lua files
 stylua lua/
 ```
 
 Configuration in `stylua.toml`:
+
 - 2 spaces indentation
 - 88 column width
 
@@ -86,6 +91,7 @@ Configuration in `stylua.toml`:
 ## Configuration Conventions
 
 ### Options (`lua/config/options.lua`)
+
 - **Indentation**: 4 spaces (tabstop=4, shiftwidth=4)
 - **Line width**: 88 chars (textwidth=88, colorcolumn="+1")
 - **Line numbers**: Disabled (both absolute and relative)
@@ -97,6 +103,7 @@ Configuration in `stylua.toml`:
 ### Keymaps (`lua/config/keymaps.lua`)
 
 Custom keymaps beyond LazyVim defaults:
+
 - `[<space>` / `]<space>` - Insert blank lines above/below (supports count)
 - `<leader>wo` - Close other windows
 - `<leader>bp` - Copy relative path of current buffer
@@ -123,6 +130,7 @@ When configuring plugins:
 ### Custom Debug Utilities
 
 Global debug functions defined in `init.lua`:
+
 - `dd(...)` - Pretty-print inspect values (overrides vim.print)
 - `bt()` - Show backtrace
 
@@ -143,12 +151,16 @@ The `lua/plugins/colorscheme.lua` file implements custom "decaf" variants of all
 The configuration uses two directories for filetype-specific settings:
 
 ### `ftplugin/` Directory
+
 Contains legacy filetype settings (mostly from old Vim config):
+
 - `python.vim` - textwidth=88, foldmethod=indent
 - `json.vim`, `css.vim`, `javascript.vim`, `vue.vim`, `yaml.vim`, `sh.vim` - Various settings
 
 ### `after/ftplugin/` Directory
+
 Contains Neovim-specific filetype overrides (loaded after plugins):
+
 - `markdown.lua` - 2-space indent, soft-wrap, markdown-specific surround keymaps, spell fix shortcuts
 - `lua.vim` - 2-space indent, textwidth=88
 - `tex.vim` - vimtex okular integration
@@ -171,6 +183,7 @@ Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in m
 - **Frontmatter**: Auto-generated with ID, aliases, and tags
 
 **Global keymaps** (`<leader>o`):
+
 - `<leader>od` - Today's daily note
 - `<leader>on` - New note
 - `<leader>oo` - Quick switcher
@@ -178,6 +191,7 @@ Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in m
 - `<leader>ot` - Search tags
 
 **Buffer-local keymaps** (in Obsidian notes, `<localleader>`):
+
 - `<localleader>d` - Show dailies
 - `<localleader>x` - Toggle checkbox
 - `<localleader>l` - Search links
@@ -194,3 +208,13 @@ Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in m
 - **File explorer**: NeoTree with custom `<tab>` mapping to open and reveal
 - Git operations use lazygit integration via Snacks
 - No line numbers displayed (user preference to encourage motion-based navigation)
+
+## VectorCode Integration
+
+This project is indexed with VectorCode. Use vectorcode tools to:
+
+- Find relevant files for features
+- Understand code relationships
+- Locate specific implementations
+
+Always use vectorcode for semantic code search before reading files.
