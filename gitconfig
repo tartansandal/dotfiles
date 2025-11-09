@@ -9,7 +9,7 @@
         autocorrect = prompt
 
 [core]
-        excludesfile = ~/.gitignore
+        excludesfile = /home/kal/.gitignore
         repositoryformatversion = 0
         filemode = true
         bare = false
