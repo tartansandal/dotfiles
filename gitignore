@@ -5,5 +5,7 @@ __pycache__
 .vim/
 .local/
 .envrc
-.lvimrc
 .env
+
+# Claude Code local settings
+.claude/settings.local.json
