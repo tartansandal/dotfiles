@@ -37,7 +37,7 @@ gnome-pomodoro
 clean-rpm-gpg-pubkey
 remove-retired-packages
 rpmconf
-tuned
+power-profiles-daemon
 htop
 lm_sensors
 terminus-fonts-console
