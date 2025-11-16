@@ -26,7 +26,7 @@ if [[ "${1:-}" == "--version" ]] || [[ "${1:-}" == "-v" ]]; then
 fi
 
 if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
-    cat << 'EOF'
+    cat <<'EOF'
 promptline.sh - Git-aware prompt generator
 
 USAGE:
@@ -101,11 +101,11 @@ for cmd in git timeout stat realpath; do
 done
 
 # Constants
-readonly DEFAULT_GIT_TIMEOUT=2              # Default timeout for git commands in seconds
-readonly MAX_GIT_TIMEOUT=10                 # Maximum allowed timeout (for slow/network filesystems)
-readonly GIT_SHORT_SHA_LENGTH=7             # Short SHA length (git default is 7)
-readonly TIMEOUT_EXIT_CODE=124              # Exit code returned by timeout command
-readonly NS_TO_MS_DIVISOR=1000000           # Nanoseconds to milliseconds conversion
+readonly DEFAULT_GIT_TIMEOUT=2    # Default timeout for git commands in seconds
+readonly MAX_GIT_TIMEOUT=10       # Maximum allowed timeout (for slow/network filesystems)
+readonly GIT_SHORT_SHA_LENGTH=7   # Short SHA length (git default is 7)
+readonly TIMEOUT_EXIT_CODE=124    # Exit code returned by timeout command
+readonly NS_TO_MS_DIVISOR=1000000 # Nanoseconds to milliseconds conversion
 
 # Configuration: Git command timeout in seconds (default: 2)
 # Can be overridden via STATUSLINE_GIT_TIMEOUT environment variable
@@ -180,13 +180,13 @@ log_git_timing() {
         local end_sec="${end_time%.*}" end_usec="${end_time#*.}"
         # Calculate milliseconds: (delta_seconds * 1000) + (delta_microseconds / 1000)
         # Use 10# prefix to force base-10 interpretation and prevent octal interpretation of leading zeros
-        duration_ms=$(( (10#$end_sec - 10#$start_sec) * 1000 + (10#$end_usec - 10#$start_usec) / 1000 ))
+        duration_ms=$(((10#$end_sec - 10#$start_sec) * 1000 + (10#$end_usec - 10#$start_usec) / 1000))
         debug_log "Git command completed in ${duration_ms}ms with exit code: $exit_code"
     else
         # Fallback: date command (nanosecond precision)
         end_time=$(date +%s%N 2>/dev/null) || end_time=""
         if [[ -n "$end_time" ]]; then
-            duration_ms=$(( (end_time - start_time) / NS_TO_MS_DIVISOR ))
+            duration_ms=$(((end_time - start_time) / NS_TO_MS_DIVISOR))
             debug_log "Git command completed in ${duration_ms}ms with exit code: $exit_code"
         else
             debug_log "Git command exit code: $exit_code (timing unavailable)"
@@ -194,7 +194,6 @@ log_git_timing() {
     fi
 }
 
-# Colors from sexy-bash-prompt (using ANSI codes that will be dimmed in status line)
 # Respects NO_COLOR environment variable (https://no-color.org/)
 # When NO_COLOR is set (to any value), colors are disabled
 # IMPORTANT: Must use ANSI-C quoting ($'...') not regular quotes ("...")
@@ -220,11 +219,11 @@ if [[ "${STATUSLINE_USE_ASCII:-0}" == "1" ]]; then
     # ASCII-only symbols for maximum compatibility
     readonly SYNCED_SYMBOL=""
     readonly DIRTY_SYNCED_SYMBOL="*"
-    readonly UNPUSHED_SYMBOL="^"           # Up arrow alternative
+    readonly UNPUSHED_SYMBOL="^" # Up arrow alternative
     readonly DIRTY_UNPUSHED_SYMBOL="*^"
-    readonly UNPULLED_SYMBOL="v"           # Down arrow alternative
+    readonly UNPULLED_SYMBOL="v" # Down arrow alternative
     readonly DIRTY_UNPULLED_SYMBOL="*v"
-    readonly UNPUSHED_UNPULLED_SYMBOL="<>"  # Diverged indicator
+    readonly UNPUSHED_UNPULLED_SYMBOL="<>" # Diverged indicator
     readonly DIRTY_UNPUSHED_UNPULLED_SYMBOL="*<>"
 else
     # Unicode symbols for modern terminals
@@ -332,7 +331,7 @@ get_git_progress() {
     # Verify git directory is accessible with timeout protection (prevents hanging on network filesystems)
     # Using stat instead of shell built-ins because only external commands can be wrapped with timeout
     if ! timeout "$GIT_TIMEOUT" stat "$git_dir" >/dev/null 2>&1; then
-        return  # Directory not accessible or timeout - skip progress check
+        return # Directory not accessible or timeout - skip progress check
     fi
 
     # Check for various git operations by examining git directory state
@@ -362,11 +361,11 @@ get_git_progress() {
 # Cache for git status info
 # All cache variables populated by cache_git_status() to avoid multiple git calls
 GIT_BRANCH_CACHE=""
-GIT_SHA_CACHE=""  # Populated from branch.oid to avoid extra git rev-parse in detached HEAD
+GIT_SHA_CACHE="" # Populated from branch.oid to avoid extra git rev-parse in detached HEAD
 GIT_AHEAD_CACHE=""
 GIT_BEHIND_CACHE=""
 GIT_DIRTY_CACHE=""
-GIT_DIR_CACHE=""  # Git directory path, populated to avoid extra git rev-parse in get_git_progress
+GIT_DIR_CACHE="" # Git directory path, populated to avoid extra git rev-parse in get_git_progress
 
 # Populate git status cache using porcelain v2 format
 # Side effects: Populates GIT_BRANCH_CACHE, GIT_SHA_CACHE, GIT_AHEAD_CACHE, GIT_BEHIND_CACHE, GIT_DIRTY_CACHE, GIT_DIR_CACHE
@@ -396,7 +395,7 @@ cache_git_status() {
         debug_log "cache_git_status: git status command failed"
         # Clear GIT_DIR_CACHE to prevent get_git_progress() from using stale data
         GIT_DIR_CACHE=""
-        return 1  # Signal failure to caller
+        return 1 # Signal failure to caller
     fi
 
     # Parse status in a single pass to avoid multiple subprocesses
@@ -418,7 +417,7 @@ cache_git_status() {
         elif [[ "$line" =~ ^[12?] ]]; then
             GIT_DIRTY_CACHE="1"
         fi
-    done <<< "$git_status"
+    done <<<"$git_status"
 
     debug_log "Cache populated: branch='$GIT_BRANCH_CACHE' sha='$GIT_SHA_CACHE' ahead='$GIT_AHEAD_CACHE' behind='$GIT_BEHIND_CACHE' dirty='$GIT_DIRTY_CACHE' git_dir='$GIT_DIR_CACHE'"
     return 0
@@ -501,14 +500,14 @@ get_git_status() {
 
     local symbol
     case "$state_key" in
-        111) symbol="$DIRTY_UNPUSHED_UNPULLED_SYMBOL" ;;  # dirty + unpushed + unpulled
-        011) symbol="$UNPUSHED_UNPULLED_SYMBOL" ;;        # unpushed + unpulled (diverged)
-        110) symbol="$DIRTY_UNPUSHED_SYMBOL" ;;           # dirty + unpushed
-        010) symbol="$UNPUSHED_SYMBOL" ;;                 # unpushed only
-        101) symbol="$DIRTY_UNPULLED_SYMBOL" ;;           # dirty + unpulled
-        001) symbol="$UNPULLED_SYMBOL" ;;                 # unpulled only
-        100) symbol="$DIRTY_SYNCED_SYMBOL" ;;             # dirty only (uncommitted changes)
-        *)   symbol="$SYNCED_SYMBOL" ;;                   # 000 or any unexpected state (clean)
+    111) symbol="$DIRTY_UNPUSHED_UNPULLED_SYMBOL" ;; # dirty + unpushed + unpulled
+    011) symbol="$UNPUSHED_UNPULLED_SYMBOL" ;;       # unpushed + unpulled (diverged)
+    110) symbol="$DIRTY_UNPUSHED_SYMBOL" ;;          # dirty + unpushed
+    010) symbol="$UNPUSHED_SYMBOL" ;;                # unpushed only
+    101) symbol="$DIRTY_UNPULLED_SYMBOL" ;;          # dirty + unpulled
+    001) symbol="$UNPULLED_SYMBOL" ;;                # unpulled only
+    100) symbol="$DIRTY_SYNCED_SYMBOL" ;;            # dirty only (uncommitted changes)
+    *) symbol="$SYNCED_SYMBOL" ;;                    # 000 or any unexpected state (clean)
     esac
 
     debug_log "Selected symbol: '$symbol'"
@@ -588,7 +587,6 @@ main() {
     fi
 
     # Validate the working directory (common for all modes)
-
     if [[ ! -d "$cwd" ]]; then
         echo "Error: Directory does not exist: $cwd" >&2
         exit 1
@@ -624,7 +622,9 @@ main() {
         display_path="~"
     elif [[ -n "$HOME" && "$cwd" == "$HOME/"* ]]; then
         # Prefix match: /home/user/foo → ~/foo
-        display_path="~${cwd#$HOME}"
+        # NOTE: $HOME must be quoted in ${cwd#"$HOME"} to prevent pattern matching.
+        # Without quotes, special chars in $HOME would be treated as glob patterns.
+        display_path="~${cwd#"$HOME"}"
     fi
 
     # Build the prompt (similar to PS1 but without trailing $ symbol)
