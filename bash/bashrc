@@ -184,9 +184,9 @@ fi
 unset __conda_setup
 
 CONDA_ROOT=~/anaconda3
-if [[ -r $CONDA_ROOT/etc/profile.d/bash_completion.sh ]]; then
+if [[ -r "$CONDA_ROOT/etc/profile.d/bash_completion.sh" ]]; then
     # shellcheck source=/home/kal/anaconda3/etc/profile.d/bash_completion.sh
-    source $CONDA_ROOT/etc/profile.d/bash_completion.sh
+    source "$CONDA_ROOT/etc/profile.d/bash_completion.sh"
 fi
 # <<< conda initialize <<<
 export NVM_DIR="$HOME/.nvm"
@@ -194,8 +194,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # shellcheck source=/home/kal/.nvm/bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-. "$HOME/.local/share/../bin/env"
 
 # bun
 export BUN_INSTALL="$HOME/.local/share/reflex/bun"

@@ -57,31 +57,31 @@ export XDG_DATA_HOME="$HOME/.local/share"
 ## The following helps with anaconda interfering with gsettings
 export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
 
-if [[ -d ~/.local/lib/perl5 ]]; then
-    export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:~/.local"
-    export PERL_MB_OPT="--install_base ~/.local"
-    export PERL_MM_OPT="INSTALL_BASE=~/.local"
+if [[ -d "$HOME/.local/lib/perl5" ]]; then
+    export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/.local"
+    export PERL_MB_OPT="--install_base $HOME/.local"
+    export PERL_MM_OPT="INSTALL_BASE=$HOME/.local"
     export PERL5LIB="$HOME/.local/lib/perl5:$PERL5LIB"
 fi
 
-if [[ -d ~/.local/lib/python ]]; then
-    export PYTHONPATH=~/.local/lib/python
+if [[ -d "$HOME/.local/lib/python" ]]; then
+    export PYTHONPATH="$HOME/.local/lib/python"
 fi
 
-if [[ -d ~/.local/lib/node_modules ]]; then
+if [[ -d "$HOME/.local/lib/node_modules" ]]; then
     # setup a localized global environment
-    #export npm_config_prefix=~/.local XXX: this is incompatible with nvm
-    export NODE_PATH=~/.local/lib/node_modules
+    #export npm_config_prefix=$HOME/.local XXX: this is incompatible with nvm
+    export NODE_PATH="$HOME/.local/lib/node_modules"
 fi
 
 if [[ -f /usr/bin/google-chrome ]]; then
     export CHROME_BIN=/usr/bin/google-chrome
 fi
 
-if [ -d ~/.texlive2019 ]; then
-    export MANPATH=/home/kal/.texlive2019/texmf-dist/doc/man:$MANPATH
-    export INFOPATH=/home/kal/.texlive2019/texmf-dist/doc/info:$INFOPATH
-    export PATH=/home/kal/.texlive2019/bin/x86_64-linux:$PATH
+if [ -d "$HOME/.texlive2019" ]; then
+    export MANPATH="$HOME/.texlive2019/texmf-dist/doc/man:$MANPATH"
+    export INFOPATH="$HOME/.texlive2019/texmf-dist/doc/info:$INFOPATH"
+    export PATH="$HOME/.texlive2019/bin/x86_64-linux:$PATH"
 fi
 
 # I'm almost always plugged in, so turn on Optimus PRIME for everything.
@@ -96,21 +96,18 @@ fi
 # screws up 'gem uninstall' and bundler. Make this work with by setting GEM_HOME
 # and adding a symbolic link.
 #
-export GEM_HOME=$HOME/.gem/ruby
+export GEM_HOME="$HOME/.gem/ruby"
 if [[ ! -e "$HOME/.gem/ruby/bin" ]]; then
     mkdir -p "$HOME/.gem/ruby"
     ln -sf "$HOME/bin" "$HOME/.gem/ruby/"
 fi
 
 # Cargo path
-if [[ -d ~/.cargo/bin ]]; then
+if [[ -d "$HOME/.cargo/bin" ]]; then
     pathmunge "$HOME/.cargo/bin"
 fi
 
-export NVM_DIR="${HOME}/.nvm"
-if [[ -f "$NVM_DIR/nvm.sh" ]]; then
-    . "$NVM_DIR/nvm.sh" # This loads nvm
-fi
+# NVM is loaded in bashrc (works for both login and non-login shells)
 
 # Buildkit does not work well in fedora
 export DOCKER_BUILDKIT=0
@@ -124,5 +121,3 @@ unset pathmunge
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
-
-. "$HOME/.local/share/../bin/env"

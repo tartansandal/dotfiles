@@ -11,7 +11,7 @@ then
             VENV=$VIRTUAL_ENV
         fi
         if [[ -n "$VENV" && -n "$DIRENV_DIR" ]]; then
-            echo "($(basename $VENV)) "
+            echo "($(basename "$VENV")) "
         fi
     }
     export -f show_virtual_env
