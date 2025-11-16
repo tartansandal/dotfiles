@@ -15,6 +15,10 @@ case $- in
 *) return ;;
 esac
 
+## History settings
+export HISTIGNORE="&:ls:[bf]g:exit"
+export HISTTIMEFORMAT='%a %H:%M | '
+
 #> turn off terminal driver flow control so C-s and C-q works
 #> and don't interfere with vim
 stty -ixon -ixoff
