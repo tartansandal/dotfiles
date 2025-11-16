@@ -174,25 +174,6 @@ shopt -u lithist
 # Don't check mail
 shopt -u mailwarn
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if __conda_setup="$('/home/kal/anaconda3/bin/conda' 'shell.bash' 'hook' 2>/dev/null)"; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/kal/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/kal/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/kal/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-
-CONDA_ROOT=~/anaconda3
-if [[ -r "$CONDA_ROOT/etc/profile.d/bash_completion.sh" ]]; then
-    # shellcheck source=/home/kal/anaconda3/etc/profile.d/bash_completion.sh
-    source "$CONDA_ROOT/etc/profile.d/bash_completion.sh"
-fi
-# <<< conda initialize <<<
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/home/kal/.nvm/nvm.sh
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

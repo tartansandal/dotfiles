@@ -51,9 +51,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # export LANG="en_AU.UTF-8"
 # export LANGUAGE="en_AU.UTF-8"
 
-## The following helps with anaconda interfering with gsettings
-export GIO_EXTRA_MODULES=/usr/lib64/gio/modules/
-
 if [[ -d "$HOME/.local/lib/perl5" ]]; then
     export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/.local"
     export PERL_MB_OPT="--install_base $HOME/.local"
