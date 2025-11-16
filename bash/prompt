@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Match base16_dirtysea colours
+# Match base16_dirtysea colours (used by statusline-command.sh)
 PROMPT_USER_COLOR="\033[0;35m"         # red
 PROMPT_PREPOSITION_COLOR="\033[0;36m"  # grey
 PROMPT_DEVICE_COLOR="\033[0;31m"       # blue
@@ -9,4 +9,9 @@ PROMPT_GIT_STATUS_COLOR="\033[0;34m"   # green
 PROMPT_GIT_PROGRESS_COLOR="\033[0;35m" # red
 PROMPT_SYMBOL_COLOR="\033[0;32m"       # purple
 
-source ~/dotfiles/bash/sexy-prompt.sh
+# Symbol for prompt
+PROMPT_SYMBOL="\$"
+
+# Set up PS1 using command substitution
+# The command substitution runs before PS1 is evaluated
+PS1='$(~/dotfiles/bash/statusline-command.sh "$PWD")\n\[\033[0;32m\]'"$PROMPT_SYMBOL"' \[\033[m\]'
