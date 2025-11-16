@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# statusline-command.sh - Git-aware statusline generator for Claude Code and Bash
+# promptline.sh - Git-aware prompt generator for Bash
 # Version: 1.1.0
 #
 # INTENTIONAL: No strict mode (set -euo pipefail) for this statusline script
@@ -21,24 +21,24 @@ readonly SCRIPT_VERSION="1.1.0"
 
 # Handle --version and --help flags (must be done before reading stdin)
 if [[ "${1:-}" == "--version" ]] || [[ "${1:-}" == "-v" ]]; then
-    echo "statusline-command.sh version $SCRIPT_VERSION"
+    echo "promptline.sh version $SCRIPT_VERSION"
     exit 0
 fi
 
 if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
     cat << 'EOF'
-statusline-command.sh - Git-aware statusline generator
+promptline.sh - Git-aware prompt generator
 
 USAGE:
     # Explicit directory path (bash prompt mode - no jq needed)
-    statusline-command.sh /path/to/directory
-    statusline-command.sh "$PWD"
+    promptline.sh /path/to/directory
+    promptline.sh "$PWD"
 
     # JSON input via stdin (Claude Code mode - requires jq)
-    echo '{"workspace":{"current_dir":"/path"}}' | statusline-command.sh
+    echo '{"workspace":{"current_dir":"/path"}}' | promptline.sh
 
     # Auto-detect: Uses $PWD if no arguments and stdin is a terminal
-    statusline-command.sh
+    promptline.sh
 
 MODES:
     1. Directory argument mode: Pass directory path as first argument
@@ -61,16 +61,16 @@ ENVIRONMENT VARIABLES:
 
 EXAMPLES:
     # Bash prompt usage (recommended)
-    PS1="\$(statusline-command.sh \"\$PWD\")\n\$ "
+    PS1="\$(promptline.sh \"\$PWD\")\n\$ "
 
     # Claude Code usage
-    echo '{"workspace":{"current_dir":"'$PWD'"}}' | statusline-command.sh
+    echo '{"workspace":{"current_dir":"'$PWD'"}}' | promptline.sh
 
     # With debug mode
-    STATUSLINE_DEBUG=1 statusline-command.sh "$PWD"
+    STATUSLINE_DEBUG=1 promptline.sh "$PWD"
 
     # Increase timeout for slow filesystems
-    STATUSLINE_GIT_TIMEOUT=5 statusline-command.sh "$PWD"
+    STATUSLINE_GIT_TIMEOUT=5 promptline.sh "$PWD"
 
 OUTPUT:
     Formatted statusline with current directory and git information (if in git repo)
