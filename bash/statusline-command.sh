@@ -628,7 +628,7 @@ main() {
     fi
 
     # Build the prompt (similar to PS1 but without trailing $ symbol)
-    local fmt="${RESET}${PREPOSITION_COLOR}in ${RESET}${DIR_COLOR}%s${RESET}"
+    local fmt="${RESET}${PREPOSITION_COLOR}In ${RESET}${DIR_COLOR}%s${RESET}"
     # shellcheck disable=SC2059  # Format string is constructed from trusted constants
     # SECURITY: User data ($display_path) is passed as printf ARGUMENT, not part of format string
     # Printf does NOT interpret format specifiers in arguments, only in the format string
@@ -640,7 +640,7 @@ main() {
         local git_info git_progress
         git_info=$(get_git_info)
         git_progress=$(get_git_progress)
-        fmt=" ${PREPOSITION_COLOR}on${RESET} ${GIT_STATUS_COLOR}%s${GIT_PROGRESS_COLOR}%s${RESET}"
+        fmt=" ${PREPOSITION_COLOR}On${RESET} ${GIT_STATUS_COLOR}%s${GIT_PROGRESS_COLOR}%s${RESET}"
         # shellcheck disable=SC2059  # Format string is constructed from trusted constants
         printf "$fmt" "$git_info" "$git_progress"
     fi
