@@ -543,7 +543,7 @@ get_git_info() {
 
 # Main execution function
 main() {
-    local cwd
+    local cwd json_input=""
 
     # MODE 1: Explicit directory path provided as argument
     # Usage: statusline-command.sh /path/to/dir
@@ -564,8 +564,11 @@ main() {
 
         debug_log "Mode: JSON input via stdin"
 
+        # Read JSON input once and store it (needed for both directory parsing and ccstatusline)
+        json_input=$(cat)
+
         # Extract current directory from JSON input
-        if ! cwd=$(jq -r '.workspace.current_dir' 2>/dev/null); then
+        if ! cwd=$(echo "$json_input" | jq -r '.workspace.current_dir' 2>/dev/null); then
             echo "Error: Failed to parse JSON input" >&2
             exit 1
         fi
@@ -643,6 +646,20 @@ main() {
         fmt=" ${PREPOSITION_COLOR}On${RESET} ${GIT_STATUS_COLOR}%s${GIT_PROGRESS_COLOR}%s${RESET}"
         # shellcheck disable=SC2059  # Format string is constructed from trusted constants
         printf "$fmt" "$git_info" "$git_progress"
+    fi
+
+    # Get usage information from standalone Pro plan status script
+    if [[ -n "$json_input" ]] && [[ -x ~/dotfiles/bash/claude_status_pro.rb ]]; then
+        # Get Pro plan usage display (session %, reset time, context %)
+        local usage_info
+        # Temporarily enable debug - stderr goes to debug file
+        usage_info=$(echo "$json_input" | CLAUDE_STATUS_DEBUG=1 ruby ~/dotfiles/bash/claude_status_pro.rb 2>/tmp/claude_status_debug.log) || usage_info=""
+        debug_log "Usage info: $usage_info"
+
+        # Display usage information at the end (if available)
+        if [[ -n "$usage_info" ]]; then
+            printf ' | %s' "$usage_info"
+        fi
     fi
 
     printf '%s' "${RESET}"
