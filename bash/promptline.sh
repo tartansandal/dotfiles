@@ -648,20 +648,6 @@ main() {
         printf "$fmt" "$git_info" "$git_progress"
     fi
 
-    # Get usage information from standalone Pro plan status script
-    if [[ -n "$json_input" ]] && [[ -x ~/dotfiles/bash/claude_status_pro.js ]]; then
-        # Get Pro plan usage display (session %, reset time, context %)
-        local usage_info
-        # Temporarily enable debug - stderr goes to debug file
-        usage_info=$(echo "$json_input" | CLAUDE_STATUS_DEBUG=1 node ~/dotfiles/bash/claude_status_pro.js 2>/tmp/claude_status_debug.log) || usage_info=""
-        debug_log "Usage info: $usage_info"
-
-        # Display usage information at the end (if available)
-        if [[ -n "$usage_info" ]]; then
-            printf ' | %s' "$usage_info"
-        fi
-    fi
-
     printf '%s' "${RESET}"
 }
 
