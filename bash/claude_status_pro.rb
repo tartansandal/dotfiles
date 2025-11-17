@@ -15,6 +15,7 @@ class ClaudeStatusPro
   PRO_TOKEN_LIMIT = 44_000
   PRO_MESSAGE_LIMIT = 250
   SESSION_DURATION_HOURS = 5
+  SECONDS_PER_DAY = 86_400
 
   # Context window limits by model
   CONTEXT_LIMITS = {
@@ -123,6 +124,7 @@ class ClaudeStatusPro
       transcript_count: all_transcripts.length
     }
   rescue => e
+    $stderr.puts "Error calculating session usage: #{e.message}" if ENV['CLAUDE_STATUS_DEBUG'] == '1'
     default_session_data
   end
 
@@ -137,7 +139,7 @@ class ClaudeStatusPro
     message_count = 0
     skipped_count = 0
 
-    File.readlines(@transcript_path).each do |line|
+    File.foreach(@transcript_path) do |line|
       data = JSON.parse(line.strip)
       next unless data.is_a?(Hash)
 
@@ -162,6 +164,7 @@ class ClaudeStatusPro
     # Calculate percentage of context window used
     ((max_context_tokens / @context_limit.to_f) * 100).round(1)
   rescue => e
+    $stderr.puts "Error calculating context usage: #{e.message}" if ENV['CLAUDE_STATUS_DEBUG'] == '1'
     nil
   end
 
@@ -170,7 +173,7 @@ class ClaudeStatusPro
     current_block = nil
     processed_hashes = Set.new
 
-    File.readlines(transcript_path).each do |line|
+    File.foreach(transcript_path) do |line|
       data = JSON.parse(line.strip)
       next unless data.is_a?(Hash)
 
@@ -195,6 +198,7 @@ class ClaudeStatusPro
 
     blocks
   rescue => e
+    $stderr.puts "Error parsing transcript #{transcript_path}: #{e.message}" if ENV['CLAUDE_STATUS_DEBUG'] == '1'
     []
   end
 
@@ -236,8 +240,8 @@ class ClaudeStatusPro
       return nil
     end
 
-    # Extract tokens (include cache_read for total context)
-    tokens = extract_tokens(data, include_cache_read: false)
+    # Extract tokens
+    tokens = extract_tokens(data)
     individual_tokens = tokens.reject { |k, _| k == :total_tokens }
 
     if individual_tokens.values.all? { |v| v <= 0 }
@@ -257,48 +261,6 @@ class ClaudeStatusPro
     end
 
     total_context
-  end
-
-  def process_transcript_entry(data, processed_hashes)
-    # For context calculation
-    entry_type = data['type'] || data.dig('message', 'type')
-
-    # Count user and assistant messages (they have tokens)
-    unless ['user', 'assistant', 'message'].include?(entry_type)
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: type=#{entry_type.inspect} (not user/assistant)"
-      end
-      return nil
-    end
-
-    # Deduplication
-    hash = unique_hash(data)
-    if hash && processed_hashes.include?(hash)
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: duplicate hash=#{hash}"
-      end
-      return nil
-    end
-
-    # Extract tokens (just input + output for context window)
-    # cache_read tokens are reused from previous turns, already counted
-    tokens = extract_tokens(data, include_cache_read: false)
-    individual_tokens = tokens.reject { |k, _| k == :total_tokens }
-
-    if individual_tokens.values.all? { |v| v <= 0 }
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: no tokens (#{tokens.inspect})"
-      end
-      return nil
-    end
-
-    processed_hashes.add(hash) if hash
-
-    if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-      $stderr.puts "  Counted: #{tokens[:total_tokens]} tokens (in=#{tokens[:input_tokens]} out=#{tokens[:output_tokens]} cache_r=#{tokens[:cache_read_tokens]})"
-    end
-
-    tokens[:total_tokens]
   end
 
   def create_new_block(start_time)
@@ -343,7 +305,7 @@ class ClaudeStatusPro
     # Create block start time (at :59 of the previous hour for precision)
     if block_start_hour == 23 && hour < 4
       # Previous day's 11pm block
-      prev_day = local_time - 86400
+      prev_day = local_time - SECONDS_PER_DAY
       Time.new(prev_day.year, prev_day.month, prev_day.day, block_start_hour, 59, 0, local_time.utc_offset)
     else
       Time.new(local_time.year, local_time.month, local_time.day, block_start_hour - 1, 59, 0, local_time.utc_offset)
@@ -374,7 +336,7 @@ class ClaudeStatusPro
     "#{message_id}:#{request_id}" if message_id && request_id
   end
 
-  def extract_tokens(data, include_cache_read: false)
+  def extract_tokens(data)
     tokens = { input_tokens: 0, output_tokens: 0, cache_creation_tokens: 0, cache_read_tokens: 0, total_tokens: 0 }
 
     # Token sources (from claude_monitor_statusline.rb)
@@ -397,14 +359,9 @@ class ClaudeStatusPro
         tokens[:output_tokens] = output
         tokens[:cache_creation_tokens] = cache_creation
         tokens[:cache_read_tokens] = cache_read
-        # For context window: input + cache_read + output
-        # (cache_read tokens are part of context but retrieved from cache)
-        # For usage limits: input + output only
-        if include_cache_read
-          tokens[:total_tokens] = input + cache_read + output
-        else
-          tokens[:total_tokens] = input + output
-        end
+        # Total for usage limits: input + output only
+        # (cache_read tokens are reused, not counted toward limits)
+        tokens[:total_tokens] = input + output
         break
       end
     end
