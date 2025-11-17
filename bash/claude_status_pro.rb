@@ -12,24 +12,29 @@ require 'set'
 
 class ClaudeStatusPro
   # Pro plan limits (2025)
-  PRO_TOKEN_LIMIT = 44_000
   PRO_MESSAGE_LIMIT = 250
   SESSION_DURATION_HOURS = 5
   SECONDS_PER_DAY = 86_400
+  
+  # Block boundary timing - set to 0 for top of hour (8:00am) or 59 for end of hour (7:59am)
+  # Current value based on observation, but may need adjustment after testing
+  BLOCK_BOUNDARY_MINUTE = 0
 
-  # Context window limits by model
-  CONTEXT_LIMITS = {
-    'claude-sonnet-4-5' => 200_000,
-    'claude-opus-4' => 200_000,
-    'default' => 200_000
-  }
+  # Context window limit (tokens)
+  CONTEXT_LIMIT = 200_000
 
   def initialize
-    @input = JSON.parse($stdin.read)
+    begin
+      @input = JSON.parse($stdin.read)
+    rescue JSON::ParserError => e
+      $stderr.puts "Error: Invalid JSON input: #{e.message}"
+      exit 1
+    end
+    
     @transcript_path = @input['transcript_path']
     @session_id = @input['session_id']
     @model_id = @input.dig('model', 'id') || ''
-    @context_limit = detect_context_limit
+    @context_limit = CONTEXT_LIMIT
   end
 
   def generate
@@ -44,7 +49,7 @@ class ClaudeStatusPro
       $stderr.puts "=== DEBUG ==="
       $stderr.puts "Transcripts scanned: #{session_data[:transcript_count]}" if session_data[:transcript_count]
       $stderr.puts "Session messages: #{session_data[:message_count]} / #{PRO_MESSAGE_LIMIT} = #{session_data[:message_pct]}%"
-      $stderr.puts "Session tokens: #{session_data[:total_tokens]} / #{PRO_TOKEN_LIMIT}"
+      $stderr.puts "Session tokens: #{session_data[:total_tokens]}"
       $stderr.puts "Reset time: #{session_data[:reset_time]}"
       $stderr.puts "Context tokens: #{context_pct ? (context_pct * @context_limit / 100).to_i : 'N/A'} / #{@context_limit} = #{context_pct}%"
       $stderr.puts "Block end time: #{session_data[:block_end_time]}" if session_data[:block_end_time]
@@ -64,13 +69,7 @@ class ClaudeStatusPro
 
   private
 
-  def detect_context_limit
-    # Detect context limit based on model
-    CONTEXT_LIMITS.each do |model_key, limit|
-      return limit if @model_id.include?(model_key)
-    end
-    CONTEXT_LIMITS['default']
-  end
+
 
   def calculate_session_usage
     return default_session_data unless @transcript_path && File.exist?(@transcript_path)
@@ -91,7 +90,9 @@ class ClaudeStatusPro
           # Merge blocks with same start time
           all_blocks[key][:total_tokens] += block[:total_tokens]
           all_blocks[key][:message_count] += block[:message_count]
-          all_blocks[key][:last_timestamp] = [all_blocks[key][:last_timestamp], block[:last_timestamp]].compact.max
+          existing_ts = all_blocks[key][:last_timestamp]
+          new_ts = block[:last_timestamp]
+          all_blocks[key][:last_timestamp] = [existing_ts, new_ts].compact.max if existing_ts || new_ts
         else
           all_blocks[key] = block
         end
@@ -202,61 +203,56 @@ class ClaudeStatusPro
     []
   end
 
-  def process_block_entry(data, timestamp, processed_hashes)
-    # For 5-hour block tracking
+  def validate_and_extract_tokens(data, processed_hashes, debug: false)
+    # Common validation logic for transcript entries
+    # Returns tokens hash if valid, nil if should be skipped
+    
+    # Type checking
     entry_type = data['type'] || data.dig('message', 'type')
-    return nil unless ['user', 'assistant', 'message'].include?(entry_type)
-
-    # Deduplication
-    hash = unique_hash(data)
-    return nil if hash && processed_hashes.include?(hash)
-
-    # Extract tokens
-    tokens = extract_tokens(data)
-    individual_tokens = tokens.reject { |k, _| k == :total_tokens }
-    return nil if individual_tokens.values.all? { |v| v <= 0 }
-
-    processed_hashes.add(hash) if hash
-    [timestamp, tokens[:total_tokens]]
-  end
-
-  def process_transcript_entry_with_cache(data, processed_hashes)
-    # For context calculation (includes cache_read for total context size)
-    entry_type = data['type'] || data.dig('message', 'type')
-
     unless ['user', 'assistant', 'message'].include?(entry_type)
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: type=#{entry_type.inspect} (not user/assistant)"
-      end
+      $stderr.puts "  Skipped: type=#{entry_type.inspect} (not user/assistant)" if debug
       return nil
     end
 
     # Deduplication
     hash = unique_hash(data)
     if hash && processed_hashes.include?(hash)
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: duplicate hash=#{hash}"
-      end
+      $stderr.puts "  Skipped: duplicate hash=#{hash}" if debug
       return nil
     end
 
     # Extract tokens
     tokens = extract_tokens(data)
-    individual_tokens = tokens.reject { |k, _| k == :total_tokens }
-
-    if individual_tokens.values.all? { |v| v <= 0 }
-      if ENV['CLAUDE_STATUS_DEBUG'] == '1'
-        $stderr.puts "  Skipped: no tokens (#{tokens.inspect})"
-      end
+    
+    if tokens.values_at(:input_tokens, :output_tokens, :cache_creation_tokens, :cache_read_tokens).sum <= 0
+      $stderr.puts "  Skipped: no tokens (#{tokens.inspect})" if debug
       return nil
     end
 
+    # Mark as processed
     processed_hashes.add(hash) if hash
+    
+    tokens
+  end
+
+  def process_block_entry(data, timestamp, processed_hashes)
+    # For 5-hour block tracking
+    tokens = validate_and_extract_tokens(data, processed_hashes)
+    return nil unless tokens
+    
+    [timestamp, tokens[:total_tokens]]
+  end
+
+  def process_transcript_entry_with_cache(data, processed_hashes)
+    # For context calculation (includes cache_read for total context size)
+    debug = ENV['CLAUDE_STATUS_DEBUG'] == '1'
+    tokens = validate_and_extract_tokens(data, processed_hashes, debug: debug)
+    return nil unless tokens
 
     # Total context = cache_read (all previous context) + input (new) + output (new)
     total_context = tokens[:cache_read_tokens] + tokens[:input_tokens] + tokens[:output_tokens]
 
-    if ENV['CLAUDE_STATUS_DEBUG'] == '1'
+    if debug
       $stderr.puts "  Counted: #{total_context} context tokens (cache=#{tokens[:cache_read_tokens]} in=#{tokens[:input_tokens]} out=#{tokens[:output_tokens]})"
     end
 
@@ -284,15 +280,13 @@ class ClaudeStatusPro
 
   def round_to_block_start(timestamp)
     # Claude's 5-hour blocks start at specific times
-    # Based on observation: blocks end at X:59 (e.g., 12:59pm)
-    # So they start at (X-5):59 (e.g., 7:59am)
-    # This means block boundaries are at: ~8am, ~1pm, ~6pm, ~11pm, ~4am
+    # Standard blocks: 8am, 1pm, 6pm, 11pm, 4am (or offset by BLOCK_BOUNDARY_MINUTE)
 
     local_time = timestamp.getlocal
     hour = local_time.hour
 
     # Determine which 5-hour block this falls into
-    # Blocks: 8-13, 13-18, 18-23, 23-4, 4-8
+    # Returns the starting hour for each block period
     block_start_hour = case hour
     when 0..3   then 23  # 11pm-4am block (previous day)
     when 4..7   then 4   # 4am-9am block
@@ -302,13 +296,13 @@ class ClaudeStatusPro
     else 23              # 11pm-4am block
     end
 
-    # Create block start time (at :59 of the previous hour for precision)
+    # Create block start time using configured boundary minute
     if block_start_hour == 23 && hour < 4
       # Previous day's 11pm block
       prev_day = local_time - SECONDS_PER_DAY
-      Time.new(prev_day.year, prev_day.month, prev_day.day, block_start_hour, 59, 0, local_time.utc_offset)
+      Time.new(prev_day.year, prev_day.month, prev_day.day, block_start_hour, BLOCK_BOUNDARY_MINUTE, 0, local_time.utc_offset)
     else
-      Time.new(local_time.year, local_time.month, local_time.day, block_start_hour - 1, 59, 0, local_time.utc_offset)
+      Time.new(local_time.year, local_time.month, local_time.day, block_start_hour, BLOCK_BOUNDARY_MINUTE, 0, local_time.utc_offset)
     end
   end
 
@@ -320,7 +314,7 @@ class ClaudeStatusPro
 
     # Return first active block or most recent
     blocks.find { |block| block[:is_active] } ||
-      blocks.max_by { |block| block[:last_timestamp] || block[:first_timestamp] }
+      blocks.max_by { |block| block[:last_timestamp] || block[:first_timestamp] || block[:start_time] }
   end
 
   def parse_timestamp(timestamp_str)
