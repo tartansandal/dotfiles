@@ -37,7 +37,7 @@ return {
         folder = "Daily",
         date_format = "%Y/%V/%Y-%m-%d",
         alias_format = "%a %-d %B %Y",
-        template = "daily.md",
+        template = "daily_unwell.md",
         workdays_only = false,
       },
       completion = {
