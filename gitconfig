@@ -97,3 +97,6 @@
 ; [alias]
 ; 	log-list-week = log-list --date=format:%F' '(%V)
 
+[delta]
+        side-by-side = true
+        syntax-highlighting = true
