@@ -73,6 +73,11 @@ alias gg=gitui
 alias docker=podman
 alias docker-compose=podman-compose
 
+alias ccm='ccm --plan max5'
+alias ccmonitor='ccmonitor --plan max5'
+alias claude-monitor='claude-monitor --plan max5'
+alias claude-code-monitor='claude-code-monitor --plan max5'
+
 # use vim with clipboard defined if available
 # if hash vimx 2>/dev/null; then
 #     alias vim=vimx
