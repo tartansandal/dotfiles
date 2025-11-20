@@ -18,7 +18,8 @@ return {
       "moyiz/blink-emoji.nvim",
       "saghen/blink.compat",
       "hrsh7th/cmp-calc",
-      "fang2hou/blink-copilot",
+      -- TEMPORARY: Copilot disabled - uncomment to re-enable
+      -- "fang2hou/blink-copilot",
     },
     version = "1.*",
     -- build = "cargo build --release",
@@ -70,20 +71,22 @@ return {
           if vim.bo.filetype == "markdown" then
             return { "lsp", "path", "calc", "snippets", "buffer", "emoji" }
           else
-            return { "copilot", "lsp", "path", "snippets", "buffer" }
+            -- TEMPORARY: Copilot disabled - add "copilot" back to re-enable
+            return { "lsp", "path", "snippets", "buffer" }
           end
         end,
         providers = {
-          copilot = {
-            name = "copilot",
-            module = "blink-copilot",
-            score_offset = 100,
-            async = true,
-            opts = {
-              max_completions = 3,
-              max_attempts = 2,
-            },
-          },
+          -- TEMPORARY: Copilot provider disabled
+          -- copilot = {
+          --   name = "copilot",
+          --   module = "blink-copilot",
+          --   score_offset = 100,
+          --   async = true,
+          --   opts = {
+          --     max_completions = 3,
+          --     max_attempts = 2,
+          --   },
+          -- },
           emoji = {
             module = "blink-emoji",
             name = "emoji",
