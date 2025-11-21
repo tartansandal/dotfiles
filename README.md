@@ -6,11 +6,11 @@ Personal configuration files for customizing my development environment.
 
 This repository contains configuration files (dotfiles) for:
 
-- **Shell**: Bash configuration with custom aliases and prompt
-- **Editor**: Neovim (LazyVim-based configuration)
+- **Shell**: `bash` configuration with custom aliases and prompt
+- **Editor**: `neovim` (`LazyVim`-based configuration)
 - **Git**: Configuration and global ignore patterns
-- **Terminal**: tmux, terminal emulator settings
-- **Tools**: direnv, readline, and various CLI utilities
+- **Terminal**: `tmux`, terminal emulator settings
+- **Tools**: `direnv`, `readline`, and various CLI utilities
 
 ## Installation
 
@@ -28,9 +28,10 @@ Run the setup script to create symlinks:
 ```
 
 The setup script will:
+
 - Create necessary directories (`~/tmp/undo`, `~/tmp/backup`)
 - Symlink configuration files from `~/dotfiles` to your home directory
-- Symlink Neovim configuration to `~/.config/nvim`
+- Symlink `neovim` configuration to `~/.config/nvim`
 
 ## What's Included
 
@@ -38,56 +39,57 @@ The setup script will:
 
 - Custom prompt and aliases
 - Environment variables configuration
-- Tool integrations (git, lazygit, nvim, direnv)
-- Podman aliased as docker
+- Tool integrations (`git`, `lazygit`, `nvim`, `direnv`)
+- `podman` aliased as `docker`
 
 **Files**: `bash/bashrc`, `bash/profile`
 
 ### Neovim
 
-LazyVim-based configuration with:
-- Blink.cmp for completion
+`LazyVim`-based configuration with:
+
+- `Blink.cmp` for completion
 - GitHub Copilot integration
 - Language support: Python, TypeScript, Markdown, LaTeX
-- Obsidian.nvim for note-taking
+- `Obsidian.nvim` for note-taking
 - Custom colorscheme (Catppuccin with "decaf" variants)
 
 **Location**: `nvim/` (symlinked to `~/.config/nvim`)
 
 ### Git
 
-- Delta for enhanced diffs (side-by-side, syntax highlighting)
-- Global gitignore patterns
+- `delta` for enhanced diffs (side-by-side, syntax highlighting)
+- Global `gitignore` patterns
 - Custom git configuration
 
 **Files**: `gitconfig`, `gitignore`
 
 ### Other Tools
 
-- **tmux**: Terminal multiplexer configuration (`tmux.conf`)
-- **direnv**: Environment switcher (`direnvrc`)
-- **readline**: Input configuration (`inputrc`)
-- **dircolors**: Custom ls colors (`dircolors`)
+- **`tmux`**: Terminal multiplexer configuration (`tmux.conf`)
+- **`direnv`**: Environment switcher (`direnvrc`)
+- **`readline`**: Input configuration (`inputrc`)
+- **`dircolors`**: Custom `ls` colours (`dircolors`)
 
 ## Requirements
 
 Core tools used by these configurations:
 
-- **bash** - Shell
-- **neovim** - Text editor (>= 0.9.0)
-- **git** - Version control
-- **tmux** - Terminal multiplexer
-- **delta** - Git diff viewer
-- **direnv** - Environment management
+- **`bash`** - Shell
+- **`neovim`** - Text editor (>= 0.9.0)
+- **`git`** - Version control
+- **`tmux`** - Terminal multiplexer
+- **`delta`** - Git `diff` viewer
+- **`direnv`** - Environment management
 
 Optional but recommended:
 
-- **lazygit** - Git TUI
-- **gitui** - Alternative Git TUI
-- **podman** - Container management
-- **uv** - Python package manager
-- **stylua** - Lua formatter
-- **ruff** - Python linter/formatter
+- **`lazygit`** - Git TUI
+- **`gitui`** - Alternative Git TUI
+- **`podman`** - Container management
+- **`uv`** - Python package manager
+- **`stylua`** - Lua formatter
+- **`ruff`** - Python linter/formatter
 
 ## Directory Structure
 
@@ -136,6 +138,6 @@ These are personal configuration files. Use at your own risk.
 ## Notes
 
 - These dotfiles assume a Linux environment (Fedora/RHEL-based)
-- Neovim configuration requires Neovim >= 0.9.0
+- `neovim` configuration requires `neovim` >= 0.9.0
 - Some features may require additional tool installation
-- Old Vim configuration has been removed (Neovim only)
+- Old `vim` configuration has been removed (`neovim` only)
