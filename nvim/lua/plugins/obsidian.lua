@@ -120,10 +120,15 @@ return {
             desc = "Show dailies",
           })
 
-          vim.keymap.set("n", "<localleader>x", "<cmd>Obsidian toggle_checkbox<cr>", {
-            buffer = note.bufnr,
-            desc = "Toggle checkbox",
-          })
+          vim.keymap.set(
+            "n",
+            "<localleader><space>",
+            "<cmd>Obsidian toggle_checkbox<cr>",
+            {
+              buffer = note.bufnr,
+              desc = "Toggle checkbox",
+            }
+          )
 
           vim.keymap.set("n", "<localleader>l", "<cmd>Obsidian links<cr>", {
             buffer = note.bufnr,
