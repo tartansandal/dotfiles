@@ -12,6 +12,7 @@ This is a personal dotfiles repository containing configuration files for variou
 dotfiles/
 ├── bash/           # Bash configuration (bashrc, profile)
 ├── bin/            # Personal scripts and utilities
+├── kitty/          # Kitty terminal emulator configuration
 ├── nvim/           # Neovim configuration (LazyVim-based)
 ├── terminal/       # Terminal emulator configurations
 ├── gitconfig       # Git configuration
@@ -35,6 +36,18 @@ Key features:
 - Prefers `nvim` as EDITOR/VISUAL (falls back to vimx, then vim)
 - Aliases for common tools (lg=lazygit, gg=gitui, docker=podman)
 - Claude Code monitor aliases with `--plan max5` flag
+
+### Kitty Terminal Configuration (`kitty/`)
+
+Kitty terminal emulator configuration with custom theming to match the Neovim environment.
+
+Key features:
+- **Font**: SauceCodePro Nerd Font at 15pt
+- **Theme**: Catppuccin Mocha Decaf (custom variant matching Neovim)
+- **Theme files**:
+  - `catppuccin-mocha.conf` - Standard Catppuccin Mocha theme
+  - `catppuccin-mocha-decaf.conf` - Custom "decaf" variant (currently active)
+  - `kitty.conf` - Main configuration file
 
 ### Neovim Configuration (`nvim/`)
 
@@ -62,6 +75,7 @@ The `setup.sh` script creates symlinks from `~/.config` and `~/` to files in thi
 2. Symlinks shell configurations (bashrc, profile, etc.)
 3. Symlinks tool configurations (gitconfig, tmux.conf, etc.)
 4. Symlinks nvim configuration to `~/.config/nvim`
+5. Symlinks kitty configuration to `~/.config/kitty`
 
 **Note**: Always update `setup.sh` when adding or removing configuration files to keep symlinks in sync.
 
@@ -98,9 +112,9 @@ Examples:
 Current tool stack based on repository contents:
 - **Shell**: Bash (no zsh configuration present)
 - **Editor**: Neovim (vim configuration removed)
+- **Terminal**: Kitty with Catppuccin Mocha Decaf theme
 - **Git UI**: lazygit, gitui
 - **Containers**: podman (aliased as docker)
-- **Terminal**: Configuration in `terminal/` directory
 - **Python**: Using `uv` as package manager (per user's global instructions)
 - **Version Control**: Git with delta for diffs
 
