@@ -9,7 +9,7 @@ This repository contains configuration files (dotfiles) for:
 - **Shell**: `bash` configuration with custom aliases and prompt
 - **Editor**: `neovim` (`LazyVim`-based configuration)
 - **Git**: Configuration and global ignore patterns
-- **Terminal**: `tmux`, terminal emulator settings
+- **Terminal**: `kitty` (terminal emulator), `tmux` (multiplexer)
 - **Tools**: `direnv`, `readline`, and various CLI utilities
 
 ## Installation
@@ -64,6 +64,16 @@ The setup script will:
 
 **Files**: `gitconfig`, `gitignore`
 
+### Kitty
+
+Terminal emulator configuration with custom Catppuccin themes:
+
+- Catppuccin Mocha Decaf (darkened variant matching `neovim` theme)
+- Catppuccin Mocha (standard variant)
+- Custom font settings
+
+**Location**: `kitty/` (symlinked to `~/.config/kitty`)
+
 ### Other Tools
 
 - **`tmux`**: Terminal multiplexer configuration (`tmux.conf`)
@@ -78,6 +88,7 @@ Core tools used by these configurations:
 - **`bash`** - Shell
 - **`neovim`** - Text editor (>= 0.9.0)
 - **`git`** - Version control
+- **`kitty`** - Terminal emulator
 - **`tmux`** - Terminal multiplexer
 - **`delta`** - Git `diff` viewer
 - **`direnv`** - Environment management
@@ -97,6 +108,7 @@ Optional but recommended:
 dotfiles/
 ├── bash/           Shell configuration
 ├── bin/            Personal scripts
+├── kitty/          Kitty terminal emulator configuration
 ├── nvim/           Neovim configuration
 ├── terminal/       Terminal emulator configs
 ├── gitconfig       Git configuration
