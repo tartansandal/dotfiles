@@ -6,47 +6,47 @@ opt.softtabstop = 2
 
 -- Emulate soft-wrapping common in other editors
 opt.linebreak = true -- wrap long lines at word boundaries
-opt.iskeyword["t"] = nil -- dont auto-wrap text using textwidth
+opt.breakindent = true -- visually indent wrapped lines to preserve block indentation
+opt.iskeyword["-"] = true -- Include '-' in keywords for quick reference searches
 
--- Add '-' to keywords so we can search for references quickly
-table.insert(opt.iskeyword, "-")
+opt.formatoptions:remove("t") -- dont auto-wrap text using textwidth
 
 local map = vim.keymap.set
 map(
   "n",
   "<localleader>`",
   "saiW`",
-  { remap = true, buffer = true, desc = "Suround WORD with `" }
+  { remap = true, buffer = true, desc = "Surround WORD with `" }
 )
 map(
   "n",
   '<localleader>"',
   'saiW"',
-  { remap = true, buffer = true, desc = 'Suround WORD with "' }
+  { remap = true, buffer = true, desc = 'Surround WORD with "' }
 )
 map(
   "n",
   "<localleader>'",
   "saiW'",
-  { remap = true, buffer = true, desc = "Suround WORD with '" }
+  { remap = true, buffer = true, desc = "Surround WORD with '" }
 )
 map(
   "n",
   "<localleader>*",
   "saiW*saiW*",
-  { remap = true, buffer = true, desc = "Suround WORD with **" }
+  { remap = true, buffer = true, desc = "Surround WORD with **" }
 )
 map(
   "n",
   "<localleader>_",
   "saiW_",
-  { remap = true, buffer = true, desc = "Suround WORD with _" }
+  { remap = true, buffer = true, desc = "Surround WORD with _" }
 )
 map(
   "n",
   "<localleader>>",
   "saiW>",
-  { remap = true, buffer = true, desc = "Suround WORD with >" }
+  { remap = true, buffer = true, desc = "Surround WORD with >" }
 )
 map(
   "n",
