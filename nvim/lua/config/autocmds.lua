@@ -15,3 +15,30 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
   desc = "Auto enter insert mode in terminal buffers",
 })
+
+-- Prevent staying in normal mode in terminal buffers
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "*:n",
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd("startinsert")
+    end
+  end,
+  desc = "Prevent normal mode in terminal buffers",
+})
+
+-- Custom window separator color
+-- Set immediately
+vim.api.nvim_set_hl(0, "WinSeparator", {
+  fg = "#80859B", -- Catppuccin overlay2
+})
+
+-- Also set on colorscheme change
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "WinSeparator", {
+      fg = "#80859B", -- Catppuccin overlay2
+    })
+  end,
+  desc = "Set overlay2 window separator",
+})

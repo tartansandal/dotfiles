@@ -61,3 +61,11 @@ vim.keymap.set(
   ":exec 'cd' . expand('%:p:h')<CR>",
   { remap = false, silent = true, desc = "CD to the current buffers directory" }
 )
+
+--
+-- Terminal mode mappings
+--
+
+-- Prevent entering normal mode in terminal buffers
+map("t", "<C-\\><C-n>", "<Nop>", { desc = "Disable normal mode in terminal" })
+map("t", "<Esc><Esc>", "<Nop>", { desc = "Disable Esc in terminal" })

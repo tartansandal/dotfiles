@@ -19,18 +19,7 @@ return {
       prompts = {
         refactor = "Please refactor {this} to be more maintainable",
         security = "Review {file} for security vulnerabilities",
-        commit = "Generate a commit message for {changes}",
-        -- Smart help: Different behavior based on file type
-        smart_help = function(ctx)
-          local filetype = vim.bo.filetype
-          if filetype == "python" then
-            return "Review this Python code for PEP8 compliance: " .. ctx.file
-          elseif filetype == "lua" then
-            return "Review this Lua code for best practices: " .. ctx.file
-          else
-            return "Help me understand: " .. ctx.file
-          end
-        end,
+        commit = "Generate a commit message for the current changes",
       },
     },
   },
