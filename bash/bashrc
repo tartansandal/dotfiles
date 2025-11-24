@@ -19,6 +19,11 @@ esac
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTTIMEFORMAT='%a %H:%M | '
 
+# Use separate history file for Claude Code sessions
+if [[ -n "$CLAUDECODE" ]]; then
+    export HISTFILE=~/.claude_history
+fi
+
 #> turn off terminal driver flow control so C-s and C-q works
 #> and don't interfere with vim
 stty -ixon -ixoff

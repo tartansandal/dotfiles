@@ -111,6 +111,11 @@ export DOCKER_BUILDKIT=0
 export PATH
 unset pathmunge
 
+# Use separate history file for Claude Code sessions
+if [[ -n "$CLAUDECODE" ]]; then
+    export HISTFILE=~/.claude_history
+fi
+
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
