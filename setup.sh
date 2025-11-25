@@ -18,5 +18,6 @@ ln -sf "$base_dir"/gitignore ~/.gitignore
 ln -sf "$base_dir"/inputrc ~/.inputrc
 ln -sf "$base_dir"/tmux.conf ~/.tmux.conf
 
+ln -snf "$base_dir"/bin ~/bin
 ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
