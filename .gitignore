@@ -3,3 +3,4 @@ vim/bundle/xmledit.git/doc/tags
 update.log
 nvim.bak
 nvim/.claude/settings.local.json
+.claude/settings.local.json
