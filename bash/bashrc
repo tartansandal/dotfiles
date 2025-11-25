@@ -76,7 +76,7 @@ alias ..='cd ..'
 alias lg=lazygit
 alias gg=gitui
 alias docker=podman
-alias docker-compose=podman-compose
+alias docker-compose=podman compose
 
 alias ccm='ccm --plan max5'
 alias ccmonitor='ccmonitor --plan max5'
