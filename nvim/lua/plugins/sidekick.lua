@@ -10,9 +10,11 @@ return {
       },
       -- Window layout configuration
       win = {
-        layout = "right", -- Open Claude on the right side
-        split = {
-          width = 88, -- Terminal width for split layouts
+        layout = "float", -- Open Claude in floating window
+        float = {
+          border = "rounded",
+          width = 0.8, -- 80% of screen width
+          height = 0.9, -- 90% of screen height
         },
       },
       -- Custom prompts for common tasks
