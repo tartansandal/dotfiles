@@ -12,7 +12,7 @@ return {
       win = {
         layout = "right", -- Open Claude on the right side
         split = {
-          width = 80, -- Terminal width for split layouts
+          width = 88, -- Terminal width for split layouts
         },
       },
       -- Custom prompts for common tasks
