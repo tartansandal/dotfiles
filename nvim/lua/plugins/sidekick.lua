@@ -22,7 +22,7 @@ return {
           float = {
             border = "rounded",
             width = 0.8, -- 80% of screen width
-            height = 0.9, -- 90% of screen height
+            height = 0.8, -- 80% of screen height
           },
         },
         -- Custom prompts for common tasks
