@@ -1,2 +1,5 @@
 [default]
 extend-ignore-re = ["\"<leader>ot\"", "fo-table"]
+
+[default.extend-words]
+Yau = "Yau"
