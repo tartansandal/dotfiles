@@ -80,6 +80,9 @@ return {
           week = function()
             return tostring(os.date("%V"))
           end,
+          day = function()
+            return tostring(os.date("%A"))
+          end,
         },
       },
       follow_url_func = function(url)
