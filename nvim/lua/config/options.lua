@@ -19,6 +19,7 @@ opt.tabstop = 4 -- Indentation levels every four columns
 opt.shiftwidth = 4 -- Indent/outdent by four columns
 opt.shiftround = true -- Convert all tabs typed to spaces
 opt.linebreak = true -- Wrap long lines at word boundaries
+opt.sidescrolloff = 2 -- at least 2 chars to either side of currsor.
 
 -- > same as sensible
 opt.autoindent = true -- Preserve current indent on new lines
