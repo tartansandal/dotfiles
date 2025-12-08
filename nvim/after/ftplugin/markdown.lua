@@ -3,6 +3,7 @@ local opt = vim.opt_local
 opt.tabstop = 2
 opt.shiftwidth = 2
 opt.softtabstop = 2
+opt.wrap = true
 
 -- Emulate soft-wrapping common in other editors
 opt.linebreak = true -- wrap long lines at word boundaries
