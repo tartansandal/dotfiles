@@ -105,6 +105,7 @@ fi
 
 # Buildkit does not work well in fedora
 export DOCKER_BUILDKIT=0
+export COMPOSE_BAKE=false
 
 ################################################################################
 
