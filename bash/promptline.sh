@@ -74,7 +74,11 @@ EXAMPLES:
 
 OUTPUT:
     Formatted statusline with current directory and git information (if in git repo)
-    Format: "in <directory> on <branch><status> [operation]"
+    Format: "in <directory> on <branch><status> [operation] Context: N%"
+
+    Claude Context (JSON mode only):
+        Shows context window usage percentage when context_window data is present
+        Example: "Context: 42%"
 
     Git Status Symbols:
         (clean)      - No symbol, repository is clean and synced
@@ -203,6 +207,7 @@ if [[ -z "${NO_COLOR:-}" ]]; then
     readonly DIR_COLOR=$'\033[0;33m'          # yellow
     readonly GIT_STATUS_COLOR=$'\033[0;34m'   # blue
     readonly GIT_PROGRESS_COLOR=$'\033[0;35m' # magenta
+    readonly CONTEXT_COLOR=$'\033[0;32m'      # green
     readonly RESET=$'\033[m'
 else
     # NO_COLOR is set - disable all colors
@@ -210,6 +215,7 @@ else
     readonly DIR_COLOR=""
     readonly GIT_STATUS_COLOR=""
     readonly GIT_PROGRESS_COLOR=""
+    readonly CONTEXT_COLOR=""
     readonly RESET=""
 fi
 
@@ -538,6 +544,39 @@ get_git_info() {
 }
 
 # =============================================================================
+# CLAUDE CONTEXT USAGE
+# =============================================================================
+
+# Returns formatted context usage percentage from Claude Code JSON input
+# Args: $1 = JSON input string containing context_window data
+# Output: Formatted string like "Context: 42%" or empty string if no data
+# Usage: context_info=$(get_context_usage "$json_input")
+get_context_usage() {
+    local json_input="$1"
+    [[ -z "$json_input" ]] && return
+
+    local context_size usage current_tokens percent_used
+
+    # Extract context window size
+    context_size=$(echo "$json_input" | jq -r '.context_window.context_window_size' 2>/dev/null)
+    [[ -z "$context_size" || "$context_size" == "null" || "$context_size" == "0" ]] && return
+
+    # Extract current usage object
+    usage=$(echo "$json_input" | jq '.context_window.current_usage' 2>/dev/null)
+
+    if [[ -n "$usage" && "$usage" != "null" ]]; then
+        # Calculate current tokens from all input token types
+        current_tokens=$(echo "$usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens' 2>/dev/null)
+        [[ -z "$current_tokens" || "$current_tokens" == "null" ]] && current_tokens=0
+        percent_used=$((current_tokens * 100 / context_size))
+    else
+        percent_used=0
+    fi
+
+    echo "Context: ${percent_used}%"
+}
+
+# =============================================================================
 # MAIN ENTRY POINT
 # =============================================================================
 
@@ -646,6 +685,17 @@ main() {
         fmt=" ${PREPOSITION_COLOR}On${RESET} ${GIT_STATUS_COLOR}%s${GIT_PROGRESS_COLOR}%s${RESET}"
         # shellcheck disable=SC2059  # Format string is constructed from trusted constants
         printf "$fmt" "$git_info" "$git_progress"
+    fi
+
+    # Add Claude context usage if available (JSON mode only)
+    if [[ -n "$json_input" ]]; then
+        local context_info
+        context_info=$(get_context_usage "$json_input")
+        if [[ -n "$context_info" ]]; then
+            fmt=" ${CONTEXT_COLOR}%s${RESET}"
+            # shellcheck disable=SC2059  # Format string is constructed from trusted constants
+            printf "$fmt" "$context_info"
+        fi
     fi
 
     printf '%s' "${RESET}"
