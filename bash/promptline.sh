@@ -666,6 +666,8 @@ main() {
         # Prefix match: /home/user/foo → ~/foo
         # NOTE: $HOME must be quoted in ${cwd#"$HOME"} to prevent pattern matching.
         # Without quotes, special chars in $HOME would be treated as glob patterns.
+        # Also note that ${...} starts a new quoting context independent of the outer
+        # quotes, so the inner quotes do not terminate the outer quotes.
         display_path="~${cwd#"$HOME"}"
     fi
 
