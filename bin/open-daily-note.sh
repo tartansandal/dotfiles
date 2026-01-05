@@ -15,7 +15,7 @@
 # - Saves trigger buffer number, then wipes it after 2s delay to keep buffer list clean
 # - The delay is needed because "Obsidian today" runs asynchronously
 
-exec kitty --class DailyNotes --title "Daily Notes" \
+exec kitty --class DailyNotes \
     --listen-on unix:/tmp/kitty-dailynotes \
     --directory ~/Notes \
-    bash -lc 'nvim ~/Notes/.obsidian-trigger.md -c "let g:trigger_buf=bufnr()" -c "Obsidian today" -c "lua vim.defer_fn(function() vim.cmd(\"silent! bwipeout \" .. vim.g.trigger_buf) end, 2000)"'
+    bash -lc 'nvim ~/Notes/.obsidian-trigger.md -c "set title titlestring=Daily\\ Notes" -c "let g:trigger_buf=bufnr()" -c "Obsidian today" -c "lua vim.defer_fn(function() vim.cmd(\"silent! bwipeout \" .. vim.g.trigger_buf) end, 2000)"'
