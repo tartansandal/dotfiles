@@ -19,7 +19,7 @@ pipewire-plugin-libcamera
 tuned-profiles-realtime
 realtime-setup
 
-# Videa
+# Video
 openh264
 vdpauinfo
 libva-utils
@@ -29,6 +29,7 @@ switcheroo-control
 # Backups
 pika
 borgbackup
+rclone
 
 # Gnome
 gnome-pomodoro
