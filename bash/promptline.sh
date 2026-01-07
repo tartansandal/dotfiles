@@ -74,11 +74,11 @@ EXAMPLES:
 
 OUTPUT:
     Formatted statusline with current directory and git information (if in git repo)
-    Format: "in <directory> on <branch><status> [operation] Context: N%"
+    Format: "in <directory> on <branch><status> [operation] (context used: N%)"
 
     Claude Context (JSON mode only):
         Shows context window usage percentage when context_window data is present
-        Example: "Context: 42%"
+        Example: "(context used: 42%)"
 
     Git Status Symbols:
         (clean)      - No symbol, repository is clean and synced
@@ -573,7 +573,7 @@ get_context_usage() {
         percent_used=0
     fi
 
-    echo "Context: ${percent_used}%"
+    echo "(context used: ${percent_used}%)"
 }
 
 # =============================================================================
