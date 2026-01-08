@@ -12,10 +12,21 @@
 # - Uses login shell (bash -lc) to ensure environment is properly set
 # - Opens a trigger .md file as argument (not via -c edit) to ensure obsidian.nvim
 #   lazy-loads correctly AND spell checking initializes properly
-# - Saves trigger buffer number, then wipes it after 2s delay to keep buffer list clean
+# - Saves trigger buffer number, then wipes it after delay to keep buffer list clean
 # - The delay is needed because "Obsidian today" runs asynchronously
 
+NOTES_DIR="$HOME/Notes"
+TRIGGER_FILE="$NOTES_DIR/.obsidian-trigger.md"
+KITTY_SOCKET="unix:/tmp/kitty-dailynotes"
+CLEANUP_DELAY_MS=5000
+
+NVIM_CMD="nvim $TRIGGER_FILE"
+NVIM_CMD+=" -c 'set title titlestring=Daily\\ Notes'"
+NVIM_CMD+=" -c 'let g:trigger_buf=bufnr()'"
+NVIM_CMD+=" -c 'Obsidian today'"
+NVIM_CMD+=" -c 'lua vim.defer_fn(function() vim.cmd(\"silent! bwipeout \" .. vim.g.trigger_buf) end, $CLEANUP_DELAY_MS)'"
+
 exec kitty --class DailyNotes \
-    --listen-on unix:/tmp/kitty-dailynotes \
-    --directory ~/Notes \
-    bash -lc 'nvim ~/Notes/.obsidian-trigger.md -c "set title titlestring=Daily\\ Notes" -c "let g:trigger_buf=bufnr()" -c "Obsidian today" -c "lua vim.defer_fn(function() vim.cmd(\"silent! bwipeout \" .. vim.g.trigger_buf) end, 2000)"'
+    --listen-on "$KITTY_SOCKET" \
+    --directory "$NOTES_DIR" \
+    bash -lc "$NVIM_CMD"
