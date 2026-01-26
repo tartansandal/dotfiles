@@ -2,30 +2,15 @@
 
 set -e
 
-# Only run one of these at a time
-[[ "${FLOCKER}" != "$0" ]] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
-
-# state=$1
-# duration=$2
-# elapsed=$3
-# trigger=$4
-# timestamp=$(date -Iseconds)
-#
-# logfile=~/.log/pomodoro-prompt.log
-
-#echo "$timestamp: state=$state trigger=$trigger " >>$logfile
-# echo "$timestamp: state=$state duration=$duration elapsed=$elapsed trigger=$trigger " >>$logfile
-
-# Using pango markup to format the text: https://docs.gtk.org/Pango/pango_markup.html
-
 # Launch daily notes or raise existing window
 if [ -S /tmp/kitty-dailynotes ]; then
-  # Raise existing window via kitty remote control
-  kitty @ --to unix:/tmp/kitty-dailynotes focus-window
+    # Raise existing window via kitty remote control
+    kitty @ --to unix:/tmp/kitty-dailynotes focus-window
 else
-  gtk-launch open-daily-note.desktop &
+    gtk-launch open-daily-note.desktop &
 fi
 
+# Using pango markup to format the text: https://docs.gtk.org/Pango/pango_markup.html
 zenity \
     --title "Pomodoro" \
     --no-wrap \
