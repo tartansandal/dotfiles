@@ -35,13 +35,85 @@ return {
     }
   end,
   keys = {
-    -- Directly open Claude with <leader>ac
+    -- Toggle Claude in floating window
     {
       "<leader>ac",
       function()
-        require("sidekick.cli").toggle({ name = "claude", focus = true })
+        local layout = "float"
+        require("sidekick.config").cli.win.layout = layout
+        local State = require("sidekick.cli.state")
+        State.with(function(state, attached)
+          if not state.terminal then
+            return
+          end
+          if attached then
+            -- Freshly created: already opened with correct layout via config
+            if state.terminal:is_open() then
+              state.terminal:focus()
+            end
+            return
+          end
+          -- Existing terminal
+          local current = state.terminal.opts.layout
+          state.terminal.opts.layout = layout
+          if state.terminal:is_open() then
+            if current == layout then
+              state.terminal:toggle()
+            else
+              state.terminal:hide()
+              state.terminal:show()
+              state.terminal:focus()
+            end
+          else
+            state.terminal:show()
+            state.terminal:focus()
+          end
+        end, {
+          attach = true,
+          filter = { name = "claude" },
+        })
       end,
-      desc = "Sidekick Toggle Claude",
+      desc = "Sidekick Toggle Claude (float)",
+    },
+    -- Toggle Claude in side-by-side split
+    {
+      "<leader>as",
+      function()
+        local layout = "right"
+        require("sidekick.config").cli.win.layout = layout
+        local State = require("sidekick.cli.state")
+        State.with(function(state, attached)
+          if not state.terminal then
+            return
+          end
+          if attached then
+            -- Freshly created: already opened with correct layout via config
+            if state.terminal:is_open() then
+              state.terminal:focus()
+            end
+            return
+          end
+          -- Existing terminal
+          local current = state.terminal.opts.layout
+          state.terminal.opts.layout = layout
+          if state.terminal:is_open() then
+            if current == layout then
+              state.terminal:toggle()
+            else
+              state.terminal:hide()
+              state.terminal:show()
+              state.terminal:focus()
+            end
+          else
+            state.terminal:show()
+            state.terminal:focus()
+          end
+        end, {
+          attach = true,
+          filter = { name = "claude" },
+        })
+      end,
+      desc = "Sidekick Toggle Claude (split)",
     },
   },
 }
