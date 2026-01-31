@@ -194,6 +194,9 @@ export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/home/kal/.nvm/bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
+# Claude Code: force plugin auto-updates even when native installer disables the main auto-updater
+export FORCE_AUTOUPDATE_PLUGINS=true
+
 # bun
 export BUN_INSTALL="$HOME/.local/share/reflex/bun"
 export PATH="$BUN_INSTALL/bin:$PATH"

@@ -46,6 +46,14 @@ export VAGRANT_DEFAULT_PROVIDER=libvirt
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 
+# This can help with some clipboard issues
+export QT_QPA_PLATFORM=wayland
+
+# I never use these
+export XDG_DESKTOP_DIR="$HOME"
+export XDG_TEMPLATES_DIR="$HOME"
+export XDG_PUBLICSHARE_DIR="$HOME"
+
 # ensure clean UTF-8 environment
 # export LC_ALL="en_AU.UTF-8"
 # export LANG="en_AU.UTF-8"
