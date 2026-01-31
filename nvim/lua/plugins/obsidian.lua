@@ -85,12 +85,6 @@ return {
           end,
         },
       },
-      follow_url_func = function(url)
-        vim.ui.open(url, { cmd = { "xdg-open" } })
-      end,
-      follow_img_func = function(img)
-        vim.ui.open(img, { cmd = { "xdg-open" } })
-      end,
       open = {
         use_advanced_uri = false,
         func = vim.ui.open,
@@ -110,9 +104,11 @@ return {
       backlinks = {
         parse_headers = true,
       },
-      sort_by = "modified",
-      sort_reversed = true,
-      search_max_lines = 1000,
+      search = {
+        sort_by = "modified",
+        sort_reversed = true,
+        max_lines = 1000,
+      },
       open_notes_in = "current",
       callbacks = {
         post_setup = function(client) end,
@@ -156,7 +152,7 @@ return {
         enable = false, -- disabled to allow render-markdown to work
       },
       attachments = {
-        img_folder = "Files/Images",
+        folder = "Files/Images",
         img_name_func = function()
           return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
         end,
