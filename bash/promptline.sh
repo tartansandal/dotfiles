@@ -74,15 +74,11 @@ EXAMPLES:
 
 OUTPUT:
     Formatted statusline with current directory and git information (if in git repo)
-    Format: "in <directory> on <branch><status> [operation] (Model) (context used: N%)"
+    Format: "in <directory> on <branch><status> [operation] (Model: N%)"
 
-    Claude Model (JSON mode only):
-        Shows the current model display name when model data is present
-        Example: "(Opus)"
-
-    Claude Context (JSON mode only):
-        Shows context window usage percentage when context_window data is present
-        Example: "(context used: 42%)"
+    Claude Session Info (JSON mode only):
+        Shows model name and context window usage when data is present
+        Examples: "(Opus: 42%)", "(Opus)", "(context: 42%)"
 
     Git Status Symbols:
         (clean)      - No symbol, repository is clean and synced
@@ -551,56 +547,43 @@ get_git_info() {
 # CLAUDE CONTEXT USAGE
 # =============================================================================
 
-# Returns the model display name from Claude Code JSON input
-# Args: $1 = JSON input string containing model data
-# Output: Display name like "Opus" or model ID fallback, or empty string if no data
-# Usage: model_name=$(get_model_name "$json_input")
-get_model_name() {
+# Returns formatted Claude session info combining model name and context usage
+# Args: $1 = JSON input string containing model and context_window data
+# Output: Formatted string like "(Opus: 42%)" or "(Opus)" or "(context: 42%)" or empty
+# Usage: claude_info=$(get_claude_info "$json_input")
+get_claude_info() {
     local json_input="$1"
     [[ -z "$json_input" ]] && return
 
-    local display_name model_id
+    # Extract model family name (e.g., "Opus" from "Opus 4.5", "Sonnet" from "Sonnet 4")
+    local model_name
+    model_name=$(echo "$json_input" | jq -r '.model.display_name // empty' 2>/dev/null)
+    model_name="${model_name%% *}"
 
-    # Prefer display_name (e.g., "Opus"), fall back to model ID (e.g., "claude-opus-4-5-20251101")
-    display_name=$(echo "$json_input" | jq -r '.model.display_name // empty' 2>/dev/null)
-    if [[ -n "$display_name" ]]; then
-        echo "$display_name"
-        return
-    fi
-
-    model_id=$(echo "$json_input" | jq -r '.model.id // empty' 2>/dev/null)
-    if [[ -n "$model_id" ]]; then
-        echo "$model_id"
-    fi
-}
-
-# Returns formatted context usage percentage from Claude Code JSON input
-# Args: $1 = JSON input string containing context_window data
-# Output: Formatted string like "Context: 42%" or empty string if no data
-# Usage: context_info=$(get_context_usage "$json_input")
-get_context_usage() {
-    local json_input="$1"
-    [[ -z "$json_input" ]] && return
-
-    local context_size usage current_tokens percent_used
-
-    # Extract context window size
+    # Calculate context usage percentage
+    local percent_used=""
+    local context_size
     context_size=$(echo "$json_input" | jq -r '.context_window.context_window_size' 2>/dev/null)
-    [[ -z "$context_size" || "$context_size" == "null" || "$context_size" == "0" ]] && return
-
-    # Extract current usage object
-    usage=$(echo "$json_input" | jq '.context_window.current_usage' 2>/dev/null)
-
-    if [[ -n "$usage" && "$usage" != "null" ]]; then
-        # Calculate current tokens from all input token types
-        current_tokens=$(echo "$usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens' 2>/dev/null)
-        [[ -z "$current_tokens" || "$current_tokens" == "null" ]] && current_tokens=0
-        percent_used=$((current_tokens * 100 / context_size))
-    else
-        percent_used=0
+    if [[ -n "$context_size" && "$context_size" != "null" && "$context_size" != "0" ]]; then
+        local usage current_tokens
+        usage=$(echo "$json_input" | jq '.context_window.current_usage' 2>/dev/null)
+        if [[ -n "$usage" && "$usage" != "null" ]]; then
+            current_tokens=$(echo "$usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens' 2>/dev/null)
+            [[ -z "$current_tokens" || "$current_tokens" == "null" ]] && current_tokens=0
+            percent_used=$((current_tokens * 100 / context_size))
+        else
+            percent_used=0
+        fi
     fi
 
-    echo "(context used: ${percent_used}%)"
+    # Combine model name and context usage
+    if [[ -n "$model_name" && -n "$percent_used" ]]; then
+        echo "(${model_name}: ${percent_used}%)"
+    elif [[ -n "$model_name" ]]; then
+        echo "(${model_name})"
+    elif [[ -n "$percent_used" ]]; then
+        echo "(context: ${percent_used}%)"
+    fi
 }
 
 # =============================================================================
@@ -716,22 +699,14 @@ main() {
         printf "$fmt" "$git_info" "$git_progress"
     fi
 
-    # Add Claude model name and context usage if available (JSON mode only)
+    # Add Claude session info (model + context usage) if available (JSON mode only)
     if [[ -n "$json_input" ]]; then
-        local model_name
-        model_name=$(get_model_name "$json_input")
-        if [[ -n "$model_name" ]]; then
-            fmt=" ${CONTEXT_COLOR}(%s)${RESET}"
-            # shellcheck disable=SC2059  # Format string is constructed from trusted constants
-            printf "$fmt" "$model_name"
-        fi
-
-        local context_info
-        context_info=$(get_context_usage "$json_input")
-        if [[ -n "$context_info" ]]; then
+        local claude_info
+        claude_info=$(get_claude_info "$json_input")
+        if [[ -n "$claude_info" ]]; then
             fmt=" ${CONTEXT_COLOR}%s${RESET}"
             # shellcheck disable=SC2059  # Format string is constructed from trusted constants
-            printf "$fmt" "$context_info"
+            printf "$fmt" "$claude_info"
         fi
     fi
 
