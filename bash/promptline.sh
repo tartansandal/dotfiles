@@ -74,7 +74,11 @@ EXAMPLES:
 
 OUTPUT:
     Formatted statusline with current directory and git information (if in git repo)
-    Format: "in <directory> on <branch><status> [operation] (context used: N%)"
+    Format: "in <directory> on <branch><status> [operation] (Model) (context used: N%)"
+
+    Claude Model (JSON mode only):
+        Shows the current model display name when model data is present
+        Example: "(Opus)"
 
     Claude Context (JSON mode only):
         Shows context window usage percentage when context_window data is present
@@ -547,6 +551,29 @@ get_git_info() {
 # CLAUDE CONTEXT USAGE
 # =============================================================================
 
+# Returns the model display name from Claude Code JSON input
+# Args: $1 = JSON input string containing model data
+# Output: Display name like "Opus" or model ID fallback, or empty string if no data
+# Usage: model_name=$(get_model_name "$json_input")
+get_model_name() {
+    local json_input="$1"
+    [[ -z "$json_input" ]] && return
+
+    local display_name model_id
+
+    # Prefer display_name (e.g., "Opus"), fall back to model ID (e.g., "claude-opus-4-5-20251101")
+    display_name=$(echo "$json_input" | jq -r '.model.display_name // empty' 2>/dev/null)
+    if [[ -n "$display_name" ]]; then
+        echo "$display_name"
+        return
+    fi
+
+    model_id=$(echo "$json_input" | jq -r '.model.id // empty' 2>/dev/null)
+    if [[ -n "$model_id" ]]; then
+        echo "$model_id"
+    fi
+}
+
 # Returns formatted context usage percentage from Claude Code JSON input
 # Args: $1 = JSON input string containing context_window data
 # Output: Formatted string like "Context: 42%" or empty string if no data
@@ -689,8 +716,16 @@ main() {
         printf "$fmt" "$git_info" "$git_progress"
     fi
 
-    # Add Claude context usage if available (JSON mode only)
+    # Add Claude model name and context usage if available (JSON mode only)
     if [[ -n "$json_input" ]]; then
+        local model_name
+        model_name=$(get_model_name "$json_input")
+        if [[ -n "$model_name" ]]; then
+            fmt=" ${CONTEXT_COLOR}(%s)${RESET}"
+            # shellcheck disable=SC2059  # Format string is constructed from trusted constants
+            printf "$fmt" "$model_name"
+        fi
+
         local context_info
         context_info=$(get_context_usage "$json_input")
         if [[ -n "$context_info" ]]; then
