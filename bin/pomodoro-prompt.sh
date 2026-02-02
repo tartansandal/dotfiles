@@ -7,7 +7,7 @@ if [ -S /tmp/kitty-dailynotes ]; then
     # Raise existing window via kitty remote control
     kitty @ --to unix:/tmp/kitty-dailynotes focus-window
 else
-    gtk-launch open-daily-note.desktop &
+    systemd-run --user gtk-launch open-daily-note.desktop
 fi
 
 # Using pango markup to format the text: https://docs.gtk.org/Pango/pango_markup.html
