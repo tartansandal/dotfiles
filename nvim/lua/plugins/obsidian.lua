@@ -13,7 +13,7 @@ return {
   },
   {
     "obsidian-nvim/obsidian.nvim",
-    version = "*",
+    branch = "main",
     lazy = true,
     -- Only load for markdown files in ~/Notes vault
     event = {
