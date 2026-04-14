@@ -124,9 +124,14 @@ return {
             desc = "Show dailies",
           })
 
-          vim.keymap.set("n", "<localleader>x", "<cmd>Obsidian toggle_checkbox<cr>", {
+          vim.keymap.set("n", "<localleader>x", function()
+            local saved = Obsidian.opts.checkbox.create_new
+            Obsidian.opts.checkbox.create_new = true
+            pcall(vim.cmd, "Obsidian toggle_checkbox")
+            Obsidian.opts.checkbox.create_new = saved
+          end, {
             buffer = note.bufnr,
-            desc = "Toggle checkbox",
+            desc = "Toggle / create checkbox",
           })
 
           vim.keymap.set("n", "<localleader>l", "<cmd>Obsidian links<cr>", {
@@ -171,6 +176,8 @@ return {
         separator = string.rep("-", 80),
       },
       checkbox = {
+        -- Keep smart_action's <CR> from inserting checkboxes on plain lines.
+        -- <localleader>x below flips this on temporarily to force creation.
         create_new = false,
         order = { " ", "x" },
       },
