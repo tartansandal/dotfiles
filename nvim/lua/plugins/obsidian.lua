@@ -171,6 +171,7 @@ return {
         separator = string.rep("-", 80),
       },
       checkbox = {
+        create_new = false,
         order = { " ", "x" },
       },
       legacy_commands = false,
