@@ -142,7 +142,9 @@ return {
           vim.keymap.set("n", "<localleader>x", function()
             local saved = Obsidian.opts.checkbox.create_new
             Obsidian.opts.checkbox.create_new = true
-            pcall(vim.cmd, "Obsidian toggle_checkbox")
+            pcall(function()
+              vim.cmd("Obsidian toggle_checkbox")
+            end)
             Obsidian.opts.checkbox.create_new = saved
           end, {
             buffer = note.bufnr,
