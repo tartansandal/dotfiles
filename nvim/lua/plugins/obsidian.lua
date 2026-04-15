@@ -131,36 +131,7 @@ return {
       },
       open_notes_in = "current",
       callbacks = {
-        post_setup = function(client)
-          -- `:Obsidian lsp_restart` — stop all obsidian-ls clients and re-attach
-          -- to every loaded vault buffer. :LspRestart doesn't know about
-          -- obsidian-ls because obsidian.nvim uses vim.lsp.start directly, not
-          -- vim.lsp.config. Useful after external file moves leave the LSP's
-          -- in-memory index stale.
-          require("obsidian").register_command("lsp_restart", {
-            nargs = 0,
-            func = function()
-              for _, c in ipairs(vim.lsp.get_clients({ name = "obsidian-ls" })) do
-                vim.lsp.stop_client(c.id, true)
-              end
-              local vault_dir = tostring(Obsidian.dir)
-              local attached = 0
-              for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "markdown" then
-                  local name = vim.api.nvim_buf_get_name(buf)
-                  if name ~= "" and vim.startswith(name, vault_dir) then
-                    require("obsidian.lsp").start(buf)
-                    attached = attached + 1
-                  end
-                end
-              end
-              vim.notify(
-                string.format("obsidian-ls restarted (%d buffer%s)", attached, attached == 1 and "" or "s"),
-                vim.log.levels.INFO
-              )
-            end,
-          })
-        end,
+        post_setup = function(client) end,
         -- Set up buffer-local keymaps for obsidian notes
         enter_note = function(note)
           vim.keymap.set("n", "<localleader>d", "<cmd>Obsidian dailies 1<cr>", {
