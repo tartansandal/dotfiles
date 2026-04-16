@@ -179,7 +179,7 @@ return {
             desc = "Paste clipboard image",
           })
 
-          vim.keymap.set("v", "<localleader>e", "<cmd>Obsidian extract_note<cr>", {
+          vim.keymap.set("v", "<localleader>e", ":<C-u>Obsidian extract_note<cr>", {
             buffer = note.bufnr,
             desc = "Extract selection to new note",
           })
