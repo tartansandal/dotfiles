@@ -89,7 +89,15 @@ return {
       },
       frontmatter = {
         enabled = true,
-        -- No `id` — filename IS the id (see ~/Notes/Meta/Zettelkasten.md).
+        -- Strip `id` from frontmatter. The builtin func injects it by default,
+        -- but it's redundant: obsidian.nvim falls back to the filename stem
+        -- when no frontmatter id exists, and wikilinks already target the stem.
+        -- Path prefixes (e.g. [[Dragon/Learnings]]) handle filename collisions.
+        func = function(note)
+          local fm = require("obsidian.builtin").frontmatter(note)
+          fm.id = nil
+          return fm
+        end,
         sort = { "aliases", "tags", "created" },
       },
       templates = {
