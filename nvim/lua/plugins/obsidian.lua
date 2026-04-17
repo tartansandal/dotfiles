@@ -146,6 +146,16 @@ return {
         post_setup = function(client) end,
         -- Set up buffer-local keymaps for obsidian notes
         enter_note = function(note)
+          local actions = require("obsidian.actions")
+
+          vim.keymap.set("n", "<Tab>", function()
+            actions.nav_link("next")
+          end, { buffer = note.bufnr, desc = "Next link" })
+
+          vim.keymap.set("n", "<S-Tab>", function()
+            actions.nav_link("prev")
+          end, { buffer = note.bufnr, desc = "Previous link" })
+
           vim.keymap.set("n", "<localleader>d", "<cmd>Obsidian dailies 1<cr>", {
             buffer = note.bufnr,
             desc = "Show dailies",
