@@ -78,13 +78,14 @@ return {
       -- link is what renders. The pipe form keeps bare timestamp IDs out of the
       -- visible display. Vault convention is documented in ~/Notes/CLAUDE.md.
       link = {
-        style = "wiki",
         -- Emit [[label]] when available, not [[path|label]]. Resolution works
         -- via aliases + H1 (obsidian.nvim) so the timestamp path is unnecessary.
         -- Marksman is disabled for this vault so its filename-based resolution
         -- is not a concern.
-        wiki = function(opts)
-          if opts.label and opts.label ~= "" and opts.label ~= opts.path then
+        -- Must be a function (not "wiki" + wiki override) so that format_link()
+        -- uses this for both commands and completion.
+        style = function(opts)
+          if opts.label and opts.label ~= "" then
             return string.format("[[%s]]", opts.label)
           else
             return string.format("[[%s]]", opts.path)
