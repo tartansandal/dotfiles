@@ -79,9 +79,13 @@ return {
       -- visible display. Vault convention is documented in ~/Notes/CLAUDE.md.
       link = {
         style = "wiki",
+        -- Emit [[label]] when available, not [[path|label]]. Resolution works
+        -- via aliases + H1 (obsidian.nvim) so the timestamp path is unnecessary.
+        -- Marksman is disabled for this vault so its filename-based resolution
+        -- is not a concern.
         wiki = function(opts)
-          if opts.label ~= opts.path then
-            return string.format("[[%s|%s]]", opts.path, opts.label)
+          if opts.label and opts.label ~= "" and opts.label ~= opts.path then
+            return string.format("[[%s]]", opts.label)
           else
             return string.format("[[%s]]", opts.path)
           end
