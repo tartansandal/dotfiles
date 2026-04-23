@@ -97,6 +97,7 @@ python3-neovim
 chafa
 delta
 bat
+libtexprintf-tools
 
 # PyEnv
 # Need these otherwise random modules will not build
