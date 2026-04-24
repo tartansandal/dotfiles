@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Toggle Pomodoro Sync
-Comment=Toogle Pomodoro Synchronisation
+Comment=Toggle Pomodoro Synchronisation
 Exec=toggle-pomodoro-sync.sh
 # Icon=Zoom.png
 Terminal=false
