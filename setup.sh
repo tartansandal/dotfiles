@@ -21,3 +21,7 @@ ln -sf "$base_dir"/tmux.conf ~/.tmux.conf
 ln -snf "$base_dir"/bin ~/bin
 ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
+
+mkdir -p ~/.local/share/applications
+ln -sf "$base_dir"/applications/open-daily-note.desktop ~/.local/share/applications/open-daily-note.desktop
+ln -sf "$base_dir"/applications/open-note.desktop ~/.local/share/applications/open-note.desktop

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Open Daily Note
+Exec=/home/kal/bin/open-daily-note.sh
+Terminal=false
+StartupWMClass=DailyNotes
+Icon=text-editor
+Categories=Utility;

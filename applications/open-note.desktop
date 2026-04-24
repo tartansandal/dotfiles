@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Notes URL Handler
+Exec=/home/kal/bin/open-note.sh %u
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/notes;
+Categories=Utility;
