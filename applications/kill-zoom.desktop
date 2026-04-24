@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Kill Zoom
+Comment=Kill all Zoom processes
+Exec=kill-zoom.sh
+# Icon=Zoom.png
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
+Name[en_US]=Kill Zoom

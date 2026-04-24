@@ -23,5 +23,6 @@ ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
 
 mkdir -p ~/.local/share/applications
-ln -sf "$base_dir"/applications/open-daily-note.desktop ~/.local/share/applications/open-daily-note.desktop
-ln -sf "$base_dir"/applications/open-note.desktop ~/.local/share/applications/open-note.desktop
+for desktop_file in "$base_dir"/applications/*.desktop; do
+    ln -sf "$desktop_file" ~/.local/share/applications/"$(basename "$desktop_file")"
+done
