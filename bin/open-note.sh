@@ -23,6 +23,7 @@ if [ -z "$url" ]; then
 fi
 
 path="${url#notes://}"
+# Decode %NN escape sequences
 path="$(printf '%b' "${path//%/\\x}")"
 
 if [[ "$path" != /* ]]; then
@@ -35,15 +36,15 @@ if [ ! -e "$path" ]; then
 fi
 
 case "${path,,}" in
-    *.md)
-        if nvim --server "$NVIM_SOCKET" --remote-expr '1' >/dev/null 2>&1; then
-            nvim --server "$NVIM_SOCKET" --remote "$path"
-            kitty @ --to "$KITTY_SOCKET" focus-window >/dev/null 2>&1 || true
-        else
-            exec "$HOME/bin/open-daily-note.sh" "$path"
-        fi
-        ;;
-    *)
-        exec xdg-open "$path"
-        ;;
+*.md)
+    if nvim --server "$NVIM_SOCKET" --remote-expr '1' >/dev/null 2>&1; then
+        nvim --server "$NVIM_SOCKET" --remote "$path"
+        kitty @ --to "$KITTY_SOCKET" focus-window >/dev/null 2>&1 || true
+    else
+        exec "$HOME/bin/open-daily-note.sh" "$path"
+    fi
+    ;;
+*)
+    exec xdg-open "$path"
+    ;;
 esac
