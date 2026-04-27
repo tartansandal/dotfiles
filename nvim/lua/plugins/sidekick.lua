@@ -58,8 +58,9 @@ return {
           },
           float = {
             border = "rounded",
-            width = 0.8, -- 80% of screen width
-            height = 0.8, -- 80% of screen height
+            width = 0.98,
+            height = 0.95,
+            row = 0,
           },
         },
         -- Custom prompts for common tasks
