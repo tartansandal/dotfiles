@@ -16,16 +16,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   desc = "Auto enter insert mode in terminal buffers",
 })
 
--- Prevent staying in normal mode in terminal buffers
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "*:n",
-  callback = function()
-    if vim.bo.buftype == "terminal" then
-      vim.cmd("startinsert")
-    end
-  end,
-  desc = "Prevent normal mode in terminal buffers",
-})
 
 -- Custom window separator color
 -- Set immediately
