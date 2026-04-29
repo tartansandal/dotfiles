@@ -98,6 +98,7 @@ chafa
 delta
 bat
 libtexprintf-tools
+install clang-tools-extra
 
 # PyEnv
 # Need these otherwise random modules will not build

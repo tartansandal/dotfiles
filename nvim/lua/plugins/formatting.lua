@@ -1,4 +1,4 @@
--- Configure formatters: stylua, shfmt, ruff_format, sqlfmt
+-- Configure formatters: stylua, shfmt, ruff_format, sqlfmt, clang_format
 return {
   "stevearc/conform.nvim",
   opts = {
@@ -18,6 +18,8 @@ return {
             typescript = "ts",
             lua = "lua",
             sql = "sql",
+            cpp = "cpp",
+            c = "c",
           },
           -- Map of treesitter language to formatters to use
           -- (defaults to the value from formatters_by_ft)
@@ -30,6 +32,8 @@ return {
       sh = { "shfmt" },
       python = { "ruff_format" },
       sql = { "sqlfmt" },
+      cpp = { "clang_format" },
+      c = { "clang_format" },
     },
   },
 }
