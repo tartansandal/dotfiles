@@ -1,6 +1,5 @@
 [user]
 	name = Kahlil Hodgson
-	email = tartansandal@users.noreply.github.com
 
 [init]
         defaultBranch = main
@@ -9,7 +8,7 @@
         autocorrect = prompt
 
 [core]
-        excludesfile = /home/kal/.gitignore
+        excludesfile = ~/.gitignore
         repositoryformatversion = 0
         filemode = true
         bare = false
@@ -92,11 +91,9 @@
         changed = green
         untracked = cyan
 
-; [include]
-; 	path = /home/kal/.gitalias
-; [alias]
-; 	log-list-week = log-list --date=format:%F' '(%V)
-
 [delta]
         side-by-side = true
         syntax-highlighting = true
+
+[include]
+	path = ~/.gitconfig-local

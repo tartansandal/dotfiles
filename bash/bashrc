@@ -43,7 +43,6 @@ fi
 
 #> source private libraries
 for lib in \
-    hosts \
     direnv \
     fzf; do
     # shellcheck source=/home/kal/dotfiles/bash/fzf
