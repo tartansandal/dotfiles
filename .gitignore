@@ -2,5 +2,6 @@ vim/.netrwhist
 vim/bundle/xmledit.git/doc/tags
 update.log
 nvim.bak
+nvim/lazy-lock.json
 nvim/.claude/settings.local.json
 .claude/settings.local.json
