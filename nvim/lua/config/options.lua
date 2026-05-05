@@ -75,19 +75,24 @@ vim.g.markdown_folding = 1
 -- set True color support for highlight groups
 opt.termguicolors = true
 
--- use xsel rather than wl-clipboard since the later hangs yankey
-vim.g.clipboard = {
-  name = "xsel_override",
-  copy = {
-    ["+"] = "xsel --input --clipboard",
-    ["*"] = "xsel --input --primary",
-  },
-  paste = {
-    ["+"] = "xsel --output --clipboard",
-    ["*"] = "xsel --output --primary",
-  },
-  cache_enabled = 1,
-}
+if vim.fn.has("mac") == 1 then
+  -- macOS: let nvim autodetect pbcopy/pbpaste, no config needed
+  -- (just don't set vim.g.clipboard at all)
+elseif vim.fn.executable("xsel") == 1 then
+  -- Don't use wl-clipboard since that upsets yankey
+  vim.g.clipboard = {
+    name = "xsel",
+    copy = {
+      ["+"] = "xsel --clipboard --input",
+      ["*"] = "xsel --primary --input",
+    },
+    paste = {
+      ["+"] = "xsel --clipboard --output",
+      ["*"] = "xsel --primary --output",
+    },
+    cache_enabled = 1,
+  }
+end
 
 -- conceal level 3 breaks markdown after font changes
 opt.conceallevel = 2
