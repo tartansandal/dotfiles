@@ -1,0 +1,16 @@
+  144  brew install git
+  152  brew install --cask kitty --appdir=~/Applications
+  153  brew install nvim
+  170  brew install lazygit
+  171  brew install fd
+  172  brew install rg
+  173  brew install magick
+  174  brew install convert
+  175  brew install imagemagick
+  176  brew install --cask font-jetbrains-mono-nerd-font
+  177  brew install tree-sitter
+  179  brew install tree-sitter-cli
+  181  brew install tmux
+  182  brew install utftex
+  183  brew install node
+  185  brew install luarocks
