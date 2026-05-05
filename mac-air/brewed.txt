@@ -1,16 +1,17 @@
-  144  brew install git
-  152  brew install --cask kitty --appdir=~/Applications
-  153  brew install nvim
-  170  brew install lazygit
-  171  brew install fd
-  172  brew install rg
-  173  brew install magick
-  174  brew install convert
-  175  brew install imagemagick
-  176  brew install --cask font-jetbrains-mono-nerd-font
-  177  brew install tree-sitter
-  179  brew install tree-sitter-cli
-  181  brew install tmux
-  182  brew install utftex
-  183  brew install node
-  185  brew install luarocks
+brew install git
+brew install --cask kitty --appdir=~/Applications
+brew install nvim
+brew install lazygit
+brew install fd
+brew install rg
+brew install magick
+brew install convert
+brew install imagemagick
+brew install --cask font-jetbrains-mono-nerd-font
+brew install --cask font-sauce-code-pro-nerd-font
+brew install tree-sitter
+brew install tree-sitter-cli
+brew install tmux
+brew install utftex
+brew install node
+brew install luarocks
