@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base_dir=$(dirname "$(readlink -f "$0")")
+base_dir=$(cd "$(dirname "$0")" && pwd -P)
 
 cd "$base_dir" || exit
 
