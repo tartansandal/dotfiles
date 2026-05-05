@@ -28,3 +28,21 @@ set page-completions off
 
 set colored-completion-prefix on
 set colored-stats on
+
+# Case-insensitive completion
+set completion-ignore-case on
+
+# Treat hyphens and underscores as equivalent
+set completion-map-case on
+
+# Don't duplicate common prefix when cycling
+set skip-completed-text on
+
+# Mark directories with trailing slash
+set mark-directories on
+set mark-symlinked-directories on
+
+# Cycle through matches with Tab (zsh-style menu)
+TAB: menu-complete
+# Shift-Tab to cycle backwards
+"\e[Z": menu-complete-backward

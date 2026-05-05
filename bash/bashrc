@@ -150,6 +150,12 @@ shopt -s interactive_comments
 # Don't attempt completion if the command line is empty
 shopt -s no_empty_cmd_completion
 
+# Expand variables in path during completion
+shopt -s direxpand
+
+# ** recursive glob (like zsh)
+shopt -s globstar
+
 # Filename expansion is case-insensitive
 shopt -s nocaseglob
 
@@ -173,8 +179,9 @@ shopt -u huponexit
 #> Don't let `cd' fallback to variable lookup using the arg as name
 shopt -u cdable_vars
 
-#> Don't auto correct minor spelling errors
-shopt -u cdspell
+#> Auto correct minor spelling errors in cd and completion
+shopt -s cdspell
+shopt -s dirspell
 
 # Don't allow dotfiles in the results of path-name expansion
 shopt -u dotglob
