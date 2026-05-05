@@ -11,6 +11,10 @@ mkdir -p ~/tmp/undo ~/tmp/backup
 
 ln -sf "$base_dir"/bash/bashrc ~/.bashrc
 ln -sf "$base_dir"/bash/profile ~/.bash_profile
+
+ln -sf "$base_dir"/zsh/zshrc ~/.zshrc
+ln -sf "$base_dir"/zsh/zprofile ~/.zprofile
+
 ln -sf "$base_dir"/dircolors ~/.dircolors
 ln -sf "$base_dir"/direnvrc ~/.direnvrc
 ln -sf "$base_dir"/gitconfig ~/.gitconfig
