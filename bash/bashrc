@@ -106,8 +106,6 @@ fi
 #>bash_completion
 if [[ -n "$BASH_COMPLETION" ]]; then
     complete -F _root_command -o filenames s
-    complete -C /home/kal/bin/vault vault
-    complete -C /usr/bin/terraform terraform
 fi
 
 -dnf-update() {
