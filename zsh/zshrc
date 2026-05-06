@@ -7,3 +7,7 @@ autoload -Uz compinit
 compinit
 
 alias lg='lazygit'
+alias vim='nvim'
+
+eval "$(starship init zsh)"
+export PATH="$HOME/.local/bin:$PATH"
