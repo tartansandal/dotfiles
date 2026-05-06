@@ -19,11 +19,6 @@ eval "$(starship init bash)"
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTTIMEFORMAT='%a %H:%M | '
 
-# Use separate history file for Claude Code sessions
-if [[ -n "$CLAUDECODE" ]]; then
-    export HISTFILE=~/.claude_history
-fi
-
 #> turn off terminal driver flow control so C-s and C-q works
 #> and don't interfere with vim
 stty -ixon -ixoff
@@ -66,10 +61,6 @@ alias rm='rm -I'
 alias docker=podman
 alias docker-compose='podman compose'
 
-#>bash_completion
-if [[ -n "$BASH_COMPLETION" ]]; then
-    complete -F _root_command -o filenames s
-fi
 
 -dnf-update() {
     sudo dnf update -y

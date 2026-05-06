@@ -27,21 +27,12 @@ pathmunge "$HOME/bin"
 
 ## interactive variables
 
-if hash nvim 2>/dev/null; then
-    export EDITOR='nvim'
-    export VISUAL='nvim'
-elif hash vimx 2>/dev/null; then
-    export EDITOR='vimx'
-    export VISUAL='vimx'
-else
-    export EDITOR='vim'
-    export VISUAL='vim'
-fi
+export EDITOR='nvim'
+export VISUAL='nvim'
 export PAGER='less'
 export RSYNC_RSH=ssh
 export LESS="-R"
 unset MAILCHECK
-export VAGRANT_DEFAULT_PROVIDER=libvirt
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -54,62 +45,9 @@ export XDG_DESKTOP_DIR="$HOME"
 export XDG_TEMPLATES_DIR="$HOME"
 export XDG_PUBLICSHARE_DIR="$HOME"
 
-# ensure clean UTF-8 environment
-# export LC_ALL="en_AU.UTF-8"
-# export LANG="en_AU.UTF-8"
-# export LANGUAGE="en_AU.UTF-8"
-
-if [[ -d "$HOME/.local/lib/perl5" ]]; then
-    export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/.local"
-    export PERL_MB_OPT="--install_base $HOME/.local"
-    export PERL_MM_OPT="INSTALL_BASE=$HOME/.local"
-    export PERL5LIB="$HOME/.local/lib/perl5:$PERL5LIB"
-fi
-
-if [[ -d "$HOME/.local/lib/python" ]]; then
-    export PYTHONPATH="$HOME/.local/lib/python"
-fi
-
-if [[ -d "$HOME/.local/lib/node_modules" ]]; then
-    # setup a localized global environment
-    #export npm_config_prefix=$HOME/.local XXX: this is incompatible with nvm
-    export NODE_PATH="$HOME/.local/lib/node_modules"
-fi
-
-if [[ -f /usr/bin/google-chrome ]]; then
-    export CHROME_BIN=/usr/bin/google-chrome
-fi
-
-if [ -d "$HOME/.texlive2019" ]; then
-    export MANPATH="$HOME/.texlive2019/texmf-dist/doc/man:$MANPATH"
-    export INFOPATH="$HOME/.texlive2019/texmf-dist/doc/info:$INFOPATH"
-    export PATH="$HOME/.texlive2019/bin/x86_64-linux:$PATH"
-fi
-
-# I'm almost always plugged in, so turn on Optimus PRIME for everything.
-# Comment the following out and LOLI when you need to preserve battery.
-# export __NV_PRIME_RENDER_OFFLOAD=1
-# export __GLX_VENDOR_LIBRARY_NAME=nvidia
-
-#> Ruby setup
-#
-# Fedora tweaks the RubyGem setup so that gems are installed under ~/.gem/ruby
-# and associated executables under ~/bin. This make 'gem install' just work, but
-# screws up 'gem uninstall' and bundler. Make this work with by setting GEM_HOME
-# and adding a symbolic link.
-#
-export GEM_HOME="$HOME/.gem/ruby"
-if [[ ! -e "$HOME/.gem/ruby/bin" ]]; then
-    mkdir -p "$HOME/.gem/ruby"
-    ln -sf "$HOME/bin" "$HOME/.gem/ruby/"
-fi
-
-# Cargo path
 if [[ -d "$HOME/.cargo/bin" ]]; then
     pathmunge "$HOME/.cargo/bin"
 fi
-
-# NVM is loaded in bashrc (works for both login and non-login shells)
 
 # Buildkit does not work well in fedora
 export DOCKER_BUILDKIT=0
