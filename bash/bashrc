@@ -13,6 +13,7 @@ case $- in
 *) return ;;
 esac
 
+set -o vi
 eval "$(starship init bash)"
 
 ## History settings
