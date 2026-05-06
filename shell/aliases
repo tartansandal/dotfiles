@@ -1,0 +1,10 @@
+alias ..='cd ..'
+alias cp='cp -i'
+alias mv='mv -i'
+alias vim=nvim
+alias lg=lazygit
+alias ls='eza'
+alias ll='eza -lah --git'
+alias lt='eza --tree --level=2'
+alias la='eza -a'
+alias ssh="kitty +kitten ssh"

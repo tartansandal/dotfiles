@@ -6,18 +6,8 @@ fi
 autoload -Uz compinit
 compinit
 
-alias lg='lazygit'
-alias vim='nvim'
-alias ls='eza'
-alias ll='eza -lah --git'
-alias lt='eza --tree --level=2'
-alias la='eza -a'
-
-alias cp='cp -i'
-alias mv='mv -i'
+source ~/dotfiles/shell/aliases
 alias rm='rm -i'
-alias ssh="kitty +kitten ssh"
-alias ..='cd ..'
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"

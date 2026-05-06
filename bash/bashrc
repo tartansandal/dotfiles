@@ -61,26 +61,10 @@ if [[ -r /usr/bin/aws_completer ]]; then
     complete -C '/usr/bin/aws_completer' aws
 fi
 
-#> aliases
-
-# personal preferences
-alias cp='cp -i'
-alias mv='mv -i'
+source ~/dotfiles/shell/aliases
 alias rm='rm -I'
-
-alias ls='eza'
-alias ll='eza -lah --git'
-alias lt='eza --tree --level=2'
-alias la='eza -a'
-alias ..='cd ..'
-
-alias lg=lazygit
 alias docker=podman
 alias docker-compose='podman compose'
-
-alias ssh="kitty +kitten ssh"
-
-alias vim=nvim
 
 #>bash_completion
 if [[ -n "$BASH_COMPLETION" ]]; then
