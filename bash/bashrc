@@ -2,8 +2,6 @@
 #
 # this gets sourced by all interactive shells
 
-# see /usr/share/doc/bash/examples/startup-files for examples
-
 ## source global defaults
 if [[ -f /etc/bashrc ]]; then
     . /etc/bashrc
@@ -30,10 +28,6 @@ fi
 #> and don't interfere with vim
 stty -ixon -ixoff
 
-# use vi editing mode -- must set before FZF shell integration
-# set -o vi
-
-# This is MacOS foo
 if [[ -r /usr/local/etc/bash_completion ]]; then
     # shellcheck source=/dev/null
     . /usr/local/etc/bash_completion
@@ -67,10 +61,6 @@ if [[ -r /usr/bin/aws_completer ]]; then
     complete -C '/usr/bin/aws_completer' aws
 fi
 
-# asdf support
-# . "$HOME/.asdf/asdf.sh"
-# . "$HOME/.asdf/completions/asdf.bash"
-
 #> aliases
 
 # personal preferences
@@ -78,42 +68,19 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
 
-# this pydoc works in venvs too
-alias pydoc='python -m pydoc'
-
-# use color ls
-alias ll='ls -h -p -l --color=auto'
-alias l.='ls -p -d --color=auto .*'
-alias ls='ls -p --color=auto'
+alias ls='eza'
+alias ll='eza -lah --git'
+alias lt='eza --tree --level=2'
+alias la='eza -a'
 alias ..='cd ..'
 
 alias lg=lazygit
-alias gg=gitui
 alias docker=podman
 alias docker-compose='podman compose'
 
-alias ccm='ccm --plan max5'
-alias ccmonitor='ccmonitor --plan max5'
-alias claude-monitor='claude-monitor --plan max5'
-alias claude-code-monitor='claude-code-monitor --plan max5'
 alias ssh="kitty +kitten ssh"
 
-# use vim with clipboard defined if available
-# if hash vimx 2>/dev/null; then
-#     alias vim=vimx
-# fi
-
-if hash nvim 2>/dev/null; then
-    alias vim=nvim
-fi
-
-# overrides for weird Mac env
-if [[ -n $Apple_PubSub_Socket_Render ]]; then
-    alias ll='ls -h -p -l -G'
-    alias l.='ls -p -d -G .*'
-    alias ls='ls -p -G'
-    alias rm='rm -i'
-fi
+alias vim=nvim
 
 #>bash_completion
 if [[ -n "$BASH_COMPLETION" ]]; then

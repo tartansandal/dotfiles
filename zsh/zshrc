@@ -13,5 +13,11 @@ alias ll='eza -lah --git'
 alias lt='eza --tree --level=2'
 alias la='eza -a'
 
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias ssh="kitty +kitten ssh"
+alias ..='cd ..'
+
 eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
