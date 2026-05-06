@@ -8,6 +8,10 @@ compinit
 
 alias lg='lazygit'
 alias vim='nvim'
+alias ls='eza'
+alias ll='eza -lah --git'
+alias lt='eza --tree --level=2'
+alias la='eza -a'
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
