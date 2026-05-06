@@ -22,7 +22,6 @@ The repo is organized by tool, with platform-specific directories for package ma
 - `bin/` — Personal scripts (symlinked as `~/bin`)
 - `applications/` — `.desktop` files (symlinked to `~/.local/share/applications/`)
 - `MOK/` — Machine Owner Key scripts for Secure Boot module signing
-- `vim/` — Legacy Vim config (not symlinked, kept for reference)
 
 **When working on Neovim configuration, always refer to `nvim/CLAUDE.md`** for architecture, plugin structure, and conventions.
 
