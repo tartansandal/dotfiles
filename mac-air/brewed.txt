@@ -15,3 +15,4 @@ brew install tmux
 brew install utftex
 brew install node
 brew install luarocks
+brew install htop
