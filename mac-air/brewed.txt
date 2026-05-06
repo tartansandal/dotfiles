@@ -16,3 +16,4 @@ brew install utftex
 brew install node
 brew install luarocks
 brew install htop
+brew install eza
