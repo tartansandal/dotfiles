@@ -1,131 +1,46 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with this dotfiles repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Overview
 
-This is a personal dotfiles repository containing configuration files for various development tools and shell environments. The repository is managed with Git and uses a `setup.sh` script to create symlinks from the home directory to the dotfiles.
+Personal dotfiles repository supporting two platforms:
+- **Linux (Fedora)**: Bash shell, managed via `laptop/packages-install`
+- **macOS (Mac Air)**: Zsh shell, managed via Homebrew (`mac-air/`)
 
-## Repository Structure
+`setup.sh` creates symlinks from `~/.config` and `~/` into this repository. Always update `setup.sh` when adding or removing configuration files.
 
-```
-dotfiles/
-├── bash/           # Bash configuration (bashrc, profile)
-├── bin/            # Personal scripts and utilities
-├── kitty/          # Kitty terminal emulator configuration
-├── nvim/           # Neovim configuration (LazyVim-based)
-├── terminal/       # Terminal emulator configurations
-├── gitconfig       # Git configuration
-├── gitignore       # Global gitignore patterns
-├── tmux.conf       # Tmux configuration
-├── dircolors       # Directory colors for ls
-├── direnvrc        # direnv configuration
-├── inputrc         # Readline configuration
-├── setup.sh        # Installation script that creates symlinks
-└── README.md       # User-facing documentation
-```
+## Architecture
 
-## Key Components
+The repo is organized by tool, with platform-specific directories for package management:
 
-### Bash Configuration (`bash/`)
+- `bash/`, `zsh/` — Shell configurations (both are symlinked by `setup.sh`)
+- `nvim/` — Neovim (LazyVim-based), has its own `nvim/CLAUDE.md` with detailed guidance
+- `kitty/` — Terminal emulator config with Catppuccin Mocha Decaf theme
+- `laptop/` — Fedora package lists
+- `mac-air/` — macOS Homebrew package lists and setup notes
+- `bin/` — Personal scripts (symlinked as `~/bin`)
+- `applications/` — `.desktop` files (symlinked to `~/.local/share/applications/`)
+- `MOK/` — Machine Owner Key scripts for Secure Boot module signing
+- `vim/` — Legacy Vim config (not symlinked, kept for reference)
 
-- **bashrc**: Interactive shell configuration with aliases, prompt customization, and tool integrations
-- **profile**: Login shell configuration for environment variables (EDITOR, VISUAL, PATH, etc.)
+**When working on Neovim configuration, always refer to `nvim/CLAUDE.md`** for architecture, plugin structure, and conventions.
 
-Key features:
-- Prefers `nvim` as EDITOR/VISUAL (falls back to vimx, then vim)
-- Aliases for common tools (lg=lazygit, gg=gitui, docker=podman)
-- Claude Code monitor aliases with `--plan max5` flag
+## Commit Conventions
 
-### Kitty Terminal Configuration (`kitty/`)
+- **Scope prefixes**: `nvim:`, `bash:`, `zsh:`, `kitty:`, `laptop:`, `mac-air:`, `gitconfig:`, etc.
+- **Imperative mood**, concise messages
+- Group related changes into separate atomic commits
 
-Kitty terminal emulator configuration with custom theming to match the Neovim environment.
-
-Key features:
-- **Font**: SauceCodePro Nerd Font at 15pt
-- **Theme**: Catppuccin Mocha Decaf (custom variant matching Neovim)
-- **Theme files**:
-  - `catppuccin-mocha.conf` - Standard Catppuccin Mocha theme
-  - `catppuccin-mocha-decaf.conf` - Custom "decaf" variant (currently active)
-  - `kitty.conf` - Main configuration file
-
-### Neovim Configuration (`nvim/`)
-
-The Neovim configuration is based on LazyVim and is extensively documented in its own `nvim/CLAUDE.md` file.
-
-**IMPORTANT**: When working with Neovim configuration files, refer to `nvim/CLAUDE.md` for detailed architecture, plugin structure, conventions, and development guidance.
-
-Quick summary:
-- Built on LazyVim with custom plugin overrides
-- Uses blink.cmp for completion with Copilot integration
-- Catppuccin Mocha colorscheme with custom "decaf" variants
-- Configured for Python, TypeScript, Markdown, and LaTeX development
-- Obsidian.nvim integration for note-taking
-
-### Git Configuration (`gitconfig`)
-
-- Delta configured for side-by-side diffs with syntax highlighting
-- Commented-out gitalias include (not currently used)
-- Custom git settings (configuration details in the file itself)
-
-### Installation (`setup.sh`)
-
-The `setup.sh` script creates symlinks from `~/.config` and `~/` to files in this repository. It:
-1. Creates necessary directories (`~/tmp/undo`, `~/tmp/backup`)
-2. Symlinks shell configurations (bashrc, profile, etc.)
-3. Symlinks tool configurations (gitconfig, tmux.conf, etc.)
-4. Symlinks nvim configuration to `~/.config/nvim`
-5. Symlinks kitty configuration to `~/.config/kitty`
-
-**Note**: Always update `setup.sh` when adding or removing configuration files to keep symlinks in sync.
-
-## Development Guidelines
-
-### Making Changes
-
-1. **Configuration Files**: Edit files directly in the dotfiles repository (not the symlinked versions in `~/`)
-2. **Shell Configurations**: Changes to bash files take effect after sourcing or starting a new shell
-3. **Neovim**: Refer to `nvim/CLAUDE.md` for nvim-specific development guidelines
-4. **Git**: Always test changes before committing, especially to `setup.sh`
-
-### Commit Conventions
-
-Based on recent commit history, this repository follows these patterns:
-- Scope prefixes for categorized changes: `nvim:`, `bash:`, `gitconfig:`, etc.
-- Concise, imperative commit messages
-- Logical grouping of related changes into separate commits
-- No Claude attribution in commit messages (per user preference)
-
-Examples:
-- `nvim: Add sidekick.nvim plugin configuration`
-- `bash: Add aliases for claude-code-monitor commands with max5 plan`
+Examples from recent history:
+- `zsh: add eza-based ls aliases`
+- `laptop: add eza to packages-install`
+- `nvim: add spell dictionary entries`
 - `Remove unused configuration files`
 
-### File Management
+## Key Relationships
 
-- **Unused configs**: Remove from both repository and `setup.sh`, check for dangling symlinks
-- **Legacy tools**: This repository has been cleaned of Perl, Ruby, and old Vim configurations
-- **New configs**: Add to repository, update `setup.sh`, test symlink creation
-
-## Tool Preferences
-
-Current tool stack based on repository contents:
-- **Shell**: Bash (no zsh configuration present)
-- **Editor**: Neovim (vim configuration removed)
-- **Terminal**: Kitty with Catppuccin Mocha Decaf theme
-- **Git UI**: lazygit, gitui
-- **Containers**: podman (aliased as docker)
-- **Python**: Using `uv` as package manager (per user's global instructions)
-- **Version Control**: Git with delta for diffs
-
-## Important Notes
-
-- **No pre-commit hooks currently configured** - but run any existing pre-commit checks if they exist
-- **Python projects**: Use `uv` for package management (pyproject.toml, uv sync, uv run)
-- **Neovim**: See `nvim/CLAUDE.md` for extensive nvim-specific guidance
-- **Symlinks**: Always verify symlink integrity after removing configuration files
-
-## Related Documentation
-
-- `nvim/CLAUDE.md` - Comprehensive Neovim configuration documentation
-- `README.md` - User-facing installation and overview documentation
+- Catppuccin Mocha Decaf theme is shared across `kitty/` and `nvim/` — color changes should be coordinated
+- `setup.sh` is the source of truth for what gets symlinked — if a file isn't in `setup.sh`, it won't be deployed
+- Spell dictionary changes require both `nvim/spell/en.utf-8.add` (text) and the compiled `.spl` file
+- `bash/` and `zsh/` share similar aliases but are maintained independently for each platform
