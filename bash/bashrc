@@ -15,9 +15,7 @@ case $- in
 *) return ;;
 esac
 
-# Set up PS1 using command substitution
-# The command substitution runs before PS1 is evaluated
-PS1='$(~/dotfiles/bash/promptline.sh "$PWD")\n\[\033[0;32m\]$ \[\033[m\]'
+eval "$(starship init bash)"
 
 ## History settings
 export HISTIGNORE="&:ls:[bf]g:exit"
