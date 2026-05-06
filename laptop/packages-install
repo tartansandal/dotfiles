@@ -68,6 +68,7 @@ tmux
 vim
 vim-enhanced
 ripgrep
+eza
 jq
 jc
 fd-find
