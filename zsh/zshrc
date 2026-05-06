@@ -10,4 +10,3 @@ source ~/dotfiles/shell/aliases
 alias rm='rm -i'
 
 eval "$(starship init zsh)"
-export PATH="$HOME/.local/bin:$PATH"
