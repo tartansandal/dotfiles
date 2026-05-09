@@ -1,0 +1,4 @@
+# Machine-specific kitty overrides
+# Copy to local.conf and edit for this machine (local.conf is gitignored)
+
+font_size 14.0

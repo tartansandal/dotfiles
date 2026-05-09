@@ -29,6 +29,9 @@ rm -rf ~/.config/nvim ~/.config/kitty
 ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
 
+# Install default local overrides if not already present
+[ -f "$base_dir"/kitty/local.conf ] || cp "$base_dir"/kitty/local.conf.default "$base_dir"/kitty/local.conf
+
 mkdir -p ~/.local/share/applications
 for desktop_file in "$base_dir"/applications/*.desktop; do
     ln -sf "$desktop_file" ~/.local/share/applications/"$(basename "$desktop_file")"
