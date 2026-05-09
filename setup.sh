@@ -30,6 +30,7 @@ ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
 
 # Install default local overrides if not already present
+[ -f ~/.gitconfig-local ] || cp "$base_dir"/gitconfig-local.default ~/.gitconfig-local
 [ -f "$base_dir"/kitty/local.conf ] || cp "$base_dir"/kitty/local.conf.default "$base_dir"/kitty/local.conf
 
 mkdir -p ~/.local/share/applications
