@@ -20,7 +20,7 @@
 # - The delay is needed because "Obsidian today" runs asynchronously
 # - nvim listens on $NVIM_SOCKET so other tools (open-note.sh) can --remote into it
 
-NOTES_DIR="$HOME/Notes"
+NOTES_DIR="$HOME/Notes/Personal"
 TRIGGER_FILE="$NOTES_DIR/.obsidian-trigger.md"
 KITTY_SOCKET="unix:@kitty-dailynotes"
 NVIM_SOCKET="/tmp/nvim-daily.sock"
