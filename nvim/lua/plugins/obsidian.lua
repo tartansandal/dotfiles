@@ -1,4 +1,4 @@
--- Obsidian.nvim configuration for ~/Notes vault
+-- Obsidian.nvim configuration for ~/Notes/{Personal,Work} vaults
 -- Updated for v3.14+ API: frontmatter table structure, no plenary dependency
 -- Sections: workspaces, daily notes, completion, frontmatter, templates, callbacks, UI, attachments
 return {
@@ -15,10 +15,12 @@ return {
     "obsidian-nvim/obsidian.nvim",
     branch = "main",
     lazy = true,
-    -- Only load for markdown files in ~/Notes vault
+    -- Only load for markdown files in ~/Notes vaults
     event = {
-      "BufReadPre " .. vim.fn.expand("~") .. "/Notes/**.md",
-      "BufNewFile " .. vim.fn.expand("~") .. "/Notes/**.md",
+      "BufReadPre " .. vim.fn.expand("~") .. "/Notes/Personal/**.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Notes/Personal/**.md",
+      "BufReadPre " .. vim.fn.expand("~") .. "/Notes/Work/**.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Notes/Work/**.md",
     },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -26,8 +28,12 @@ return {
     opts = {
       workspaces = {
         {
-          name = "Notes",
-          path = "~/Notes",
+          name = "Personal",
+          path = "~/Notes/Personal",
+        },
+        {
+          name = "Work",
+          path = "~/Notes/Work",
         },
       },
       notes_subdir = "Cards",
@@ -76,7 +82,7 @@ return {
       -- label is available. Neither obsidian.nvim's UI nor render-markdown.nvim
       -- resolves frontmatter aliases at display time — whatever text is in the
       -- link is what renders. The pipe form keeps bare timestamp IDs out of the
-      -- visible display. Vault convention is documented in ~/Notes/CLAUDE.md.
+      -- visible display. Vault convention is documented in ~/Notes/Personal/CLAUDE.md.
       link = {
         -- Emit [[label]] when available, not [[path|label]]. Resolution works
         -- via aliases + H1 (obsidian.nvim) so the timestamp path is unnecessary.
