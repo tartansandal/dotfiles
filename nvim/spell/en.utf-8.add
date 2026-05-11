@@ -624,3 +624,10 @@ LDA
 fLDA
 LTA
 CACS
+rclone
+bisync
+Syncthing
+filesystem
+systemd
+md
+repo
