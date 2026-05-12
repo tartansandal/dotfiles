@@ -6,6 +6,12 @@ fi
 autoload -Uz compinit
 compinit
 
+# Bash-like completion behavior
+setopt no_auto_menu
+setopt bash_auto_list
+setopt no_menu_complete
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 source ~/dotfiles/shell/aliases
 alias rm='rm -i'
 
