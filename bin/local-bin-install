@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+# local-bin-install — fetch prebuilt CLI tools into ~/.local/bin (no root needed)
+#
+# Usage:
+#   local-bin-install                 # install/update every known tool
+#   local-bin-install nvim rg fd      # only the named ones
+#   local-bin-install --list          # list available tools
+#
+# For unprivileged accounts on Linux (x86_64 / aarch64) where the system
+# package manager is off-limits. Pulls static release binaries from upstream
+# GitHub releases into ~/.local/bin (already on PATH via ~/.zprofile);
+# Neovim's runtime is unpacked into ~/.local/. Safe to re-run to update.
+#
+# Not covered here on purpose: node (grab the prebuilt tarball from
+# nodejs.org and untar into ~/.local) and anything needing a compiler.
+
+set -euo pipefail
+
+PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
+BIN="$PREFIX/bin"
+
+ORDER=(nvim rg fd eza fzf lazygit delta jq starship)
+case "${1:-}" in
+  -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
+  --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
+esac
+
+mkdir -p "$BIN"
+
+[ "$(uname -s)" = Linux ] || { echo "local-bin-install: Linux only (this is $(uname -s))" >&2; exit 1; }
+
+case "$(uname -m)" in
+  x86_64|amd64)  ARCH=x86_64;  GOARCH=amd64 ;;
+  aarch64|arm64) ARCH=aarch64; GOARCH=arm64 ;;
+  *) echo "local-bin-install: unsupported arch $(uname -m)" >&2; exit 1 ;;
+esac
+
+have() { command -v "$1" >/dev/null 2>&1; }
+have curl || { echo "local-bin-install: needs 'curl'" >&2; exit 1; }
+have tar  || { echo "local-bin-install: needs 'tar'"  >&2; exit 1; }
+
+msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
+
+# Latest release tag for a GitHub repo via the /releases/latest redirect
+# (no API token, no rate limit). Prints e.g. "v14.1.1" or "jq-1.7.1".
+gh_latest() {
+  local repo=$1 url
+  url=$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$repo/releases/latest") \
+    || { warn "could not resolve latest release for $repo"; return 1; }
+  basename "$url"
+}
+
+# Download a .tar.gz from $1, extract into a fresh temp dir, print the dir.
+untar_url() {
+  local tmp; tmp=$(mktemp -d)
+  if ! curl -fsSL "$1" | tar -xz -C "$tmp"; then
+    rm -rf "$tmp"; warn "download/extract failed: $1"; return 1
+  fi
+  echo "$tmp"
+}
+
+# install_bins <tmpdir> <name>... — locate each binary anywhere under tmpdir,
+# copy it into $BIN, make it executable.
+install_bins() {
+  local tmp=$1; shift b path
+  for b in "$@"; do
+    path=$(find "$tmp" -type f -name "$b" -perm -u+x 2>/dev/null | head -n1)
+    [ -n "$path" ] || path=$(find "$tmp" -type f -name "$b" 2>/dev/null | head -n1)
+    [ -n "$path" ] || { warn "binary '$b' not found in archive"; continue; }
+    install -m 0755 "$path" "$BIN/$b"
+    msg "installed $b -> $BIN/$b"
+  done
+}
+
+# ---- per-tool installers -------------------------------------------------
+
+install_nvim() {
+  local ver; ver=$(gh_latest neovim/neovim) || return 1
+  msg "neovim $ver"
+  local tmp; tmp=$(untar_url "https://github.com/neovim/neovim/releases/download/$ver/nvim-linux-${ARCH}.tar.gz") || return 1
+  local root; root=$(find "$tmp" -maxdepth 1 -type d -name 'nvim-linux-*' | head -n1)
+  [ -n "$root" ] || { warn "unexpected neovim archive layout"; rm -rf "$tmp"; return 1; }
+  cp -a "$root"/. "$PREFIX"/
+  rm -rf "$tmp"
+  msg "installed nvim -> $BIN/nvim (runtime in $PREFIX/share/nvim)"
+}
+
+# Most Rust tools ship musl static builds for x86_64; aarch64 tends to be gnu.
+rust_libc() { [ "$ARCH" = aarch64 ] && echo gnu || echo musl; }
+
+install_rg() {
+  local ver; ver=$(gh_latest BurntSushi/ripgrep) || return 1
+  msg "ripgrep $ver"
+  local tmp; tmp=$(untar_url "https://github.com/BurntSushi/ripgrep/releases/download/$ver/ripgrep-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
+  install_bins "$tmp" rg; rm -rf "$tmp"
+}
+
+install_fd() {
+  local ver; ver=$(gh_latest sharkdp/fd) || return 1
+  msg "fd $ver"
+  local tmp; tmp=$(untar_url "https://github.com/sharkdp/fd/releases/download/$ver/fd-${ver}-${ARCH}-unknown-linux-musl.tar.gz") || return 1
+  install_bins "$tmp" fd; rm -rf "$tmp"
+}
+
+install_eza() {
+  # eza assets carry no version in the filename; binary sits at archive root
+  local ver; ver=$(gh_latest eza-community/eza) || return 1
+  msg "eza $ver"
+  local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
+  install_bins "$tmp" eza; rm -rf "$tmp"
+}
+
+install_fzf() {
+  local ver; ver=$(gh_latest junegunn/fzf) || return 1
+  msg "fzf $ver"
+  local tmp; tmp=$(untar_url "https://github.com/junegunn/fzf/releases/download/$ver/fzf-${ver#v}-linux_${GOARCH}.tar.gz") || return 1
+  install_bins "$tmp" fzf; rm -rf "$tmp"
+}
+
+install_lazygit() {
+  local ver; ver=$(gh_latest jesseduffield/lazygit) || return 1
+  local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x86_64
+  msg "lazygit $ver"
+  local tmp; tmp=$(untar_url "https://github.com/jesseduffield/lazygit/releases/download/$ver/lazygit_${ver#v}_Linux_${uarch}.tar.gz") || return 1
+  install_bins "$tmp" lazygit; rm -rf "$tmp"
+}
+
+install_delta() {
+  local ver; ver=$(gh_latest dandavison/delta) || return 1
+  msg "delta $ver"
+  local tmp; tmp=$(untar_url "https://github.com/dandavison/delta/releases/download/$ver/delta-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
+  install_bins "$tmp" delta; rm -rf "$tmp"
+}
+
+install_jq() {
+  local ver; ver=$(gh_latest jqlang/jq) || return 1   # tag form: jq-1.7.1
+  msg "jq $ver"
+  curl -fsSL -o "$BIN/jq" "https://github.com/jqlang/jq/releases/download/$ver/jq-linux-${GOARCH}" \
+    || { warn "jq download failed"; return 1; }
+  chmod 0755 "$BIN/jq"; msg "installed jq -> $BIN/jq"
+}
+
+install_starship() {
+  msg "starship (upstream installer)"
+  curl -fsSL https://starship.rs/install.sh | sh -s -- -b "$BIN" -y
+}
+
+# ---- driver --------------------------------------------------------------
+
+declare -A TOOLS=(
+  [nvim]=install_nvim       [rg]=install_rg     [fd]=install_fd
+  [eza]=install_eza         [fzf]=install_fzf   [lazygit]=install_lazygit
+  [delta]=install_delta     [jq]=install_jq     [starship]=install_starship
+)
+
+if [ "$#" -gt 0 ]; then
+  for t in "$@"; do [ -n "${TOOLS[$t]:-}" ] || { echo "unknown tool: $t (see --list)" >&2; exit 1; }; done
+  sel=("$@")
+else
+  sel=("${ORDER[@]}")
+fi
+
+rc=0
+for t in "${sel[@]}"; do "${TOOLS[$t]}" || { warn "failed: $t"; rc=1; }; done
+
+case ":$PATH:" in *":$BIN:"*) ;; *) warn "$BIN is not on PATH (login zsh adds it via ~/.zprofile)";; esac
+exit "$rc"
