@@ -63,7 +63,7 @@ untar_url() {
 # install_bins <tmpdir> <name>... — locate each binary anywhere under tmpdir,
 # copy it into $BIN, make it executable.
 install_bins() {
-  local tmp=$1; shift b path
+  local tmp=$1 b path; shift
   for b in "$@"; do
     path=$(find "$tmp" -type f -name "$b" -perm -u+x 2>/dev/null | head -n1)
     [ -n "$path" ] || path=$(find "$tmp" -type f -name "$b" 2>/dev/null | head -n1)
