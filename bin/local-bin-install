@@ -150,8 +150,11 @@ install_tree_sitter() {
 }
 
 install_starship() {
-  msg "starship (upstream installer)"
-  curl -fsSL https://starship.rs/install.sh | sh -s -- -b "$BIN" -y
+  # starship ships musl static builds for both x86_64 and aarch64
+  local ver; ver=$(gh_latest starship/starship) || return 1
+  msg "starship $ver"
+  local tmp; tmp=$(untar_url "https://github.com/starship/starship/releases/download/$ver/starship-${ARCH}-unknown-linux-musl.tar.gz") || return 1
+  install_bins "$tmp" starship; rm -rf "$tmp"
 }
 
 # ---- driver --------------------------------------------------------------
