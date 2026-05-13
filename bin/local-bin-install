@@ -9,10 +9,10 @@
 # For unprivileged accounts on Linux (x86_64 / aarch64) where the system
 # package manager is off-limits. Pulls static release binaries from upstream
 # GitHub releases into ~/.local/bin (already on PATH via ~/.zprofile);
-# Neovim's runtime is unpacked into ~/.local/. Safe to re-run to update.
+# Neovim's runtime and Node's tree are unpacked into ~/.local/. Safe to
+# re-run to update.
 #
-# Not covered here on purpose: node (grab the prebuilt tarball from
-# nodejs.org and untar into ~/.local) and anything needing a compiler.
+# Not covered here on purpose: anything needing a compiler.
 
 # shellcheck disable=SC2329  # installer functions are dispatched via the TOOLS map
 set -euo pipefail
@@ -20,7 +20,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim rg fd eza fzf lazygit delta tree-sitter starship)
+ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -86,6 +86,22 @@ install_nvim() {
   cp -a "$root"/. "$PREFIX"/
   rm -rf "$tmp"
   msg "installed nvim -> $BIN/nvim (runtime in $PREFIX/share/nvim)"
+}
+
+install_node() {
+  # newest LTS = first object in dist/index.json whose "lts" is a string
+  local ver; ver=$(curl -fsSL https://nodejs.org/dist/index.json \
+    | grep -m1 '"lts":"' | sed -E 's/.*"version":"([^"]+)".*/\1/') \
+    || { warn "could not determine latest node LTS"; return 1; }
+  [ -n "$ver" ] || { warn "could not determine latest node LTS"; return 1; }
+  local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
+  msg "node $ver (LTS)"
+  local tmp; tmp=$(untar_url "https://nodejs.org/dist/$ver/node-$ver-linux-$uarch.tar.gz") || return 1
+  local root; root=$(find "$tmp" -maxdepth 1 -type d -name "node-$ver-linux-$uarch" | head -n1)
+  [ -n "$root" ] || { warn "unexpected node archive layout"; rm -rf "$tmp"; return 1; }
+  cp -a "$root"/. "$PREFIX"/   # also drops CHANGELOG/LICENSE/README into $PREFIX; harmless
+  rm -rf "$tmp"
+  msg "installed node -> $BIN/node (npm/npx alongside; modules in $PREFIX/lib/node_modules)"
 }
 
 # Most Rust tools ship musl static builds for x86_64; aarch64 tends to be gnu.
@@ -160,9 +176,9 @@ install_starship() {
 # ---- driver --------------------------------------------------------------
 
 declare -A TOOLS=(
-  [nvim]=install_nvim       [rg]=install_rg     [fd]=install_fd
-  [eza]=install_eza         [fzf]=install_fzf   [lazygit]=install_lazygit
-  [delta]=install_delta     [tree-sitter]=install_tree_sitter
+  [nvim]=install_nvim       [node]=install_node       [rg]=install_rg
+  [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
+  [lazygit]=install_lazygit [delta]=install_delta     [tree-sitter]=install_tree_sitter
   [starship]=install_starship
 )
 
