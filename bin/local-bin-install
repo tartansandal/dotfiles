@@ -14,6 +14,7 @@
 # Not covered here on purpose: node (grab the prebuilt tarball from
 # nodejs.org and untar into ~/.local) and anything needing a compiler.
 
+# shellcheck disable=SC2329  # installer functions are dispatched via the TOOLS map
 set -euo pipefail
 
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
