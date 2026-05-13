@@ -22,9 +22,10 @@ ln -sf "$base_dir"/gitignore ~/.gitignore
 ln -sf "$base_dir"/inputrc ~/.inputrc
 ln -sf "$base_dir"/tmux.conf ~/.tmux.conf
 
+# ln -snf won't replace a real directory, so remove first
+rm -rf ~/bin
 ln -snf "$base_dir"/bin ~/bin
 mkdir -p ~/.config
-# ln -snf won't replace a real directory, so remove first
 rm -rf ~/.config/nvim ~/.config/kitty
 ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
