@@ -13,3 +13,17 @@ else
     alias la='ls -a'
 fi
 command -v kitty >/dev/null 2>&1 && alias ssh="kitty +kitten ssh"
+
+# Scaffold a direnv .envrc for a Python venv at .venv.
+# The leading `-` is a convention for personal helpers (tab `-<TAB>` lists them).
+-make-python-envrc() {
+    if [[ -f .envrc ]]; then
+        echo "Cowardly refusing to overwrite existing .envrc file"
+    else
+        {
+            echo "# vim: ft=sh"
+            echo "export VIRTUAL_ENV=.venv"
+            echo "layout python-venv"
+        } >.envrc
+    fi
+}
