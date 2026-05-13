@@ -1,6 +1,20 @@
 -- Obsidian.nvim configuration for ~/Notes/{Personal,Work} vaults
 -- Updated for v3.14+ API: frontmatter table structure, no plenary dependency
 -- Sections: workspaces, daily notes, completion, frontmatter, templates, callbacks, UI, attachments
+
+-- Only include workspaces whose directory actually exists on this host.
+-- On boxes without a ~/Notes vault, obsidian.nvim's setup() throws on the
+-- missing paths and lazy.nvim reports "failed to run `config`".
+local workspaces = {}
+for _, w in ipairs({
+  { name = "Personal", path = "~/Notes/Personal" },
+  { name = "Work", path = "~/Notes/Work" },
+}) do
+  if vim.fn.isdirectory(vim.fn.expand(w.path)) == 1 then
+    table.insert(workspaces, w)
+  end
+end
+
 return {
   {
     "mfussenegger/nvim-lint",
@@ -15,6 +29,8 @@ return {
     "obsidian-nvim/obsidian.nvim",
     branch = "main",
     lazy = true,
+    -- Skip entirely on hosts without any vault directory
+    cond = #workspaces > 0,
     -- Only load for markdown files in ~/Notes vaults
     event = {
       "BufReadPre " .. vim.fn.expand("~") .. "/Notes/Personal/**.md",
@@ -26,16 +42,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
-      workspaces = {
-        {
-          name = "Personal",
-          path = "~/Notes/Personal",
-        },
-        {
-          name = "Work",
-          path = "~/Notes/Work",
-        },
-      },
+      workspaces = workspaces,
       notes_subdir = "Cards",
       log_level = vim.log.levels.INFO,
 
