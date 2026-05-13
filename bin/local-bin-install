@@ -89,10 +89,14 @@ install_nvim() {
 }
 
 install_node() {
-  # newest LTS = first object in dist/index.json whose "lts" is a string
-  local ver; ver=$(curl -fsSL https://nodejs.org/dist/index.json \
-    | grep -m1 '"lts":"' | sed -E 's/.*"version":"([^"]+)".*/\1/') \
-    || { warn "could not determine latest node LTS"; return 1; }
+  # newest LTS = first object in dist/index.json whose "lts" is a string.
+  # Fetch to a file first: piping into `grep -m1` would SIGPIPE curl (and
+  # with `set -o pipefail` that fails the whole pipeline).
+  local idx; idx=$(mktemp)
+  curl -fsSL -o "$idx" https://nodejs.org/dist/index.json \
+    || { rm -f "$idx"; warn "could not fetch node release index"; return 1; }
+  local ver; ver=$(grep -m1 '"lts":"' "$idx" | sed -E 's/.*"version":"([^"]+)".*/\1/')
+  rm -f "$idx"
   [ -n "$ver" ] || { warn "could not determine latest node LTS"; return 1; }
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
   msg "node $ver (LTS)"
