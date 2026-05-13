@@ -1,4 +1,4 @@
-# Homebrew completions
+# Homebrew completions (only if brew is installed)
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
@@ -15,4 +15,17 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 source ~/dotfiles/shell/aliases
 alias rm='rm -i'
 
-eval "$(starship init zsh)"
+# direnv (if installed)
+if type direnv &>/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+# Prompt: starship if installed, otherwise a simple fallback
+if type starship &>/dev/null; then
+  eval "$(starship init zsh)"
+else
+  PROMPT='%F{blue}%~%f %# '
+fi
+
+# Machine-specific overrides (not tracked)
+[[ -r ~/.zshrc.local ]] && source ~/.zshrc.local
