@@ -67,17 +67,7 @@ alias docker-compose='podman compose'
     sudo dnf update -y
 }
 
--make-python-envrc() {
-    if [[ -f .envrc ]]; then
-        echo "Cowardly refusing to overwrite exiting .envrc file"
-    else
-        {
-            echo "# vim: ft=sh"
-            echo "export VIRTUAL_ENV=.venv"
-            echo "layout python-venv"
-        } >.envrc
-    fi
-}
+# -make-python-envrc lives in shell/aliases (shared with zsh)
 
 ## Shell options
 
