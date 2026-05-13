@@ -156,10 +156,13 @@ install_delta() {
 }
 
 install_tree_sitter() {
-  # release asset tree-sitter-linux-<arch>.gz is the gzipped binary itself
-  local ver; ver=$(gh_latest tree-sitter/tree-sitter) || return 1
+  # release asset tree-sitter-linux-<arch>.gz is the gzipped binary itself.
+  # Pinned: the 0.26.x binaries are built against glibc 2.39 (Ubuntu 24.04)
+  # and won't run on older hosts; 0.25.10 only needs glibc 2.34. Bump when
+  # the build hosts you care about catch up.
+  local ver=v0.25.10
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
-  msg "tree-sitter $ver"
+  msg "tree-sitter $ver (pinned)"
   local tmp; tmp=$(mktemp)
   if curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/$ver/tree-sitter-linux-${uarch}.gz" | gzip -dc > "$tmp"; then
     install -m 0755 "$tmp" "$BIN/tree-sitter"; rm -f "$tmp"
