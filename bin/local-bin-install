@@ -19,7 +19,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim rg fd eza fzf lazygit delta starship)
+ORDER=(nvim rg fd eza fzf lazygit delta tree-sitter starship)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -133,6 +133,20 @@ install_delta() {
   install_bins "$tmp" delta; rm -rf "$tmp"
 }
 
+install_tree_sitter() {
+  # release ships a single gzipped binary named tree-sitter-linux-<arch>
+  local ver; ver=$(gh_latest tree-sitter/tree-sitter) || return 1
+  local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
+  msg "tree-sitter $ver"
+  local tmp; tmp=$(mktemp)
+  if curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/$ver/tree-sitter-linux-${uarch}.gz" | gzip -dc > "$tmp"; then
+    install -m 0755 "$tmp" "$BIN/tree-sitter"; rm -f "$tmp"
+    msg "installed tree-sitter -> $BIN/tree-sitter"
+  else
+    rm -f "$tmp"; warn "tree-sitter download failed"; return 1
+  fi
+}
+
 install_starship() {
   msg "starship (upstream installer)"
   curl -fsSL https://starship.rs/install.sh | sh -s -- -b "$BIN" -y
@@ -143,7 +157,8 @@ install_starship() {
 declare -A TOOLS=(
   [nvim]=install_nvim       [rg]=install_rg     [fd]=install_fd
   [eza]=install_eza         [fzf]=install_fzf   [lazygit]=install_lazygit
-  [delta]=install_delta     [starship]=install_starship
+  [delta]=install_delta     [tree-sitter]=install_tree_sitter
+  [starship]=install_starship
 )
 
 if [ "$#" -gt 0 ]; then
