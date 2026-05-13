@@ -32,6 +32,8 @@ ln -snf "$base_dir"/kitty ~/.config/kitty
 # Install default local overrides if not already present
 [ -f ~/.gitconfig-local ] || cp "$base_dir"/gitconfig-local.default ~/.gitconfig-local
 [ -f "$base_dir"/kitty/local.conf ] || cp "$base_dir"/kitty/local.conf.default "$base_dir"/kitty/local.conf
+[ -f ~/.zshrc.local ] || cp "$base_dir"/zsh/zshrc.local.default ~/.zshrc.local
+[ -f ~/.zprofile.local ] || cp "$base_dir"/zsh/zprofile.local.default ~/.zprofile.local
 
 mkdir -p ~/.local/share/applications
 for desktop_file in "$base_dir"/applications/*.desktop; do

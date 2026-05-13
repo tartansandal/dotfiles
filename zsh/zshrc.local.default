@@ -1,0 +1,6 @@
+# Machine-specific zsh interactive overrides.
+# Copied to ~/.zshrc.local by setup.sh (not tracked). Edit that copy.
+#
+# Examples:
+#   alias open='xdg-open'
+#   path+=("$HOME/some/host/specific/bin")

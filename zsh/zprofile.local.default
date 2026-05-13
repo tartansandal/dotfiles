@@ -1,0 +1,6 @@
+# Machine-specific zsh login-shell overrides.
+# Copied to ~/.zprofile.local by setup.sh (not tracked). Edit that copy.
+#
+# Examples (no-sudo hosts):
+#   export PATH="$HOME/.local/nvim/bin:$PATH"
+#   export PATH="$HOME/.cargo/bin:$PATH"

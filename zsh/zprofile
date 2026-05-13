@@ -1,6 +1,17 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
-export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+# Homebrew (macOS, or linuxbrew if installed) — skip if not present
+for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew \
+    /home/linuxbrew/.linuxbrew/bin/brew "$HOME/.linuxbrew/bin/brew"; do
+  if [[ -x $_brew ]]; then
+    eval "$("$_brew" shellenv)"
+    export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+    break
+  fi
+done
+unset _brew
 
 export EDITOR='nvim'
 export VISUAL='nvim'
 export PATH="$HOME/.local/bin:$PATH"
+
+# Machine-specific overrides (not tracked)
+[[ -r ~/.zprofile.local ]] && source ~/.zprofile.local
