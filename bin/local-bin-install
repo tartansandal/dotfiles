@@ -19,7 +19,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim rg fd eza fzf lazygit delta jq starship)
+ORDER=(nvim rg fd eza fzf lazygit delta starship)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -133,14 +133,6 @@ install_delta() {
   install_bins "$tmp" delta; rm -rf "$tmp"
 }
 
-install_jq() {
-  local ver; ver=$(gh_latest jqlang/jq) || return 1   # tag form: jq-1.7.1
-  msg "jq $ver"
-  curl -fsSL -o "$BIN/jq" "https://github.com/jqlang/jq/releases/download/$ver/jq-linux-${GOARCH}" \
-    || { warn "jq download failed"; return 1; }
-  chmod 0755 "$BIN/jq"; msg "installed jq -> $BIN/jq"
-}
-
 install_starship() {
   msg "starship (upstream installer)"
   curl -fsSL https://starship.rs/install.sh | sh -s -- -b "$BIN" -y
@@ -151,7 +143,7 @@ install_starship() {
 declare -A TOOLS=(
   [nvim]=install_nvim       [rg]=install_rg     [fd]=install_fd
   [eza]=install_eza         [fzf]=install_fzf   [lazygit]=install_lazygit
-  [delta]=install_delta     [jq]=install_jq     [starship]=install_starship
+  [delta]=install_delta     [starship]=install_starship
 )
 
 if [ "$#" -gt 0 ]; then
