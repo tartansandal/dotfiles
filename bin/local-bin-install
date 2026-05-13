@@ -38,12 +38,13 @@ esac
 have() { command -v "$1" >/dev/null 2>&1; }
 have curl || { echo "local-bin-install: needs 'curl'" >&2; exit 1; }
 have tar  || { echo "local-bin-install: needs 'tar'"  >&2; exit 1; }
+have gzip || { echo "local-bin-install: needs 'gzip'" >&2; exit 1; }
 
 msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
 
 # Latest release tag for a GitHub repo via the /releases/latest redirect
-# (no API token, no rate limit). Prints e.g. "v14.1.1" or "jq-1.7.1".
+# (no API token, no rate limit). Prints e.g. "v0.26.8" or "14.1.1".
 gh_latest() {
   local repo=$1 url
   url=$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$repo/releases/latest") \
@@ -134,7 +135,7 @@ install_delta() {
 }
 
 install_tree_sitter() {
-  # release ships a single gzipped binary named tree-sitter-linux-<arch>
+  # release asset tree-sitter-linux-<arch>.gz is the gzipped binary itself
   local ver; ver=$(gh_latest tree-sitter/tree-sitter) || return 1
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
   msg "tree-sitter $ver"
