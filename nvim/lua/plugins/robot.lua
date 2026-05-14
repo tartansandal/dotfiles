@@ -10,15 +10,10 @@ return {
     optional = true,
     opts = {
       servers = {
-        robotcode = {},
+        robotcode = {
+          mason = false, -- installed via `uv tool install robotcode`; system Python is 3.9 so Mason can't install it
+        },
       },
-    },
-  },
-  {
-    "mason-org/mason.nvim",
-    optional = true,
-    opts = {
-      ensure_installed = { "robotcode" },
     },
   },
 }
