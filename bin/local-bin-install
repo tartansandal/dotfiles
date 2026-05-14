@@ -20,7 +20,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship)
+ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -180,13 +180,21 @@ install_starship() {
   install_bins "$tmp" starship; rm -rf "$tmp"
 }
 
+install_uv() {
+  # archive contains both uv and uvx at the root
+  local ver; ver=$(gh_latest astral-sh/uv) || return 1
+  msg "uv $ver"
+  local tmp; tmp=$(untar_url "https://github.com/astral-sh/uv/releases/download/$ver/uv-${ARCH}-unknown-linux-musl.tar.gz") || return 1
+  install_bins "$tmp" uv uvx; rm -rf "$tmp"
+}
+
 # ---- driver --------------------------------------------------------------
 
 declare -A TOOLS=(
   [nvim]=install_nvim       [node]=install_node       [rg]=install_rg
   [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
   [lazygit]=install_lazygit [delta]=install_delta     [tree-sitter]=install_tree_sitter
-  [starship]=install_starship
+  [starship]=install_starship                         [uv]=install_uv
 )
 
 if [ "$#" -gt 0 ]; then
