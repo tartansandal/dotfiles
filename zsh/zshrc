@@ -12,6 +12,8 @@ setopt bash_auto_list
 setopt list_ambiguous
 setopt no_menu_complete
 setopt list_types
+unsetopt rec_exact
+setopt auto_menu
 
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
