@@ -11,6 +11,9 @@ unset _brew
 
 export EDITOR='nvim'
 export VISUAL='nvim'
+
+# Keep PATH entries unique (prevents duplicates from piling up across shells)
+typeset -U path PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # Machine-specific overrides (not tracked)
