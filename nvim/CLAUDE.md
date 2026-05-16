@@ -162,18 +162,7 @@ Contains Neovim-specific filetype overrides (loaded after plugins):
 
 ## Obsidian Integration
 
-Obsidian.nvim is configured for `~/Notes/Personal` and `~/Notes/Work` vaults (workspaces are auto-detected based on which directories exist). Lazy-loaded only in markdown files within those directories.
-
-- **Vault structure**:
-  - Notes: `Cards/`
-  - Daily notes: `Daily/` (format: `YYYY/VV/YYYY-MM-DD`)
-  - Templates: `Templates/`
-  - Attachments: `Files/`
-
-- **Note creation**: Timestamp-based IDs (`YYYYMMDDhhmmss-slugified-title`)
-- **Completion**: Integrated with blink.cmp (nvim-cmp disabled)
-- **Link style**: Wiki links preferred, alias-only display
-- **Frontmatter**: Auto-generated with ID, aliases, and tags
+Obsidian.nvim is configured for `~/Notes/Personal` and `~/Notes/Work` vaults (workspaces are auto-detected based on which directories exist). Lazy-loaded only in markdown files within those directories. See vault-specific `CLAUDE.md` files (`~/Notes/Personal/CLAUDE.md`, `~/Notes/Work/CLAUDE.md`) for structure and conventions.
 
 **Global keymaps** (`<leader>o`):
 
