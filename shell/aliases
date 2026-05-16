@@ -19,6 +19,14 @@ else
 fi
 command -v kitty >/dev/null 2>&1 && alias ssh="kitty +kitten ssh"
 
+if command -v fzf >/dev/null 2>&1; then
+    export FZF_DEFAULT_OPTS='--height=40% --layout=reverse --border --info=inline'
+    if command -v fd >/dev/null 2>&1; then
+        export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude=.git --exclude=node_modules --no-ignore-vcs'
+        export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+    fi
+fi
+
 # Scaffold a direnv .envrc for a Python venv at .venv.
 # The leading `-` is a convention for personal helpers (tab `-<TAB>` lists them).
 -make-python-envrc() {
