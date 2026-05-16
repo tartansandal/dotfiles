@@ -21,6 +21,15 @@ zstyle ':completion:*' list-separator '--'
 
 source ~/dotfiles/shell/aliases
 
+# fzf keybindings (env vars set in shell/aliases)
+if type brew &>/dev/null; then
+  _fzf_key="$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+else
+  _fzf_key="/usr/share/fzf/shell/key-bindings.zsh"
+fi
+[[ -r "$_fzf_key" ]] && source "$_fzf_key"
+unset _fzf_key
+
 # direnv (if installed)
 if type direnv &>/dev/null; then
   eval "$(direnv hook zsh)"
