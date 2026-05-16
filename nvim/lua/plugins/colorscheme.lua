@@ -21,29 +21,29 @@ local frappe_decaf = decaffeinate(frappe, 0.84)
 local macchiato_decaf = decaffeinate(macchiato, 0.85)
 local mocha_decaf = decaffeinate(mocha, 0.87)
 
--- Make a buffer with Ptyxis pallete definition suitable to add to
+-- Make a buffer with Ptyxis palette definition suitable to add to
 -- ~/.local/share/org.gnome.Ptyxis/palettes/
-local function make_term_palette(pallete, name)
+local function make_term_palette(palette, name)
   local termcolors = {
-    Background = pallete["base"],
-    Foreground = pallete["text"],
-    Cursor = pallete["text"],
-    Color0 = pallete["surface1"],
-    Color1 = pallete["red"],
-    Color2 = pallete["green"],
-    Color3 = pallete["yellow"],
-    Color4 = pallete["blue"],
-    Color5 = pallete["pink"],
-    Color6 = pallete["teal"],
-    Color7 = pallete["subtext1"],
-    Color8 = pallete["surface2"],
-    Color9 = pallete["red"],
-    Color10 = pallete["green"],
-    Color11 = pallete["yellow"],
-    Color12 = pallete["blue"],
-    Color13 = pallete["pink"],
-    Color14 = pallete["teal"],
-    Color15 = pallete["subtext"],
+    Background = palette["base"],
+    Foreground = palette["text"],
+    Cursor = palette["text"],
+    Color0 = palette["surface1"],
+    Color1 = palette["red"],
+    Color2 = palette["green"],
+    Color3 = palette["yellow"],
+    Color4 = palette["blue"],
+    Color5 = palette["pink"],
+    Color6 = palette["teal"],
+    Color7 = palette["subtext1"],
+    Color8 = palette["surface2"],
+    Color9 = palette["red"],
+    Color10 = palette["green"],
+    Color11 = palette["yellow"],
+    Color12 = palette["blue"],
+    Color13 = palette["pink"],
+    Color14 = palette["teal"],
+    Color15 = palette["subtext"],
   }
   local result = { "[Palette]", "Name=" .. name }
   for key, value in pairs(termcolors) do
