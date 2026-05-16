@@ -11,6 +11,7 @@ brew install eza
 brew install fd
 brew install fzf
 brew install git
+brew install gh
 brew install htop
 brew install imagemagick
 brew install lazygit
