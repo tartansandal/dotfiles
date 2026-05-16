@@ -1,0 +1,122 @@
+# Notes on MacBook Setup
+
+Setup runbook for a fresh work MacBook (Apple Silicon, managed device).
+
+## Managed device constraints
+
+This is a work-managed Mac. Admin/`sudo` is not available, so:
+
+- Prefer Homebrew (user-scope) over anything that needs `/usr/local` or `/opt`.
+- System Python is 3.9 — use `uv` for Python CLI tools, not system `pip`.
+- Anything that requires admin must be requested through the work channel — flag it explicitly rather than working around it.
+
+## Setting up a fresh Mac
+
+### 1. Xcode Command Line Tools
+
+    xcode-select --install
+
+### 2. Homebrew
+
+Apple Silicon Homebrew installs into `/opt/homebrew`:
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Then ensure `brew shellenv` is on `PATH` (usually picked up by `zprofile` after dotfiles are linked).
+
+### 3. Clone dotfiles and link
+
+    git clone <repo> ~/dotfiles
+    cd ~/dotfiles
+    ./setup.sh
+
+`setup.sh` symlinks `~/.zshrc`, `~/.zprofile`, `~/.gitconfig`, `~/.tmux.conf`, `~/.config/nvim`, `~/.config/kitty`, etc.
+
+### 4. Install brews and casks
+
+    cd ~/dotfiles/mac-air
+    ./install-brews.sh
+
+The script installs CLI tools (`eza`, `fd`, `fzf`, `rg`, `nvim`, `tmux`, `starship`, `lazygit`, `uv`, …), fonts, and `kitty` (into `~/Applications` to avoid needing admin).
+
+### 5. Log out and back in
+
+Or at least `source ~/.zprofile` so PATH/env changes from the linked dotfiles take effect.
+
+## macOS system settings
+
+- Key repeat / initial key repeat:
+
+      defaults write NSGlobalDomain KeyRepeat -int 2
+      defaults write NSGlobalDomain InitialKeyRepeat -int 25
+
+### Keyboard remapping
+
+- `CapsLock` disabled
+- `fn` mapped to `Control`
+
+## App-specific setup
+
+### `kitty`
+
+Installed via `brew install --cask kitty --appdir=~/Applications` so it lands in a user-writable Applications folder (no admin needed).
+
+Config is linked from `~/dotfiles/kitty` to `~/.config/kitty` by `setup.sh`. Local overrides go in `~/dotfiles/kitty/local.conf` (seeded from `local.conf.default`).
+
+### `nvim`
+
+Config lives at `~/dotfiles/nvim` and is linked to `~/.config/nvim` by `setup.sh`. First launch will bootstrap the plugin manager and install plugins.
+
+For `robotcode` LSP support, need to run `uv tool install robotcode`
+
+### `tmux`
+
+Config linked from `~/dotfiles/tmux.conf`.
+
+No `tpm` managed installs yet.
+
+### `starship`
+
+Installed via `install-brews.sh`. Init line lives in `~/dotfiles/zsh/zshrc`.
+
+### `direnv`
+
+Installed via `install-brews.sh`. `~/.direnvrc` is linked by `setup.sh`. Hook is in the shell init.
+
+### `syncthing`
+
+Installed via `install-brews.sh` for vault sync with the Fedora laptop.
+
+Run `brew services start syncthing` to setup the automatic launch agent. The
+service runs `syncthing --no-browser --no-restart`, so the Web UI is available
+at <http://127.0.0.1:8384/> but doesn't auto-open.
+
+#### Pairing with the Fedora laptop
+
+1. Open the Web UI on **both** machines (<http://127.0.0.1:8384/>).
+2. On each machine, copy its Device ID: **Actions → Show ID**.
+3. On the Mac, **Add Remote Device** and paste the laptop's Device ID; give it
+   a name (e.g. `krieger`). On the laptop, do the same with the Mac's ID — or
+   wait for the "device wants to connect" prompt and accept it.
+4. Once both sides show the peer as **Connected**, share the vault folder:
+   - On the laptop, edit the `~/Notes/Work` folder → **Sharing** tab → tick the
+     Mac → Save.
+   - On the Mac, accept the incoming folder share and set the local path to
+     `~/Notes/Work`.
+5. Only `~/Notes/Work` is shared with the Mac. `~/Notes/Personal` stays
+   laptop-only.
+
+`.stignore` (excluding `.git`, `.obsidian/workspace*.json`, etc.) lives inside
+the folder and syncs across automatically.
+
+### GitHub CLI
+
+Installed via `install-brews.sh`. Run `gh auth login` on first use.
+
+### Fonts
+
+`install-brews.sh` installs JetBrains Mono Nerd Font and Sauce Code Pro Nerd Font as casks.
+
+## Troubleshooting
+
+> TODO: collect Mac-specific gotchas as they come up (Gatekeeper quarantine on downloaded binaries, `xattr -d com.apple.quarantine`, Rosetta for x86_64-only tools, etc.).
