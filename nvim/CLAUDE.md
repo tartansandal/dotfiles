@@ -10,7 +10,7 @@ This is a Neovim configuration built on top of LazyVim, a pre-configured Neovim 
 
 ### Initialization Flow
 
-1. `init.lua` - Entry point that bootstraps lazy.nvim and sets up debug utilities (\_G.dd, \_G.bt)
+1. `init.lua` - Entry point that bootstraps lazy.nvim
 2. `lua/config/lazy.lua` - Configures lazy.nvim plugin manager and loads LazyVim base + custom plugins
 3. `lua/config/options.lua` - Sets vim options (loaded before lazy.nvim startup)
 4. `lua/config/keymaps.lua` - Defines custom keymaps (loaded on VeryLazy event)
@@ -37,13 +37,13 @@ All custom plugins live in `lua/plugins/*.lua`. Each file returns a table of plu
 
 **Core customizations**:
 
-- **Completion**: blink.cmp instead of nvim-cmp, with copilot integration
+- **Completion**: blink.cmp instead of nvim-cmp
 - **Colorscheme**: Catppuccin Mocha with custom "decaf" color overrides (darkened variants)
-- **File picker**: Snacks picker (recently switched from Telescope per git history)
+- **File picker**: Snacks picker
 - **File explorer**: NeoTree (Snacks explorer disabled, mini.files removed)
-- **Formatting**: conform.nvim with stylua, shfmt, ruff_format, sqlfmt
+- **Formatting**: conform.nvim with stylua, shfmt, ruff_format, sqlfmt, clang_format
 - **LSP**: Pyright with typeCheckingMode "on", rounded borders throughout
-- **AI**: GitHub Copilot + Copilot Chat (sidekick)
+- **AI**: GitHub Copilot + Copilot Chat (sidekick) — currently disabled temporarily
 
 ## LazyVim Extras
 
@@ -54,7 +54,7 @@ The following LazyVim extras are enabled (see `lazyvim.json`):
 - DAP: core debugging
 - Editor: dial, inc-rename, outline, snacks explorer (disabled in snacks.lua), snacks picker
 - Formatting: prettier
-- Languages: cmake, docker, json, markdown, python, tex, toml, typescript
+- Languages: clangd, cmake, docker, json, markdown, python, tex, toml, typescript
 - Testing: core
 - Utils: dot, mini-hipatterns
 
@@ -127,13 +127,6 @@ When configuring plugins:
 
 ## Special Features
 
-### Custom Debug Utilities
-
-Global debug functions defined in `init.lua`:
-
-- `dd(...)` - Pretty-print inspect values (overrides vim.print)
-- `bt()` - Show backtrace
-
 ### Catppuccin Decaf Colors
 
 The `lua/plugins/colorscheme.lua` file implements custom "decaf" variants of all Catppuccin flavors by darkening the palettes. It also includes a `make_term_palette()` utility to generate Ptyxis terminal palette definitions.
@@ -142,7 +135,7 @@ The `lua/plugins/colorscheme.lua` file implements custom "decaf" variants of all
 
 - **Manual completion**: No preselection or auto-insert (requires explicit selection)
 - **Case-preserving buffer completion**: Matches first character case of typed text
-- **Source priority**: Copilot prioritized (score_offset 100), emoji in markdown only
+- **Source priority**: Emoji in markdown only (Copilot source currently disabled)
 - **Keymap preset**: "enter" (CR to accept, Tab/S-Tab for snippets and selection)
 - **No auto-brackets**: Disabled experimental feature
 
@@ -169,13 +162,13 @@ Contains Neovim-specific filetype overrides (loaded after plugins):
 
 ## Obsidian Integration
 
-Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in markdown files within that directory):
+Obsidian.nvim is configured for `~/Notes/Personal` and `~/Notes/Work` vaults (workspaces are auto-detected based on which directories exist). Lazy-loaded only in markdown files within those directories.
 
 - **Vault structure**:
   - Notes: `Cards/`
   - Daily notes: `Daily/` (format: `YYYY/VV/YYYY-MM-DD`)
   - Templates: `Templates/`
-  - Attachments: `Files/Images/`
+  - Attachments: `Files/`
 
 - **Note creation**: Timestamp-based IDs (`YYYYMMDDhhmmss-slugified-title`)
 - **Completion**: Integrated with blink.cmp (nvim-cmp disabled)
@@ -184,20 +177,26 @@ Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in m
 
 **Global keymaps** (`<leader>o`):
 
-- `<leader>od` - Today's daily note
+- `<leader>od` - Today's daily note (current workspace)
+- `<leader>odp` - Today's Personal daily
+- `<leader>odw` - Today's Work daily
 - `<leader>on` - New note
 - `<leader>oo` - Quick switcher
 - `<leader>os` - Search notes
 - `<leader>ot` - Search tags
 
-**Buffer-local keymaps** (in Obsidian notes, `<localleader>`):
+**Buffer-local keymaps** (in Obsidian notes):
 
-- `<localleader>d` - Show dailies
-- `<localleader>x` - Toggle checkbox
+- `<Tab>` / `<S-Tab>` - Navigate links (next/prev)
+- `<localleader>d` - Show dailies (current workspace)
+- `<localleader>dp` - Personal dailies
+- `<localleader>dw` - Work dailies
+- `<localleader>x` - Toggle / create checkbox
 - `<localleader>l` - Search links
 - `<localleader>b` - Search backlinks
 - `<localleader>i` - Insert template
 - `<localleader>p` - Paste clipboard image
+- `<localleader>e` - Extract selection to new note (visual mode)
 
 **Note**: Obsidian UI is disabled to allow render-markdown.nvim to work.
 
