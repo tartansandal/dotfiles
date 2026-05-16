@@ -209,12 +209,3 @@ Obsidian.nvim is configured for the `~/Notes` vault with lazy-loading (only in m
 - Git operations use lazygit integration via Snacks
 - No line numbers displayed (user preference to encourage motion-based navigation)
 
-## VectorCode Integration
-
-This project is indexed with VectorCode. Use vectorcode tools to:
-
-- Find relevant files for features
-- Understand code relationships
-- Locate specific implementations
-
-Always use vectorcode for semantic code search before reading files.
