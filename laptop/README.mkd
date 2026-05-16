@@ -71,9 +71,15 @@ Ensure focus follows mouse:
 
     gsettings set org.gnome.desktop.wm.preferences focus-mode mouse
 
-Install yum repositories:
+Install RPM Fusion repositories:
 
-    sudo rsync -rv ./etc/ /etc/
+    sudo dnf install -y \
+      https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+      https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+Install Google Chrome (repo is added automatically):
+
+    sudo dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
 
 Enable some `COPR` repositories:
 
