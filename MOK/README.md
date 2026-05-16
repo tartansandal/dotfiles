@@ -20,7 +20,7 @@ contains the keys, helper scripts, and some documentation.
 1. Create a LUKS encrypted thumb drive.
 2. Copy across the files from the `~/dotfiles/MOK` directory.
 3. Perform the "Setting up new MOK keys" dance
-4. Mount the thumb drive after the reboot and ope a terminal in the top level.
+4. Mount the thumb drive after the reboot and open a terminal in the top level.
 5. Run the `resign-modules.sh` script.
 6. Possibly reboot.
 

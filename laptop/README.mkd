@@ -9,7 +9,7 @@ If you are restricted to command-line only. Use the [BorgBackup](https://borgbac
     mount /dev/sdb1
     borg list /run/media/kal/Elements/backup-krieger-kal/
     cd /home/kal
-    bork extract --list /run/media/kal/Elements/backup-krieger-kal/
+    borg extract --list /run/media/kal/Elements/backup-krieger-kal/
 
 ## Post upgrade/install cleanup
 
