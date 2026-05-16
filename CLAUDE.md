@@ -15,6 +15,7 @@ Personal dotfiles repository supporting two platforms:
 The repo is organized by tool, with platform-specific directories for package management:
 
 - `bash/`, `zsh/` — Shell configurations (both are symlinked by `setup.sh`)
+- `shell/` — Shared aliases and helpers sourced by both `bash/` and `zsh/`
 - `nvim/` — Neovim (LazyVim-based), has its own `nvim/CLAUDE.md` with detailed guidance
 - `kitty/` — Terminal emulator config with Catppuccin Mocha Decaf theme
 - `laptop/` — Fedora package lists
@@ -42,4 +43,4 @@ Examples from recent history:
 - Catppuccin Mocha Decaf theme is shared across `kitty/` and `nvim/` — color changes should be coordinated
 - `setup.sh` is the source of truth for what gets symlinked — if a file isn't in `setup.sh`, it won't be deployed
 - Spell dictionary changes require both `nvim/spell/en.utf-8.add` (text) and the compiled `.spl` file
-- `bash/` and `zsh/` share similar aliases but are maintained independently for each platform
+- `bash/` and `zsh/` source shared aliases from `shell/aliases`; platform-specific aliases live in each shell's own config
