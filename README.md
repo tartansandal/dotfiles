@@ -4,13 +4,18 @@ Personal configuration files for customizing my development environment.
 
 ## Overview
 
-This repository contains configuration files (dotfiles) for:
+This repository contains configuration files (dotfiles) supporting two platforms:
 
-- **Shell**: `bash` configuration with custom aliases and prompt
+- **Linux (Fedora)**: `bash` shell
+- **macOS (Mac Air)**: `zsh` shell
+
+Configurations include:
+
+- **Shell**: `bash` and `zsh` with shared aliases, `starship` prompt
 - **Editor**: `neovim` (`LazyVim`-based configuration)
 - **Git**: Configuration and global ignore patterns
 - **Terminal**: `kitty` (terminal emulator), `tmux` (multiplexer)
-- **Tools**: `direnv`, `readline`, and various CLI utilities
+- **Tools**: `direnv`, `readline`, `local-bin-install`, and various CLI utilities
 
 ## Installation
 
@@ -35,14 +40,19 @@ The setup script will:
 
 ## What's Included
 
-### Shell (Bash)
+### Shell
 
-- Custom prompt and aliases
-- Environment variables configuration
-- Tool integrations (`git`, `lazygit`, `nvim`, `direnv`)
+Both shells share common aliases and helpers via `shell/aliases` (`eza`-based `ls`, `lazygit`, `nvim`, `direnv`, `kitty` SSH).
+
+**Bash** (Linux):
+- `starship` prompt, `fzf` keybindings, vi mode
 - `podman` aliased as `docker`
+- **Files**: `bash/bashrc`, `bash/profile`
 
-**Files**: `bash/bashrc`, `bash/profile`
+**Zsh** (macOS):
+- `starship` prompt, `fzf` integration, vi mode
+- PATH deduplication via `typeset -U`
+- **Files**: `zsh/zshrc`, `zsh/zprofile`
 
 ### Neovim
 
@@ -74,6 +84,10 @@ Terminal emulator configuration with custom Catppuccin themes:
 
 **Location**: `kitty/` (symlinked to `~/.config/kitty`)
 
+### Portable Tool Installer
+
+`bin/local-bin-install` fetches prebuilt CLI tools into `~/.local/bin` for unprivileged Linux hosts (no root needed). Supports: `nvim`, `node`, `rg`, `fd`, `eza`, `fzf`, `lazygit`, `delta`, `tree-sitter`, `starship`, `uv`.
+
 ### Other Tools
 
 - **`tmux`**: Terminal multiplexer configuration (`tmux.conf`)
@@ -85,19 +99,23 @@ Terminal emulator configuration with custom Catppuccin themes:
 
 Core tools used by these configurations:
 
-- **`bash`** - Shell
+- **`bash`** / **`zsh`** - Shell (platform-dependent)
 - **`neovim`** - Text editor (>= 0.9.0)
 - **`git`** - Version control
 - **`kitty`** - Terminal emulator
 - **`tmux`** - Terminal multiplexer
+- **`starship`** - Cross-shell prompt
 - **`delta`** - Git `diff` viewer
 - **`direnv`** - Environment management
+- **`fzf`** - Fuzzy finder
+- **`fd`** - Fast file finder
+- **`rg`** (`ripgrep`) - Fast text search
+- **`eza`** - Modern `ls` replacement
 
 Optional but recommended:
 
 - **`lazygit`** - Git TUI
-- **`gitui`** - Alternative Git TUI
-- **`podman`** - Container management
+- **`podman`** - Container management (Linux)
 - **`uv`** - Python package manager
 - **`stylua`** - Lua formatter
 - **`ruff`** - Python linter/formatter
@@ -106,11 +124,17 @@ Optional but recommended:
 
 ```
 dotfiles/
-├── bash/           Shell configuration
-├── bin/            Personal scripts
+├── bash/           Bash configuration (Linux)
+├── zsh/            Zsh configuration (macOS)
+├── shell/          Shared aliases and helpers
+├── bin/            Personal scripts and local-bin-install
+├── nvim/           Neovim configuration (LazyVim)
 ├── kitty/          Kitty terminal emulator configuration
-├── nvim/           Neovim configuration
-├── terminal/       Terminal emulator configs
+├── applications/   .desktop files (Linux)
+├── laptop/         Fedora package lists
+├── mac-air/        macOS Homebrew package lists
+├── MOK/            Secure Boot module signing scripts
+├── terminal/       Legacy terminal emulator configs
 ├── gitconfig       Git configuration
 ├── gitignore       Global gitignore
 ├── tmux.conf       Tmux configuration
@@ -118,8 +142,7 @@ dotfiles/
 ├── direnvrc        direnv configuration
 ├── inputrc         Readline configuration
 ├── setup.sh        Installation script
-├── CLAUDE.md       Claude Code guidance
-└── README.md       This file
+└── CLAUDE.md       Claude Code guidance
 ```
 
 ## Updating
@@ -137,8 +160,8 @@ If new files were added, run `./setup.sh` again to create new symlinks.
 
 Feel free to fork and customize for your own use. Key files to modify:
 
-- `bash/bashrc` - Shell aliases and functions
-- `bash/profile` - Environment variables
+- `shell/aliases` - Shared shell aliases and helpers
+- `bash/bashrc` / `zsh/zshrc` - Platform-specific shell configuration
 - `nvim/lua/config/` - Neovim options and keymaps
 - `nvim/lua/plugins/` - Neovim plugin configurations
 - `gitconfig` - Git settings
@@ -149,7 +172,7 @@ These are personal configuration files. Use at your own risk.
 
 ## Notes
 
-- These dotfiles assume a Linux environment (Fedora/RHEL-based)
+- Linux configurations target Fedora; macOS configurations target a Mac Air with Homebrew
 - `neovim` configuration requires `neovim` >= 0.9.0
-- Some features may require additional tool installation
+- On unprivileged Linux hosts, `bin/local-bin-install` can bootstrap most tools without root
 - Old `vim` configuration has been removed (`neovim` only)
