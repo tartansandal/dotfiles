@@ -234,7 +234,7 @@ Docstrings
 Debian
 PyEnv
 IDEs
-direnv
+#irenv
 Datadog
 Datadog's
 Refactor
@@ -631,3 +631,5 @@ filesystem
 systemd
 md
 repo
+direnv/!
+DV
