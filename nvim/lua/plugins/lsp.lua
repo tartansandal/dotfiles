@@ -21,16 +21,7 @@ return {
             on_dir(root or vim.fs.dirname(fname))
           end,
         },
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                -- FIXME: do we need this anymore?
-                typeCheckingMode = "on",
-              },
-            },
-          },
-        },
+        pyright = {},
       },
     },
   },
