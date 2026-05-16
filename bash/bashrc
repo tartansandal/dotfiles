@@ -58,7 +58,6 @@ if [[ -r /usr/bin/aws_completer ]]; then
 fi
 
 source ~/dotfiles/shell/aliases
-alias rm='rm -I'
 alias docker=podman
 alias docker-compose='podman compose'
 

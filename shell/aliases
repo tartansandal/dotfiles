@@ -1,6 +1,11 @@
 alias ..='cd ..'
 alias cp='cp -i'
 alias mv='mv -i'
+if rm --version 2>/dev/null | grep -q GNU; then
+    alias rm='rm -I'
+else
+    alias rm='rm -i'
+fi
 command -v nvim >/dev/null 2>&1 && alias vim=nvim
 command -v lazygit >/dev/null 2>&1 && alias lg=lazygit
 if command -v eza >/dev/null 2>&1; then
