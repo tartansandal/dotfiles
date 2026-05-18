@@ -13,13 +13,15 @@ return {
         robotcode = {
           mason = false, -- installed via `uv tool install robotcode`; system Python is 3.9 so Mason can't install it
           -- Anchor the workspace on the nearest robot.toml so the LSP picks the
-          -- right root_dir when nvim is launched from inside the project tree.
+          -- right root_dir.
           --
           -- Note: relative paths in robot.toml (python-path, paths, variable-files)
-          -- are resolved against the LSP subprocess's CWD, not the toml's location
-          -- (robotcode#287). Auto-setting cmd_cwd doesn't work — on_new_config is
-          -- bypassed by nvim 0.11+'s vim.lsp.config spawn path. Workaround: launch
-          -- nvim from the directory containing robot.toml.
+          -- resolve against the LSP subprocess's CWD, not the toml's location
+          -- (robotcode#287). The clean way to live with this is to keep robot.toml
+          -- at the *project root* (alongside .git) and write its paths relative to
+          -- there — that way the LSP's CWD (= nvim's launch dir = project root)
+          -- naturally matches the config's anchor. Putting robot.toml in a subdir
+          -- only works if you remember to cd into it before launching nvim.
           root_markers = { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" },
         },
       },
