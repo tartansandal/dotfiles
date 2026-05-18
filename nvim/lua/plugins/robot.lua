@@ -12,14 +12,9 @@ return {
       servers = {
         robotcode = {
           mason = false, -- installed via `uv tool install robotcode`; system Python is 3.9 so Mason can't install it
-          -- Anchor the workspace on the nearest robot.toml, not the repo's .git root.
-          -- Lets nvim be launched from anywhere in the tree and still find the project's robotcode config.
-          root_dir = require("lspconfig.util").root_pattern(
-            "robot.toml",
-            "robotcode.toml",
-            "pyproject.toml",
-            ".git"
-          ),
+          -- Anchor the workspace on the nearest robot.toml so nvim can be launched
+          -- from anywhere in the tree and still find the project's robotcode config.
+          root_markers = { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" },
         },
       },
     },
