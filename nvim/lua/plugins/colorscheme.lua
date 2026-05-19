@@ -1,25 +1,13 @@
 -- Catppuccin colorscheme with custom "decaf" darkened color overrides
-local P = require("catppuccin.palettes")
-
-local latte = P.get_palette("latte")
-local frappe = P.get_palette("frappe")
-local macchiato = P.get_palette("macchiato")
-local mocha = P.get_palette("mocha")
-
-local C = require("catppuccin.utils.colors")
 
 local function decaffeinate(palette, weight)
+  local C = require("catppuccin.utils.colors")
   local new = {}
   for name, hex in pairs(palette) do
     new[name] = C.darken(hex, weight, "#000000")
   end
   return new
 end
-
-local latte_decaf = decaffeinate(latte, 0.87)
-local frappe_decaf = decaffeinate(frappe, 0.84)
-local macchiato_decaf = decaffeinate(macchiato, 0.85)
-local mocha_decaf = decaffeinate(mocha, 0.87)
 
 -- Make a buffer with Ptyxis palette definition suitable to add to
 -- ~/.local/share/org.gnome.Ptyxis/palettes/
@@ -49,117 +37,97 @@ local function make_term_palette(palette, name)
   for key, value in pairs(termcolors) do
     table.insert(result, key .. "=" .. value)
   end
-  -- Create a new buffer and insert the result
-  vim.cmd("new") -- Open a new empty buffer
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, result) -- Insert the result into the new buffer
+  vim.cmd("new")
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, result)
 end
 
-C.make_term_palette = make_term_palette
+-- Usage:
+--   local P = require("catppuccin.palettes")
+--   local C = require("catppuccin.utils.colors")
+--   C.make_term_palette(P.get_palette("latte"), "Catppuccin Latte Decaf")
+--   C.make_term_palette(P.get_palette("frappe"), "Catppuccin Frappe Decaf")
+--   C.make_term_palette(P.get_palette("macchiato"), "Catppuccin Macchiato Decaf")
+--   C.make_term_palette(P.get_palette("mocha"), "Catppuccin Mocha Decaf")
 
--- local P = require("catppuccin.palettes")
--- local C = require("catppuccin.utils.colors")
---
--- local latte = P.get_palette("latte")
--- local frappe = P.get_palette("frappe")
--- local macchiato = P.get_palette("macchiato")
--- local mocha = P.get_palette("mocha")
---
--- C.make_term_palette(latte, "Catppuccin Latte Decaf")
--- C.make_term_palette(frappe, "Catppuccin Frappe Decaf")
--- C.make_term_palette(macchiato, "Catppuccin Macchiato Decaf")
--- C.make_term_palette(mocha, "Catppuccin Moca Decaf")
-
--- mocha_decaf = {
---   base = "#1A1A28",
---   blue = "#779DDA",
---   crust = "#0F0F17",
---   flamingo = "#D3B2B2",
---   green = "#90C58C",
---   lavender = "#9DA5DD",
---   mantle = "#151520",
---   maroon = "#CC8B96",
---   mauve = "#B190D7",
---   overlay0 = "#5E6175",
---   overlay1 = "#6E7388",
---   overlay2 = "#80859B",
---   peach = "#DA9C75",
---   pink = "#D5A9C9",
---   red = "#D37992",
---   rosewater = "#D5C3BF",
---   sapphire = "#65ADCD",
---   sky = "#77BFCC",
---   subtext0 = "#9097AE",
---   subtext1 = "#A2A9C1",
---   surface0 = "#2B2C3B",
---   surface1 = "#3C3E4E",
---   surface2 = "#4D4F61",
---   teal = "#81C5B9",
---   text = "#B2BAD4",
---   yellow = "#D9C598"
+-- mocha_decaf reference values:
+-- {
+--   base = "#1A1A28",   blue = "#779DDA",    crust = "#0F0F17",
+--   flamingo = "#D3B2B2", green = "#90C58C",  lavender = "#9DA5DD",
+--   mantle = "#151520",  maroon = "#CC8B96",  mauve = "#B190D7",
+--   overlay0 = "#5E6175", overlay1 = "#6E7388", overlay2 = "#80859B",
+--   peach = "#DA9C75",   pink = "#D5A9C9",    red = "#D37992",
+--   rosewater = "#D5C3BF", sapphire = "#65ADCD", sky = "#77BFCC",
+--   subtext0 = "#9097AE", subtext1 = "#A2A9C1",
+--   surface0 = "#2B2C3B", surface1 = "#3C3E4E", surface2 = "#4D4F61",
+--   teal = "#81C5B9",    text = "#B2BAD4",    yellow = "#D9C598",
 -- }
 
 return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    opts = {
-      flavour = "mocha",
-      no_italic = false, -- Force no italic
-      no_bold = true, -- Force no bold
-      no_underline = false, -- Force no underline
-      dim_inactive = {
-        enabled = true, -- dims the background color of inactive window
-        -- shade = "light",
-        shade = "dark",
-        percentage = 0.25, -- percentage of the shade to apply to the inactive window
-      },
-      integrations = {
-        aerial = false, -- true,
-        alpha = false, -- true,
-        cmp = false, -- true,
-        blink_cmp = true, -- new
-        dashboard = true,
-        flash = true,
-        fzf = true,
-        grug_far = true,
-        gitsigns = true,
-        headlines = true,
-        illuminate = true,
-        indent_blankline = { enabled = true },
-        leap = false, -- true,
-        lsp_trouble = true,
-        mason = true,
-        markdown = true,
-        mini = true,
-        native_lsp = {
+    priority = 1000,
+    opts = function()
+      local P = require("catppuccin.palettes")
+      local C = require("catppuccin.utils.colors")
+
+      C.make_term_palette = make_term_palette
+
+      return {
+        flavour = "mocha",
+        dim_inactive = {
           enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
+          shade = "dark",
+          percentage = 0.25,
         },
-        navic = { enabled = true, custom_bg = "lualine" },
-        neotest = true,
-        neotree = true,
-        noice = true,
-        notify = true,
-        semantic_tokens = true,
-        snacks = true,
-        telescope = false, -- true,
-        treesitter = true,
-        treesitter_context = true,
-        which_key = true,
-        window_picker = true,
-      },
-      color_overrides = {
-        latte = latte_decaf,
-        frappe = frappe_decaf,
-        macchiato = macchiato_decaf,
-        mocha = mocha_decaf,
-      },
-    },
+        integrations = {
+          aerial = false,
+          alpha = false,
+          cmp = false,
+          blink_cmp = true,
+          dashboard = true,
+          flash = true,
+          fzf = true,
+          grug_far = true,
+          gitsigns = true,
+          headlines = true,
+          illuminate = true,
+          indent_blankline = { enabled = true },
+          leap = false,
+          lsp_trouble = true,
+          mason = true,
+          markdown = true,
+          mini = true,
+          native_lsp = {
+            enabled = true,
+            underlines = {
+              errors = { "undercurl" },
+              hints = { "undercurl" },
+              warnings = { "undercurl" },
+              information = { "undercurl" },
+            },
+          },
+          navic = { enabled = true, custom_bg = "lualine" },
+          neotest = true,
+          neotree = true,
+          noice = true,
+          notify = true,
+          semantic_tokens = true,
+          snacks = true,
+          telescope = false,
+          treesitter = true,
+          treesitter_context = true,
+          which_key = true,
+          window_picker = true,
+        },
+        color_overrides = {
+          latte = decaffeinate(P.get_palette("latte"), 0.87),
+          frappe = decaffeinate(P.get_palette("frappe"), 0.84),
+          macchiato = decaffeinate(P.get_palette("macchiato"), 0.85),
+          mocha = decaffeinate(P.get_palette("mocha"), 0.87),
+        },
+      }
+    end,
   },
   {
     "LazyVim/LazyVim",
