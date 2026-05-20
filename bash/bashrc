@@ -14,7 +14,13 @@ case $- in
 esac
 
 set -o vi
-eval "$(starship init bash)"
+
+# Prompt: starship if installed, otherwise a simple fallback
+if type starship &>/dev/null; then
+  eval "$(starship init bash)"
+else
+  PS1='\[\e[34m\]\w\[\e[0m\] \$ '
+fi
 
 ## History settings
 export HISTIGNORE="&:ls:[bf]g:exit"
