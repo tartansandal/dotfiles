@@ -1,3 +1,4 @@
+# vim: ft=zsh
 # Machine-specific zsh login-shell overrides.
 # Copied to ~/.zprofile.local by setup.sh (not tracked). Edit that copy.
 #
