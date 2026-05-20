@@ -6,3 +6,4 @@ nvim/lazy-lock.json
 nvim/.claude/settings.local.json
 .claude/settings.local.json
 kitty/local.conf
+nvim/lua/config/local.lua

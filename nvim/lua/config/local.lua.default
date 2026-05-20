@@ -1,0 +1,7 @@
+-- Machine-specific nvim overrides.
+-- Copy to local.lua and edit for this machine (local.lua is gitignored).
+-- Loaded last from lua/config/options.lua, so it overrides settings above it.
+
+-- Example: disable format-on-save (LazyVim's conform.nvim hook) on this server.
+-- Still toggle-able per buffer with <leader>uf.
+-- vim.g.autoformat = false
