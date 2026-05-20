@@ -1,3 +1,4 @@
+# vim: ft=zsh
 # Machine-specific zsh interactive overrides.
 # Copied to ~/.zshrc.local by setup.sh (not tracked). Edit that copy.
 #
