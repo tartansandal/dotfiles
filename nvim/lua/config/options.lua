@@ -103,3 +103,10 @@ opt.autochdir = false -- turning this on will break many plugins
 vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
 vim.g.loaded_perl_provider = 0 -- disable perl provider
 vim.g.loaded_ruby_provider = 0 -- disable ruby provider
+
+-- Machine-local overrides (gitignored). Mirrors the zsh/kitty .local pattern:
+-- copy lua/config/local.lua.default to lua/config/local.lua on a given machine.
+-- Loaded last so it can override anything above (e.g. vim.g.autoformat).
+if vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/config/local.lua") then
+  require("config.local")
+end
