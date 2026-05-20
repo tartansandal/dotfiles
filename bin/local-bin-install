@@ -20,7 +20,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv)
+ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -188,13 +188,25 @@ install_uv() {
   install_bins "$tmp" uv uvx; rm -rf "$tmp"
 }
 
+install_copilot() {
+  # GitHub Copilot CLI ships a self-contained executable (no Node runtime);
+  # the linux-<arch> asset is the glibc build (SUSE/SLES and most distros).
+  # A linuxmusl-<arch> variant also exists for musl hosts (e.g. Alpine).
+  # Needs an active Copilot seat; auth with `copilot` then `/login`.
+  local ver; ver=$(gh_latest github/copilot-cli) || return 1
+  local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
+  msg "copilot $ver"
+  local tmp; tmp=$(untar_url "https://github.com/github/copilot-cli/releases/download/$ver/copilot-linux-${uarch}.tar.gz") || return 1
+  install_bins "$tmp" copilot; rm -rf "$tmp"
+}
+
 # ---- driver --------------------------------------------------------------
 
 declare -A TOOLS=(
   [nvim]=install_nvim       [node]=install_node       [rg]=install_rg
   [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
   [lazygit]=install_lazygit [delta]=install_delta     [tree-sitter]=install_tree_sitter
-  [starship]=install_starship                         [uv]=install_uv
+  [starship]=install_starship [uv]=install_uv          [copilot]=install_copilot
 )
 
 if [ "$#" -gt 0 ]; then
