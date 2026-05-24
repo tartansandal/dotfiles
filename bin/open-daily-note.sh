@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Open today's daily note (or an arbitrary file) in Neovim using Obsidian plugin
 #
 # Usage:
@@ -20,9 +20,18 @@
 # - The delay is needed because "Obsidian today" runs asynchronously
 # - nvim listens on $NVIM_SOCKET so other tools (open-note.sh) can --remote into it
 
-NOTES_DIR="$HOME/Notes/Personal"
+case "$(uname -s)" in
+    Linux)
+        NOTES_DIR="$HOME/Notes/Personal"
+        KITTY_SOCKET="unix:@kitty-dailynotes"
+        ;;
+    Darwin)
+        NOTES_DIR="$HOME/Notes/Work"
+        KITTY_SOCKET="unix:/tmp/kitty-dailynotes"
+        ;;
+esac
+
 TRIGGER_FILE="$NOTES_DIR/.obsidian-trigger.md"
-KITTY_SOCKET="unix:@kitty-dailynotes"
 NVIM_SOCKET="/tmp/nvim-daily.sock"
 CLEANUP_DELAY_MS=5000
 

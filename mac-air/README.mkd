@@ -109,6 +109,24 @@ at <http://127.0.0.1:8384/> but doesn't auto-open.
 `.stignore` (excluding `.git`, `.obsidian/workspace*.json`, etc.) lives inside
 the folder and syncs across automatically.
 
+### Pomodoro timer
+
+The pomodoro prompt (hourly break reminder during work hours) uses a `launchd` user agent — the macOS equivalent of the `systemd` timer on the Fedora laptop.
+
+Install the plist:
+
+    cp ~/dotfiles/mac-air/com.kal.pomodoro-prompt.plist ~/Library/LaunchAgents/
+
+Load and start the agent:
+
+    launchctl load ~/Library/LaunchAgents/com.kal.pomodoro-prompt.plist
+
+The plist fires every hour on the hour. The script itself guards for weekday work hours (Mon-Fri 9-17), so the plist schedule is simple.
+
+To toggle the timer on/off interactively, run `toggle-pomodoro-sync.sh` (or the desktop shortcut equivalent).
+
+Logs go to `/tmp/pomodoro-prompt.{stdout,stderr}.log` for debugging.
+
 ### GitHub CLI
 
 Installed via `install-brews.sh`. Run `gh auth login` on first use.
