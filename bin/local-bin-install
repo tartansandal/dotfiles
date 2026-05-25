@@ -9,8 +9,9 @@
 # For unprivileged accounts on Linux (x86_64 / aarch64) where the system
 # package manager is off-limits. Pulls static release binaries from upstream
 # GitHub releases into ~/.local/bin (already on PATH via ~/.zprofile);
-# Neovim's runtime and Node's tree are unpacked into ~/.local/. Safe to
-# re-run to update.
+# Neovim's runtime and Node's tree are unpacked into ~/.local/. Zsh completions
+# are generated into ~/.local/share/zsh/site-functions (put on fpath by
+# ~/.zshrc). Safe to re-run to update.
 #
 # Not covered here on purpose: anything needing a compiler.
 
@@ -23,11 +24,9 @@ COMP="$PREFIX/share/zsh/site-functions"   # zsh completions; put on fpath by ~/.
 
 ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv)
 case "${1:-}" in
-  -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
+  -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\nbinaries -> %s\ncompletions -> %s\ntools: %s\n' "$BIN" "$COMP" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
 esac
-
-mkdir -p "$BIN" "$COMP"
 
 [ "$(uname -s)" = Linux ] || { echo "local-bin-install: Linux only (this is $(uname -s))" >&2; exit 1; }
 
@@ -41,6 +40,8 @@ have() { command -v "$1" >/dev/null 2>&1; }
 have curl || { echo "local-bin-install: needs 'curl'" >&2; exit 1; }
 have tar  || { echo "local-bin-install: needs 'tar'"  >&2; exit 1; }
 have gzip || { echo "local-bin-install: needs 'gzip'" >&2; exit 1; }
+
+mkdir -p "$BIN" "$COMP"   # binaries + zsh completions; only after preconditions pass
 
 msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
@@ -64,16 +65,19 @@ untar_url() {
 }
 
 # install_bins <tmpdir> <name>... — locate each binary anywhere under tmpdir,
-# copy it into $BIN, make it executable.
+# copy it into $BIN (executable), remove tmpdir, and return non-zero if any
+# requested binary was missing.
 install_bins() {
-  local tmp=$1 b path; shift
+  local tmp=$1 b path rc=0; shift
   for b in "$@"; do
     path=$(find "$tmp" -type f -name "$b" -perm -u+x 2>/dev/null | head -n1)
     [ -n "$path" ] || path=$(find "$tmp" -type f -name "$b" 2>/dev/null | head -n1)
-    [ -n "$path" ] || { warn "binary '$b' not found in archive"; continue; }
+    [ -n "$path" ] || { warn "binary '$b' not found in archive"; rc=1; continue; }
     install -m 0755 "$path" "$BIN/$b"
     msg "installed $b -> $BIN/$b"
   done
+  rm -rf "$tmp"
+  return "$rc"
 }
 
 # ---- per-tool installers -------------------------------------------------
@@ -116,14 +120,14 @@ install_rg() {
   local ver; ver=$(gh_latest BurntSushi/ripgrep) || return 1
   msg "ripgrep $ver"
   local tmp; tmp=$(untar_url "https://github.com/BurntSushi/ripgrep/releases/download/$ver/ripgrep-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
-  install_bins "$tmp" rg; rm -rf "$tmp"
+  install_bins "$tmp" rg
 }
 
 install_fd() {
   local ver; ver=$(gh_latest sharkdp/fd) || return 1
   msg "fd $ver"
   local tmp; tmp=$(untar_url "https://github.com/sharkdp/fd/releases/download/$ver/fd-${ver}-${ARCH}-unknown-linux-musl.tar.gz") || return 1
-  install_bins "$tmp" fd; rm -rf "$tmp"
+  install_bins "$tmp" fd
 }
 
 install_eza() {
@@ -131,7 +135,7 @@ install_eza() {
   local ver; ver=$(gh_latest eza-community/eza) || return 1
   msg "eza $ver"
   local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
-  install_bins "$tmp" eza; rm -rf "$tmp"
+  install_bins "$tmp" eza || return 1
   # eza has no completion generator; fetch the committed _eza for this tag
   if curl -fsSL "https://raw.githubusercontent.com/eza-community/eza/$ver/completions/zsh/_eza" -o "$COMP/_eza" && [ -s "$COMP/_eza" ]; then
     msg "completion -> $COMP/_eza"
@@ -144,7 +148,7 @@ install_fzf() {
   local ver; ver=$(gh_latest junegunn/fzf) || return 1
   msg "fzf $ver"
   local tmp; tmp=$(untar_url "https://github.com/junegunn/fzf/releases/download/$ver/fzf-${ver#v}-linux_${GOARCH}.tar.gz") || return 1
-  install_bins "$tmp" fzf; rm -rf "$tmp"
+  install_bins "$tmp" fzf
 }
 
 install_lazygit() {
@@ -152,14 +156,14 @@ install_lazygit() {
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x86_64
   msg "lazygit $ver"
   local tmp; tmp=$(untar_url "https://github.com/jesseduffield/lazygit/releases/download/$ver/lazygit_${ver#v}_Linux_${uarch}.tar.gz") || return 1
-  install_bins "$tmp" lazygit; rm -rf "$tmp"
+  install_bins "$tmp" lazygit
 }
 
 install_delta() {
   local ver; ver=$(gh_latest dandavison/delta) || return 1
   msg "delta $ver"
   local tmp; tmp=$(untar_url "https://github.com/dandavison/delta/releases/download/$ver/delta-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
-  install_bins "$tmp" delta; rm -rf "$tmp"
+  install_bins "$tmp" delta
 }
 
 install_tree_sitter() {
@@ -184,7 +188,7 @@ install_starship() {
   local ver; ver=$(gh_latest starship/starship) || return 1
   msg "starship $ver"
   local tmp; tmp=$(untar_url "https://github.com/starship/starship/releases/download/$ver/starship-${ARCH}-unknown-linux-musl.tar.gz") || return 1
-  install_bins "$tmp" starship; rm -rf "$tmp"
+  install_bins "$tmp" starship
 }
 
 install_uv() {
@@ -192,7 +196,7 @@ install_uv() {
   local ver; ver=$(gh_latest astral-sh/uv) || return 1
   msg "uv $ver"
   local tmp; tmp=$(untar_url "https://github.com/astral-sh/uv/releases/download/$ver/uv-${ARCH}-unknown-linux-musl.tar.gz") || return 1
-  install_bins "$tmp" uv uvx; rm -rf "$tmp"
+  install_bins "$tmp" uv uvx
 }
 
 install_copilot() {
@@ -204,7 +208,7 @@ install_copilot() {
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
   msg "copilot $ver"
   local tmp; tmp=$(untar_url "https://github.com/github/copilot-cli/releases/download/$ver/copilot-linux-${uarch}.tar.gz") || return 1
-  install_bins "$tmp" copilot; rm -rf "$tmp"
+  install_bins "$tmp" copilot
 }
 
 install_direnv() {
@@ -271,7 +275,11 @@ else
 fi
 
 rc=0
-for t in "${sel[@]}"; do "${TOOLS[$t]}" || { warn "failed: $t"; rc=1; }; done
+for t in "${sel[@]}"; do
+  fn=${TOOLS[$t]:-}
+  [ -n "$fn" ] || { warn "no installer for '$t' (ORDER/TOOLS drift)"; rc=1; continue; }
+  "$fn" || { warn "failed: $t"; rc=1; }
+done
 
 gen_completions   # refresh zsh completions for whatever is now installed
 
