@@ -86,7 +86,7 @@ Terminal emulator configuration with custom Catppuccin themes:
 
 ### Portable Tool Installer
 
-`bin/local-bin-install` fetches prebuilt CLI tools into `~/.local/bin` for unprivileged Linux hosts (no root needed). Run `local-bin-install --list` for the current set of tools.
+`bin/local-bin-install` fetches prebuilt CLI tools into `~/.local/bin` for unprivileged Linux hosts (no root needed). Run `local-bin-install --list` for the current set of tools. Downloads are HTTPS-only; the trust model — and why there's no checksum or signature step — is documented in the script header.
 
 ### Other Tools
 
