@@ -14,6 +14,14 @@
 # ~/.zshrc). Safe to re-run to update.
 #
 # Not covered here on purpose: anything needing a compiler.
+#
+# Trust model: artifacts come from official upstream release URLs over HTTPS with
+# cert validation, redirects pinned to HTTPS (see CURL below). That TLS link is the
+# integrity boundary — there's deliberately no checksum/signature check: a checksum
+# fetched from the same release over the same TLS adds nothing an attacker couldn't
+# also forge, and most of these projects publish no signatures. Accepted risk: a
+# compromised upstream release (this always pulls "latest"). Want more? Pin
+# version+hash in-repo, or verify signatures (node provides them).
 
 # shellcheck disable=SC2329  # installer functions are dispatched via the TOOLS map
 set -euo pipefail
