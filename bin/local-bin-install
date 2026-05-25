@@ -20,7 +20,7 @@ set -euo pipefail
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 
-ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot)
+ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv)
 case "${1:-}" in
   -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\ninstalls into %s; tools: %s\n' "$BIN" "${ORDER[*]}"; exit 0 ;;
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
@@ -200,6 +200,21 @@ install_copilot() {
   install_bins "$tmp" copilot; rm -rf "$tmp"
 }
 
+install_direnv() {
+  # direnv ships a single static binary per platform (raw, not archived/gzipped).
+  # Asset is direnv.linux-<goarch>; GOARCH is amd64/arm64 from above.
+  # Activate per-shell with: command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+  local ver; ver=$(gh_latest direnv/direnv) || return 1
+  msg "direnv $ver"
+  local tmp; tmp=$(mktemp)
+  if curl -fsSL "https://github.com/direnv/direnv/releases/download/$ver/direnv.linux-${GOARCH}" -o "$tmp"; then
+    install -m 0755 "$tmp" "$BIN/direnv"; rm -f "$tmp"
+    msg "installed direnv -> $BIN/direnv"
+  else
+    rm -f "$tmp"; warn "direnv download failed"; return 1
+  fi
+}
+
 # ---- driver --------------------------------------------------------------
 
 declare -A TOOLS=(
@@ -207,6 +222,7 @@ declare -A TOOLS=(
   [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
   [lazygit]=install_lazygit [delta]=install_delta     [tree-sitter]=install_tree_sitter
   [starship]=install_starship [uv]=install_uv          [copilot]=install_copilot
+  [direnv]=install_direnv
 )
 
 if [ "$#" -gt 0 ]; then
