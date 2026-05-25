@@ -41,6 +41,10 @@ have curl || { echo "local-bin-install: needs 'curl'" >&2; exit 1; }
 have tar  || { echo "local-bin-install: needs 'tar'"  >&2; exit 1; }
 have gzip || { echo "local-bin-install: needs 'gzip'" >&2; exit 1; }
 
+# Every download goes through this: HTTPS only, and refuse a plaintext hop even
+# if a redirect tries one (-L would otherwise happily follow an http:// target).
+CURL=(curl --proto '=https' --proto-redir '=https')
+
 mkdir -p "$BIN" "$COMP"   # binaries + zsh completions; only after preconditions pass
 
 msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
@@ -50,7 +54,7 @@ warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
 # (no API token, no rate limit). Prints e.g. "v0.26.8" or "14.1.1".
 gh_latest() {
   local repo=$1 url
-  url=$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$repo/releases/latest") \
+  url=$("${CURL[@]}" -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$repo/releases/latest") \
     || { warn "could not resolve latest release for $repo"; return 1; }
   basename "$url"
 }
@@ -58,7 +62,7 @@ gh_latest() {
 # Download a .tar.gz from $1, extract into a fresh temp dir, print the dir.
 untar_url() {
   local tmp; tmp=$(mktemp -d)
-  if ! curl -fsSL "$1" | tar -xz -C "$tmp"; then
+  if ! "${CURL[@]}" -fsSL "$1" | tar -xz -C "$tmp"; then
     rm -rf "$tmp"; warn "download/extract failed: $1"; return 1
   fi
   echo "$tmp"
@@ -98,7 +102,7 @@ install_node() {
   # Fetch to a file first: piping into `grep -m1` would SIGPIPE curl (and
   # with `set -o pipefail` that fails the whole pipeline).
   local idx; idx=$(mktemp)
-  curl -fsSL -o "$idx" https://nodejs.org/dist/index.json \
+  "${CURL[@]}" -fsSL -o "$idx" https://nodejs.org/dist/index.json \
     || { rm -f "$idx"; warn "could not fetch node release index"; return 1; }
   local ver; ver=$(grep -m1 '"lts":"' "$idx" | sed -E 's/.*"version":"([^"]+)".*/\1/')
   rm -f "$idx"
@@ -137,7 +141,7 @@ install_eza() {
   local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" eza || return 1
   # eza has no completion generator; fetch the committed _eza for this tag
-  if curl -fsSL "https://raw.githubusercontent.com/eza-community/eza/$ver/completions/zsh/_eza" -o "$COMP/_eza" && [ -s "$COMP/_eza" ]; then
+  if "${CURL[@]}" -fsSL "https://raw.githubusercontent.com/eza-community/eza/$ver/completions/zsh/_eza" -o "$COMP/_eza" && [ -s "$COMP/_eza" ]; then
     msg "completion -> $COMP/_eza"
   else
     rm -f "$COMP/_eza"; warn "eza completion fetch failed"
@@ -175,7 +179,7 @@ install_tree_sitter() {
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
   msg "tree-sitter $ver (pinned)"
   local tmp; tmp=$(mktemp)
-  if curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/$ver/tree-sitter-linux-${uarch}.gz" | gzip -dc > "$tmp"; then
+  if "${CURL[@]}" -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/$ver/tree-sitter-linux-${uarch}.gz" | gzip -dc > "$tmp"; then
     install -m 0755 "$tmp" "$BIN/tree-sitter"; rm -f "$tmp"
     msg "installed tree-sitter -> $BIN/tree-sitter"
   else
@@ -218,7 +222,7 @@ install_direnv() {
   local ver; ver=$(gh_latest direnv/direnv) || return 1
   msg "direnv $ver"
   local tmp; tmp=$(mktemp)
-  if curl -fsSL "https://github.com/direnv/direnv/releases/download/$ver/direnv.linux-${GOARCH}" -o "$tmp"; then
+  if "${CURL[@]}" -fsSL "https://github.com/direnv/direnv/releases/download/$ver/direnv.linux-${GOARCH}" -o "$tmp"; then
     install -m 0755 "$tmp" "$BIN/direnv"; rm -f "$tmp"
     msg "installed direnv -> $BIN/direnv"
   else
