@@ -19,6 +19,7 @@ set -euo pipefail
 
 PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
+COMP="$PREFIX/share/zsh/site-functions"   # zsh completions; put on fpath by ~/.zshrc
 
 ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv)
 case "${1:-}" in
@@ -26,7 +27,7 @@ case "${1:-}" in
   --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
 esac
 
-mkdir -p "$BIN"
+mkdir -p "$BIN" "$COMP"
 
 [ "$(uname -s)" = Linux ] || { echo "local-bin-install: Linux only (this is $(uname -s))" >&2; exit 1; }
 
@@ -131,6 +132,12 @@ install_eza() {
   msg "eza $ver"
   local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" eza; rm -rf "$tmp"
+  # eza has no completion generator; fetch the committed _eza for this tag
+  if curl -fsSL "https://raw.githubusercontent.com/eza-community/eza/$ver/completions/zsh/_eza" -o "$COMP/_eza" && [ -s "$COMP/_eza" ]; then
+    msg "completion -> $COMP/_eza"
+  else
+    rm -f "$COMP/_eza"; warn "eza completion fetch failed"
+  fi
 }
 
 install_fzf() {
@@ -215,6 +222,37 @@ install_direnv() {
   fi
 }
 
+# ---- shell completions ---------------------------------------------------
+# Cache zsh completion functions into $COMP (placed on fpath by ~/.zshrc) for
+# the tools that can emit one. Regenerated every run so they track updates.
+# Omitted on purpose: fzf (~/.zshrc loads `source <(fzf --zsh)`, which bundles
+# completion + key bindings), eza (no generator — handled in install_eza), and
+# nvim/node/lazygit-TUI/direnv/copilot (nothing useful to generate).
+declare -A COMPGEN=(
+  [rg]='--generate complete-zsh'    [fd]='--gen-completions zsh'
+  [delta]='--generate-completion zsh' [lazygit]='completion zsh'
+  [tree-sitter]='complete --shell zsh' [starship]='completions zsh'
+  [uv]='generate-shell-completion zsh'
+)
+
+# shellcheck disable=SC2086  # $args is a deliberately word-split argument list
+gen_completions() {
+  local t args
+  for t in "${!COMPGEN[@]}"; do
+    [ -x "$BIN/$t" ] || continue          # only for tools actually installed here
+    args=${COMPGEN[$t]}
+    if "$BIN/$t" $args > "$COMP/_$t" 2>/dev/null && [ -s "$COMP/_$t" ]; then
+      msg "completion -> $COMP/_$t"
+    else
+      rm -f "$COMP/_$t"; warn "could not generate $t completion"
+    fi
+  done
+  # uv installs uvx alongside it; give uvx its own completion too
+  if [ -x "$BIN/uvx" ] && "$BIN/uvx" --generate-shell-completion zsh > "$COMP/_uvx" 2>/dev/null && [ -s "$COMP/_uvx" ]; then
+    msg "completion -> $COMP/_uvx"
+  fi
+}
+
 # ---- driver --------------------------------------------------------------
 
 declare -A TOOLS=(
@@ -234,6 +272,8 @@ fi
 
 rc=0
 for t in "${sel[@]}"; do "${TOOLS[$t]}" || { warn "failed: $t"; rc=1; }; done
+
+gen_completions   # refresh zsh completions for whatever is now installed
 
 case ":$PATH:" in *":$BIN:"*) ;; *) warn "$BIN is not on PATH (login zsh adds it via ~/.zprofile)";; esac
 exit "$rc"
