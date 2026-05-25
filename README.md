@@ -86,7 +86,7 @@ Terminal emulator configuration with custom Catppuccin themes:
 
 ### Portable Tool Installer
 
-`bin/local-bin-install` fetches prebuilt CLI tools into `~/.local/bin` for unprivileged Linux hosts (no root needed). Supports: `nvim`, `node`, `rg`, `fd`, `eza`, `fzf`, `lazygit`, `delta`, `tree-sitter`, `starship`, `uv`.
+`bin/local-bin-install` fetches prebuilt CLI tools into `~/.local/bin` for unprivileged Linux hosts (no root needed). Run `local-bin-install --list` for the current set of tools.
 
 ### Other Tools
 
