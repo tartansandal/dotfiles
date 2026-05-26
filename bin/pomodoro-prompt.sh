@@ -21,7 +21,7 @@ if [ -S "$KITTY_SOCKET_PATH" ]; then
 else
     case "$PLATFORM" in
         Linux)  systemd-run --user gtk-launch open-daily-note.desktop ;;
-        Darwin) open-daily-note.sh & ;;
+        Darwin) "$HOME/bin/open-daily-note.sh" & ;;
     esac
 fi
 
