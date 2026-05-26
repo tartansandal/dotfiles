@@ -51,19 +51,26 @@ Take 5 deep breaths and focus on your body:
 """
         ;;
     Darwin)
-        osascript <<'APPLESCRIPT'
-display dialog ¬
-    "Pomodoros are mandatory!" & return & return & ¬
-    "Open your Daily Notes to record:" & return & return & ¬
-    "    1. What you did during the last pomodoro" & return & ¬
-    "    2. What you want to do during the next pomodoro" & return & return & ¬
-    "Take 5 deep breaths and focus on your body:" & return & return & ¬
-    "... feel the rising sensation as you breath in ..." & return & ¬
-    "... feel the falling sensation as you breath out." & return & return & ¬
-    "Breathing Balloon: https://www.youtube.com/shorts/CLhpgblsFhs" ¬
-    with title "Pomodoro" ¬
-    buttons {"OK"} default button "OK" ¬
-    giving up after 300
+        BREATHING_URL="https://www.youtube.com/shorts/CLhpgblsFhs"
+        osascript - "$BREATHING_URL" <<'APPLESCRIPT'
+on run argv
+    set breathingURL to item 1 of argv
+    set theResult to display dialog ¬
+        "Pomodoros are mandatory!" & return & return & ¬
+        "Open your Daily Notes to record:" & return & return & ¬
+        "    1. What you did during the last pomodoro" & return & ¬
+        "    2. What you want to do during the next pomodoro" & return & return & ¬
+        "Take 5 deep breaths and focus on your body:" & return & return & ¬
+        "... feel the rising sensation as you breath in ..." & return & ¬
+        "... feel the falling sensation as you breath out." ¬
+        with title "Pomodoro" ¬
+        with icon caution ¬
+        buttons {"Open Breathing Balloon", "OK"} default button "OK" ¬
+        giving up after 300
+    if (gave up of theResult) is false and (button returned of theResult) is "Open Breathing Balloon" then
+        do shell script "open " & quoted form of breathingURL
+    end if
+end run
 APPLESCRIPT
         ;;
 esac
