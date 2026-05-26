@@ -20,10 +20,14 @@
 # - The delay is needed because "Obsidian today" runs asynchronously
 # - nvim listens on $NVIM_SOCKET so other tools (open-note.sh) can --remote into it
 
+KITTY_EXTRA_ARGS=()
 case "$(uname -s)" in
     Linux)
         NOTES_DIR="$HOME/Notes/Personal"
         KITTY_SOCKET="unix:@kitty-dailynotes"
+        # --class sets WM_CLASS so GNOME (StartupWMClass=DailyNotes) raises the window.
+        # macOS has no WM_CLASS; the pomodoro script raises the window via the kitty socket instead.
+        KITTY_EXTRA_ARGS+=(--class DailyNotes)
         ;;
     Darwin)
         NOTES_DIR="$HOME/Notes/Work"
@@ -49,7 +53,7 @@ else
     NVIM_CMD+=" -c 'lua vim.defer_fn(function() vim.cmd(\"silent! bwipeout \" .. vim.g.trigger_buf) end, $CLEANUP_DELAY_MS)'"
 fi
 
-exec kitty --class DailyNotes \
+exec kitty "${KITTY_EXTRA_ARGS[@]}" \
     --listen-on "$KITTY_SOCKET" \
     --directory "$NOTES_DIR" \
     bash -lc "$NVIM_CMD"
