@@ -62,8 +62,6 @@ return {
         workdays_only = false,
       },
       completion = {
-        nvim_cmp = false,
-        blink = true,
         min_chars = 2,
         create_new = true,
       },
@@ -175,15 +173,25 @@ return {
             desc = "Show dailies (current workspace)",
           })
 
-          vim.keymap.set("n", "<localleader>dp", "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian dailies 1<cr>", {
-            buffer = note.bufnr,
-            desc = "Personal dailies",
-          })
+          vim.keymap.set(
+            "n",
+            "<localleader>dp",
+            "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian dailies 1<cr>",
+            {
+              buffer = note.bufnr,
+              desc = "Personal dailies",
+            }
+          )
 
-          vim.keymap.set("n", "<localleader>dw", "<cmd>Obsidian workspace Work<cr><cmd>Obsidian dailies 1<cr>", {
-            buffer = note.bufnr,
-            desc = "Work dailies",
-          })
+          vim.keymap.set(
+            "n",
+            "<localleader>dw",
+            "<cmd>Obsidian workspace Work<cr><cmd>Obsidian dailies 1<cr>",
+            {
+              buffer = note.bufnr,
+              desc = "Work dailies",
+            }
+          )
 
           vim.keymap.set("n", "<localleader>x", function()
             local saved = Obsidian.opts.checkbox.create_new
@@ -252,9 +260,21 @@ return {
       legacy_commands = false,
     },
     keys = {
-      { "<leader>od", "<cmd>Obsidian today<cr>", desc = "Today's Note (current workspace)" },
-      { "<leader>odp", "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>", desc = "Today's Personal Daily" },
-      { "<leader>odw", "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>", desc = "Today's Work Daily" },
+      {
+        "<leader>od",
+        "<cmd>Obsidian today<cr>",
+        desc = "Today's Note (current workspace)",
+      },
+      {
+        "<leader>odp",
+        "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>",
+        desc = "Today's Personal Daily",
+      },
+      {
+        "<leader>odw",
+        "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>",
+        desc = "Today's Work Daily",
+      },
       { "<leader>on", "<cmd>Obsidian new<cr>", desc = "New Note" },
       { "<leader>oo", "<cmd>Obsidian quick_switch<cr>", desc = "Open Quick Switcher" },
       { "<leader>os", "<cmd>Obsidian search<cr>", desc = "Search Notes" },
