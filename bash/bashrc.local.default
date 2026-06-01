@@ -1,0 +1,7 @@
+# vim: ft=bash
+# Machine-specific bash interactive overrides.
+# Copied to ~/.bashrc.local by setup.sh (not tracked). Edit that copy.
+#
+# Examples:
+#   alias open='xdg-open'
+#   PATH="$HOME/some/host/specific/bin:$PATH"
