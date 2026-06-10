@@ -19,6 +19,26 @@ return {
           frequency = true, -- frecency bonus
           history_bonus = true, -- give more weight to chronological order
         },
+        actions = {
+          copy_notification = function(_, item)
+            -- grab the message text, with fallbacks for field naming
+            local text = item.msg or item.text or (item.notif and item.notif.msg) or ""
+            vim.fn.setreg("+", text)
+            vim.notify("Copied notification to clipboard")
+          end,
+        },
+        sources = {
+          -- <c-y> copies the highlighted notification (no default copy action)
+          notifications = {
+            win = {
+              input = {
+                keys = {
+                  ["<c-y>"] = { "copy_notification", mode = { "n", "i" } },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },
