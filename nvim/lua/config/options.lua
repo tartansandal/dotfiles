@@ -94,6 +94,11 @@ elseif vim.fn.executable("xsel") == 1 then
   }
 end
 
+-- LazyVim sets clipboard = "" under SSH (vim.env.SSH_TTY), which stops `y` from
+-- reaching the system clipboard. Force unnamedplus so yanks sync everywhere —
+-- on SSH boxes without a clipboard tool, nvim falls back to OSC 52 (→ kitty → Mac).
+opt.clipboard = "unnamedplus"
+
 -- conceal level 3 breaks markdown after font changes
 opt.conceallevel = 2
 
