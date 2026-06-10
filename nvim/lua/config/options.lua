@@ -92,11 +92,26 @@ elseif vim.fn.executable("xsel") == 1 then
     },
     cache_enabled = 1,
   }
+else
+  -- No native clipboard tool (e.g. a remote SSH box): use OSC 52 → kitty → Mac.
+  -- Set it explicitly rather than relying on nvim's builtin auto-enable, which
+  -- only fires when $SSH_TTY is set — tmux strips that, breaking auto-detection.
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
 end
 
 -- LazyVim sets clipboard = "" under SSH (vim.env.SSH_TTY), which stops `y` from
 -- reaching the system clipboard. Force unnamedplus so yanks sync everywhere —
--- on SSH boxes without a clipboard tool, nvim falls back to OSC 52 (→ kitty → Mac).
+-- the branch above guarantees a provider (OSC 52) on remote boxes.
 opt.clipboard = "unnamedplus"
 
 -- conceal level 3 breaks markdown after font changes
