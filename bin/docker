@@ -1,2 +1,9 @@
 #!/bin/bash
-podman ${@}
+
+self="$(command -v -- "$0")"          # absolute path to this wrapper
+real="$(type -aP foo | grep -vFx "$self" | head -n1)"
+if [[ -n $real ]]; then
+    exec "$real" "$@"
+else
+    exec podman "$@"
+fi
