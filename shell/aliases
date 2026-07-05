@@ -58,6 +58,13 @@ pgit() {
     git --git-dir="$gitdir" --work-tree="$worktree" "$@"
 }
 
+# Reuse git's own completion (subcommands, branches, etc.) for pgit.
+if [[ -n "$ZSH_VERSION" ]] && command -v compdef >/dev/null 2>&1; then
+    compdef pgit=git
+elif [[ -n "$BASH_VERSION" ]] && declare -F __git_complete >/dev/null 2>&1; then
+    __git_complete pgit __git_main
+fi
+
 # One-time per project: pgit-init <file...>
 # Creates the bare repo, silences untracked-file noise, and excludes the
 # given files from the shared repo's own git status (via .git/info/exclude).
