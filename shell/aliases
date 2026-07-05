@@ -40,3 +40,35 @@ fi
         } >.envrc
     fi
 }
+
+# Track personal files inside a shared project without them ever touching the
+# shared repo's history: a second bare repo over the same working tree, keyed
+# off the project's own toplevel path so it works from any of several projects.
+_pgit_dir() {
+    local worktree slug
+    worktree=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "pgit: not inside a git project" >&2; return 1; }
+    slug=$(echo "$worktree" | sed 's|/|-|g; s|^-||')
+    echo "$HOME/.local/share/git-personal/${slug}.git"
+}
+
+pgit() {
+    local worktree gitdir
+    worktree=$(git rev-parse --show-toplevel) || return 1
+    gitdir=$(_pgit_dir) || return 1
+    git --git-dir="$gitdir" --work-tree="$worktree" "$@"
+}
+
+# One-time per project: pgit-init <file...>
+# Creates the bare repo, silences untracked-file noise, and excludes the
+# given files from the shared repo's own git status (via .git/info/exclude).
+pgit-init() {
+    local worktree gitdir
+    worktree=$(git rev-parse --show-toplevel) || return 1
+    gitdir=$(_pgit_dir) || return 1
+    git init --bare "$gitdir"
+    git --git-dir="$gitdir" --work-tree="$worktree" config --local status.showUntrackedFiles no
+    for f in "$@"; do
+        echo "$f" >> "$worktree/.git/info/exclude"
+    done
+    echo "Personal repo ready: $worktree -> $gitdir"
+}
