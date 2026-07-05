@@ -44,19 +44,37 @@ is_satisfied() {
 }
 
 download_pkg() {
-  local pkg="$1" rpmfile cap provider
+  local pkg="$1" rpmfile cap provider marker
   [[ -n "${SEEN[$pkg]:-}" ]] && return
   SEEN[$pkg]=1
   echo "==> downloading $pkg"
-  "${ZYPPER[@]}" download "$pkg"
+  marker="$(mktemp -p "$CACHE_DIR" .fetch-XXXXXX)"
+  if ! "${ZYPPER[@]}" download "$pkg"; then
+    echo "!! zypper download failed for $pkg — resolve manually" >&2
+    unset "SEEN[$pkg]"
+    rm -f "$marker"
+    return
+  fi
 
-  # Old test runs leave stale rpms for the same package name (different
-  # version/repo) sitting in the cache — -print -quit has no ordering
-  # guarantee, so pick whichever match is newest, i.e. what we just fetched.
-  rpmfile="$(find "$CACHE_DIR" -name "${pkg}-[0-9]*.rpm" -printf '%T@ %p\n' 2>/dev/null \
+  # $pkg can be a virtual capability/alias that zypper resolves to a
+  # differently-named actual package (e.g. "java" -> java-11-openjdk-...),
+  # so the downloaded rpm's filename doesn't necessarily start with "$pkg-".
+  # Prefer whatever rpm just appeared (mtime newer than the marker touched
+  # right before the download); only fall back to the name-based glob for
+  # the case where zypper found the package already fully cached and wrote
+  # nothing new.
+  rpmfile="$(find "$CACHE_DIR" -name '*.rpm' -newer "$marker" -printf '%T@ %p\n' 2>/dev/null \
     | sort -rn | head -1 | sed 's/^[^ ]* //')"
+  rm -f "$marker"
+  if [[ -z "$rpmfile" ]]; then
+    rpmfile="$(find "$CACHE_DIR" -name "${pkg}-[0-9]*.rpm" -printf '%T@ %p\n' 2>/dev/null \
+      | sort -rn | head -1 | sed 's/^[^ ]* //')"
+  fi
   echo "    rpm file for $pkg: ${rpmfile:-<none found in cache>}"
-  [[ -z "$rpmfile" ]] && return
+  if [[ -z "$rpmfile" ]]; then
+    unset "SEEN[$pkg]"
+    return
+  fi
 
   local -a reqs
   mapfile -t reqs < <(declared_requires "$rpmfile")
@@ -86,7 +104,10 @@ VERIFY_LOG="$EXTRACT_DIR/verify.log"
 
 verify_rpm() {
   local rpm="$1" result
-  result="$(rpm -K "$rpm" 2>&1)" || true
+  # Force the C locale so rpm's status strings are the plain-English ones
+  # the grep below expects — under a translated locale, "digests OK" never
+  # appears and every package would false-fail the digest check.
+  result="$(LC_ALL=C rpm -K "$rpm" 2>&1)" || true
   { echo "[$(date -Iseconds)] $result"; } >>"$VERIFY_LOG"
   echo "    $result"
   if ! grep -q 'digests OK\|digests signatures OK' <<<"$result"; then
@@ -99,16 +120,53 @@ verify_rpm() {
 }
 
 extract_new() {
-  local rpm marker
+  local rpm marker mtime
+  local -a candidates
+  local -A cand_name group_mtime group_path
+
   while IFS= read -r -d '' rpm; do
     marker="$EXTRACT_DIR/.extracted-$(basename "$rpm")"
     [[ -f "$marker" ]] && continue
+    candidates+=("$rpm")
+    cand_name[$rpm]="$(rpm -qp --qf '%{NAME}\n' "$rpm" 2>/dev/null)"
+    [[ -z "${cand_name[$rpm]}" ]] && cand_name[$rpm]="$(basename "$rpm")"
+  done < <(find "$CACHE_DIR" -name '*.rpm' -print0)
+
+  [[ ${#candidates[@]} -eq 0 ]] && return
+
+  # Stale rpms from old test runs can leave multiple versions of the same
+  # package sitting in the cache alongside a freshly downloaded one — cpio
+  # -idmu has no version awareness and just overwrites, so whichever gets
+  # processed last silently wins. Pick the newest (by mtime) per package
+  # name up front, and mark every other candidate handled too, so a stale
+  # rpm never gets extracted over a newer one.
+  for rpm in "${candidates[@]}"; do
+    mtime="$(stat -c '%Y' "$rpm" 2>/dev/null)"
+    if [[ -z "${group_mtime[${cand_name[$rpm]}]:-}" || "$mtime" -gt "${group_mtime[${cand_name[$rpm]}]}" ]]; then
+      group_mtime[${cand_name[$rpm]}]="$mtime"
+      group_path[${cand_name[$rpm]}]="$rpm"
+    fi
+  done
+
+  for rpm in "${candidates[@]}"; do
+    marker="$EXTRACT_DIR/.extracted-$(basename "$rpm")"
+    if [[ "$rpm" != "${group_path[${cand_name[$rpm]}]}" ]]; then
+      echo "==> skipping stale cached rpm $(basename "$rpm") (newer $(basename "${group_path[${cand_name[$rpm]}]}") wins)"
+      touch "$marker"
+      continue
+    fi
     echo "==> verifying $(basename "$rpm")"
     verify_rpm "$rpm"
     echo "==> extracting $(basename "$rpm")"
     ( cd "$EXTRACT_DIR" && rpm2cpio "$rpm" | cpio -idmu )
+    # EXTRACT_DIR is a persistent, shared cache across every invocation of
+    # this script — record which /usr paths belong to this package (keyed
+    # by package name, matching SEEN) so the final merge can copy only
+    # this run's dependency closure instead of everything ever extracted
+    # here by unrelated past runs.
+    rpm -qlp "$rpm" 2>/dev/null | sed -n 's|^/usr/||p' > "$EXTRACT_DIR/.manifest-${cand_name[$rpm]}"
     touch "$marker"
-  done < <(find "$CACHE_DIR" -name '*.rpm' -print0)
+  done
 }
 
 # Both helpers below run their body in a `( set +e; ...; true )` subshell:
@@ -129,7 +187,10 @@ resolve_provider() {
     # resolve to an unrelated arch, an already-installed dupe, or a non-package
     # solvable (patch/srcpackage) ahead of the one we actually want.
     pick="$(grep '<solvable ' <<<"$xml" | grep -E 'kind="package"' | grep -E 'arch="(x86_64|noarch)"' | head -1)"
-    [[ -z "$pick" ]] && pick="$(grep '<solvable ' <<<"$xml" | grep -E 'kind="package"' | head -1)"
+    if [[ -z "$pick" ]]; then
+      pick="$(grep '<solvable ' <<<"$xml" | grep -E 'kind="package"' | head -1)"
+      [[ -n "$pick" ]] && echo "        [resolve_provider] no x86_64/noarch match for '$cap' — falling back to $(grep -o 'arch=\"[^\"]*\"' <<<"$pick") package, verify manually" >&2
+    fi
     [[ -n "$pick" ]] && grep -o 'name="[^"]*"' <<<"$pick" | head -1 | cut -d'"' -f2
     true
   )
@@ -168,6 +229,7 @@ missing_libs() {
 # LD_LIBRARY_PATH tweaking can redirect it at our vendored copy. Rewriting it
 # to a bare soname via patchelf makes it go through the normal search path.
 patch_absolute_needed() {
+  local bootstrapping="${1:-}"
   local f needed target patchelf_bin
   while IFS= read -r -d '' f; do
     file "$f" | grep -q ELF || continue
@@ -179,11 +241,24 @@ patch_absolute_needed() {
         patchelf_bin=patchelf
       elif [[ -x "$EXTRACT_DIR/usr/bin/patchelf" ]]; then
         patchelf_bin="$EXTRACT_DIR/usr/bin/patchelf"
-      else
+      elif [[ -z "$bootstrapping" ]]; then
         echo "==> absolute-path NEEDED ($needed in $(basename "$f")) — fetching patchelf to fix it"
         download_pkg patchelf
         extract_new
+        # The freshly-extracted patchelf binary itself may carry absolute
+        # NEEDED entries — recurse once to patch it before using it. Passing
+        # "1" marks that call as a bootstrap retry so it can't recurse again
+        # if patchelf still isn't available, which would otherwise loop
+        # forever chasing a package that will never actually appear.
+        patch_absolute_needed 1
+        if [[ ! -x "$EXTRACT_DIR/usr/bin/patchelf" ]]; then
+          echo "!! patchelf unavailable after fetch attempt — cannot patch $(basename "$f"), resolve manually" >&2
+          continue
+        fi
         patchelf_bin="$EXTRACT_DIR/usr/bin/patchelf"
+      else
+        echo "!! patchelf still unavailable — cannot patch $(basename "$f"), resolve manually" >&2
+        continue
       fi
       echo "    patching $(basename "$f"): NEEDED $needed -> $(basename "$needed")"
       "$patchelf_bin" --replace-needed "$needed" "$(basename "$needed")" "$f"
@@ -249,8 +324,26 @@ if [[ "$resolved" -ne 1 ]]; then
   fi
 fi
 
-echo "==> merging $EXTRACT_DIR/usr into $PREFIX"
-cp -a "$EXTRACT_DIR"/usr/. "$PREFIX"/
+echo "==> merging this run's packages into $PREFIX"
+for pkgname in "${!SEEN[@]}"; do
+  manifest="$EXTRACT_DIR/.manifest-$pkgname"
+  [[ -f "$manifest" ]] || continue
+  while IFS= read -r relpath; do
+    [[ -z "$relpath" ]] && continue
+    src="$EXTRACT_DIR/usr/$relpath"
+    [[ -e "$src" || -L "$src" ]] || continue
+    if [[ -d "$src" && ! -L "$src" ]]; then
+      # Directories are frequently shared between packages (e.g. usr/share/X)
+      # — just ensure they exist, never cp -a them wholesale, or a directory
+      # this package owns could drag in unrelated files another package (or
+      # a past unrelated run) already extracted into the same path.
+      mkdir -p "$PREFIX/$relpath"
+    else
+      mkdir -p "$PREFIX/$(dirname "$relpath")"
+      cp -a "$src" "$PREFIX/$relpath"
+    fi
+  done < "$manifest"
+done
 
 RUNTIME_LIBDIRS="$(lib_dirs "$PREFIX")" || true
 echo "==> done. downloaded packages: ${!SEEN[*]}"
