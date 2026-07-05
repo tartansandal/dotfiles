@@ -52,7 +52,7 @@ is_satisfied() {
 }
 
 download_pkg() {
-  local pkg="$1" rpmfile cap provider marker
+  local pkg="$1" rpmfile cap marker
   [[ -n "${SEEN[$pkg]:-}" ]] && return
   SEEN[$pkg]=1
   echo "==> downloading $pkg"
@@ -94,17 +94,7 @@ download_pkg() {
       echo "    [$cap] already satisfied on system — skipping"
       continue
     fi
-    provider="$(resolve_provider "$cap")"
-    if [[ -z "$provider" ]]; then
-      echo "!! no provider found for declared requires '$cap' of $pkg — resolve manually"
-      continue
-    fi
-    if [[ -n "${SEEN[$provider]:-}" ]]; then
-      echo "    [$cap] -> provider: $provider (already seen — skipping)"
-    else
-      echo "    [$cap] -> provider: $provider"
-      download_pkg "$provider"
-    fi
+    resolve_and_fetch "$cap" "$cap" || true
   done
 }
 
@@ -128,33 +118,31 @@ verify_rpm() {
 }
 
 extract_new() {
-  local rpm marker mtime
+  local rpm marker mtime name
   local -a candidates
   local -A cand_name group_mtime group_path
-
-  while IFS= read -r -d '' rpm; do
-    marker="$EXTRACT_DIR/.extracted-$(basename "$rpm")"
-    [[ -f "$marker" ]] && continue
-    candidates+=("$rpm")
-    cand_name[$rpm]="$(rpm -qp --qf '%{NAME}\n' "$rpm" 2>/dev/null)"
-    [[ -z "${cand_name[$rpm]}" ]] && cand_name[$rpm]="$(basename "$rpm")"
-  done < <(find "$CACHE_DIR" -name '*.rpm' -print0)
-
-  [[ ${#candidates[@]} -eq 0 ]] && return
 
   # Stale rpms from old test runs can leave multiple versions of the same
   # package sitting in the cache alongside a freshly downloaded one — cpio
   # -idmu has no version awareness and just overwrites, so whichever gets
-  # processed last silently wins. Pick the newest (by mtime) per package
-  # name up front, and mark every other candidate handled too, so a stale
-  # rpm never gets extracted over a newer one.
-  for rpm in "${candidates[@]}"; do
+  # processed last silently wins. Track the newest (by mtime) per package
+  # name as candidates are gathered, so a stale rpm never gets extracted
+  # over a newer one.
+  while IFS= read -r -d '' rpm; do
+    marker="$EXTRACT_DIR/.extracted-$(basename "$rpm")"
+    [[ -f "$marker" ]] && continue
+    candidates+=("$rpm")
+    name="$(rpm -qp --qf '%{NAME}\n' "$rpm" 2>/dev/null)"
+    [[ -z "$name" ]] && name="$(basename "$rpm")"
+    cand_name[$rpm]="$name"
     mtime="$(stat -c '%Y' "$rpm" 2>/dev/null)"
-    if [[ -z "${group_mtime[${cand_name[$rpm]}]:-}" || "$mtime" -gt "${group_mtime[${cand_name[$rpm]}]}" ]]; then
-      group_mtime[${cand_name[$rpm]}]="$mtime"
-      group_path[${cand_name[$rpm]}]="$rpm"
+    if [[ -z "${group_mtime[$name]:-}" || "$mtime" -gt "${group_mtime[$name]}" ]]; then
+      group_mtime[$name]="$mtime"
+      group_path[$name]="$rpm"
     fi
-  done
+  done < <(find "$CACHE_DIR" -name '*.rpm' -print0)
+
+  [[ ${#candidates[@]} -eq 0 ]] && return
 
   for rpm in "${candidates[@]}"; do
     marker="$EXTRACT_DIR/.extracted-$(basename "$rpm")"
@@ -196,6 +184,28 @@ resolve_provider() {
     [[ -n "$pick" ]] && grep -o 'name="[^"]*"' <<<"$pick" | head -1 | cut -d'"' -f2
     true
   )
+}
+
+# Shared by download_pkg's declared-Requires walk and the main loop's
+# ldd-based gap-filling: resolve $cap to a provider via resolve_provider and
+# download_pkg it unless already SEEN, printing progress under $label.
+# Returns 0 if a new package was downloaded, 1 otherwise (no provider found,
+# or already seen) — callers that don't care which need only `|| true`
+# (or, as the left side of &&, no guard at all) to stay safe under set -e.
+resolve_and_fetch() {
+  local cap="$1" label="$2" provider
+  provider="$(resolve_provider "$cap")"
+  if [[ -z "$provider" ]]; then
+    echo "!! no provider found for $label — resolve manually"
+    return 1
+  fi
+  if [[ -n "${SEEN[$provider]:-}" ]]; then
+    echo "    [$label] -> provider: $provider (already seen — skipping)"
+    return 1
+  fi
+  echo "    [$label] -> provider: $provider"
+  download_pkg "$provider"
+  return 0
 }
 
 # Every directory actually containing a .so* file, not just the two
@@ -270,7 +280,10 @@ fi
 patch_absolute_needed
 
 resolved=0
+gave_up=0
+passes=0
 for ((i = 0; i < MAX_ITER; i++)); do
+  passes=$((i + 1))
   libs="$(missing_libs)" || true
   if [[ -z "$libs" ]]; then
     echo "==> all shared libs resolved"
@@ -293,22 +306,12 @@ for ((i = 0; i < MAX_ITER; i++)); do
     else
       cap="${lib}()(64bit)"
     fi
-    provider="$(resolve_provider "$cap")" || true
-    if [[ -z "$provider" ]]; then
-      echo "!! no provider found for $lib — resolve manually"
-      continue
-    fi
-    if [[ -n "${SEEN[$provider]:-}" ]]; then
-      echo "    [$lib] -> provider: $provider (already seen — skipping)"
-    else
-      echo "    [$lib] -> provider: $provider"
-      download_pkg "$provider"
-      new=1
-    fi
+    resolve_and_fetch "$cap" "$lib" && new=1
   done <<<"$libs"
 
   if [[ "$new" -eq 0 ]]; then
     echo "!! could not resolve remaining libs automatically, stopping"
+    gave_up=1
     break
   fi
   extract_new
@@ -316,9 +319,15 @@ for ((i = 0; i < MAX_ITER; i++)); do
 done
 
 if [[ "$resolved" -ne 1 ]]; then
-  libs="$(missing_libs)" || true
+  # If we gave up because no new providers were found, $libs above is still
+  # accurate — nothing was extracted/patched since. Otherwise MAX_ITER ran
+  # out, and the tree changed after the last extract_new/patch_absolute_needed,
+  # so it needs a fresh recompute.
+  if [[ "$gave_up" -ne 1 ]]; then
+    libs="$(missing_libs)" || true
+  fi
   if [[ -n "$libs" ]]; then
-    echo "!! unresolved shared libs remain after $((i < MAX_ITER ? i + 1 : MAX_ITER)) pass(es):" >&2
+    echo "!! unresolved shared libs remain after $passes pass(es):" >&2
     echo "$libs" | sed 's/^/    /' >&2
   fi
 fi
