@@ -47,7 +47,7 @@ fi
 _pgit_dir() {
     local worktree slug
     worktree=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "pgit: not inside a git project" >&2; return 1; }
-    slug=$(echo "$worktree" | sed 's|/|-|g; s|^-||')
+    slug=$(echo "$worktree" | sed 's|-|--|g; s|/|-|g; s|^-||')
     echo "$HOME/.local/share/git-personal/${slug}.git"
 }
 
