@@ -21,7 +21,15 @@ CACHE_DIR="$HOME/.cache/rpm-fetch/cache"
 EXTRACT_DIR="$HOME/.cache/rpm-fetch/extract"
 MAX_ITER=10
 
-mkdir -p "$CACHE_DIR" "$EXTRACT_DIR" "$PREFIX"
+mkdir -p "$CACHE_DIR" "$PREFIX"
+
+# EXTRACT_DIR is scratch space, rebuilt fresh on every run — CACHE_DIR (the
+# zypper download cache) is the only thing meant to persist between
+# invocations. Starting empty means the final merge below can trust that
+# everything under here belongs to *this* run, with no risk of pulling in
+# files left behind by an unrelated past invocation.
+rm -rf "$EXTRACT_DIR"
+mkdir -p "$EXTRACT_DIR"
 
 ZYPPER=(zypper --pkg-cache-dir "$CACHE_DIR" --no-refresh)
 
@@ -159,12 +167,6 @@ extract_new() {
     verify_rpm "$rpm"
     echo "==> extracting $(basename "$rpm")"
     ( cd "$EXTRACT_DIR" && rpm2cpio "$rpm" | cpio -idmu )
-    # EXTRACT_DIR is a persistent, shared cache across every invocation of
-    # this script — record which /usr paths belong to this package (keyed
-    # by package name, matching SEEN) so the final merge can copy only
-    # this run's dependency closure instead of everything ever extracted
-    # here by unrelated past runs.
-    rpm -qlp "$rpm" 2>/dev/null | sed -n 's|^/usr/||p' > "$EXTRACT_DIR/.manifest-${cand_name[$rpm]}"
     touch "$marker"
   done
 }
@@ -229,35 +231,21 @@ missing_libs() {
 # LD_LIBRARY_PATH tweaking can redirect it at our vendored copy. Rewriting it
 # to a bare soname via patchelf makes it go through the normal search path.
 patch_absolute_needed() {
-  local bootstrapping="${1:-}"
-  local f needed target patchelf_bin
+  local f needed target
+  local patchelf_bin=""
+  if command -v patchelf >/dev/null 2>&1; then
+    patchelf_bin=patchelf
+  elif [[ -x "$EXTRACT_DIR/usr/bin/patchelf" ]]; then
+    patchelf_bin="$EXTRACT_DIR/usr/bin/patchelf"
+  fi
   while IFS= read -r -d '' f; do
     file "$f" | grep -q ELF || continue
     while IFS= read -r needed; do
       [[ "$needed" == /* ]] || continue
       target="$EXTRACT_DIR$needed"
       [[ -f "$target" ]] || continue
-      if command -v patchelf >/dev/null 2>&1; then
-        patchelf_bin=patchelf
-      elif [[ -x "$EXTRACT_DIR/usr/bin/patchelf" ]]; then
-        patchelf_bin="$EXTRACT_DIR/usr/bin/patchelf"
-      elif [[ -z "$bootstrapping" ]]; then
-        echo "==> absolute-path NEEDED ($needed in $(basename "$f")) — fetching patchelf to fix it"
-        download_pkg patchelf
-        extract_new
-        # The freshly-extracted patchelf binary itself may carry absolute
-        # NEEDED entries — recurse once to patch it before using it. Passing
-        # "1" marks that call as a bootstrap retry so it can't recurse again
-        # if patchelf still isn't available, which would otherwise loop
-        # forever chasing a package that will never actually appear.
-        patch_absolute_needed 1
-        if [[ ! -x "$EXTRACT_DIR/usr/bin/patchelf" ]]; then
-          echo "!! patchelf unavailable after fetch attempt — cannot patch $(basename "$f"), resolve manually" >&2
-          continue
-        fi
-        patchelf_bin="$EXTRACT_DIR/usr/bin/patchelf"
-      else
-        echo "!! patchelf still unavailable — cannot patch $(basename "$f"), resolve manually" >&2
+      if [[ -z "$patchelf_bin" ]]; then
+        echo "!! patchelf unavailable — cannot patch $(basename "$f") (NEEDED $needed), resolve manually" >&2
         continue
       fi
       echo "    patching $(basename "$f"): NEEDED $needed -> $(basename "$needed")"
@@ -268,6 +256,17 @@ patch_absolute_needed() {
 
 download_pkg "$PKG"
 extract_new
+
+# Fetch patchelf upfront rather than lazily the first time patch_absolute_needed
+# hits an absolute-path NEEDED entry — harmless if it turns out not to be
+# needed, and it means patch_absolute_needed never has to fetch anything
+# itself. Skip it entirely if it's already on PATH.
+if ! command -v patchelf >/dev/null 2>&1; then
+  echo "==> fetching patchelf upfront (used to fix any absolute-path NEEDED entries)"
+  download_pkg patchelf
+  extract_new
+fi
+
 patch_absolute_needed
 
 resolved=0
@@ -324,26 +323,8 @@ if [[ "$resolved" -ne 1 ]]; then
   fi
 fi
 
-echo "==> merging this run's packages into $PREFIX"
-for pkgname in "${!SEEN[@]}"; do
-  manifest="$EXTRACT_DIR/.manifest-$pkgname"
-  [[ -f "$manifest" ]] || continue
-  while IFS= read -r relpath; do
-    [[ -z "$relpath" ]] && continue
-    src="$EXTRACT_DIR/usr/$relpath"
-    [[ -e "$src" || -L "$src" ]] || continue
-    if [[ -d "$src" && ! -L "$src" ]]; then
-      # Directories are frequently shared between packages (e.g. usr/share/X)
-      # — just ensure they exist, never cp -a them wholesale, or a directory
-      # this package owns could drag in unrelated files another package (or
-      # a past unrelated run) already extracted into the same path.
-      mkdir -p "$PREFIX/$relpath"
-    else
-      mkdir -p "$PREFIX/$(dirname "$relpath")"
-      cp -a "$src" "$PREFIX/$relpath"
-    fi
-  done < "$manifest"
-done
+echo "==> merging $EXTRACT_DIR/usr into $PREFIX"
+cp -a "$EXTRACT_DIR"/usr/. "$PREFIX"/
 
 RUNTIME_LIBDIRS="$(lib_dirs "$PREFIX")" || true
 echo "==> done. downloaded packages: ${!SEEN[*]}"
