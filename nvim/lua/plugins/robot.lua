@@ -25,6 +25,20 @@ return {
           -- naturally matches the config's anchor. Putting robot.toml in a subdir
           -- only works if you remember to cd into it before launching nvim.
           root_markers = { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" },
+          -- The global tool install runs under its own uv-managed Python, which
+          -- can be a different version than a project's venv. RobotCode has no
+          -- config option to point library analysis at another interpreter, and
+          -- since libraries can depend on compiled packages (e.g. matplotlib),
+          -- injecting the venv's site-packages via PYTHONPATH isn't reliable
+          -- across differing Python versions/ABIs. Prefer a venv-local install
+          -- (`uv pip install "robotcode[languageserver]"` inside the project's
+          -- venv) so the LSP runs under the exact same interpreter as the tests.
+          on_new_config = function(config, root_dir)
+            local venv_robotcode = root_dir .. "/.venv/bin/robotcode"
+            if vim.fn.executable(venv_robotcode) == 1 then
+              config.cmd = { venv_robotcode, "language-server" }
+            end
+          end,
         },
       },
     },
