@@ -11,7 +11,9 @@ return {
     opts = {
       servers = {
         robotcode = {
-          mason = false, -- installed via `uv tool install robotcode`; system Python is 3.9 so Mason can't install it
+          mason = false, -- installed via `uv tool install "robotcode[languageserver]"`; system Python is 3.9 so Mason can't install it
+          -- Note: the `languageserver` extra is required or the `language-server`
+          -- CLI subcommand won't exist (base package is just the CLI core).
           -- Anchor the workspace on the nearest robot.toml so the LSP picks the
           -- right root_dir.
           --
