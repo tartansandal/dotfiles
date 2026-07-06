@@ -15,7 +15,13 @@ return {
           -- Relative paths in robot.toml (python-path, paths, ...) resolve against
           -- the LSP's CWD, not the toml's location (robotcode#287) — keeping
           -- robot.toml at the project root keeps the two in sync.
-          root_markers = { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" },
+          --
+          -- Nested as a single tier (not 4 flat entries) so the nearest ancestor
+          -- with *any* of these markers wins. A flat list is priority-ordered
+          -- instead — it searches the whole filesystem upward for the first
+          -- marker before ever trying the second, so a stray robot.toml further
+          -- up (e.g. in $HOME) can shadow a much closer pyproject.toml.
+          root_markers = { { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" } },
           -- `on_new_config` is a legacy lspconfig-manager hook LazyVim's native
           -- vim.lsp.config()/vim.lsp.enable() path never calls; use a `cmd`
           -- function instead, which does receive the resolved config.root_dir.
