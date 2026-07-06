@@ -11,33 +11,45 @@ return {
     opts = {
       servers = {
         robotcode = {
-          mason = false, -- installed via `uv tool install "robotcode[languageserver]"`; system Python is 3.9 so Mason can't install it
-          -- Note: the `languageserver` extra is required or the `language-server`
-          -- CLI subcommand won't exist (base package is just the CLI core).
-          -- Anchor the workspace on the nearest robot.toml so the LSP picks the
-          -- right root_dir.
-          --
-          -- Note: relative paths in robot.toml (python-path, paths, variable-files)
-          -- resolve against the LSP subprocess's CWD, not the toml's location
-          -- (robotcode#287). The clean way to live with this is to keep robot.toml
-          -- at the *project root* (alongside .git) and write its paths relative to
-          -- there — that way the LSP's CWD (= nvim's launch dir = project root)
-          -- naturally matches the config's anchor. Putting robot.toml in a subdir
-          -- only works if you remember to cd into it before launching nvim.
+          mason = false, -- installed via `uv tool install "robotcode[languageserver]"`; the `languageserver` extra is required or the `language-server` subcommand won't exist
+          -- Relative paths in robot.toml (python-path, paths, ...) resolve against
+          -- the LSP's CWD, not the toml's location (robotcode#287) — keeping
+          -- robot.toml at the project root keeps the two in sync.
           root_markers = { "robot.toml", "robotcode.toml", "pyproject.toml", ".git" },
-          -- The global tool install runs under its own uv-managed Python, which
-          -- can be a different version than a project's venv. RobotCode has no
-          -- config option to point library analysis at another interpreter, and
-          -- since libraries can depend on compiled packages (e.g. matplotlib),
-          -- injecting the venv's site-packages via PYTHONPATH isn't reliable
-          -- across differing Python versions/ABIs. Prefer a venv-local install
-          -- (`uv pip install "robotcode[languageserver]"` inside the project's
-          -- venv) so the LSP runs under the exact same interpreter as the tests.
-          on_new_config = function(config, root_dir)
-            local venv_robotcode = root_dir .. "/.venv/bin/robotcode"
-            if vim.fn.executable(venv_robotcode) == 1 then
-              config.cmd = { venv_robotcode, "language-server" }
+          -- `on_new_config` is a legacy lspconfig-manager hook LazyVim's native
+          -- vim.lsp.config()/vim.lsp.enable() path never calls; use a `cmd`
+          -- function instead, which does receive the resolved config.root_dir.
+          --
+          -- Prefer a venv-local robotcode install over the global uv-tool one:
+          -- the global install's own interpreter can differ in version from the
+          -- project venv, and PYTHONPATH can't bridge that for libraries with
+          -- compiled deps (e.g. matplotlib).
+          cmd = function(dispatchers, config)
+            local root_dir = config.root_dir
+            -- Only guess `<root_dir>/.venv` when no venv is active — never
+            -- override an explicitly activated $VIRTUAL_ENV that happens to
+            -- lack robotcode, or we could silently run the wrong virtualenv.
+            local candidate
+            if vim.env.VIRTUAL_ENV then
+              candidate = vim.env.VIRTUAL_ENV .. "/bin/robotcode"
+            elseif root_dir then
+              candidate = root_dir .. "/.venv/bin/robotcode"
             end
+            local bin = (candidate and vim.fn.executable(candidate) == 1) and candidate or "robotcode"
+            vim.notify(
+              string.format(
+                "[robotcode] root_dir=%s VIRTUAL_ENV=%s -> using %s",
+                tostring(root_dir),
+                tostring(vim.env.VIRTUAL_ENV),
+                bin
+              ),
+              vim.log.levels.INFO,
+              { title = "robotcode" }
+            )
+            return vim.lsp.rpc.start({ bin, "language-server" }, dispatchers, {
+              cwd = config.cmd_cwd,
+              env = config.cmd_env,
+            })
           end,
         },
       },
