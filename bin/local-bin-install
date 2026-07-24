@@ -5,13 +5,18 @@
 #   local-bin-install                 # install/update every known tool
 #   local-bin-install nvim rg fd      # only the named ones
 #   local-bin-install --list          # list available tools
+#   local-bin-install --check         # show pinned vs upstream versions, install nothing
+#   local-bin-install --latest        # ignore pins, take newest upstream (for bumping)
 #
 # For unprivileged accounts on Linux (x86_64 / aarch64) where the system
-# package manager is off-limits. Pulls static release binaries from upstream
+# package manager is off-limits. Pulls prebuilt release binaries from upstream
 # GitHub releases into ~/.local/bin (already on PATH via ~/.zprofile);
 # Neovim's runtime and Node's tree are unpacked into ~/.local/. Zsh completions
 # are generated into ~/.local/share/zsh/site-functions (put on fpath by
 # ~/.zshrc). Safe to re-run to update.
+#
+# Set LOCAL_BIN_PREFIX to install somewhere other than ~/.local — used on the
+# dev servers, which share an NFS $HOME but install per-host onto local disk.
 #
 # Not covered here on purpose: anything needing a compiler.
 #
@@ -20,8 +25,9 @@
 # integrity boundary — there's deliberately no checksum/signature check: a checksum
 # fetched from the same release over the same TLS adds nothing an attacker couldn't
 # also forge, and most of these projects publish no signatures. Accepted risk: a
-# compromised upstream release (this always pulls "latest"). Want more? Pin
-# version+hash in-repo, or verify signatures (node provides them).
+# compromised upstream release, though pinning (see PIN) narrows the window to the
+# moment you bump rather than every run. Want more? Add hashes, or verify
+# signatures (node provides them).
 
 # shellcheck disable=SC2329  # installer functions are dispatched via the TOOLS map
 set -euo pipefail
@@ -31,18 +37,52 @@ BIN="$PREFIX/bin"
 COMP="$PREFIX/share/zsh/site-functions"   # zsh completions; put on fpath by ~/.zshrc
 
 ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv)
-case "${1:-}" in
-  -h|--help) printf 'usage: local-bin-install [--list] [tool ...]\nbinaries -> %s\ncompletions -> %s\ntools: %s\n' "$BIN" "$COMP" "${ORDER[*]}"; exit 0 ;;
-  --list)    printf '%s\n' "${ORDER[@]}"; exit 0 ;;
-esac
 
-[ "$(uname -s)" = Linux ] || { echo "local-bin-install: Linux only (this is $(uname -s))" >&2; exit 1; }
+# Upstream release repos. node isn't here — it comes from nodejs.org, not GitHub.
+declare -A REPO=(
+  [nvim]=neovim/neovim        [rg]=BurntSushi/ripgrep   [fd]=sharkdp/fd
+  [eza]=eza-community/eza     [fzf]=junegunn/fzf        [lazygit]=jesseduffield/lazygit
+  [delta]=dandavison/delta    [tree-sitter]=tree-sitter/tree-sitter
+  [starship]=starship/starship [uv]=astral-sh/uv        [copilot]=github/copilot-cli
+  [direnv]=direnv/direnv
+)
 
-case "$(uname -m)" in
-  x86_64|amd64)  ARCH=x86_64;  GOARCH=amd64 ;;
-  aarch64|arm64) ARCH=aarch64; GOARCH=arm64 ;;
-  *) echo "local-bin-install: unsupported arch $(uname -m)" >&2; exit 1 ;;
-esac
+# Pinned versions. These hosts install per-machine, so an unpinned "latest" means
+# two servers provisioned weeks apart silently end up on different builds — the
+# exact drift this repo exists to prevent. Tag spelling is upstream's own and is
+# inconsistent on purpose (some carry a leading v, some don't); copy it verbatim
+# from the release page or from `--check`.
+#
+# To bump: `local-bin-install --check`, edit below, commit, re-run on every host.
+# Clearing an entry makes that tool track latest again.
+declare -A PIN=(
+  [nvim]=v0.12.4       [node]=v24.18.0     [rg]=15.2.0
+  [fd]=v10.4.2         [eza]=v0.23.5       [fzf]=v0.74.1
+  [lazygit]=v0.63.1    [delta]=0.19.2
+  # tree-sitter: 0.26.x is built against glibc 2.39 (Ubuntu 24.04) and won't run
+  # on older hosts; 0.25.10 only needs glibc 2.34. Bump when the build hosts you
+  # care about catch up — this pin predates the others and is load-bearing.
+  [tree-sitter]=v0.25.10
+  [starship]=v1.26.0   [uv]=0.11.32        [copilot]=v1.0.74
+  [direnv]=v2.37.1
+)
+
+LATEST=""   # --latest: ignore PIN
+CHECK=""    # --check: report versions, install nothing
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -h|--help)
+      printf 'usage: local-bin-install [--list|--check|--latest] [tool ...]\nbinaries -> %s\ncompletions -> %s\ntools: %s\n' \
+        "$BIN" "$COMP" "${ORDER[*]}"; exit 0 ;;
+    --list)   printf '%s\n' "${ORDER[@]}"; exit 0 ;;
+    --latest) LATEST=1; shift ;;
+    --check)  CHECK=1;  shift ;;
+    --)       shift; break ;;
+    -*)       echo "local-bin-install: unknown option '$1' (see --help)" >&2; exit 1 ;;
+    *)        break ;;
+  esac
+done
 
 have() { command -v "$1" >/dev/null 2>&1; }
 have curl || { echo "local-bin-install: needs 'curl'" >&2; exit 1; }
@@ -52,8 +92,6 @@ have gzip || { echo "local-bin-install: needs 'gzip'" >&2; exit 1; }
 # Every download goes through this: HTTPS only, and refuse a plaintext hop even
 # if a redirect tries one (-L would otherwise happily follow an http:// target).
 CURL=(curl --proto '=https' --proto-redir '=https')
-
-mkdir -p "$BIN" "$COMP"   # binaries + zsh completions; only after preconditions pass
 
 msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
@@ -66,6 +104,72 @@ gh_latest() {
     || { warn "could not resolve latest release for $repo"; return 1; }
   basename "$url"
 }
+
+# Newest node LTS = first object in dist/index.json whose "lts" is a string.
+# Fetch to a file first: piping into `grep -m1` would SIGPIPE curl (and with
+# `set -o pipefail` that fails the whole pipeline).
+node_lts_version() {
+  local idx ver
+  idx=$(mktemp)
+  "${CURL[@]}" -fsSL -o "$idx" https://nodejs.org/dist/index.json \
+    || { rm -f "$idx"; warn "could not fetch node release index"; return 1; }
+  ver=$(grep -m1 '"lts":"' "$idx" | sed -E 's/.*"version":"([^"]+)".*/\1/')
+  rm -f "$idx"
+  [ -n "$ver" ] || { warn "could not determine latest node LTS"; return 1; }
+  printf '%s\n' "$ver"
+}
+
+# Newest upstream version for a tool, whichever source it comes from.
+upstream_ver() {
+  if [ "$1" = node ]; then node_lts_version; else gh_latest "${REPO[$1]}"; fi
+}
+
+# The version to install: the pin, unless --latest says otherwise.
+resolve_ver() {
+  local tool=$1
+  if [ -z "$LATEST" ] && [ -n "${PIN[$tool]:-}" ]; then
+    printf '%s\n' "${PIN[$tool]}"
+    return 0
+  fi
+  upstream_ver "$tool"
+}
+
+# " (pinned)" when the version came from PIN rather than upstream
+pin_note() {
+  if [ -z "$LATEST" ] && [ -n "${PIN[$1]:-}" ]; then printf ' (pinned)'; fi
+}
+
+# --check: what's pinned vs what upstream has now. Highlights anything behind.
+check_versions() {
+  local t cur latest
+  printf '%-12s %-12s %s\n' TOOL PINNED UPSTREAM
+  for t in "${ORDER[@]}"; do
+    cur=${PIN[$t]:-'(unpinned)'}
+    latest=$(upstream_ver "$t" 2>/dev/null || echo '?')
+    if [ "$cur" = "$latest" ]; then
+      printf '%-12s %-12s %s\n' "$t" "$cur" "up to date"
+    else
+      printf '%-12s %-12s \033[1;33m%s\033[0m\n' "$t" "$cur" "$latest"
+    fi
+  done
+}
+
+if [ -n "$CHECK" ]; then
+  check_versions
+  exit 0
+fi
+
+# Only installing needs a supported platform — --check above works anywhere, so
+# you can bump pins from the Mac and then run the install on the servers.
+[ "$(uname -s)" = Linux ] || { echo "local-bin-install: Linux only (this is $(uname -s))" >&2; exit 1; }
+
+case "$(uname -m)" in
+  x86_64|amd64)  ARCH=x86_64;  GOARCH=amd64 ;;
+  aarch64|arm64) ARCH=aarch64; GOARCH=arm64 ;;
+  *) echo "local-bin-install: unsupported arch $(uname -m)" >&2; exit 1 ;;
+esac
+
+mkdir -p "$BIN" "$COMP"   # binaries + zsh completions; only after preconditions pass
 
 # Download a .tar.gz from $1, extract into a fresh temp dir, print the dir.
 untar_url() {
@@ -95,8 +199,8 @@ install_bins() {
 # ---- per-tool installers -------------------------------------------------
 
 install_nvim() {
-  local ver; ver=$(gh_latest neovim/neovim) || return 1
-  msg "neovim $ver"
+  local ver; ver=$(resolve_ver nvim) || return 1
+  msg "neovim $ver$(pin_note nvim)"
   local tmp; tmp=$(untar_url "https://github.com/neovim/neovim/releases/download/$ver/nvim-linux-${ARCH}.tar.gz") || return 1
   local root; root=$(find "$tmp" -maxdepth 1 -type d -name 'nvim-linux-*' | head -n1)
   [ -n "$root" ] || { warn "unexpected neovim archive layout"; rm -rf "$tmp"; return 1; }
@@ -106,17 +210,9 @@ install_nvim() {
 }
 
 install_node() {
-  # newest LTS = first object in dist/index.json whose "lts" is a string.
-  # Fetch to a file first: piping into `grep -m1` would SIGPIPE curl (and
-  # with `set -o pipefail` that fails the whole pipeline).
-  local idx; idx=$(mktemp)
-  "${CURL[@]}" -fsSL -o "$idx" https://nodejs.org/dist/index.json \
-    || { rm -f "$idx"; warn "could not fetch node release index"; return 1; }
-  local ver; ver=$(grep -m1 '"lts":"' "$idx" | sed -E 's/.*"version":"([^"]+)".*/\1/')
-  rm -f "$idx"
-  [ -n "$ver" ] || { warn "could not determine latest node LTS"; return 1; }
+  local ver; ver=$(resolve_ver node) || return 1
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
-  msg "node $ver (LTS)"
+  msg "node $ver (LTS)$(pin_note node)"
   local tmp; tmp=$(untar_url "https://nodejs.org/dist/$ver/node-$ver-linux-$uarch.tar.gz") || return 1
   local root; root=$(find "$tmp" -maxdepth 1 -type d -name "node-$ver-linux-$uarch" | head -n1)
   [ -n "$root" ] || { warn "unexpected node archive layout"; rm -rf "$tmp"; return 1; }
@@ -129,23 +225,23 @@ install_node() {
 rust_libc() { [ "$ARCH" = aarch64 ] && echo gnu || echo musl; }
 
 install_rg() {
-  local ver; ver=$(gh_latest BurntSushi/ripgrep) || return 1
-  msg "ripgrep $ver"
+  local ver; ver=$(resolve_ver rg) || return 1
+  msg "ripgrep $ver$(pin_note rg)"
   local tmp; tmp=$(untar_url "https://github.com/BurntSushi/ripgrep/releases/download/$ver/ripgrep-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
   install_bins "$tmp" rg
 }
 
 install_fd() {
-  local ver; ver=$(gh_latest sharkdp/fd) || return 1
-  msg "fd $ver"
+  local ver; ver=$(resolve_ver fd) || return 1
+  msg "fd $ver$(pin_note fd)"
   local tmp; tmp=$(untar_url "https://github.com/sharkdp/fd/releases/download/$ver/fd-${ver}-${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" fd
 }
 
 install_eza() {
   # eza assets carry no version in the filename; binary sits at archive root
-  local ver; ver=$(gh_latest eza-community/eza) || return 1
-  msg "eza $ver"
+  local ver; ver=$(resolve_ver eza) || return 1
+  msg "eza $ver$(pin_note eza)"
   local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" eza || return 1
   # eza has no completion generator; fetch the committed _eza for this tag
@@ -157,35 +253,32 @@ install_eza() {
 }
 
 install_fzf() {
-  local ver; ver=$(gh_latest junegunn/fzf) || return 1
-  msg "fzf $ver"
+  local ver; ver=$(resolve_ver fzf) || return 1
+  msg "fzf $ver$(pin_note fzf)"
   local tmp; tmp=$(untar_url "https://github.com/junegunn/fzf/releases/download/$ver/fzf-${ver#v}-linux_${GOARCH}.tar.gz") || return 1
   install_bins "$tmp" fzf
 }
 
 install_lazygit() {
-  local ver; ver=$(gh_latest jesseduffield/lazygit) || return 1
+  local ver; ver=$(resolve_ver lazygit) || return 1
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x86_64
-  msg "lazygit $ver"
+  msg "lazygit $ver$(pin_note lazygit)"
   local tmp; tmp=$(untar_url "https://github.com/jesseduffield/lazygit/releases/download/$ver/lazygit_${ver#v}_Linux_${uarch}.tar.gz") || return 1
   install_bins "$tmp" lazygit
 }
 
 install_delta() {
-  local ver; ver=$(gh_latest dandavison/delta) || return 1
-  msg "delta $ver"
+  local ver; ver=$(resolve_ver delta) || return 1
+  msg "delta $ver$(pin_note delta)"
   local tmp; tmp=$(untar_url "https://github.com/dandavison/delta/releases/download/$ver/delta-${ver}-${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
   install_bins "$tmp" delta
 }
 
 install_tree_sitter() {
-  # release asset tree-sitter-linux-<arch>.gz is the gzipped binary itself.
-  # Pinned: the 0.26.x binaries are built against glibc 2.39 (Ubuntu 24.04)
-  # and won't run on older hosts; 0.25.10 only needs glibc 2.34. Bump when
-  # the build hosts you care about catch up.
-  local ver=v0.25.10
+  # release asset tree-sitter-linux-<arch>.gz is the gzipped binary itself
+  local ver; ver=$(resolve_ver tree-sitter) || return 1
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
-  msg "tree-sitter $ver (pinned)"
+  msg "tree-sitter $ver$(pin_note tree-sitter)"
   local tmp; tmp=$(mktemp)
   if "${CURL[@]}" -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/$ver/tree-sitter-linux-${uarch}.gz" | gzip -dc > "$tmp"; then
     install -m 0755 "$tmp" "$BIN/tree-sitter"; rm -f "$tmp"
@@ -197,16 +290,16 @@ install_tree_sitter() {
 
 install_starship() {
   # starship ships musl static builds for both x86_64 and aarch64
-  local ver; ver=$(gh_latest starship/starship) || return 1
-  msg "starship $ver"
+  local ver; ver=$(resolve_ver starship) || return 1
+  msg "starship $ver$(pin_note starship)"
   local tmp; tmp=$(untar_url "https://github.com/starship/starship/releases/download/$ver/starship-${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" starship
 }
 
 install_uv() {
   # archive contains both uv and uvx at the root
-  local ver; ver=$(gh_latest astral-sh/uv) || return 1
-  msg "uv $ver"
+  local ver; ver=$(resolve_ver uv) || return 1
+  msg "uv $ver$(pin_note uv)"
   local tmp; tmp=$(untar_url "https://github.com/astral-sh/uv/releases/download/$ver/uv-${ARCH}-unknown-linux-musl.tar.gz") || return 1
   install_bins "$tmp" uv uvx
 }
@@ -216,9 +309,9 @@ install_copilot() {
   # the linux-<arch> asset is the glibc build (SUSE/SLES and most distros).
   # A linuxmusl-<arch> variant also exists for musl hosts (e.g. Alpine).
   # Needs an active Copilot seat; auth with `copilot` then `/login`.
-  local ver; ver=$(gh_latest github/copilot-cli) || return 1
+  local ver; ver=$(resolve_ver copilot) || return 1
   local uarch; [ "$ARCH" = aarch64 ] && uarch=arm64 || uarch=x64
-  msg "copilot $ver"
+  msg "copilot $ver$(pin_note copilot)"
   local tmp; tmp=$(untar_url "https://github.com/github/copilot-cli/releases/download/$ver/copilot-linux-${uarch}.tar.gz") || return 1
   install_bins "$tmp" copilot
 }
@@ -227,8 +320,8 @@ install_direnv() {
   # direnv ships a single static binary per platform (raw, not archived/gzipped).
   # Asset is direnv.linux-<goarch>; GOARCH is amd64/arm64 from above.
   # Activate per-shell with: command -v direnv >/dev/null && eval "$(direnv hook zsh)"
-  local ver; ver=$(gh_latest direnv/direnv) || return 1
-  msg "direnv $ver"
+  local ver; ver=$(resolve_ver direnv) || return 1
+  msg "direnv $ver$(pin_note direnv)"
   local tmp; tmp=$(mktemp)
   if "${CURL[@]}" -fsSL "https://github.com/direnv/direnv/releases/download/$ver/direnv.linux-${GOARCH}" -o "$tmp"; then
     install -m 0755 "$tmp" "$BIN/direnv"; rm -f "$tmp"
