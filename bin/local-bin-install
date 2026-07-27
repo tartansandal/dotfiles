@@ -36,7 +36,7 @@ PREFIX="${LOCAL_BIN_PREFIX:-$HOME/.local}"
 BIN="$PREFIX/bin"
 COMP="$PREFIX/share/zsh/site-functions"   # zsh completions; put on fpath by ~/.zshrc
 
-ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv)
+ORDER=(nvim node rg fd eza fzf lazygit delta tree-sitter starship uv copilot direnv cloc)
 
 # Upstream release repos. node isn't here — it comes from nodejs.org, not GitHub.
 declare -A REPO=(
@@ -44,7 +44,7 @@ declare -A REPO=(
   [eza]=eza-community/eza     [fzf]=junegunn/fzf        [lazygit]=jesseduffield/lazygit
   [delta]=dandavison/delta    [tree-sitter]=tree-sitter/tree-sitter
   [starship]=starship/starship [uv]=astral-sh/uv        [copilot]=github/copilot-cli
-  [direnv]=direnv/direnv
+  [direnv]=direnv/direnv      [cloc]=AlDanial/cloc
 )
 
 # Pinned versions. These hosts install per-machine, so an unpinned "latest" means
@@ -64,7 +64,7 @@ declare -A PIN=(
   # care about catch up — this pin predates the others and is load-bearing.
   [tree-sitter]=v0.25.10
   [starship]=v1.26.0   [uv]=0.11.32        [copilot]=v1.0.74
-  [direnv]=v2.37.1
+  [direnv]=v2.37.1     [cloc]=v2.10
 )
 
 LATEST=""   # --latest: ignore PIN
@@ -331,12 +331,29 @@ install_direnv() {
   fi
 }
 
+install_cloc() {
+  # cloc ships as a single self-contained Perl script (core modules only, no
+  # CPAN) — the only tool here that isn't a native binary, and the reason perl
+  # is checked at install time rather than up front with curl/tar/gzip.
+  # Asset is cloc-<ver>.pl with the tag's leading v stripped.
+  local ver; ver=$(resolve_ver cloc) || return 1
+  have perl || { warn "cloc needs 'perl' on PATH; skipping"; return 1; }
+  msg "cloc $ver$(pin_note cloc)"
+  local tmp; tmp=$(mktemp)
+  if "${CURL[@]}" -fsSL "https://github.com/AlDanial/cloc/releases/download/$ver/cloc-${ver#v}.pl" -o "$tmp" && [ -s "$tmp" ]; then
+    install -m 0755 "$tmp" "$BIN/cloc"; rm -f "$tmp"
+    msg "installed cloc -> $BIN/cloc"
+  else
+    rm -f "$tmp"; warn "cloc download failed"; return 1
+  fi
+}
+
 # ---- shell completions ---------------------------------------------------
 # Cache zsh completion functions into $COMP (placed on fpath by ~/.zshrc) for
 # the tools that can emit one. Regenerated every run so they track updates.
 # Omitted on purpose: fzf (~/.zshrc loads `source <(fzf --zsh)`, which bundles
 # completion + key bindings), eza (no generator — handled in install_eza), and
-# nvim/node/lazygit-TUI/direnv/copilot (nothing useful to generate).
+# nvim/node/lazygit-TUI/direnv/copilot/cloc (nothing useful to generate).
 declare -A COMPGEN=(
   [rg]='--generate complete-zsh'    [fd]='--gen-completions zsh'
   [delta]='--generate-completion zsh' [lazygit]='completion zsh'
@@ -369,7 +386,7 @@ declare -A TOOLS=(
   [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
   [lazygit]=install_lazygit [delta]=install_delta     [tree-sitter]=install_tree_sitter
   [starship]=install_starship [uv]=install_uv          [copilot]=install_copilot
-  [direnv]=install_direnv
+  [direnv]=install_direnv   [cloc]=install_cloc
 )
 
 if [ "$#" -gt 0 ]; then
