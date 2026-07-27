@@ -295,10 +295,12 @@ install_fd() {
 }
 
 install_eza() {
-  # eza assets carry no version in the filename; binary sits at archive root
+  # eza assets carry no version in the filename; binary sits at archive root.
+  # It publishes musl for x86_64 only — aarch64 is gnu-only — which is exactly
+  # what rust_libc picks; hardcoding musl here used to 404 on aarch64 hosts.
   local ver; ver=$(resolve_ver eza) || return 1
   msg "eza $ver$(pin_note eza)"
-  local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-musl.tar.gz") || return 1
+  local tmp; tmp=$(untar_url "https://github.com/eza-community/eza/releases/download/$ver/eza_${ARCH}-unknown-linux-$(rust_libc).tar.gz") || return 1
   install_bins "$tmp" eza || return 1
   # eza has no completion generator; fetch the committed _eza for this tag
   if "${CURL[@]}" -fsSL "https://raw.githubusercontent.com/eza-community/eza/$ver/completions/zsh/_eza" -o "$COMP/_eza" && [ -s "$COMP/_eza" ]; then
