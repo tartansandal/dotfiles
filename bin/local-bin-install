@@ -7,13 +7,16 @@
 #   local-bin-install --list          # list available tools
 #   local-bin-install --check         # show installed/pinned/upstream versions, install nothing
 #   local-bin-install --latest        # ignore pins, take newest upstream (for bumping)
+#   local-bin-install --force         # reinstall even what's already at the target version
 #
 # For unprivileged accounts on Linux (x86_64 / aarch64) where the system
 # package manager is off-limits. Pulls prebuilt release binaries from upstream
 # GitHub releases into ~/.local/bin (already on PATH via ~/.zprofile);
 # Neovim's runtime and Node's tree are unpacked into ~/.local/. Zsh completions
 # are generated into ~/.local/share/zsh/site-functions (put on fpath by
-# ~/.zshrc). Safe to re-run to update.
+# ~/.zshrc). Safe to re-run: anything already at the target version is skipped,
+# so a re-run downloads nothing, and while everything is pinned it touches the
+# network not at all. --force reinstalls regardless.
 #
 # Set LOCAL_BIN_PREFIX to install somewhere other than ~/.local — used on the
 # dev servers, which share an NFS $HOME but install per-host onto local disk.
@@ -69,15 +72,17 @@ declare -A PIN=(
 
 LATEST=""   # --latest: ignore PIN
 CHECK=""    # --check: report versions, install nothing
+FORCE=""    # --force: reinstall even when already at the target version
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     -h|--help)
-      printf 'usage: local-bin-install [--list|--check|--latest] [tool ...]\nbinaries -> %s\ncompletions -> %s\ntools: %s\n' \
+      printf 'usage: local-bin-install [--list|--check|--latest|--force] [tool ...]\nbinaries -> %s\ncompletions -> %s\ntools: %s\n' \
         "$BIN" "$COMP" "${ORDER[*]}"; exit 0 ;;
     --list)   printf '%s\n' "${ORDER[@]}"; exit 0 ;;
     --latest) LATEST=1; shift ;;
     --check)  CHECK=1;  shift ;;
+    --force)  FORCE=1;  shift ;;
     --)       shift; break ;;
     -*)       echo "local-bin-install: unknown option '$1' (see --help)" >&2; exit 1 ;;
     *)        break ;;
@@ -95,6 +100,7 @@ CURL=(curl --proto '=https' --proto-redir '=https')
 
 msg()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
+skip() { printf '\033[2m--- %s\033[0m\n' "$*"; }
 
 # Latest release tag for a GitHub repo via the /releases/latest redirect
 # (no API token, no rate limit). Prints e.g. "v0.26.8" or "14.1.1".
@@ -124,14 +130,23 @@ upstream_ver() {
   if [ "$1" = node ]; then node_lts_version; else gh_latest "${REPO[$1]}"; fi
 }
 
-# The version to install: the pin, unless --latest says otherwise.
+# The version to install: the pin, unless --latest says otherwise. Memoised
+# because the skip check below resolves a version and then the installer asks
+# again — free for a pinned tool, but a second network round trip otherwise.
+declare -A RESOLVED=()
 resolve_ver() {
-  local tool=$1
-  if [ -z "$LATEST" ] && [ -n "${PIN[$tool]:-}" ]; then
-    printf '%s\n' "${PIN[$tool]}"
+  local tool=$1 ver
+  if [ -n "${RESOLVED[$tool]:-}" ]; then
+    printf '%s\n' "${RESOLVED[$tool]}"
     return 0
   fi
-  upstream_ver "$tool"
+  if [ -z "$LATEST" ] && [ -n "${PIN[$tool]:-}" ]; then
+    ver=${PIN[$tool]}
+  else
+    ver=$(upstream_ver "$tool") || return 1
+  fi
+  RESOLVED[$tool]=$ver
+  printf '%s\n' "$ver"
 }
 
 # " (pinned)" when the version came from PIN rather than upstream
@@ -422,6 +437,30 @@ gen_completions() {
 
 # ---- driver --------------------------------------------------------------
 
+# Installs that leave more than a binary behind. Judging those on the binary's
+# version alone would skip over a half-populated $PREFIX — an nvim whose runtime
+# got deleted, a uv without its uvx — so each of these must be present too.
+declare -A EXTRA=(
+  [nvim]="$PREFIX/share/nvim"   # runtime; nvim is useless without it
+  [node]="$BIN/npm"             # symlink into lib/node_modules, so -e also catches a dangling one
+  [uv]="$BIN/uvx"
+  [eza]="$COMP/_eza"            # fetched by install_eza; gen_completions doesn't cover eza
+)
+
+# True when $1 is already at version $2 and its extra artifacts are in place,
+# i.e. running the installer would just re-download the same bytes. --force
+# makes this always false; so does an empty $2 (version couldn't be resolved),
+# which leaves the installer to run and report the failure itself.
+already_installed() {
+  local tool=$1 ver=$2 cur extra
+  [ -z "$FORCE" ] || return 1
+  [ -n "$ver" ]   || return 1
+  cur=$(installed_ver "$tool") || return 1
+  [ "$(norm_ver "$cur")" = "$(norm_ver "$ver")" ] || return 1
+  extra=${EXTRA[$tool]:-}
+  [ -z "$extra" ] || [ -e "$extra" ] || return 1
+}
+
 declare -A TOOLS=(
   [nvim]=install_nvim       [node]=install_node       [rg]=install_rg
   [fd]=install_fd           [eza]=install_eza         [fzf]=install_fzf
@@ -438,13 +477,24 @@ else
 fi
 
 rc=0
+skipped=0
 for t in "${sel[@]}"; do
   fn=${TOOLS[$t]:-}
   [ -n "$fn" ] || { warn "no installer for '$t' (ORDER/TOOLS drift)"; rc=1; continue; }
+  # stderr is muted here because a failed resolve is reported by the installer,
+  # which runs (and re-resolves) precisely when this comes back empty.
+  ver=$(resolve_ver "$t" 2>/dev/null) || ver=''
+  if already_installed "$t" "$ver"; then
+    skip "$t $ver already installed$(pin_note "$t")"
+    skipped=$((skipped + 1))
+    continue
+  fi
   "$fn" || { warn "failed: $t"; rc=1; }
 done
 
-gen_completions   # refresh zsh completions for whatever is now installed
+[ "$skipped" -eq 0 ] || msg "$skipped already at target version (--force to reinstall)"
+
+gen_completions   # refresh zsh completions for whatever is installed, skipped or not
 
 case ":$PATH:" in *":$BIN:"*) ;; *) warn "$BIN is not on PATH (login zsh adds it via ~/.zprofile)";; esac
 exit "$rc"
