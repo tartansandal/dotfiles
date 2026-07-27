@@ -5,7 +5,7 @@
 #   local-bin-install                 # install/update every known tool
 #   local-bin-install nvim rg fd      # only the named ones
 #   local-bin-install --list          # list available tools
-#   local-bin-install --check         # show pinned vs upstream versions, install nothing
+#   local-bin-install --check         # show installed/pinned/upstream versions, install nothing
 #   local-bin-install --latest        # ignore pins, take newest upstream (for bumping)
 #
 # For unprivileged accounts on Linux (x86_64 / aarch64) where the system
@@ -139,18 +139,59 @@ pin_note() {
   if [ -z "$LATEST" ] && [ -n "${PIN[$1]:-}" ]; then printf ' (pinned)'; fi
 }
 
-# --check: what's pinned vs what upstream has now. Highlights anything behind.
-check_versions() {
-  local t cur latest
-  printf '%-12s %-12s %s\n' TOOL PINNED UPSTREAM
-  for t in "${ORDER[@]}"; do
-    cur=${PIN[$t]:-'(unpinned)'}
-    latest=$(upstream_ver "$t" 2>/dev/null || echo '?')
-    if [ "$cur" = "$latest" ]; then
-      printf '%-12s %-12s %s\n' "$t" "$cur" "up to date"
-    else
-      printf '%-12s %-12s \033[1;33m%s\033[0m\n' "$t" "$cur" "$latest"
+# Tags are spelled inconsistently upstream (leading v or not), and a tool's own
+# --version never prints the v. Compare on bare digits.
+norm_ver() { printf '%s' "${1#v}"; }
+
+# What's actually sitting in $BIN, or nothing if the tool isn't installed there.
+# Every tool here answers --version, and the first x.y[.z] in the output is the
+# version for all of them (nvim's "NVIM v0.12.4", lazygit's "version=0.63.1",
+# fzf's bare "0.74.1 (abc123)", eza's on line 2 under a banner). stdin is closed
+# so a TUI can't grab the terminal; only the first few lines are scanned so a
+# version mentioned further down (nvim's bundled LuaJIT) can't win. Matching is
+# done in-shell rather than `| head | grep` because head exiting early SIGPIPEs
+# the tool, which `set -o pipefail` would report as "not installed".
+installed_ver() {
+  local bin="$BIN/$1" out line i=0
+  [ -x "$bin" ] || return 1
+  out=$("$bin" --version </dev/null 2>/dev/null) || true
+  while IFS= read -r line; do
+    i=$((i + 1)); [ "$i" -le 5 ] || break
+    if [[ $line =~ ([0-9]+\.[0-9]+(\.[0-9]+)?) ]]; then
+      printf '%s\n' "${BASH_REMATCH[1]}"
+      return 0
     fi
+  done <<< "$out"
+  return 1
+}
+
+# --check: what's on this host, what's pinned, what upstream has now. Yellow
+# marks anything needing attention — a tool missing or off its pin (fix by
+# re-running the install), or a pin behind upstream (fix by bumping PIN).
+# Colour is applied after padding so the escapes don't eat the column width.
+check_versions() {
+  local t pin cur latest inst_col pin_col up_col
+  printf 'installed = version found in %s\n\n' "$BIN"
+  printf '%-12s %-14s %-12s %s\n' TOOL INSTALLED PINNED UPSTREAM
+  for t in "${ORDER[@]}"; do
+    pin=${PIN[$t]:-}
+    cur=$(installed_ver "$t" 2>/dev/null) || cur=''
+    latest=$(upstream_ver "$t" 2>/dev/null || echo '?')
+
+    printf -v inst_col '%-14s' "${cur:-not installed}"
+    if [ -z "$cur" ] || { [ -n "$pin" ] && [ "$(norm_ver "$cur")" != "$(norm_ver "$pin")" ]; }; then
+      inst_col="\033[1;33m${inst_col}\033[0m"
+    fi
+
+    printf -v pin_col '%-12s' "${pin:-(unpinned)}"
+
+    if [ -n "$pin" ] && [ "$(norm_ver "$pin")" = "$(norm_ver "$latest")" ]; then
+      up_col='pin up to date'
+    else
+      up_col="\033[1;33m${latest}\033[0m"
+    fi
+
+    printf '%-12s %b %b %b\n' "$t" "$inst_col" "$pin_col" "$up_col"
   done
 }
 
