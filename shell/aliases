@@ -65,6 +65,15 @@ elif [[ -n "$BASH_VERSION" ]] && declare -F __git_complete >/dev/null 2>&1; then
     __git_complete pgit __git_main
 fi
 
+# Same personal repo, driven from lazygit instead of the command line.
+plg() {
+    local worktree gitdir
+    worktree=$(git rev-parse --show-toplevel) || return 1
+    gitdir=$(_pgit_dir) || return 1
+    [[ -d $gitdir ]] || { echo "plg: no personal repo here - run pgit-init first" >&2; return 1; }
+    lazygit --git-dir="$gitdir" --work-tree="$worktree" "$@"
+}
+
 # One-time per project: pgit-init <file...>
 # Creates the bare repo, silences untracked-file noise, and excludes the
 # given files from the shared repo's own git status (via .git/info/exclude).
