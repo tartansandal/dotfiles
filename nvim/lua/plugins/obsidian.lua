@@ -15,6 +15,11 @@ for _, w in ipairs({
   end
 end
 
+-- Date-range picker over dailies, both ends inclusive: tomorrow down to 14
+-- days back. Shared by the global <leader>odl and buffer-local <localleader>dl
+-- maps so both list the same window.
+local dailies_cmd = "<cmd>Obsidian dailies -14 1<cr>"
+
 return {
   {
     "mfussenegger/nvim-lint",
@@ -168,28 +173,36 @@ return {
             actions.nav_link("prev")
           end, { buffer = note.bufnr, desc = "Previous link" })
 
-          vim.keymap.set("n", "<localleader>d", "<cmd>Obsidian dailies 1<cr>", {
+          -- <localleader>d is a prefix only. It previously carried the listing
+          -- itself, which meant pressing it fired a picker after 'timeoutlen'
+          -- whenever you paused before `p`/`w`. The listing now lives on `dl`.
+          local ok_wk, wk = pcall(require, "which-key")
+          if ok_wk then
+            wk.add({ { "<localleader>d", group = "dailies", buffer = note.bufnr } })
+          end
+
+          vim.keymap.set("n", "<localleader>dl", dailies_cmd, {
             buffer = note.bufnr,
-            desc = "Show dailies (current workspace)",
+            desc = "List dailies (current workspace)",
           })
 
           vim.keymap.set(
             "n",
             "<localleader>dp",
-            "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian dailies 1<cr>",
+            "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>",
             {
               buffer = note.bufnr,
-              desc = "Personal dailies",
+              desc = "Today's Personal daily",
             }
           )
 
           vim.keymap.set(
             "n",
             "<localleader>dw",
-            "<cmd>Obsidian workspace Work<cr><cmd>Obsidian dailies 1<cr>",
+            "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>",
             {
               buffer = note.bufnr,
-              desc = "Work dailies",
+              desc = "Today's Work daily",
             }
           )
 
@@ -274,6 +287,14 @@ return {
         "<leader>odw",
         "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>",
         desc = "Today's Work Daily",
+      },
+      -- Newest first. `:Obsidian dailies` lists calendar dates rather than
+      -- existing files, so days with no note yet are shown tagged "create" and
+      -- written from the daily template on select.
+      {
+        "<leader>odl",
+        dailies_cmd,
+        desc = "List Dailies",
       },
       { "<leader>on", "<cmd>Obsidian new<cr>", desc = "New Note" },
       { "<leader>oo", "<cmd>Obsidian quick_switch<cr>", desc = "Open Quick Switcher" },
