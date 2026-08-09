@@ -6,6 +6,7 @@ return {
       spec = {
         { "<leader>bf", group = "filename" },
         { "<leader>o", group = "obsidian" },
+        { "<leader>od", group = "dailies" },
       },
     },
   },
