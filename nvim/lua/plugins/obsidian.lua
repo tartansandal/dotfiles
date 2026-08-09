@@ -274,11 +274,6 @@ return {
     },
     keys = {
       {
-        "<leader>od",
-        "<cmd>Obsidian today<cr>",
-        desc = "Today's Note (current workspace)",
-      },
-      {
         "<leader>odp",
         "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>",
         desc = "Today's Personal Daily",
