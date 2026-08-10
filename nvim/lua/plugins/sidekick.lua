@@ -50,6 +50,15 @@ return {
           backend = "tmux",
           create = "terminal", -- Keep Claude in Nvim terminal (minimal keybinding conflicts)
         },
+        -- Nested in a floating nvim terminal + tmux pane, so fullscreen's alt-screen
+        -- redraw fights tmux's own scrollback/copy-mode (the reason we use the tmux
+        -- backend for session persistence). Force the classic inline renderer here;
+        -- other `claude` invocations are unaffected.
+        tools = {
+          claude = {
+            env = { CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1" },
+          },
+        },
         -- Window layout configuration
         win = {
           layout = "float", -- Open Claude in floating window
