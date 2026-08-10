@@ -13,6 +13,10 @@ opt.iskeyword["-"] = true -- Include '-' in keywords for quick reference searche
 opt.formatoptions:remove("t") -- dont auto-wrap text using textwidth
 
 local map = vim.keymap.set
+
+-- These need `remap = true`: the RHS starts with `sa`, which is mini.surround's
+-- "add surrounding" mapping (see lua/plugins/surround.lua), not a builtin. Without
+-- recursion `s` would run the builtin substitute-char instead.
 map(
   "n",
   "<localleader>`",
@@ -49,15 +53,16 @@ map(
   "saiW>",
   { remap = true, buffer = true, desc = "Surround WORD with >" }
 )
+-- Builtins only, so these stay non-recursive (the default).
 map(
   "n",
   "<localleader>s",
   "[s1z=``",
-  { noremap = false, buffer = true, desc = "Fix last spelling mistake" }
+  { buffer = true, desc = "Fix last spelling mistake" }
 )
 map(
   "i",
   "<localleader>s",
   "<Esc>[s1z=A",
-  { noremap = false, buffer = true, desc = "Fix last spelling mistake" }
+  { buffer = true, desc = "Fix last spelling mistake" }
 )
