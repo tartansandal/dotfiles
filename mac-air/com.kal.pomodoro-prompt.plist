@@ -17,6 +17,11 @@
     </dict>
     <key>RunAtLoad</key>
     <false/>
+    <!-- The daily-notes terminal is backgrounded by the script, so it stays in
+         this job's process group. Without this, launchd SIGKILLs it as soon as
+         the script exits (i.e. the moment the prompt dialog is dismissed). -->
+    <key>AbandonProcessGroup</key>
+    <true/>
     <key>StandardOutPath</key>
     <string>/tmp/pomodoro-prompt.stdout.log</string>
     <key>StandardErrorPath</key>
