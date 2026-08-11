@@ -41,3 +41,13 @@ mkdir -p ~/.local/share/applications
 for desktop_file in "$base_dir"/applications/*.desktop; do
     ln -sf "$desktop_file" ~/.local/share/applications/"$(basename "$desktop_file")"
 done
+
+# macOS launch agents (the Fedora laptop uses systemd timers instead).
+# launchd resolves the symlink and binds the job to the target path, but an
+# already-loaded job still needs bootout + bootstrap to pick up edits.
+if [ "$(uname -s)" = "Darwin" ]; then
+    mkdir -p ~/Library/LaunchAgents
+    for plist in "$base_dir"/mac-air/*.plist; do
+        ln -sf "$plist" ~/Library/LaunchAgents/"$(basename "$plist")"
+    done
+fi
