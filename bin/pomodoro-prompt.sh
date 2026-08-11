@@ -14,11 +14,21 @@ if [[ "$PLATFORM" == "Darwin" ]]; then
     fi
 fi
 
-# Launch daily notes or raise existing window
-if [ -S "$KITTY_SOCKET_PATH" ]; then
-    kitty @ --to "unix:$KITTY_SOCKET_PATH" focus-window
+# Raise the existing daily notes window, if one is listening. A kitty that died
+# uncleanly leaves a stale socket behind, so treat a failed remote control call
+# as "no window" and fall through to launching one, rather than dying on set -e.
+raise_daily_notes() {
+    [ -S "$KITTY_SOCKET_PATH" ] || return 1
+    if ! kitty @ --to "unix:$KITTY_SOCKET_PATH" focus-window 2>/dev/null; then
+        rm -f "$KITTY_SOCKET_PATH"
+        return 1
+    fi
     [[ "$PLATFORM" == "Darwin" ]] && osascript -e 'tell application "kitty" to activate'
-else
+    return 0
+}
+
+# Launch daily notes or raise existing window
+if ! raise_daily_notes; then
     case "$PLATFORM" in
         Linux)  systemd-run --user gtk-launch open-daily-note.desktop ;;
         Darwin) "$HOME/bin/open-daily-note.sh" & ;;
