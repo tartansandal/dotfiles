@@ -113,13 +113,16 @@ the folder and syncs across automatically.
 
 The pomodoro prompt (hourly break reminder during work hours) uses a `launchd` user agent — the macOS equivalent of the `systemd` timer on the Fedora laptop.
 
-Install the plist:
+`setup.sh` symlinks every `mac-air/*.plist` into `~/Library/LaunchAgents/`, so
+the plist does not need copying. Load and start the agent with:
 
-    cp ~/dotfiles/mac-air/com.kal.pomodoro-prompt.plist ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.kal.pomodoro-prompt.plist
 
-Load and start the agent:
+Editing the plist in this repo changes the file the agent points at, but
+launchd keeps its loaded copy in memory — reload it to apply the change:
 
-    launchctl load ~/Library/LaunchAgents/com.kal.pomodoro-prompt.plist
+    launchctl bootout gui/$(id -u)/com.kal.pomodoro-prompt
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.kal.pomodoro-prompt.plist
 
 The plist fires every hour on the hour. The script itself guards for weekday work hours (Mon-Fri 9-17), so the plist schedule is simple.
 
