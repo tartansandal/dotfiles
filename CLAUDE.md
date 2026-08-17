@@ -15,7 +15,7 @@ Personal dotfiles repository supporting two platforms:
 The repo is organized by tool, with platform-specific directories for package management:
 
 - `bash/`, `zsh/` — Shell configurations (both are symlinked by `setup.sh`)
-- `shell/` — Shared aliases and helpers sourced by both `bash/` and `zsh/`
+- `shell/` — Shared config sourced by both `bash/` and `zsh/`: `aliases` (interactive) and `env` (exports)
 - `nvim/` — Neovim (LazyVim-based), has its own `nvim/CLAUDE.md` with detailed guidance
 - `kitty/` — Terminal emulator config with Catppuccin Mocha Decaf theme
 - `laptop/` — Fedora package lists
@@ -44,3 +44,4 @@ Examples from recent history:
 - `setup.sh` is the source of truth for what gets symlinked — if a file isn't in `setup.sh`, it won't be deployed
 - Spell dictionary changes require both `nvim/spell/en.utf-8.add` (text) and the compiled `.spl` file
 - `bash/` and `zsh/` source shared aliases from `shell/aliases`; platform-specific aliases live in each shell's own config
+- The rc files (`bash/bashrc`, `zsh/zshrc`) source `shell/aliases` for every interactive shell; the profile files (`bash/profile`, `zsh/zprofile`) source `shell/env` for login shells. Put exports in `shell/env`, interactive-only settings in `shell/aliases`. Neither is symlinked — both are sourced by absolute path, so `setup.sh` needs no entry for them.

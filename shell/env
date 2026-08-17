@@ -1,0 +1,16 @@
+# Environment variables shared by bash and zsh.
+#
+# Sourced from bash/profile and zsh/zprofile, i.e. login shells only. Exports
+# are inherited by every child process, so setting them once per session is
+# enough. Keep this file POSIX-ish: it is read by both shells.
+#
+# Interactive-only settings (aliases, functions, prompt, fzf) belong in
+# shell/aliases, which the rc files source for every interactive shell.
+
+# Emit build/compile_commands.json on every configure so clangd can resolve
+# includes and index the whole project; without it clangd parses each file with
+# bare default flags and cross-file navigation does not work. CMake 3.17+ reads
+# this as the default for the CMAKE_EXPORT_COMPILE_COMMANDS variable. Note that
+# clangd only auto-discovers the database in the project root or a `build/`
+# subdirectory — other build dir names need a .clangd with CompilationDatabase.
+command -v cmake >/dev/null 2>&1 && export CMAKE_EXPORT_COMPILE_COMMANDS=ON
