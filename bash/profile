@@ -53,6 +53,11 @@ fi
 export DOCKER_BUILDKIT=0
 export COMPOSE_BAKE=false
 
+# Environment shared with zsh
+if [ -f ~/dotfiles/shell/env ]; then
+    . ~/dotfiles/shell/env
+fi
+
 ################################################################################
 
 export PATH

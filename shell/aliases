@@ -27,13 +27,6 @@ if command -v fzf >/dev/null 2>&1; then
     fi
 fi
 
-# Always emit build/compile_commands.json so clangd can resolve includes and
-# index the whole project. CMake 3.17+ reads this as the default for the
-# CMAKE_EXPORT_COMPILE_COMMANDS variable, so it applies without -D on every
-# configure. clangd only auto-discovers the database in the project root or a
-# `build/` subdir — other build dir names need a .clangd with CompilationDatabase.
-command -v cmake >/dev/null 2>&1 && export CMAKE_EXPORT_COMPILE_COMMANDS=ON
-
 # Scaffold a direnv .envrc for a Python venv at .venv.
 # The leading `-` is a convention for personal helpers (tab `-<TAB>` lists them).
 -make-python-envrc() {
