@@ -14,3 +14,12 @@
 # clangd only auto-discovers the database in the project root or a `build/`
 # subdirectory — other build dir names need a .clangd with CompilationDatabase.
 command -v cmake >/dev/null 2>&1 && export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# Same again for builds run inside an Apptainer container, which does not
+# inherit the above when invoked with --cleanenv. Apptainer strips the
+# APPTAINERENV_ prefix and sets the remainder inside the container, and honours
+# it even under --cleanenv. Note the resulting compile_commands.json holds
+# container paths, so a host-side clangd only resolves them if the toolchain and
+# headers live at the same paths on the host.
+command -v apptainer >/dev/null 2>&1 &&
+    export APPTAINERENV_CMAKE_EXPORT_COMPILE_COMMANDS=ON
