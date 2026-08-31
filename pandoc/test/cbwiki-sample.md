@@ -41,6 +41,26 @@ def f(*args, **kwargs):
 | bold | `**x**` | `__x__` |
 | italic | `*x*` | `''x''` |
 | pipe | a \| b | escaped |
+| link | [label](https://example.com) | separator must survive |
+
+Regression cases:
+
+1. ordered item
+2. item with a continuation paragraph
+
+   The continuation must fold into the item, or the list restarts.
+
+3. item after the continuation
+
+- bullet with a nested code block
+
+  ~~~
+  code inside a list item
+  ~~~
+
+\* an escaped star must not become a bullet
+
+A code span holding the closing delimiter: `x}}y`.
 
 Term
 : The definition of the term.

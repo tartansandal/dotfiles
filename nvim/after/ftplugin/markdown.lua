@@ -71,7 +71,10 @@ map(
 -- the markup is destined for a browser, so the converted text goes to the
 -- system clipboard rather than replacing the draft in place.
 local function cbwiki(input, args)
-  local out = vim.fn.system(vim.list_extend({ "cbwiki" }, args or {}), input)
+  local cmd = vim.list_extend({ "cbwiki" }, args or {})
+  -- vim.fn.system(cmd, nil) passes v:null, which reaches the child as the
+  -- literal text "v:null" on stdin; omit the argument entirely instead.
+  local out = input and vim.fn.system(cmd, input) or vim.fn.system(cmd)
   if vim.v.shell_error ~= 0 then
     vim.notify("cbwiki: " .. vim.trim(out), vim.log.levels.ERROR)
     return nil
@@ -128,7 +131,11 @@ vim.api.nvim_buf_create_user_command(0, "CbWikiBack", function()
     end
     table.insert(lines, 1, "```markdown")
     table.insert(lines, "```")
-    vim.api.nvim_buf_set_lines(0, vim.fn.line("."), vim.fn.line("."), false, lines)
+    local at = vim.fn.line(".")
+    vim.api.nvim_buf_set_lines(0, at, at, false, lines)
+    -- Land inside the block, not on the line above its opening fence, or
+    -- fenced_range() will not recognise it as the enclosing block.
+    vim.api.nvim_win_set_cursor(0, { at + 2, 0 })
     vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(#lines - 2))
   end
 end, { desc = "Insert the copied cbX block as a Markdown block" })

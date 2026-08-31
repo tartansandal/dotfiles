@@ -12,7 +12,13 @@ render() {
 }
 
 if [[ "${1:-}" == "-u" ]]; then
-    render >"$golden"
+    # Render to a temp file first: a redirect would truncate the checked-in
+    # golden before the writer runs, so a Lua error would empty it.
+    tmp="$(mktemp)"
+    trap 'rm -f "$tmp"' EXIT
+    render >"$tmp"
+    mv "$tmp" "$golden"
+    trap - EXIT
     echo "updated $golden"
     exit 0
 fi
