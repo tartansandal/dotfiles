@@ -85,11 +85,26 @@ Writer.Inline.RawInline = function(el)
   return ''
 end
 
--- No cbX equivalent — render through HTML.
-Writer.Inline.Strikeout = html_fallback
-Writer.Inline.Subscript = html_fallback
-Writer.Inline.Superscript = html_fallback
-Writer.Inline.Note = html_fallback
+--- %%style ... %% spans, inherited from JSPWiki. A named style needs a space
+--- to delimit the name; the %%(css) form attaches directly to its content.
+--- Both close with a bare %% — no padding, or the space lands inside the span.
+local function style_span(opener, el)
+  return concat { literal(opener), Writer.Inlines(el.content), literal('%%') }
+end
+
+Writer.Inline.Strikeout = function(el)
+  return style_span('%%(text-decoration:line-through;)', el)
+end
+
+Writer.Inline.Subscript = function(el) return style_span('%%sub ', el) end
+Writer.Inline.Superscript = function(el) return style_span('%%sup ', el) end
+
+--- cbX has no footnote concept, and routing one through HTML drags pandoc's
+--- entire footnotes section inline. Inline the note text parenthetically.
+Writer.Inline.Note = function(el)
+  local inlines = pandoc.utils.blocks_to_inlines(el.content, { pandoc.Space() })
+  return concat { literal(' ('), Writer.Inlines(inlines), literal(')') }
+end
 
 -- Blocks -------------------------------------------------------------------
 
