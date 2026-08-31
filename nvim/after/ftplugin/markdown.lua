@@ -82,21 +82,38 @@ local function cbwiki(input, args)
   return out
 end
 
+--- Fence character and run length opening or closing a block, if this line is
+--- a fence at all.
+local function fence_of(line)
+  local ticks = line:match("^%s*(```+)")
+  if ticks then
+    return "`", #ticks
+  end
+  local tildes = line:match("^%s*(~~~+)")
+  if tildes then
+    return "~", #tildes
+  end
+  return nil
+end
+
 --- Line range of the fenced code block under the cursor, if any. Fences are
---- counted from the top of the buffer so an odd ``` inside prose cannot
---- flip the pairing for the rest of the file.
+--- counted from the top of the buffer so an odd fence inside prose cannot flip
+--- the pairing for the rest of the file, and a closer must match the opener's
+--- character and be at least as long -- otherwise the inner ``` blocks of a
+--- ````markdown wrapper would each be read as a fence in their own right.
 local function fenced_range()
   local cursor = vim.fn.line(".")
-  local open = nil
+  local open, open_char, open_len = nil, nil, nil
   for lnum, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
-    if line:match("^%s*```") then
-      if open then
+    local char, len = fence_of(line)
+    if char then
+      if not open then
+        open, open_char, open_len = lnum, char, len
+      elseif char == open_char and len >= open_len then
         if cursor > open and cursor < lnum then
           return open + 1, lnum - 1
         end
         open = nil
-      else
-        open = lnum
       end
     end
   end
@@ -124,19 +141,46 @@ vim.api.nvim_buf_create_user_command(0, "CbWikiBack", function()
   local out = cbwiki(nil, { "-c" })
   if out then
     local lines = vim.split(vim.trim(out), "\n", { plain = true })
-    -- Nested ``` fences would close the wrapper early. ~~~ is the equivalent
-    -- CommonMark form, so :CbWiki still reads the block back unchanged.
-    for i, line in ipairs(lines) do
-      lines[i] = line:gsub("^(%s*)```", "%1~~~")
+    local content_lines = #lines
+    -- Wrap in a fence longer than any the content holds, which is what
+    -- CommonMark requires and what prettier normalises to on save. Rewriting
+    -- the inner fences instead would just be undone by the formatter.
+    local longest = 2
+    for _, line in ipairs(lines) do
+      local char, len = fence_of(line)
+      if char == "`" and len > longest then
+        longest = len
+      end
     end
-    table.insert(lines, 1, "```markdown")
-    table.insert(lines, "```")
+    -- pandoc writes "``` python"; prettier strips the space on save, so do it
+    -- here and keep the inserted block byte-identical to its formatted form.
+    for i, line in ipairs(lines) do
+      lines[i] = line:gsub("^(`+) (%S)", "%1%2")
+    end
+    local fence = string.rep("`", longest + 1)
+    table.insert(lines, 1, fence .. "markdown")
+    table.insert(lines, fence)
+
     local at = vim.fn.line(".")
+    -- Surround the block with blank lines, again matching what the formatter
+    -- would do, so inserting does not create a diff on the next save.
+    local function blank(lnum)
+      local got = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+      return got == nil or got == ""
+    end
+    local lead = 0
+    if not blank(at) then
+      table.insert(lines, 1, "")
+      lead = 1
+    end
+    if not blank(at + 1) then
+      table.insert(lines, "")
+    end
     vim.api.nvim_buf_set_lines(0, at, at, false, lines)
     -- Land inside the block, not on the line above its opening fence, or
     -- fenced_range() will not recognise it as the enclosing block.
-    vim.api.nvim_win_set_cursor(0, { at + 2, 0 })
-    vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(#lines - 2))
+    vim.api.nvim_win_set_cursor(0, { at + lead + 2, 0 })
+    vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(content_lines))
   end
 end, { desc = "Insert the copied cbX block as a Markdown block" })
 
