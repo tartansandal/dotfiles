@@ -42,7 +42,7 @@ def f(*args, **kwargs):
 
 ----
 
-Style spans: %%(text-decoration:line-through;)strikeout%%, H%%sub 2%%O, and 2%%sup 10%% all map to %% spans.
+Style spans: %%(text-decoration:line-through;)strikeout%!, H%%sub 2%!O, and 2%%sup 10%! all map to %% spans.
 
 Fallback: a footnote (The note text.) has no cbX form.
 
