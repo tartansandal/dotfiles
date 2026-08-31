@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Convert between Markdown and Codebeamer (cbX) wiki markup, reading stdin or
+# a file and writing stdout, so it works as an editor filter.
+#
+#   cbwiki notes.md          Markdown -> cbX markup
+#   cbwiki -r page.html      rendered cbX page (HTML) -> Markdown
+#
+# pandoc resolves a custom writer relative to the working directory only, so
+# the writer is addressed by absolute path here.
+set -euo pipefail
+
+# ~/bin is a symlink into the dotfiles checkout; resolve through it so the
+# writer is found regardless of where this was invoked from.
+self="$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$0")"
+writer="$(dirname "$(dirname "$self")")/pandoc/writers/cbwiki.lua"
+
+reverse=0
+if [[ "${1:-}" == "-r" || "${1:-}" == "--reverse" ]]; then
+    reverse=1
+    shift
+fi
+
+if [[ ! -f "$writer" ]]; then
+    echo "cbwiki: writer not found at $writer" >&2
+    exit 1
+fi
+
+if (( reverse )); then
+    # cbX has no pandoc reader; the rendered page is the practical source.
+    exec pandoc -f html -t gfm "$@"
+else
+    exec pandoc -f gfm+definition_lists+superscript+subscript+strikeout \
+        -t "$writer" "$@"
+fi
