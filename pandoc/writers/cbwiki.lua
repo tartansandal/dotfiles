@@ -139,8 +139,8 @@ end
 
 Writer.Block.HorizontalRule = function() return literal('----') end
 
---- cbX quotes with a leading '>' per line. A blank line would close the
---- quote, so paragraphs inside one are separated by a forced break instead.
+--- cbX quotes with a leading '>' per line, and a bare '>' is itself a quoted
+--- blank line, so that is what separates paragraphs inside a quote.
 --- Nesting composes: an inner quote prefixes its own lines, and the outer
 --- pass prefixes those again to give '>>'.
 Writer.Block.BlockQuote = function(el)
@@ -148,8 +148,8 @@ Writer.Block.BlockQuote = function(el)
   for _, b in ipairs(el.content) do
     parts[#parts + 1] = Writer.Block[b.t](b)
   end
-  local sep = concat { cr, literal('\\\\'), cr }
-  local body = layout.render(concat(parts, sep))
+  -- blankline, not cr..cr: the layout engine collapses consecutive breaks.
+  local body = layout.render(concat(parts, blankline))
   local lines = {}
   for line in (body .. '\n'):gmatch('([^\n]*)\n') do
     if line == '' then
