@@ -104,6 +104,15 @@ end
 Writer.Inline.Subscript = function(el) return style_span('%%sub ', el) end
 Writer.Inline.Superscript = function(el) return style_span('%%sup ', el) end
 
+Writer.Inline.Underline = function(el)
+  return style_span('%%(text-decoration:underline;)', el)
+end
+
+Writer.Inline.Cite = function(el) return Writer.Inlines(el.content) end
+
+-- No cbX equivalent; HTML at least preserves the notation.
+Writer.Inline.Math = html_fallback
+
 --- cbX has no footnote concept, and routing one through HTML drags pandoc's
 --- entire footnotes section inline. Inline the note text parenthetically.
 Writer.Inline.Note = function(el)
@@ -130,8 +139,28 @@ end
 
 Writer.Block.HorizontalRule = function() return literal('----') end
 
+--- cbX quotes with a leading '>' per line. A blank line would close the
+--- quote, so paragraphs inside one are separated by a forced break instead.
+--- Nesting composes: an inner quote prefixes its own lines, and the outer
+--- pass prefixes those again to give '>>'.
 Writer.Block.BlockQuote = function(el)
-  return html_fallback(pandoc.Div(el.content))
+  local parts = {}
+  for _, b in ipairs(el.content) do
+    parts[#parts + 1] = Writer.Block[b.t](b)
+  end
+  local sep = concat { cr, literal('\\\\'), cr }
+  local body = layout.render(concat(parts, sep))
+  local lines = {}
+  for line in (body .. '\n'):gmatch('([^\n]*)\n') do
+    if line == '' then
+      lines[#lines + 1] = literal('>')
+    elseif line:sub(1, 1) == '>' then
+      lines[#lines + 1] = literal('>' .. line)
+    else
+      lines[#lines + 1] = literal('> ' .. line)
+    end
+  end
+  return concat(lines, cr)
 end
 
 Writer.Block.LineBlock = function(el)
@@ -143,6 +172,16 @@ Writer.Block.LineBlock = function(el)
 end
 
 Writer.Block.Div = function(el) return Writer.Blocks(el.content) end
+--- cbX has no figure construct; emit the image with its caption beneath,
+--- italicised, rather than dropping the caption on the floor.
+Writer.Block.Figure = function(el)
+  local body = Writer.Blocks(el.content)
+  local caption = pandoc.utils.stringify(el.caption)
+  if caption == '' then
+    return body
+  end
+  return concat { body, cr, literal("''" .. caption .. "''") }
+end
 
 Writer.Block.RawBlock = function(el)
   if el.format == 'html' then
