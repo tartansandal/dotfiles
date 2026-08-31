@@ -150,15 +150,11 @@ Writer.Block.BlockQuote = function(el)
   end
   -- blankline, not cr..cr: the layout engine collapses consecutive breaks.
   local body = layout.render(concat(parts, blankline))
+  -- cbX's own editor emits '>text' with no separating space, and a bare '>'
+  -- for a quoted blank line; both fall out of prefixing every line.
   local lines = {}
   for line in (body .. '\n'):gmatch('([^\n]*)\n') do
-    if line == '' then
-      lines[#lines + 1] = literal('>')
-    elseif line:sub(1, 1) == '>' then
-      lines[#lines + 1] = literal('>' .. line)
-    else
-      lines[#lines + 1] = literal('> ' .. line)
-    end
+    lines[#lines + 1] = literal('>' .. line)
   end
   return concat(lines, cr)
 end
