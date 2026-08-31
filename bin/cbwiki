@@ -49,6 +49,10 @@ sys.stdout.buffer.write(binascii.unhexlify(re.sub(r"^«data HTML|»$", "", data)
 }
 
 if (( clipboard )); then
+    if (( $# )); then
+        echo "cbwiki: -c reads the clipboard and takes no file argument" >&2
+        exit 1
+    fi
     read_clipboard_html | pandoc -f html -t gfm
 elif (( reverse )); then
     exec pandoc -f html -t gfm "$@"

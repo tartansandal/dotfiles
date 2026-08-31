@@ -37,12 +37,25 @@ def f(*args, **kwargs):
 |bold|{{**x**}}|{{__x__}}
 |italic|{{*x*}}|{{''x''}}
 |pipe|a ~| b|escaped
+|link|[label|https://example.com]|separator must survive
+
+Regression cases:
+
+# ordered item
+# item with a continuation paragraph\\The continuation must fold into the item, or the list restarts.
+# item after the continuation
+
+* bullet with a nested code block\\{{code inside a list item}}
+
+~* an escaped star must not become a bullet
+
+A code span holding the closing delimiter: [{Html <code>x}}y</code>}].
 
 ;Term:The definition of the term.
 
 ----
 
-Style spans: %%(text-decoration:line-through;)strikeout%!, H%%sub 2%!O, and 2%%sup 10%! all map to %% spans.
+Style spans: %%(text-decoration:line-through;)strikeout%!, H%%sub 2%!O, and 2%%sup 10%! all map to ~%% spans.
 
 Fallback: a footnote (The note text.) has no cbX form.
 

@@ -23,10 +23,28 @@ local function list_prefix()
   return table.concat(list_stack)
 end
 
+--- Set while rendering a table cell, where a bare | would start a column.
+--- Escaping at this level leaves the | that Link emits as a separator alone.
+local escape_pipe = false
+
 --- `~` escapes the following character. Escape only what would otherwise
 --- start markup mid-line; over-escaping makes the output unreadable.
 local function escape(text)
-  return (text:gsub('[~%[%]]', '~%0'))
+  local out = text:gsub('[~%[%]]', '~%0')
+  out = out:gsub('{{', '~{{')
+  out = out:gsub('%%%%', '~%%%%')
+  if escape_pipe then
+    out = out:gsub('|', '~|')
+  end
+  return out
+end
+
+--- Render inlines onto one source line. cbX's line-oriented constructs -- a
+--- table row, a definition, a list item -- end at a real newline, so forced
+--- breaks keep their \\ marker and every other newline folds into one.
+local function one_line(inlines)
+  local s = layout.render(Writer.Inlines(inlines))
+  return (s:gsub('\\\\\n', '\\\\'):gsub('\n', '\\\\'))
 end
 
 local function html_fallback(el)
@@ -38,6 +56,13 @@ local function html_fallback(el)
   end
   local html = pandoc.write(doc, 'html'):gsub('%s+$', '')
   return concat { literal('[{Html'), blankline, literal(html), cr, literal('}]') }
+end
+
+--- The block fallback carries a blankline and would split a paragraph, so
+--- inline constructs get a single-line form instead.
+local function html_inline_fallback(el)
+  local html = pandoc.write(pandoc.Pandoc({ pandoc.Plain({ el }) }), 'html')
+  return literal('[{Html ' .. (html:gsub('%s+$', ''):gsub('\n', ' ')) .. '}]')
 end
 
 -- Inlines ------------------------------------------------------------------
@@ -56,12 +81,17 @@ Writer.Inline.Strong = function(el)
 end
 
 Writer.Inline.Code = function(el)
+  -- A }} inside the span would close it early; HTML is the only safe form.
+  if el.text:find('}}', 1, true) then
+    return html_inline_fallback(el)
+  end
   return concat { literal('{{'), literal(el.text), literal('}}') }
 end
 
 Writer.Inline.Link = function(el)
   local label = pandoc.utils.stringify(el.content)
-  local target = el.target
+  -- A | in the target would read as a second separator.
+  local target = el.target:gsub('|', '~|')
   -- [Target] alone is the idiomatic form when the label adds nothing.
   if label == target or label == '' then
     return concat { literal('['), literal(target), literal(']') }
@@ -69,8 +99,11 @@ Writer.Inline.Link = function(el)
   return concat { literal('['), Writer.Inlines(el.content), literal('|'), literal(target), literal(']') }
 end
 
+--- Alt text is dropped: the Image plugin's parameter name for it is not
+--- documented, and inventing one would render worse than omitting it. A
+--- Figure keeps its caption (see Writer.Block.Figure).
 Writer.Inline.Image = function(el)
-  return literal("[{Image src='" .. el.src .. "'}]")
+  return literal("[{Image src='" .. el.src:gsub("'", '%%27') .. "'}]")
 end
 
 Writer.Inline.Quoted = function(el)
@@ -111,7 +144,7 @@ end
 Writer.Inline.Cite = function(el) return Writer.Inlines(el.content) end
 
 -- No cbX equivalent; HTML at least preserves the notation.
-Writer.Inline.Math = html_fallback
+Writer.Inline.Math = html_inline_fallback
 
 --- cbX has no footnote concept, and routing one through HTML drags pandoc's
 --- entire footnotes section inline. Inline the note text parenthetically.
@@ -122,8 +155,19 @@ end
 
 -- Blocks -------------------------------------------------------------------
 
-Writer.Block.Plain = function(el) return Writer.Inlines(el.content) end
-Writer.Block.Para = function(el) return Writer.Inlines(el.content) end
+--- A paragraph opening with a block marker -- one Markdown escaped, so it
+--- reaches us as a bare Str -- would otherwise start a list, heading or quote.
+local function para(el)
+  local doc = Writer.Inlines(el.content)
+  local first = el.content[1]
+  if first and first.t == 'Str' and first.text:match('^[%*#;!>]') then
+    return concat { literal('~'), doc }
+  end
+  return doc
+end
+
+Writer.Block.Plain = para
+Writer.Block.Para = para
 
 Writer.Block.Header = function(el)
   -- cbX has !1 (largest) through !5.
@@ -183,25 +227,34 @@ Writer.Block.RawBlock = function(el)
   if el.format == 'html' then
     return concat { literal('[{Html'), blankline, literal(el.text), cr, literal('}]') }
   end
-  return ''
+  -- Any other raw format is meaningless to cbX, but dropping it silently
+  -- loses content; verbatim at least keeps it visible.
+  return concat { literal('{{{'), cr, literal(el.text), cr, literal('}}}') }
 end
 
---- Render one list item. Leading Plain/Para content shares the marker line;
---- nested lists emit their own prefixed lines via the marker stack.
+--- Render one list item. Leading Plain/Para content shares the marker line
+--- and nested lists emit their own prefixed lines, but any other continuation
+--- block has to fold into the item: an unprefixed line at column 0 ends the
+--- list, and cbX then restarts the numbering of whatever follows.
 local function render_item(prefix, blocks)
-  local lines = {}
-  local lead = nil
-  local tail = {}
+  local lead, folded, sublists = nil, {}, {}
   for _, b in ipairs(blocks) do
     if lead == nil and (b.t == 'Plain' or b.t == 'Para') then
-      lead = Writer.Inlines(b.content)
+      lead = one_line(b.content)
+    elseif b.t == 'BulletList' or b.t == 'OrderedList' then
+      sublists[#sublists + 1] = Writer.Block[b.t](b)
     else
-      tail[#tail + 1] = b
+      folded[#folded + 1] =
+        one_line(pandoc.utils.blocks_to_inlines({ b }, { pandoc.LineBreak() }))
     end
   end
-  lines[#lines + 1] = concat { literal(prefix .. ' '), lead or literal('') }
-  for _, b in ipairs(tail) do
-    lines[#lines + 1] = Writer.Block[b.t](b)
+  local text = lead or ''
+  for _, extra in ipairs(folded) do
+    text = text .. '\\\\' .. extra
+  end
+  local lines = { literal(prefix .. ' ' .. text) }
+  for _, sub_list in ipairs(sublists) do
+    lines[#lines + 1] = sub_list
   end
   return concat(lines, cr)
 end
@@ -230,10 +283,13 @@ Writer.Block.DefinitionList = function(el)
     local term, defs = entry[1], entry[2]
     local rendered = {}
     for _, blocks in ipairs(defs) do
-      rendered[#rendered + 1] = Writer.Inlines(pandoc.utils.blocks_to_inlines(blocks))
+      rendered[#rendered + 1] =
+        one_line(pandoc.utils.blocks_to_inlines(blocks, { pandoc.LineBreak() }))
     end
     lines[#lines + 1] = concat {
-      literal(';'), Writer.Inlines(term), literal(':'), concat(rendered, literal(' ')),
+      literal(';'),
+      Writer.Inlines(term),
+      literal(':' .. table.concat(rendered, ' ')),
     }
   end
   return concat(lines, cr)
@@ -245,9 +301,15 @@ end
 --- structure inside a cell is flattened, with \\ standing in for breaks.
 local function render_cell(cell)
   local inlines = pandoc.utils.blocks_to_inlines(cell.contents, { pandoc.LineBreak() })
-  local doc = Writer.Inlines(inlines)
-  -- A bare | inside a cell would start a new column.
-  return literal((layout.render(doc):gsub('|', '~|')))
+  -- Escape | while rendering, not after: a post-hoc gsub would also hit the
+  -- separator inside [label|target] and break the link.
+  escape_pipe = true
+  local ok, rendered = pcall(one_line, inlines)
+  escape_pipe = false
+  if not ok then
+    error(rendered)
+  end
+  return literal(rendered)
 end
 
 local function render_row(row, sep)
@@ -268,6 +330,9 @@ Writer.Block.Table = function(el)
     lines[#lines + 1] = render_row(row, '||')
   end
   for _, body in ipairs(el.bodies) do
+    for _, row in ipairs(body.head) do
+      lines[#lines + 1] = render_row(row, '||')
+    end
     for _, row in ipairs(body.body) do
       lines[#lines + 1] = render_row(row, '|')
     end
