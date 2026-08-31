@@ -47,7 +47,7 @@ Style spans: %%(text-decoration:line-through;)strikeout%!, H%%sub 2%!O, and 2%%s
 Fallback: a footnote (The note text.) has no cbX form.
 
 > A block quote, first paragraph.
-> \\
+>
 > Second paragraph, separated by a forced break.
-> \\
+>
 >> And a nested quote inside it.
