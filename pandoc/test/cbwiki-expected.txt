@@ -42,13 +42,9 @@ def f(*args, **kwargs):
 
 ----
 
-Fallbacks: [{Html
+Style spans: %%(text-decoration:line-through;)strikeout%%, H%%sub 2%%O, and 2%%sup 10%% all map to %% spans.
 
-<del>strikeout</del>
-}] and H[{Html
-
-<sub>2</sub>
-}]O have no cbX form.
+Fallback: a footnote (The note text.) has no cbX form.
 
 [{Html
 

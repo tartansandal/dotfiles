@@ -47,6 +47,10 @@ Term
 
 ---
 
-Fallbacks: ~~strikeout~~ and H~2~O have no cbX form.
+Style spans: ~~strikeout~~, H~2~O, and 2^10^ all map to %% spans.
+
+Fallback: a footnote[^1] has no cbX form.
+
+[^1]: The note text.
 
 > A block quote also has no direct equivalent.
