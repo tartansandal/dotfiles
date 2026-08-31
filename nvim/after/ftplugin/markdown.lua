@@ -121,10 +121,17 @@ vim.api.nvim_buf_create_user_command(0, "CbWikiBack", function()
   local out = cbwiki(nil, { "-c" })
   if out then
     local lines = vim.split(vim.trim(out), "\n", { plain = true })
+    -- Nested ``` fences would close the wrapper early. ~~~ is the equivalent
+    -- CommonMark form, so :CbWiki still reads the block back unchanged.
+    for i, line in ipairs(lines) do
+      lines[i] = line:gsub("^(%s*)```", "%1~~~")
+    end
+    table.insert(lines, 1, "```markdown")
+    table.insert(lines, "```")
     vim.api.nvim_buf_set_lines(0, vim.fn.line("."), vim.fn.line("."), false, lines)
-    vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(#lines))
+    vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(#lines - 2))
   end
-end, { desc = "Insert the copied cbX block as Markdown" })
+end, { desc = "Insert the copied cbX block as a Markdown block" })
 
 map("n", "<localleader>c", "<Cmd>CbWiki<CR>", {
   buffer = true,
