@@ -4,6 +4,12 @@
 #
 #   cbwiki notes.md          Markdown -> cbX markup
 #   cbwiki -r page.html      rendered cbX page (HTML) -> Markdown
+#   cbwiki -c                clipboard (rich text) -> Markdown
+#
+# cbX has no pandoc reader, so the reverse direction goes through the rendered
+# page rather than the markup. -c is the practical form of that: select the
+# block in the browser, copy, and convert just that block. The clipboard's
+# HTML flavour is used because RTF has no headings and would flatten them.
 #
 # pandoc resolves a custom writer relative to the working directory only, so
 # the writer is addressed by absolute path here.
@@ -15,20 +21,42 @@ self="$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$0")"
 writer="$(dirname "$(dirname "$self")")/pandoc/writers/cbwiki.lua"
 
 reverse=0
-if [[ "${1:-}" == "-r" || "${1:-}" == "--reverse" ]]; then
-    reverse=1
-    shift
-fi
+clipboard=0
+case "${1:-}" in
+    -r | --reverse) reverse=1; shift ;;
+    -c | --clipboard) reverse=1; clipboard=1; shift ;;
+esac
 
-if [[ ! -f "$writer" ]]; then
-    echo "cbwiki: writer not found at $writer" >&2
-    exit 1
-fi
+# Read the clipboard's text/html flavour. macOS has no pbpaste flavour for it
+# (only rtf/ps/txt), so it comes back from AppleScript as hex-encoded data.
+read_clipboard_html() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        osascript -e 'the clipboard as «class HTML»' | python3 -c '
+import binascii, re, sys
+data = sys.stdin.read().strip()
+if not data.startswith("«data HTML"):
+    sys.exit("cbwiki: clipboard holds no HTML; copy from the rendered page")
+sys.stdout.buffer.write(binascii.unhexlify(re.sub(r"^«data HTML|»$", "", data)))
+'
+    elif command -v wl-paste >/dev/null 2>&1; then
+        wl-paste -t text/html
+    elif command -v xclip >/dev/null 2>&1; then
+        xclip -selection clipboard -t text/html -o
+    else
+        echo "cbwiki: no clipboard tool found (need wl-paste or xclip)" >&2
+        exit 1
+    fi
+}
 
-if (( reverse )); then
-    # cbX has no pandoc reader; the rendered page is the practical source.
+if (( clipboard )); then
+    read_clipboard_html | pandoc -f html -t gfm
+elif (( reverse )); then
     exec pandoc -f html -t gfm "$@"
 else
+    if [[ ! -f "$writer" ]]; then
+        echo "cbwiki: writer not found at $writer" >&2
+        exit 1
+    fi
     exec pandoc -f gfm+definition_lists+superscript+subscript+strikeout \
         -t "$writer" "$@"
 fi
