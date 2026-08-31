@@ -66,3 +66,75 @@ map(
   "<Esc>[s1z=A",
   { buffer = true, desc = "Fix last spelling mistake" }
 )
+
+-- cbX conversion (see ~/dotfiles/bin/cbwiki). Drafts live in this buffer and
+-- the markup is destined for a browser, so the converted text goes to the
+-- system clipboard rather than replacing the draft in place.
+local function cbwiki(input, args)
+  local out = vim.fn.system(vim.list_extend({ "cbwiki" }, args or {}), input)
+  if vim.v.shell_error ~= 0 then
+    vim.notify("cbwiki: " .. vim.trim(out), vim.log.levels.ERROR)
+    return nil
+  end
+  return out
+end
+
+--- Line range of the fenced code block under the cursor, if any. Fences are
+--- counted from the top of the buffer so an odd ``` inside prose cannot
+--- flip the pairing for the rest of the file.
+local function fenced_range()
+  local cursor = vim.fn.line(".")
+  local open = nil
+  for lnum, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
+    if line:match("^%s*```") then
+      if open then
+        if cursor > open and cursor < lnum then
+          return open + 1, lnum - 1
+        end
+        open = nil
+      else
+        open = lnum
+      end
+    end
+  end
+  return nil
+end
+
+vim.api.nvim_buf_create_user_command(0, "CbWiki", function(opts)
+  local first, last = opts.line1, opts.line2
+  -- No explicit range: prefer the enclosing code block over the whole buffer.
+  if opts.range == 0 then
+    first, last = fenced_range()
+    if not first then
+      first, last = 1, vim.fn.line("$")
+    end
+  end
+  local lines = vim.api.nvim_buf_get_lines(0, first - 1, last, false)
+  local out = cbwiki(table.concat(lines, "\n") .. "\n")
+  if out then
+    vim.fn.setreg("+", out)
+    vim.notify(("cbwiki: %d lines copied as cbX markup"):format(last - first + 1))
+  end
+end, { range = true, desc = "Convert Markdown to cbX markup on the clipboard" })
+
+vim.api.nvim_buf_create_user_command(0, "CbWikiBack", function()
+  local out = cbwiki(nil, { "-c" })
+  if out then
+    local lines = vim.split(vim.trim(out), "\n", { plain = true })
+    vim.api.nvim_buf_set_lines(0, vim.fn.line("."), vim.fn.line("."), false, lines)
+    vim.notify(("cbwiki: inserted %d lines from the clipboard"):format(#lines))
+  end
+end, { desc = "Insert the copied cbX block as Markdown" })
+
+map("n", "<localleader>c", "<Cmd>CbWiki<CR>", {
+  buffer = true,
+  desc = "Copy block as cbX markup",
+})
+map("x", "<localleader>c", ":CbWiki<CR>", {
+  buffer = true,
+  desc = "Copy selection as cbX markup",
+})
+map("n", "<localleader>C", "<Cmd>CbWikiBack<CR>", {
+  buffer = true,
+  desc = "Insert copied cbX block as Markdown",
+})
