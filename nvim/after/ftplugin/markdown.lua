@@ -129,10 +129,13 @@ end
 vim.api.nvim_buf_create_user_command(0, "CbWiki", function(opts)
   local first, last = opts.line1, opts.line2
   -- No explicit range: prefer the enclosing code block over the whole buffer.
+  -- Refuse rather than falling back to the whole buffer: converting an entire
+  -- daily note is never the intent, and doing it silently is easy to miss.
   if opts.range == 0 then
     first, last = fenced_range()
     if not first then
-      first, last = 1, vim.fn.line("$")
+      vim.notify("cbwiki: no markdown block here", vim.log.levels.WARN)
+      return
     end
   end
   local lines = vim.api.nvim_buf_get_lines(0, first - 1, last, false)
