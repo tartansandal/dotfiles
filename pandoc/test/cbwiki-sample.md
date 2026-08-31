@@ -53,4 +53,8 @@ Fallback: a footnote[^1] has no cbX form.
 
 [^1]: The note text.
 
-> A block quote also has no direct equivalent.
+> A block quote, first paragraph.
+>
+> Second paragraph, separated by a forced break.
+>
+> > And a nested quote inside it.
