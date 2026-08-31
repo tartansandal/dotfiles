@@ -1,0 +1,58 @@
+!1 Big heading
+
+!2 Medium heading
+
+!3 Small heading
+
+Plain paragraph with __bold__, ''italic'', and {{monospace}} text. A soft-wrapped line joins the one above it.
+
+Escaping check: a literal ~[bracket~] and a ~~/dotfiles path should survive. (Paired tildes are subscript syntax, so they are not a safe literal.)
+
+* bullet one
+* bullet two
+** nested bullet
+*** deeper still
+* bullet three
+
+# ordered one
+# ordered two
+## nested ordered
+# ordered three
+
+Mixed nesting:
+
+* bullet parent
+*# ordered child
+*# ordered child two
+
+A [labelled link|https://example.com] and a bare [https://example.com]. An internal page reference: [Algorithm Team - Wiki|235602].
+
+{{{
+def f(*args, **kwargs):
+    # asterisks and underscores must survive verbatim
+    return __name__
+}}}
+
+||Element||Markdown||cbX
+|bold|{{**x**}}|{{__x__}}
+|italic|{{*x*}}|{{''x''}}
+|pipe|a ~| b|escaped
+
+;Term:The definition of the term.
+
+----
+
+Fallbacks: [{Html
+
+<del>strikeout</del>
+}] and H[{Html
+
+<sub>2</sub>
+}]O have no cbX form.
+
+[{Html
+
+<div>
+<p>A block quote also has no direct equivalent.</p>
+</div>
+}]
