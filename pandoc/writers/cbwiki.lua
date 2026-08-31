@@ -85,11 +85,16 @@ Writer.Inline.RawInline = function(el)
   return ''
 end
 
---- %%style ... %% spans, inherited from JSPWiki. A named style needs a space
---- to delimit the name; the %%(css) form attaches directly to its content.
---- Both close with a bare %% — no padding, or the space lands inside the span.
+--- Terminator for %%style spans. The published JSPWiki and PTC docs give
+--- "%%", but cbX's own editor emits "%!" when you apply a style by hand, so
+--- that is what we match. Change this one constant if an instance differs.
+local STYLE_CLOSE = '%!'
+
+--- %%style ... spans, inherited from JSPWiki. A named style needs a space to
+--- delimit the name; the %%(css) form attaches directly to its content.
+--- Neither pads the closer, or the space lands inside the span.
 local function style_span(opener, el)
-  return concat { literal(opener), Writer.Inlines(el.content), literal('%%') }
+  return concat { literal(opener), Writer.Inlines(el.content), literal(STYLE_CLOSE) }
 end
 
 Writer.Inline.Strikeout = function(el)
