@@ -82,35 +82,41 @@ local function cbwiki(input, args)
   return out
 end
 
---- Fence character and run length opening or closing a block, if this line is
---- a fence at all.
+--- Info strings marking a block as a cbX draft rather than ordinary code.
+local draft_fence = { markdown = true, md = true }
+
+--- Fence character, run length and info string opening or closing a block, if
+--- this line is a fence at all.
 local function fence_of(line)
-  local ticks = line:match("^%s*(```+)")
+  local ticks, info = line:match("^%s*(```+)%s*([^%s]*)")
   if ticks then
-    return "`", #ticks
+    return "`", #ticks, info
   end
-  local tildes = line:match("^%s*(~~~+)")
+  local tildes, tinfo = line:match("^%s*(~~~+)%s*([^%s]*)")
   if tildes then
-    return "~", #tildes
+    return "~", #tildes, tinfo
   end
   return nil
 end
 
---- Line range of the fenced code block under the cursor, if any. Fences are
---- counted from the top of the buffer so an odd fence inside prose cannot flip
---- the pairing for the rest of the file, and a closer must match the opener's
---- character and be at least as long -- otherwise the inner ``` blocks of a
---- ````markdown wrapper would each be read as a fence in their own right.
+--- Line range of the markdown-tagged block under the cursor, if any. Fences
+--- are counted from the top of the buffer so an odd fence inside prose cannot
+--- flip the pairing for the rest of the file, and a closer must match the
+--- opener's character and be at least as long -- otherwise the inner ```
+--- blocks of a ````markdown wrapper would each be read as a fence in their own
+--- right. Only a markdown-tagged block is claimed automatically: converting
+--- the contents of a python or bash block as if it were Markdown is never
+--- what was meant. Use a visual range to convert anything else.
 local function fenced_range()
   local cursor = vim.fn.line(".")
-  local open, open_char, open_len = nil, nil, nil
+  local open, open_char, open_len, open_info = nil, nil, nil, nil
   for lnum, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
-    local char, len = fence_of(line)
+    local char, len, info = fence_of(line)
     if char then
       if not open then
-        open, open_char, open_len = lnum, char, len
+        open, open_char, open_len, open_info = lnum, char, len, info
       elseif char == open_char and len >= open_len then
-        if cursor > open and cursor < lnum then
+        if cursor > open and cursor < lnum and draft_fence[open_info:lower()] then
           return open + 1, lnum - 1
         end
         open = nil
