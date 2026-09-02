@@ -252,6 +252,13 @@ return {
       },
       attachments = {
         folder = "Files",
+        -- The builtin img_text_func passes the *absolute* path to a function
+        -- link.style (it only computes the basename for the "wiki"/"markdown"
+        -- string styles), so paste_img would insert
+        -- ![[/Users/.../Notes/Work/Files/Pasted image ....png]].
+        img_text_func = function(path)
+          return string.format("![[%s]]", vim.fs.basename(tostring(path)))
+        end,
         img_name_func = function()
           return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
         end,
