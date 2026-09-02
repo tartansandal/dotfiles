@@ -168,7 +168,19 @@ return {
       },
       open_notes_in = "current",
       callbacks = {
-        post_setup = function(client) end,
+        post_setup = function(client)
+          -- Teach obsidian.nvim that .drawio files are attachments. Its list
+          -- (lua/obsidian/attachment.lua) covers images, audio, video, pdf and
+          -- canvas only, so is_attachment_path() rejects .drawio and following
+          -- [[foo.drawio]] falls through to note resolution, which finds nothing
+          -- and prompts "Create new note?". The module table is the same list the
+          -- check iterates, so appending to it is enough. There is no config
+          -- option for this.
+          local ft = require("obsidian.attachment").filetypes
+          if not vim.list_contains(ft, "drawio") then
+            table.insert(ft, "drawio")
+          end
+        end,
         -- Set up buffer-local keymaps for obsidian notes
         enter_note = function(note)
           local actions = require("obsidian.actions")
