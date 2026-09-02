@@ -103,9 +103,17 @@ return {
         style = function(opts)
           if opts.label and opts.label ~= "" then
             return string.format("[[%s]]", opts.label)
-          else
-            return string.format("[[%s]]", opts.path)
           end
+          -- attachment.format_link() (`:Obsidian add_attachment`, the audio
+          -- recorder) hands the bare basename to this function and, unlike the
+          -- builtin "wiki" style, does not add the embed `!` itself. Note links
+          -- arrive here as `<id>.md`, which is never an attachment, so keying off
+          -- the extension is safe.
+          local path = tostring(opts.path)
+          if require("obsidian.attachment").is_attachment_path(path) then
+            return string.format("![[%s]]", path)
+          end
+          return string.format("[[%s]]", path)
         end,
       },
       frontmatter = {
