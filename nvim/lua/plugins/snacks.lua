@@ -6,7 +6,34 @@ return {
     opts = {
       lazygit = { enabled = true },
       indent = { enabled = true, scope = { enabled = false } },
-      image = { enabled = true },
+      image = {
+        enabled = true,
+        -- Snacks replaces list-valued options wholesale rather than merging
+        -- them (`config.merge` in snacks/init.lua assigns when the incoming
+        -- value is a list), so the defaults have to be restated to add one
+        -- format. Only `svg` is new here -- it lets draw.io's editable-SVG
+        -- exports render inline, and it is what makes the obsidian attachment
+        -- picker emit `![[...]]` for them.
+        formats = {
+          "png",
+          "jpg",
+          "jpeg",
+          "gif",
+          "bmp",
+          "webp",
+          "tiff",
+          "heic",
+          "avif",
+          "mp4",
+          "mov",
+          "avi",
+          "mkv",
+          "webm",
+          "pdf",
+          "icns",
+          "svg",
+        },
+      },
       styles = {
         -- terminal = { keys = { term_normal = false } },
         lazygit = { keys = { term_normal = false } },
