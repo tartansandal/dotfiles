@@ -258,6 +258,47 @@ return {
             desc = "Paste clipboard image",
           })
 
+          -- Link an existing file from the vault's attachments folder.
+          -- obsidian.nvim's completion sources are refs/tags/footnotes/new --
+          -- all note-based -- so `[[` never offers attachments and there is no
+          -- way to reach them by name. A picker is the workaround.
+          vim.keymap.set("n", "<localleader>a", function()
+            local dir = require("obsidian.api").resolve_workspace_dir()
+            local attachments =
+              vim.fs.joinpath(tostring(dir), Obsidian.opts.attachments.folder)
+            if vim.fn.isdirectory(attachments) == 0 then
+              return vim.notify(
+                "No attachments folder at " .. attachments,
+                vim.log.levels.WARN
+              )
+            end
+            Snacks.picker.files({
+              cwd = attachments,
+              -- Hides draw.io's `.$name.drawio.bkp` sidecars.
+              hidden = false,
+              confirm = function(picker, item)
+                picker:close()
+                if not item then
+                  return
+                end
+                -- cwd is the attachments folder, so item.file is already the
+                -- bare basename that resolve_attachment_path() expects.
+                local name = item.file
+                -- Embed only what snacks.image actually draws inline. A leading
+                -- `!` on a .drawio (or an .svg -- not in snacks' formats list)
+                -- renders as nothing, so it is noise.
+                local ok, inline = pcall(Snacks.image.supports_file, name)
+                local fmt = (ok and inline) and "![[%s]]" or "[[%s]]"
+                vim.schedule(function()
+                  vim.api.nvim_put({ string.format(fmt, name) }, "c", true, true)
+                end)
+              end,
+            })
+          end, {
+            buffer = note.bufnr,
+            desc = "Insert attachment link",
+          })
+
           vim.keymap.set("v", "<localleader>e", ":<C-u>Obsidian extract_note<cr>", {
             buffer = note.bufnr,
             desc = "Extract selection to new note",
