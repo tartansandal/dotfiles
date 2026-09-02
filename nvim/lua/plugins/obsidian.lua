@@ -140,8 +140,8 @@ return {
       },
 
       picker = {
-        name = "snacks.pick",
-        notemappings = {
+        name = "snacks.picker",
+        note_mappings = {
           new = "<C-x>",
           insert_link = "<C-l>",
         },
