@@ -1,0 +1,7 @@
+# Global defaults; picked up by shfmt (via conform.nvim) for any file under ~
+root = true
+
+[*.sh]
+indent_style = space
+indent_size = 4
+switch_case_indent = true

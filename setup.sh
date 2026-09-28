@@ -17,6 +17,7 @@ ln -sf "$base_dir"/zsh/zprofile ~/.zprofile
 
 ln -sf "$base_dir"/dircolors ~/.dircolors
 ln -sf "$base_dir"/direnvrc ~/.direnvrc
+ln -sf "$base_dir"/editorconfig ~/.editorconfig
 ln -sf "$base_dir"/gitconfig ~/.gitconfig
 ln -sf "$base_dir"/gitignore ~/.gitignore
 ln -sf "$base_dir"/inputrc ~/.inputrc
