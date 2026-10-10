@@ -360,6 +360,11 @@ return {
         dailies_cmd,
         desc = "List Dailies",
       },
+      {
+        "<leader>ob",
+        "<cmd>Obsidian workspace Work<cr><cmd>vsplit ~/Notes/Work/Backlog.md<cr>",
+        desc = "Work Backlog",
+      },
       { "<leader>on", "<cmd>Obsidian new<cr>", desc = "New Note" },
       { "<leader>oo", "<cmd>Obsidian quick_switch<cr>", desc = "Open Quick Switcher" },
       { "<leader>os", "<cmd>Obsidian search<cr>", desc = "Search Notes" },
