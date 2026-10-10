@@ -64,6 +64,7 @@ return {
         date_format = "%Y/%V/%Y-%m-%d",
         alias_format = "%a %-d %B %Y",
         template = "daily.md",
+        default_tags = {},
         workdays_only = false,
       },
       completion = {
