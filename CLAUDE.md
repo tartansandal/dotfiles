@@ -18,6 +18,7 @@ The repo is organized by tool, with platform-specific directories for package ma
 - `shell/` — Shared config sourced by both `bash/` and `zsh/`: `aliases` (interactive) and `env` (exports)
 - `nvim/` — Neovim (LazyVim-based), has its own `nvim/CLAUDE.md` with detailed guidance
 - `kitty/` — Terminal emulator config with Catppuccin Mocha Decaf theme
+- `lazygit/` — Lazygit config (symlinked to `~/.config/lazygit`)
 - `laptop/` — Fedora package lists
 - `mac-air/` — macOS Homebrew package lists and setup notes
 - `bin/` — Personal scripts (symlinked as `~/bin`)

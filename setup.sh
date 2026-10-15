@@ -27,9 +27,10 @@ ln -sf "$base_dir"/tmux.conf ~/.tmux.conf
 rm -rf ~/bin
 ln -snf "$base_dir"/bin ~/bin
 mkdir -p ~/.config
-rm -rf ~/.config/nvim ~/.config/kitty
+rm -rf ~/.config/nvim ~/.config/kitty ~/.config/lazygit
 ln -snf "$base_dir"/nvim ~/.config/nvim
 ln -snf "$base_dir"/kitty ~/.config/kitty
+ln -snf "$base_dir"/lazygit ~/.config/lazygit
 
 # Install default local overrides if not already present
 [ -f ~/.gitconfig-local ] || cp "$base_dir"/gitconfig-local.default ~/.gitconfig-local
