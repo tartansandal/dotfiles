@@ -74,6 +74,12 @@ Both shells share common aliases and helpers via `shell/aliases` (`eza`-based `l
 
 **Files**: `gitconfig`, `gitignore`
 
+### Lazygit
+
+- New worktrees default to `.worktrees/` inside the repo (ignored globally via `gitignore`)
+
+**Location**: `lazygit/` (symlinked to `~/.config/lazygit`)
+
 ### Kitty
 
 Terminal emulator configuration with custom Catppuccin themes:
