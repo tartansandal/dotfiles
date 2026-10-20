@@ -15,11 +15,6 @@ for _, w in ipairs({
   end
 end
 
--- Date-range picker over dailies, both ends inclusive: tomorrow down to 14
--- days back. Shared by the global <leader>odl and buffer-local <localleader>dl
--- maps so both list the same window.
-local dailies_cmd = "<cmd>Obsidian dailies -14 1<cr>"
-
 return {
   {
     "mfussenegger/nvim-lint",
@@ -194,39 +189,6 @@ return {
             actions.nav_link("prev")
           end, { buffer = note.bufnr, desc = "Previous link" })
 
-          -- <localleader>d is a prefix only. It previously carried the listing
-          -- itself, which meant pressing it fired a picker after 'timeoutlen'
-          -- whenever you paused before `p`/`w`. The listing now lives on `dl`.
-          local ok_wk, wk = pcall(require, "which-key")
-          if ok_wk then
-            wk.add({ { "<localleader>d", group = "dailies", buffer = note.bufnr } })
-          end
-
-          vim.keymap.set("n", "<localleader>dl", dailies_cmd, {
-            buffer = note.bufnr,
-            desc = "List dailies (current workspace)",
-          })
-
-          vim.keymap.set(
-            "n",
-            "<localleader>dp",
-            "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>",
-            {
-              buffer = note.bufnr,
-              desc = "Today's Personal daily",
-            }
-          )
-
-          vim.keymap.set(
-            "n",
-            "<localleader>dw",
-            "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>",
-            {
-              buffer = note.bufnr,
-              desc = "Today's Work daily",
-            }
-          )
-
           vim.keymap.set("n", "<localleader>x", function()
             local saved = Obsidian.opts.checkbox.create_new
             Obsidian.opts.checkbox.create_new = true
@@ -343,21 +305,22 @@ return {
     },
     keys = {
       {
-        "<leader>odp",
+        "<leader>op",
         "<cmd>Obsidian workspace Personal<cr><cmd>Obsidian today<cr>",
         desc = "Today's Personal Daily",
       },
       {
-        "<leader>odw",
+        "<leader>ow",
         "<cmd>Obsidian workspace Work<cr><cmd>Obsidian today<cr>",
         desc = "Today's Work Daily",
       },
-      -- Newest first. `:Obsidian dailies` lists calendar dates rather than
-      -- existing files, so days with no note yet are shown tagged "create" and
-      -- written from the daily template on select.
+      -- Date-range picker over dailies, both ends inclusive: tomorrow down to
+      -- 14 days back, newest first. `:Obsidian dailies` lists calendar dates
+      -- rather than existing files, so days with no note yet are shown tagged
+      -- "create" and written from the daily template on select.
       {
-        "<leader>odl",
-        dailies_cmd,
+        "<leader>ol",
+        "<cmd>Obsidian dailies -14 1<cr>",
         desc = "List Dailies",
       },
       {

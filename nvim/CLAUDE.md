@@ -166,9 +166,10 @@ Obsidian.nvim is configured for `~/Notes/Personal` and `~/Notes/Work` vaults (wo
 
 **Global keymaps** (`<leader>o`):
 
-- `<leader>od` - Today's daily note (current workspace)
-- `<leader>odp` - Today's Personal daily
-- `<leader>odw` - Today's Work daily
+- `<leader>op` - Today's Personal daily
+- `<leader>ow` - Today's Work daily
+- `<leader>ol` - List dailies (tomorrow back to 14 days ago)
+- `<leader>ob` - Work backlog (vsplit)
 - `<leader>on` - New note
 - `<leader>oo` - Quick switcher
 - `<leader>os` - Search notes
@@ -177,9 +178,6 @@ Obsidian.nvim is configured for `~/Notes/Personal` and `~/Notes/Work` vaults (wo
 **Buffer-local keymaps** (in Obsidian notes):
 
 - `<Tab>` / `<S-Tab>` - Navigate links (next/prev)
-- `<localleader>d` - Show dailies (current workspace)
-- `<localleader>dp` - Personal dailies
-- `<localleader>dw` - Work dailies
 - `<localleader>x` - Toggle / create checkbox
 - `<localleader>l` - Search links
 - `<localleader>b` - Search backlinks
