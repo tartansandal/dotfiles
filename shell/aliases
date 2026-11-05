@@ -88,3 +88,23 @@ pgit-init() {
     done
     echo "Personal repo ready: $worktree -> $gitdir"
 }
+
+# Print the least-loaded server (15-minute load average, which favours avoiding
+# long-running jobs); the readings go to stderr, so `ssh $(lightest)` works.
+# Hosts come from the arguments, else $LIGHTEST_HOSTS (set in the untracked
+# *.local files). /usr/bin/ssh because the ssh alias above needs a terminal.
+lightest() {
+    local hosts="${*:-$LIGHTEST_HOSTS}" host
+    [[ -n $hosts ]] || { echo "lightest: pass hosts or set LIGHTEST_HOSTS" >&2; return 2; }
+    tr -s ' ' '\n' <<<"$hosts" | while read -r host; do
+        /usr/bin/ssh -n -o BatchMode=yes -o ConnectTimeout=5 "$host" cat /proc/loadavg 2>/dev/null |
+            awk -v host="$host" '{ print $3, host }' &
+    done | sort -n | awk '{ print > "/dev/stderr" } NR == 1 { best = $2 } END { if (best == "") exit 1; print best }'
+}
+
+# Connect to the least-loaded server.
+-dev() {
+    local host
+    host=$(lightest) || return
+    ssh "$host"
+}
